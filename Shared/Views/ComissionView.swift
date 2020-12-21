@@ -8,11 +8,9 @@
 import SwiftUI
 import Combine
 
-class ComissionViewModel: ObservableObject {
-    @Published var operations: [Operation] = []
-
-    init(operations: [Operation]) {
-        self.operations = operations
+class ComissionViewModel: MainCommonViewModel {
+    var operations: [Operation] {
+        mainViewModel.operations
     }
 }
 
@@ -42,7 +40,7 @@ struct ComissionView: View {
         HStack {
             Text(label)
             Spacer()
-            Text(double.format(f: ".2"))
+            Text(double.string(f: ".2"))
         }
     }
 }

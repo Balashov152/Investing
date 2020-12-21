@@ -8,15 +8,17 @@
 import SwiftUI
 import Combine
 
-class CurrencyViewModel: ObservableObject {
-    @Published var operations: [Operation] = []
-
+class CurrencyViewModel: MainCommonViewModel {
     @Published var buyUSD: Double = 0
     @Published var inUSD: Double = 0
     @Published var outUSD: Double = 0
     
     @Published var inRUB: Double = 0
     @Published var outRUB: Double = 0
+    
+    var operations: [Operation] {
+        mainViewModel.operations
+    }
     
     let filterBuyUsd: ((Operation) -> Bool) = {
         $0.instument?.currency == .some(.RUB) &&
@@ -25,11 +27,17 @@ class CurrencyViewModel: ObservableObject {
         $0.currency == .RUB
     }
     
-    init(operations: [Operation]) {
-        self.operations = operations
+    override init(mainViewModel: MainViewModel) {
+        super.init(mainViewModel: mainViewModel)
         
-        buyUSD = Double(operations.filter(filterBuyUsd).reduce(0) { $0 + $1.quantityExecuted })
-        inUSD = operations.filter { $0.operationType == .some(.PayIn) && $0.currency == .USD }.sum
+        mainViewModel.$operations
+            .map { $0.filter { $0.operationType == .some(.PayIn) && $0.currency == .USD }.sum }
+            .assign(to: \.inUSD, on: self).store(in: &cancellables)    
+    }
+    
+    func loadView() {
+        _buyUSD = .init(wrappedValue: Double(operations.filter(filterBuyUsd).reduce(0) { $0 + $1.quantityExecuted }))
+//        inUSD = operations.filter { $0.operationType == .some(.PayIn) && $0.currency == .USD }.sum
         outUSD = operations.filter { $0.operationType == .some(.PayOut) && $0.currency == .USD }.sum
         
         inRUB = operations.filter { $0.operationType == .some(.PayIn) && $0.currency == .RUB }.sum
@@ -60,13 +68,14 @@ struct CurrencyView: View {
 //            }
             
         }.navigationTitle("Currency")
+        .onAppear(perform: viewModel.loadView)
     }
 
     func commisionCell(label: String, double: Double) -> some View {
         HStack {
             Text(label)
             Spacer()
-            Text(double.format(f: ".2"))
+            Text(double.string(f: ".2"))
         }
     }
 }

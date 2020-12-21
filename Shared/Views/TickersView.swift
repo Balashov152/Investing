@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Combine
+import InvestModels
 
 struct ResultTickerMoney: Hashable {
     func hash(into hasher: inout Hasher) {
@@ -18,25 +19,17 @@ struct ResultTickerMoney: Hashable {
     let money: MoneyAmount
 }
 
-class TickersViewModel: ObservableObject {
-    @Published var operations: [Operation] = []
+class TickersViewModel: MainCommonViewModel {
     @Published var results: [ResultTickerMoney] = []
     
     @Published var totalRUB: Double = 0
     @Published var totalUSD: Double = 0
     
-    init(operations: [Operation], positions: [Position]) {
-        self.operations = operations
-        
-        fillFileds(operations: operations.filter { $0.instrumentType != .Currency },
-                   positions: positions)
-    }
-    
-    func fillFileds(operations: [Operation], positions: [Position]) {
-        let uniqTickers = Array(Set(operations.compactMap { $0.instument }))
+    func fillFileds() {
+        let uniqTickers = Array(Set(mainViewModel.operations.compactMap { $0.instument }))
         results = uniqTickers.map { ticker -> ResultTickerMoney in
-            let nowInProfile = positions.first(where: { $0.figi == ticker.figi })?.totalInProfile ?? 0
-            let allOperationsForTicker = operations.filter { $0.instument == ticker }
+            let nowInProfile = mainViewModel.positions.first(where: { $0.figi == ticker.figi })?.totalInProfile ?? 0
+            let allOperationsForTicker = mainViewModel.operations.filter { $0.instument == ticker }
             let sumOperation = allOperationsForTicker.sum + nowInProfile
             return ResultTickerMoney(instrument: ticker, money: MoneyAmount(currency: allOperationsForTicker.first?.currency ?? .TRY,
                                                                             value: sumOperation))
@@ -63,13 +56,14 @@ struct TickersView: View {
                 }
             }
         }.navigationTitle("Tickers")
+        .onAppear(perform: viewModel.fillFileds)
     }
     
     func totalCell(label: String, value: Double) -> some View {
         HStack {
             Text(label)
             Spacer()
-            Text(value.format(f: ".2"))
+            Text(value.string(f: ".2"))
                 .foregroundColor(value > 0 ? .green : .red)
         }
     }
@@ -94,7 +88,7 @@ struct TickersView: View {
                 }
             }
             Spacer()
-            Text(currency.value.format(f: ".2") + " " + currency.currency.rawValue)
+            Text(currency.value.string(f: ".2") + " " + currency.currency.rawValue)
                 .foregroundColor(currency.value > 0 ? .green : .red)
         }
     }

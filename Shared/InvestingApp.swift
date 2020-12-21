@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import InvestModels
+
+public typealias Operation = InvestModels.Operation
 
 @main
 struct InvestingApp: App {
     var body: some Scene {
         WindowGroup {
-            MainView(viewModel: .init())
+            ViewFactory.mainView()
         }
     }
 }

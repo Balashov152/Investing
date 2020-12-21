@@ -6,12 +6,35 @@
 //
 
 import Foundation
-extension KeyedDecodingContainer where K : CodingKey {
-    public func decodeIfPresent<T>(forKey key: Self.Key) throws -> T? where T : Decodable {
-        try self.decodeIfPresent(T.self, forKey: key)
+
+extension JSONDecoder {
+    static var standart: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .customISO8601
+        return decoder
     }
-    
-    public func decodeIfPresent<T>(forKey key: Self.Key, default: T) throws -> T where T : Decodable {
-        try self.decodeIfPresent(T.self, forKey: key) ?? `default`
+}
+
+extension JSONDecoder.DateDecodingStrategy {
+    static let customISO8601 = custom {
+        let container = try $0.singleValueContainer()
+        let string = try container.decode(String.self)
+        if let date = Formatter.iso8601withFractionalSeconds.date(from: string) ?? Formatter.iso8601.date(from: string) {
+            return date
+        }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "Invalid date: \(string)")
     }
+}
+
+extension Formatter {
+    static let iso8601withFractionalSeconds: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter
+    }()
+    static let iso8601: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter
+    }()
 }
