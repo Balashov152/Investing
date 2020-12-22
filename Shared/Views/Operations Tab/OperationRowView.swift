@@ -5,9 +5,9 @@
 //  Created by Sergey Balashov on 21.12.2020.
 //
 
+import Combine
 import Foundation
 import SwiftUI
-import Combine
 
 struct OperationRowView: View {
     let operation: Operation
@@ -17,7 +17,6 @@ struct OperationRowView: View {
                 HStack {
                     if let ticker = instument.ticker, let name = instument.name {
                         Text(name + " (\(ticker))").lineLimit(1)
-                        
                     }
                 }.font(.system(size: 17, weight: .semibold))
             }
@@ -33,7 +32,7 @@ struct OperationRowView: View {
                     Text(type.rawValue + " " + operation.quantityExecuted.string + " " + operation.currency.rawValue)
                         .font(.system(size: 15, weight: .bold))
                 }
-                
+
                 if let date = operation.date {
                     Text(DateFormatter.format("dd.MM.yy HH:mm").string(from: date))
                         .font(.system(size: 13))
@@ -50,6 +49,5 @@ struct OperationRowView: View {
                 }
             }.font(.system(size: 14))
         }
-
     }
 }

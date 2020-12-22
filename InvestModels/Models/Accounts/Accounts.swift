@@ -12,9 +12,9 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-public struct Account : Codable {
-    public let brokerAccountType : String?
-    public let brokerAccountId : String?
+public struct Account: Codable {
+    public let brokerAccountType: String?
+    public let brokerAccountId: String?
 
     public enum CodingKeys: String, CodingKey {
 		case brokerAccountType = "brokerAccountType"

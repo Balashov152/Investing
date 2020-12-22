@@ -12,11 +12,11 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-public struct Trades : Decodable {
-    public let tradeId : String?
-    public let date : String?
-    public let price : Double?
-    public let quantity : Int?
+public struct Trades: Decodable {
+    public let tradeId: String?
+    public let date: String?
+    public let price: Double?
+    public let quantity: Int?
 
     public enum CodingKeys: String, CodingKey {
 		case tradeId = "tradeId"

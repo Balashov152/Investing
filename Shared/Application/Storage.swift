@@ -11,9 +11,9 @@ struct Storage {
     enum Keys: String {
         case token, instruments, usdValue
     }
-    
+
     static var isAuthorized: Bool { token != nil }
-    
+
     static var token: String? {
         get {
             UserDefaults.standard.string(forKey: Keys.token.rawValue)
@@ -21,7 +21,7 @@ struct Storage {
             UserDefaults.standard.set(newValue, forKey: Keys.token.rawValue)
         }
     }
-    
+
     static var instruments: Data? {
         get {
             UserDefaults.standard.data(forKey: Keys.instruments.rawValue)
@@ -29,7 +29,7 @@ struct Storage {
             UserDefaults.standard.set(newValue, forKey: Keys.instruments.rawValue)
         }
     }
-    
+
 //    static var instruments: Data? {
 //        get {
 //            UserDefaults.standard.data(forKey: Keys.instruments.rawValue)
@@ -37,5 +37,4 @@ struct Storage {
 //            UserDefaults.standard.set(newValue, forKey: Keys.instruments.rawValue)
 //        }
 //    }
-    
 }

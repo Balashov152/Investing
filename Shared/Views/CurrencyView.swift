@@ -5,70 +5,109 @@
 //  Created by Sergey Balashov on 11.12.2020.
 //
 
-import SwiftUI
 import Combine
+import InvestModels
+import SwiftUI
 
 class CurrencyViewModel: MainCommonViewModel {
-    @Published var buyUSD: Double = 0
-    @Published var inUSD: Double = 0
-    @Published var outUSD: Double = 0
-    
-    @Published var inRUB: Double = 0
-    @Published var outRUB: Double = 0
-    
-    var operations: [Operation] {
-        mainViewModel.operations
+    struct Section: Hashable {
+        let currency: Currency
+        let rows: [Row]
+
+        struct Row: Hashable {
+            let title: RowType
+            let value: Double
+        }
+
+        enum RowType: String, Hashable, CaseIterable {
+            case payIn, payOut, total
+
+            var name: String {
+                switch self {
+                case .payIn:
+                    return "Pay in"
+                case .payOut:
+                    return "Pay out"
+                case .total:
+                    return "Total"
+                }
+            }
+        }
     }
-    
+
+    var sections: [Section] = [] {
+        willSet { objectWillChange.send() }
+    }
+
+    @Published var buyUSD: Double = 0
     let filterBuyUsd: ((Operation) -> Bool) = {
         $0.instument?.currency == .some(.RUB) &&
-        $0.instument?.type == .some(.Currency) &&
-        $0.operationType == .some(.Buy) &&
-        $0.currency == .RUB
+            $0.instument?.type == .some(.Currency) &&
+            $0.operationType == .some(.Buy) &&
+            $0.currency == .RUB
     }
-    
+
+    let currences: [Currency] = [.USD, .RUB, .EUR]
+    let types: [Operation.OperationTypeWithCommission] = [.PayIn, .PayOut]
+
     override init(mainViewModel: MainViewModel) {
         super.init(mainViewModel: mainViewModel)
-        
+
         mainViewModel.$operations
-            .map { $0.filter { $0.operationType == .some(.PayIn) && $0.currency == .USD }.sum }
-            .assign(to: \.inUSD, on: self).store(in: &cancellables)    
+            .receive(on: DispatchQueue.global())
+            .map { [unowned self] operations in
+                self.mapToSections(operations: operations)
+            }
+//            .print("mapToSections")
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.sections, on: self).store(in: &cancellables)
     }
-    
+
+    func mapToSections(operations: [Operation]) -> [Section] {
+        guard !operations.isEmpty else {
+            return []
+        }
+        return currences.compactMap { currency -> Section? in
+            let operationForType = operations.filter { $0.currency == currency }
+            let payIn = operationForType.filter { $0.operationType == .some(.PayIn) }.sum
+            let payOut = operationForType.filter { $0.operationType == .some(.PayOut) }.sum
+
+            let rows = Section.RowType.allCases.map { type -> Section.Row in
+                switch type {
+                case .payIn:
+                    return Section.Row(title: type, value: payIn)
+                case .payOut:
+                    return Section.Row(title: type, value: payOut)
+                case .total:
+                    return Section.Row(title: type, value: payIn + payOut)
+                }
+            }
+
+            return Section(currency: currency, rows: rows)
+        }
+    }
+
     func loadView() {
-        _buyUSD = .init(wrappedValue: Double(operations.filter(filterBuyUsd).reduce(0) { $0 + $1.quantityExecuted }))
-//        inUSD = operations.filter { $0.operationType == .some(.PayIn) && $0.currency == .USD }.sum
-        outUSD = operations.filter { $0.operationType == .some(.PayOut) && $0.currency == .USD }.sum
-        
-        inRUB = operations.filter { $0.operationType == .some(.PayIn) && $0.currency == .RUB }.sum
-        outRUB = operations.filter { $0.operationType == .some(.PayOut) && $0.currency == .RUB }.sum
-        outRUB = operations.filter { $0.operationType == .some(.PayOut) && $0.currency == .RUB }.sum
+        buyUSD = Double(mainViewModel.operations.filter(filterBuyUsd).reduce(0) { $0 + $1.quantityExecuted })
     }
 }
 
 struct CurrencyView: View {
-    @StateObject var viewModel: CurrencyViewModel
-    let commissionTypes = [Operation.OperationTypeWithCommission.Buy, .PayIn]
-    
+    @ObservedObject var viewModel: CurrencyViewModel
+
     var body: some View {
-        List{
-            Text("USD").font(.title)
-            commisionCell(label: "Pay in USD", double: viewModel.inUSD)
-            commisionCell(label: "Pay out USD", double: viewModel.outUSD)
-            commisionCell(label: "All Buy USD", double: viewModel.buyUSD)
-            commisionCell(label: "Total USD", double: viewModel.inUSD + viewModel.buyUSD + viewModel.outUSD)
-            
-            Text("RUB").font(.title)
-            commisionCell(label: "Pay in RUB", double: viewModel.inRUB)
-            commisionCell(label: "Pay out RUB", double: viewModel.outRUB)
-            commisionCell(label: "Total RUB", double: viewModel.inRUB + viewModel.outRUB)
-            
-//            ForEach(viewModel.operations.filter(viewModel.filterBuyUsd), id: \.self) {
-//                Text("tradersCount - \($0.tradersCount) quantityExecuted - \($0.quantityExecuted)")
-//            }
-            
-        }.navigationTitle("Currency")
-        .onAppear(perform: viewModel.loadView)
+        List {
+            ForEach(viewModel.sections, id: \.self) { section in
+                Section(header: Text(section.currency.rawValue).font(.title)) {
+                    ForEach(section.rows, id: \.self) { currency in
+                        commisionCell(label: currency.title.name, double: currency.value)
+                    }
+                }
+            }
+        }
+        .listStyle(GroupedListStyle())
+        .navigationTitle("Currency")
+//            .onAppear(perform: viewModel.loadView)
     }
 
     func commisionCell(label: String, double: Double) -> some View {
@@ -76,6 +115,7 @@ struct CurrencyView: View {
             Text(label)
             Spacer()
             Text(double.string(f: ".2"))
+                .foregroundColor(.currency(value: double))
         }
     }
 }

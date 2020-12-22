@@ -11,6 +11,12 @@
 		BC8AA69A44FCFC844A50D0B4 /* Pods_Investing__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFAC8B963236EDC782AF3DE /* Pods_Investing__macOS_.framework */; };
 		EF4F18D7258DF46C008BD22A /* TickersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4F18D6258DF46C008BD22A /* TickersView.swift */; };
 		EF4F18D8258DF46C008BD22A /* TickersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4F18D6258DF46C008BD22A /* TickersView.swift */; };
+		EF761AD92590E5DD00320289 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AD82590E5DD00320289 /* AnalyticsView.swift */; };
+		EF761ADA2590E5DD00320289 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AD82590E5DD00320289 /* AnalyticsView.swift */; };
+		EF761AE92590FE3400320289 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = EF761AE82590FE3400320289 /* Realm */; };
+		EF761AEB2590FE3400320289 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EF761AEA2590FE3400320289 /* RealmSwift */; };
+		EF761AF12590FF6200320289 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AF02590FF6200320289 /* RealmManager.swift */; };
+		EF761AF22590FF6200320289 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AF02590FF6200320289 /* RealmManager.swift */; };
 		EF76A0AE257FA80200991AE3 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A0AD257FA80200991AE3 /* Tests_iOS.swift */; };
 		EF76A0B9257FA80200991AE3 /* Tests_macOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A0B8257FA80200991AE3 /* Tests_macOS.swift */; };
 		EF76A0BB257FA80200991AE3 /* InvestingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A092257FA7FE00991AE3 /* InvestingApp.swift */; };
@@ -162,6 +168,8 @@
 		6F44ED1DEA63508B8A0EC883 /* Pods-Investing (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Investing (iOS).debug.xcconfig"; path = "Target Support Files/Pods-Investing (iOS)/Pods-Investing (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		B1492304DEC40D5340801A5A /* Pods-Investing (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Investing (iOS).release.xcconfig"; path = "Target Support Files/Pods-Investing (iOS)/Pods-Investing (iOS).release.xcconfig"; sourceTree = "<group>"; };
 		EF4F18D6258DF46C008BD22A /* TickersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickersView.swift; sourceTree = "<group>"; };
+		EF761AD82590E5DD00320289 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
+		EF761AF02590FF6200320289 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		EF76A092257FA7FE00991AE3 /* InvestingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestingApp.swift; sourceTree = "<group>"; };
 		EF76A093257FA7FE00991AE3 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		EF76A094257FA80200991AE3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -223,10 +231,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF761AEB2590FE3400320289 /* RealmSwift in Frameworks */,
 				EF76A0F9257FB23A00991AE3 /* CombineMoya in Frameworks */,
 				EF76A0F7257FB23A00991AE3 /* Moya in Frameworks */,
 				76F60D7017DC2F69240FC3F1 /* Pods_Investing__iOS_.framework in Frameworks */,
 				EF9581772590903000D559E7 /* InvestModels.framework in Frameworks */,
+				EF761AE92590FE3400320289 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +301,14 @@
 				4F78986C3B1A53AA174E2E05 /* Pods-Investing (macOS).release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		EF761AD72590E5B900320289 /* Analytics Tab */ = {
+			isa = PBXGroup;
+			children = (
+				EF761AD82590E5DD00320289 /* AnalyticsView.swift */,
+			);
+			path = "Analytics Tab";
 			sourceTree = "<group>";
 		};
 		EF76A08C257FA7FD00991AE3 = {
@@ -387,6 +405,7 @@
 			children = (
 				EF76A093257FA7FE00991AE3 /* MainView.swift */,
 				EF9581BB25909ECA00D559E7 /* Home tab */,
+				EF761AD72590E5B900320289 /* Analytics Tab */,
 				EF9581D62590A0F200D559E7 /* Operations Tab */,
 				EFBA424825828BDE00C2AFC8 /* ComissionView.swift */,
 				EFB6B0B52583C30D00D9F924 /* CurrencyView.swift */,
@@ -432,6 +451,7 @@
 				EF76A17D257FCE6400991AE3 /* PositionsService.swift */,
 				EFC02B0725800BF6008AF0FF /* OperationsService.swift */,
 				EFC99747258115B000A722F7 /* InstrumentsService.swift */,
+				EF761AF02590FF6200320289 /* RealmManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -547,6 +567,7 @@
 				EF76A096257FA80200991AE3 /* Frameworks */,
 				EF76A097257FA80200991AE3 /* Resources */,
 				EF9581792590903000D559E7 /* Embed Frameworks */,
+				EF95826A2590B24300D559E7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -557,6 +578,8 @@
 			packageProductDependencies = (
 				EF76A0F6257FB23A00991AE3 /* Moya */,
 				EF76A0F8257FB23A00991AE3 /* CombineMoya */,
+				EF761AE82590FE3400320289 /* Realm */,
+				EF761AEA2590FE3400320289 /* RealmSwift */,
 			);
 			productName = "Investing (iOS)";
 			productReference = EF76A099257FA80200991AE3 /* Investing.app */;
@@ -702,6 +725,7 @@
 			mainGroup = EF76A08C257FA7FD00991AE3;
 			packageReferences = (
 				EF76A0F5257FB23A00991AE3 /* XCRemoteSwiftPackageReference "Moya" */,
+				EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 			);
 			productRefGroup = EF76A09A257FA80200991AE3 /* Products */;
 			projectDirPath = "";
@@ -809,6 +833,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		EF95826A2590B24300D559E7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat\" \"$SRCROOT/Shared\"\n\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -821,6 +862,7 @@
 				EFC02AFD25800BD3008AF0FF /* OperationsView.swift in Sources */,
 				EF76A110257FB55000991AE3 /* Settings.swift in Sources */,
 				EF76A0BD257FA80200991AE3 /* MainView.swift in Sources */,
+				EF761AD92590E5DD00320289 /* AnalyticsView.swift in Sources */,
 				EFC99748258115B000A722F7 /* InstrumentsService.swift in Sources */,
 				EF9581BD25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF9581B425909E5500D559E7 /* CommonViewModel.swift in Sources */,
@@ -832,6 +874,7 @@
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
 				EF4F18D7258DF46C008BD22A /* TickersView.swift in Sources */,
 				EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
+				EF761AF12590FF6200320289 /* RealmManager.swift in Sources */,
 				EFBA424925828BDE00C2AFC8 /* ComissionView.swift in Sources */,
 				EF76A123257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
 				EF76A173257FCE2100991AE3 /* AccountService.swift in Sources */,
@@ -850,6 +893,7 @@
 				EFC02AFE25800BD3008AF0FF /* OperationsView.swift in Sources */,
 				EF76A111257FB55000991AE3 /* Settings.swift in Sources */,
 				EF76A0BE257FA80200991AE3 /* MainView.swift in Sources */,
+				EF761ADA2590E5DD00320289 /* AnalyticsView.swift in Sources */,
 				EFC99749258115B000A722F7 /* InstrumentsService.swift in Sources */,
 				EF9581BE25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF9581B525909E5500D559E7 /* CommonViewModel.swift in Sources */,
@@ -861,6 +905,7 @@
 				EFC02AE625800086008AF0FF /* PositionRowView.swift in Sources */,
 				EF4F18D8258DF46C008BD22A /* TickersView.swift in Sources */,
 				EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
+				EF761AF22590FF6200320289 /* RealmManager.swift in Sources */,
 				EFBA424A25828BDE00C2AFC8 /* ComissionView.swift in Sources */,
 				EF76A124257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
 				EF76A174257FCE2100991AE3 /* AccountService.swift in Sources */,
@@ -1427,6 +1472,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.5.0;
+			};
+		};
 		EF76A0F5257FB23A00991AE3 /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
@@ -1438,6 +1491,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EF761AE82590FE3400320289 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		EF761AEA2590FE3400320289 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
 		EF76A0F6257FB23A00991AE3 /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EF76A0F5257FB23A00991AE3 /* XCRemoteSwiftPackageReference "Moya" */;

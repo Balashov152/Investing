@@ -5,8 +5,8 @@
 //  Created by Sergey Balashov on 21.12.2020.
 //
 
-import Foundation
 import Combine
+import Foundation
 import SwiftUI
 
 open class CancebleObservableObject: ObservableObject {
@@ -14,7 +14,7 @@ open class CancebleObservableObject: ObservableObject {
 }
 
 class MainCommonViewModel: CancebleObservableObject {
-    @ObservedObject var mainViewModel: MainViewModel
+    unowned var mainViewModel: MainViewModel
     init(mainViewModel: MainViewModel) {
         self.mainViewModel = mainViewModel
     }

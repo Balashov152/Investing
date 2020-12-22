@@ -6,11 +6,11 @@
 //  Copyright © 2019 Bubble. All rights reserved.
 //
 
-import Moya
-import Foundation
-import UIKit
-import CombineMoya
 import Combine
+import CombineMoya
+import Foundation
+import Moya
+import UIKit
 
 class ApiProvider<Target>: MoyaProvider<Target> where Target: TargetType {
     init() {
@@ -37,7 +37,7 @@ class ApiProvider<Target>: MoyaProvider<Target> where Target: TargetType {
                    plugins: plugins,
                    trackInflights: false)
     }
-    
+
     func request(_ target: Target) -> AnyPublisher<Response, MoyaError> {
         return requestPublisher(target).filterSuccessfulStatusAndRedirectCodes()
     }

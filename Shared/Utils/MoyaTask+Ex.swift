@@ -14,7 +14,7 @@ extension Task {
             let data = try encoder.encode(encodable)
             let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
             return .requestParameters(parameters: json ?? [:], encoding: URLEncoding.queryString)
-            
+
         } catch {
             assertionFailure(error.localizedDescription)
             return .requestPlain

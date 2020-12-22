@@ -17,45 +17,45 @@ extension Operation: Hashable {
     public static func == (lhs: Operation, rhs: Operation) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
 
-public struct Operation : Decodable {
-    public let id : String?
-    
-    public let status : OperationStatus?
+public struct Operation: Decodable {
+    public let id: String?
+
+    public let status: OperationStatus?
     public enum OperationStatus: String, Decodable {
         case Done, Decline, Progress
     }
-    
-    public let trades : [Trades]
+
+    public let trades: [Trades]
     public var tradersCount: Int {
         trades.compactMap { $0.quantity }.reduce(0, +)
     }
     public var changeCount: Int {
         Int(payment)
     }
-    public let commission : MoneyAmount?
-    
-    public let currency : Currency
-    public let payment : Double
-    
-    public let price : Double?
-    
-    public let quantity : Int
-    public let quantityExecuted : Int
-    
-    public let figi : String?
+    public let commission: MoneyAmount?
+
+    public let currency: Currency
+    public let payment: Double
+
+    public let price: Double?
+
+    public let quantity: Int
+    public let quantityExecuted: Int
+
+    public let figi: String?
     public var instument: Instrument?
-    public let instrumentType : InstrumentType?
-    
-    public let isMarginCall : Bool
-    public let date : Date
-    public let operationType : OperationTypeWithCommission?
-    
+    public let instrumentType: InstrumentType?
+
+    public let isMarginCall: Bool
+    public let date: Date
+    public let operationType: OperationTypeWithCommission?
+
     public enum OperationTypeWithCommission: String, Decodable, CaseIterable {
         case Buy, BuyCard, Sell
         case BrokerCommission, ExchangeCommission, ServiceCommission, MarginCommission, OtherCommission
@@ -64,7 +64,7 @@ public struct Operation : Decodable {
         case Repayment, PartRepayment
         case Coupon, Dividend, SecurityIn, SecurityOut
     }
-    
+
     public enum CodingKeys: String, CodingKey {
         case id = "id"
         case status = "status"
@@ -81,7 +81,7 @@ public struct Operation : Decodable {
         case date = "date"
         case operationType = "operationType"
     }
-    
+
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         id = try values.decodeIfPresent(forKey: .id)
@@ -99,5 +99,5 @@ public struct Operation : Decodable {
         date = try values.decodeIfPresent(forKey: .date, default: Date())
         operationType = try values.decodeIfPresent(forKey: .operationType)
     }
-    
+
 }

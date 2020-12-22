@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct OperationsPayload : Decodable {
-    public var operations : [Operation] = []
+public struct OperationsPayload: Decodable {
+    public var operations: [Operation] = []
 
     public enum CodingKeys: String, CodingKey {
         case operations

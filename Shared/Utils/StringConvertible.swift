@@ -28,7 +28,6 @@ extension Date: StringConvertible {
     public var string: String { "\(hashValue)" }
 }
 
-
 extension Optional where Wrapped == String {
     var orEmpty: String {
         self ?? ""

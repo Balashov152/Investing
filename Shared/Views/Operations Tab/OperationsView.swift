@@ -5,61 +5,68 @@
 //  Created by Sergey Balashov on 08.12.2020.
 //
 
-import Foundation
-import SwiftUI
 import Combine
-import Moya
+import Foundation
 import InvestModels
+import Moya
+import SwiftUI
 
 class OperationsViewModel: MainCommonViewModel {
-    var operations: [Operation] {
-        mainViewModel.operations
+//    var operations: [Operation] {
+//        mainViewModel.operations
+//    }
+
+    override init(mainViewModel: MainViewModel) {
+        super.init(mainViewModel: mainViewModel)
+        mainViewModel.$operations.sink { _ in
+            self.objectWillChange.send()
+        }.store(in: &cancellables)
     }
 }
 
 struct OperationsView: View {
     @ObservedObject var viewModel: OperationsViewModel
-    @State private var type = Operation.OperationTypeWithCommission.Buy
-    
+    @State var type = Operation.OperationTypeWithCommission.Buy
+
+    var operations: [Operation] {
+        viewModel.mainViewModel.operations.filter { $0.operationType == type }
+    }
+
+    var avalibleTypes: [Operation.OperationTypeWithCommission] {
+        Operation.OperationTypeWithCommission.allCases.filter { type in
+            viewModel.mainViewModel.operations.contains(where: { $0.operationType == .some(type) })
+        }
+    }
+
     var body: some View {
         NavigationView {
             List {
-//                NavigationLink("Open Buy/Sell",
-//                               destination: ViewFactory.balanceView())
-                NavigationLink("Open Comission",
-                               destination: ViewFactory.comissionView(mainViewModel: viewModel.mainViewModel))
-                NavigationLink("Open Currency",
-                               destination: ViewFactory.currencyView(mainViewModel: viewModel.mainViewModel))
-                NavigationLink("Open Tickers",
-                               destination: ViewFactory.tickersView(mainViewModel: viewModel.mainViewModel))
-                
-                segmentView
-                operationsList
-            }.navigationTitle("All Operations")
-//            .onAppear(perform: viewModel.loadData)
+                Section(header: segmentView) {
+                    ForEach(operations, id: \.self) {
+                        OperationRowView(operation: $0)
+                    }
+                }
+            }
+            .navigationTitle("Operations")
         }
     }
-    
+
     var segmentView: some View {
-        ScrollView (.horizontal, showsIndicators: false) {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack {
-                ForEach(Operation.OperationTypeWithCommission.allCases, id: \.self) { type in
-                    Button<Text>(action: {
+                ForEach(avalibleTypes, id: \.self) { type in
+                    Button(action: {
                         self.type = type
                     }, label: {
                         Text(type.rawValue)
-                            .foregroundColor(Color.accentColor)
-                    }).background(Color.black)
+                            .foregroundColor(Color(UIColor.systemOrange))
+                            .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
+                            .background(self.type == .some(type) ? Color(UIColor.systemGray2) : Color.clear)
+                            .cornerRadius(7)
+                            .textCase(nil)
+                    })
                 }
             }
-        }.frame(height: 50)
-    }
-    
-    var operationsList: some View {
-        Section(header: Text(type.rawValue)) {
-            ForEach(viewModel.operations.filter { $0.operationType == type }, id: \.hashValue) {
-                OperationRowView(operation: $0)
-            }
-        }
+        }.frame(height: 40)
     }
 }

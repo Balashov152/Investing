@@ -5,35 +5,35 @@
 //  Created by Sergey Balashov on 09.12.2020.
 //
 
-import Foundation
-import Moya
 import Combine
+import Foundation
 import InvestModels
+import Moya
 
 class InstrumentsStorage: CancebleObservableObject {
     let service = InstrumentsService()
     @Published var instruments: [Instrument] = []
-    
+
     override init() {
         super.init()
-        
+
         if let saved = Storage.instruments {
-            self.instruments = decondingSave(data: saved)
+            instruments = decondingSave(data: saved)
         } else {
             service.getBonds().combineLatest(service.getStocks(), service.getCurrency()) { $0 + $1 + $2 }
                 .print("getBonds")
                 .eraseToAnyPublisher().replaceError(with: [])
                 .assign(to: \.instruments, on: self)
                 .store(in: &cancellables)
-            
-            $instruments.sink { (instuments) in
+
+            $instruments.sink { instuments in
                 if let data = try? JSONEncoder().encode(instuments) {
                     Storage.instruments = data
                 }
             }.store(in: &cancellables)
         }
     }
-    
+
     private func decondingSave(data: Data) -> [Instrument] {
         let decoder = JSONDecoder()
         do {
@@ -48,21 +48,21 @@ class InstrumentsStorage: CancebleObservableObject {
 
 struct InstrumentsService {
     let provider = ApiProvider<InstrumentsAPI>()
-    
+
     func getStocks() -> AnyPublisher<[Instrument], MoyaError> {
         provider.request(.getStocks)
             .map(APIBaseModel<InstrumentsPayload>.self)
             .map { $0.payload?.instruments ?? [] }
             .eraseToAnyPublisher()
     }
-    
+
     func getBonds() -> AnyPublisher<[Instrument], MoyaError> {
         provider.request(.getBonds)
             .map(APIBaseModel<InstrumentsPayload>.self)
             .map { $0.payload?.instruments ?? [] }
             .eraseToAnyPublisher()
     }
-    
+
     func getCurrency() -> AnyPublisher<[Instrument], MoyaError> {
         provider.request(.getCurrency)
             .map(APIBaseModel<InstrumentsPayload>.self)
@@ -88,7 +88,7 @@ extension InstrumentsAPI: TargetType {
             return "/market/currencies"
         }
     }
-    
+
     var method: Moya.Method { .get }
     var task: Task { .requestPlain }
 }

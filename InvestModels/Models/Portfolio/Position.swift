@@ -17,33 +17,33 @@ extension Position: Hashable {
     public static func == (lhs: Position, rhs: Position) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(ticker)
     }
 }
 
-public struct Position : Decodable {
-    public let name : String?
-    public let figi : String?
-    public let ticker : String?
-    
-    public let isin : String?
-    public let instrumentType : InstrumentType?
-    
-    public let balance : Double?
-    public let blocked : Double?
-    
-    public let lots : Int?
-    
-    public let expectedYield : MoneyAmount?
-    public let averagePositionPrice : MoneyAmount?
-    public let averagePositionPriceNoNkd : MoneyAmount?
-    
+public struct Position: Decodable {
+    public let name: String?
+    public let figi: String?
+    public let ticker: String?
+
+    public let isin: String?
+    public let instrumentType: InstrumentType?
+
+    public let balance: Double?
+    public let blocked: Double?
+
+    public let lots: Int?
+
+    public let expectedYield: MoneyAmount?
+    public let averagePositionPrice: MoneyAmount?
+    public let averagePositionPriceNoNkd: MoneyAmount?
+
     public var totalBuyPayment: Double {
         (averagePositionPrice?.value ?? 0) * Double(lots ?? 0)
     }
-    
+
     public var totalInProfile: Double {
         totalBuyPayment + (expectedYield?.value ?? 0)
     }
@@ -62,7 +62,7 @@ public struct Position : Decodable {
 		averagePositionPriceNoNkd = try values.decodeIfPresent(forKey: .averagePositionPriceNoNkd)
 		name = try values.decodeIfPresent(forKey: .name)
 	}
-    
+
     public enum CodingKeys: String, CodingKey {
 
         case figi = "figi"

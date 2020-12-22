@@ -12,9 +12,9 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-public struct InstrumentsPayload : Decodable {
-    public let total : Int
-    public let instruments : [Instrument]
+public struct InstrumentsPayload: Decodable {
+    public let total: Int
+    public let instruments: [Instrument]
 
     public enum CodingKeys: String, CodingKey {
 

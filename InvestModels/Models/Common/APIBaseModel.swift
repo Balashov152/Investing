@@ -13,10 +13,10 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 import Foundation
 
-public struct APIBaseModel<Payload: Decodable> : Decodable {
-    public let trackingId : String?
-    public let status : String?
-    public let payload : Payload?
+public struct APIBaseModel<Payload: Decodable>: Decodable {
+    public let trackingId: String?
+    public let status: String?
+    public let payload: Payload?
 
     public enum CodingKeys: String, CodingKey {
 

@@ -5,8 +5,8 @@
 //  Created by Sergey Balashov on 08.12.2020.
 //
 
-import SwiftUI
 import InvestModels
+import SwiftUI
 
 public typealias Operation = InvestModels.Operation
 

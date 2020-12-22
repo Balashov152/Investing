@@ -11,5 +11,3 @@ import UIKit
 public enum InstrumentType: String, Codable {
     case Stock, Currency, Bond, Etf
 }
-
-

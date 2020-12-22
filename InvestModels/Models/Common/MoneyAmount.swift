@@ -20,10 +20,10 @@ extension MoneyAmount: Hashable {
     }
 }
 
-public struct MoneyAmount : Codable {
-    public let currency : Currency
-    public let value : Double
-    
+public struct MoneyAmount: Codable {
+    public let currency: Currency
+    public let value: Double
+
     public  init(currency: Currency, value: Double) {
         self.currency = currency
         self.value = value

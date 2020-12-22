@@ -27,11 +27,9 @@ extension Collection where Element == Double {
 }
 
 extension DateFormatter {
-    
     static func format(_ string: String) -> DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = string
         return formatter
     }
-    
 }

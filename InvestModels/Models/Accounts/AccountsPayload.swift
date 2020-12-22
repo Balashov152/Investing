@@ -13,8 +13,8 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 import Foundation
 
-public struct AccountsPayload : Codable {
-    public var accounts : [Account] = []
+public struct AccountsPayload: Codable {
+    public var accounts: [Account] = []
 
     public enum CodingKeys: String, CodingKey {
 		case accounts = "accounts"

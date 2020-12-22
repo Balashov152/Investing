@@ -17,23 +17,23 @@ extension Instrument: Hashable {
     public static func == (lhs: Instrument, rhs: Instrument) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
-    
+
     public func hash(into hasher: inout Hasher) {
         hasher.combine(figi)
         hasher.combine(ticker)
     }
 }
 
-public struct Instrument : Codable {
-    public let figi : String?
-    public let ticker : String?
-    public let isin : String?
-    public let minPriceIncrement : Double?
-    public let lot : Int?
-    public let minQuantity : Int?
-    public let currency : Currency
-    public let name : String?
-    public let type : InstrumentType?
+public struct Instrument: Codable {
+    public let figi: String?
+    public let ticker: String?
+    public let isin: String?
+    public let minPriceIncrement: Double?
+    public let lot: Int?
+    public let minQuantity: Int?
+    public let currency: Currency
+    public let name: String?
+    public let type: InstrumentType?
 
     public enum CodingKeys: String, CodingKey {
 		case figi = "figi"
