@@ -27,6 +27,13 @@ struct InstrumentsService {
             .eraseToAnyPublisher()
     }
 
+    func getEtfs() -> AnyPublisher<[Instrument], MoyaError> {
+        provider.request(.getEtfs)
+            .map(APIBaseModel<InstrumentsPayload>.self)
+            .map { $0.payload?.instruments ?? [] }
+            .eraseToAnyPublisher()
+    }
+
     func getCurrency() -> AnyPublisher<[Instrument], MoyaError> {
         provider.request(.getCurrency)
             .map(APIBaseModel<InstrumentsPayload>.self)
@@ -38,6 +45,7 @@ struct InstrumentsService {
 enum InstrumentsAPI {
     case getStocks
     case getBonds
+    case getEtfs
     case getCurrency
 }
 
@@ -46,6 +54,8 @@ extension InstrumentsAPI: TargetType {
         switch self {
         case .getStocks:
             return "/market/stocks"
+        case .getEtfs:
+            return "/market/etfs"
         case .getBonds:
             return "/market/bonds"
         case .getCurrency:

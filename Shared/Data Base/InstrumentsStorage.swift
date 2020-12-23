@@ -15,13 +15,13 @@ class InstrumentsStorage: CancebleObject {
 
     override init() {
         super.init()
-
         if let saved = Storage.instruments {
             instruments = decondingSave(data: saved)
         } else {
-            service.getBonds().combineLatest(service.getStocks(), service.getCurrency()) { $0 + $1 + $2 }
-                .print("getBonds")
-                .eraseToAnyPublisher().replaceError(with: [])
+            Publishers.CombineLatest4(service.getBonds(), service.getStocks(), service.getCurrency(), service.getEtfs())
+                .map { $0 + $1 + $2 + $3 }
+                .print("getInstruments")
+                .replaceError(with: [])
                 .assign(to: \.instruments, on: self)
                 .store(in: &cancellables)
 

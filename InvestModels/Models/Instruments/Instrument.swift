@@ -12,29 +12,22 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
+import RealmSwift
 
-extension Instrument: Hashable {
-    public static func == (lhs: Instrument, rhs: Instrument) -> Bool {
-        lhs.hashValue == rhs.hashValue
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(figi)
-        hasher.combine(ticker)
-    }
-}
-
-public struct Instrument: Codable {
-    public let figi: String?
+open class Instrument: Object, Codable {
+    public let name: String?
     public let ticker: String?
+    
+    public let figi: String?
     public let isin: String?
+    
+    public let minQuantity: Int?
     public let minPriceIncrement: Double?
     public let lot: Int?
-    public let minQuantity: Int?
+    
     public let currency: Currency
-    public let name: String?
     public let type: InstrumentType?
-
+    
     public enum CodingKeys: String, CodingKey {
 		case figi = "figi"
 		case ticker = "ticker"
@@ -47,7 +40,7 @@ public struct Instrument: Codable {
 		case type = "type"
 	}
 
-    public init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		figi = try values.decodeIfPresent(forKey: .figi)
 		ticker = try values.decodeIfPresent(forKey: .ticker)
@@ -59,5 +52,16 @@ public struct Instrument: Codable {
 		name = try values.decodeIfPresent(forKey: .name)
 		type = try values.decodeIfPresent(forKey: .type)
 	}
+    
+    // Hashable
+    
+//    public static func == (lhs: Instrument, rhs: Instrument) -> Bool {
+//        lhs.hashValue == rhs.hashValue
+//    }
+    
+//    public override func hash(into hasher: inout Hasher) {
+//        hasher.combine(figi)
+//        hasher.combine(ticker)
+//    }
 
 }
