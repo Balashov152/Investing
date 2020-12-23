@@ -13,7 +13,7 @@ extension Task {
         do {
             let data = try encoder.encode(encodable)
             let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any]
-            return .requestParameters(parameters: json ?? [:], encoding: URLEncoding.queryString)
+            return .requestParameters(parameters: json ?? [:], encoding: URLEncoding.default)
 
         } catch {
             assertionFailure(error.localizedDescription)

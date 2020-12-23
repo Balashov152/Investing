@@ -9,13 +9,28 @@ import Combine
 import Foundation
 import SwiftUI
 
-open class CancebleObservableObject: ObservableObject {
+open class CancebleObject {
     public var cancellables = Set<AnyCancellable>()
+
+    public init() {
+        debugPrint("init", type(of: self))
+    }
+
+    deinit {
+        debugPrint("deinit", type(of: self))
+    }
 }
 
-class MainCommonViewModel: CancebleObservableObject {
-    unowned var mainViewModel: MainViewModel
-    init(mainViewModel: MainViewModel) {
-        self.mainViewModel = mainViewModel
+open class EnvironmentCancebleObject: CancebleObject {
+    internal let env: Environment
+
+    internal init(env: Environment = .current) {
+        self.env = env
+
+        super.init()
+
+        bindings()
     }
+
+    open func bindings() {}
 }

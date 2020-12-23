@@ -6,24 +6,42 @@
 //
 
 import Combine
-import Foundation
 import InvestModels
 import Moya
 
-struct OperationsService {
+class OperationsService: CancebleObject, ObservableObject {
     let provider = ApiProvider<OperationAPI>()
 
-    func getOperations(request: OperationsRequest) -> AnyPublisher<[Operation], MoyaError> {
+    @Published public var operations: [Operation] = []
+
+    func getOperations(request: OperationsRequest) {
+        guard operations.isEmpty else { return } // think about it
+
         provider.request(.getOperations(request: request))
             .receive(on: DispatchQueue.global()).eraseToAnyPublisher()
             .map(APIBaseModel<OperationsPayload>.self, using: .standart)
             .map { $0.payload?.operations ?? [] }
+            .replaceError(with: [])
             .map { $0.filter { $0.status == .some(.Done) } }
-            .eraseToAnyPublisher()
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.operations, on: self)
+            .store(in: &cancellables)
     }
+}
 
+extension OperationsService {
     struct OperationsRequest: Encodable {
         let from, to: Date
+
+        internal init(from: Date, to: Date) {
+            self.from = from
+            self.to = to
+        }
+
+        internal init(env: Environment) {
+            from = env.dateInterval().start
+            to = env.dateInterval().end
+        }
     }
 }
 

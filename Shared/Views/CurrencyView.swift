@@ -9,37 +9,10 @@ import Combine
 import InvestModels
 import SwiftUI
 
-class CurrencyViewModel: MainCommonViewModel {
-    struct Section: Hashable {
-        let currency: Currency
-        let rows: [Row]
-
-        struct Row: Hashable {
-            let title: RowType
-            let value: Double
-        }
-
-        enum RowType: String, Hashable, CaseIterable {
-            case payIn, payOut, total
-
-            var name: String {
-                switch self {
-                case .payIn:
-                    return "Pay in"
-                case .payOut:
-                    return "Pay out"
-                case .total:
-                    return "Total"
-                }
-            }
-        }
-    }
-
-    var sections: [Section] = [] {
-        willSet { objectWillChange.send() }
-    }
-
+class CurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
+    @Published var sections: [Section] = []
     @Published var buyUSD: Double = 0
+
     let filterBuyUsd: ((Operation) -> Bool) = {
         $0.instument?.currency == .some(.RUB) &&
             $0.instument?.type == .some(.Currency) &&
@@ -50,17 +23,18 @@ class CurrencyViewModel: MainCommonViewModel {
     let currences: [Currency] = [.USD, .RUB, .EUR]
     let types: [Operation.OperationTypeWithCommission] = [.PayIn, .PayOut]
 
-    override init(mainViewModel: MainViewModel) {
-        super.init(mainViewModel: mainViewModel)
-
-        mainViewModel.$operations
+    override func bindings() {
+        env.operationsService.$operations
             .receive(on: DispatchQueue.global())
             .map { [unowned self] operations in
-                self.mapToSections(operations: operations)
+                mapToSections(operations: operations)
             }
-//            .print("mapToSections")
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.sections, on: self).store(in: &cancellables)
+            .assign(to: \.sections, on: self)
+            .store(in: &cancellables)
+    }
+
+    public func loadOperaions() {
+        env.operationsService.getOperations(request: .init(env: env))
     }
 
     func mapToSections(operations: [Operation]) -> [Section] {
@@ -87,8 +61,35 @@ class CurrencyViewModel: MainCommonViewModel {
         }
     }
 
-    func loadView() {
-        buyUSD = Double(mainViewModel.operations.filter(filterBuyUsd).reduce(0) { $0 + $1.quantityExecuted })
+//    func loadView() {
+//        buyUSD = Double(mainViewModel.operations.filter(filterBuyUsd).reduce(0) { $0 + $1.quantityExecuted })
+//    }
+}
+
+extension CurrencyViewModel {
+    struct Section: Hashable {
+        let currency: Currency
+        let rows: [Row]
+
+        struct Row: Hashable {
+            let title: RowType
+            let value: Double
+        }
+
+        enum RowType: String, Hashable, CaseIterable {
+            case payIn, payOut, total
+
+            var name: String {
+                switch self {
+                case .payIn:
+                    return "Pay in"
+                case .payOut:
+                    return "Pay out"
+                case .total:
+                    return "Total"
+                }
+            }
+        }
     }
 }
 
@@ -107,7 +108,7 @@ struct CurrencyView: View {
         }
         .listStyle(GroupedListStyle())
         .navigationTitle("Currency")
-//            .onAppear(perform: viewModel.loadView)
+        .onAppear(perform: viewModel.loadOperaions)
     }
 
     func commisionCell(label: String, double: Double) -> some View {

@@ -8,9 +8,21 @@
 import Combine
 import SwiftUI
 
-class ComissionViewModel: MainCommonViewModel {
-    var operations: [Operation] {
-        mainViewModel.operations
+class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
+    @Published var operations: [Operation] = []
+
+    public func loadOperaions() {
+        env.operationsService.getOperations(request: .init(env: env))
+//            .replaceError(with: [])
+//            .assign(to: \.operations, on: self)
+//            .store(in: &cancellables)
+    }
+
+    override func bindings() {
+        super.bindings()
+        env.operationsService.$operations
+            .assign(to: \.operations, on: self)
+            .store(in: &cancellables)
     }
 }
 
@@ -34,6 +46,7 @@ struct ComissionView: View {
                 Text("Not implement")
             }
         }.navigationTitle("Commissions")
+            .onAppear(perform: viewModel.loadOperaions)
     }
 
     func commisionCell(label: String, double: Double) -> some View {

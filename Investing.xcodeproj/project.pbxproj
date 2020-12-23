@@ -11,10 +11,14 @@
 		BC8AA69A44FCFC844A50D0B4 /* Pods_Investing__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFAC8B963236EDC782AF3DE /* Pods_Investing__macOS_.framework */; };
 		EF4F18D7258DF46C008BD22A /* TickersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4F18D6258DF46C008BD22A /* TickersView.swift */; };
 		EF4F18D8258DF46C008BD22A /* TickersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4F18D6258DF46C008BD22A /* TickersView.swift */; };
+		EF637FEE259362DA00D2C42D /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FED259362D900D2C42D /* DBManager.swift */; };
+		EF637FEF259362DA00D2C42D /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FED259362D900D2C42D /* DBManager.swift */; };
+		EF637FFC259364FF00D2C42D /* CurrencyPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */; };
+		EF637FFD259364FF00D2C42D /* CurrenciesPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FFB259364FF00D2C42D /* CurrenciesPayload.swift */; };
+		EF63800F25936B5C00D2C42D /* InstrumentsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF63800E25936B5C00D2C42D /* InstrumentsStorage.swift */; };
+		EF63801025936B5C00D2C42D /* InstrumentsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF63800E25936B5C00D2C42D /* InstrumentsStorage.swift */; };
 		EF761AD92590E5DD00320289 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AD82590E5DD00320289 /* AnalyticsView.swift */; };
 		EF761ADA2590E5DD00320289 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AD82590E5DD00320289 /* AnalyticsView.swift */; };
-		EF761AE92590FE3400320289 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = EF761AE82590FE3400320289 /* Realm */; };
-		EF761AEB2590FE3400320289 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EF761AEA2590FE3400320289 /* RealmSwift */; };
 		EF761AF12590FF6200320289 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AF02590FF6200320289 /* RealmManager.swift */; };
 		EF761AF22590FF6200320289 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AF02590FF6200320289 /* RealmManager.swift */; };
 		EF76A0AE257FA80200991AE3 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A0AD257FA80200991AE3 /* Tests_iOS.swift */; };
@@ -74,6 +78,13 @@
 		EF9582122590A4BA00D559E7 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = EF9582112590A4BA00D559E7 /* Moya */; };
 		EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */; };
 		EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */; };
+		EFB534C52591E17300C93C3C /* CurrencyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB534C42591E17300C93C3C /* CurrencyPair.swift */; };
+		EFB534CF2591E18200C93C3C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534CE2591E18200C93C3C /* Realm */; };
+		EFB534D12591E18200C93C3C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534D02591E18200C93C3C /* RealmSwift */; };
+		EFB5354E2592209500C93C3C /* CurrencyPairService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB5354D2592209500C93C3C /* CurrencyPairService.swift */; };
+		EFB5354F2592209500C93C3C /* CurrencyPairService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB5354D2592209500C93C3C /* CurrencyPairService.swift */; };
+		EFB535D82592450200C93C3C /* Enviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB535D72592450200C93C3C /* Enviroment.swift */; };
+		EFB535D92592450200C93C3C /* Enviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB535D72592450200C93C3C /* Enviroment.swift */; };
 		EFB6B0B62583C30D00D9F924 /* CurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB6B0B52583C30D00D9F924 /* CurrencyView.swift */; };
 		EFB6B0B72583C30D00D9F924 /* CurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB6B0B52583C30D00D9F924 /* CurrencyView.swift */; };
 		EFBA420F25821EDF00C2AFC8 /* Decoder+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA420E25821EDF00C2AFC8 /* Decoder+Ex.swift */; };
@@ -88,6 +99,8 @@
 		EFC02B0925800BF6008AF0FF /* OperationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02B0725800BF6008AF0FF /* OperationsService.swift */; };
 		EFC99748258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
 		EFC99749258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
+		EFF78C5625933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF78C5525933D6F00EFC040 /* CurrencyPairSerializer.swift */; };
+		EFF78C5725933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF78C5525933D6F00EFC040 /* CurrencyPairSerializer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,6 +181,10 @@
 		6F44ED1DEA63508B8A0EC883 /* Pods-Investing (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Investing (iOS).debug.xcconfig"; path = "Target Support Files/Pods-Investing (iOS)/Pods-Investing (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		B1492304DEC40D5340801A5A /* Pods-Investing (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Investing (iOS).release.xcconfig"; path = "Target Support Files/Pods-Investing (iOS)/Pods-Investing (iOS).release.xcconfig"; sourceTree = "<group>"; };
 		EF4F18D6258DF46C008BD22A /* TickersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickersView.swift; sourceTree = "<group>"; };
+		EF637FED259362D900D2C42D /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
+		EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyPosition.swift; sourceTree = "<group>"; };
+		EF637FFB259364FF00D2C42D /* CurrenciesPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrenciesPayload.swift; sourceTree = "<group>"; };
+		EF63800E25936B5C00D2C42D /* InstrumentsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentsStorage.swift; sourceTree = "<group>"; };
 		EF761AD82590E5DD00320289 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
 		EF761AF02590FF6200320289 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		EF76A092257FA7FE00991AE3 /* InvestingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestingApp.swift; sourceTree = "<group>"; };
@@ -210,6 +227,9 @@
 		EF9581D72590A10100D559E7 /* OperationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationRowView.swift; sourceTree = "<group>"; };
 		EF9581EA2590A1C600D559E7 /* Decoder+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decoder+Ex.swift"; sourceTree = "<group>"; };
 		EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoyaTask+Ex.swift"; sourceTree = "<group>"; };
+		EFB534C42591E17300C93C3C /* CurrencyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPair.swift; sourceTree = "<group>"; };
+		EFB5354D2592209500C93C3C /* CurrencyPairService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairService.swift; sourceTree = "<group>"; };
+		EFB535D72592450200C93C3C /* Enviroment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enviroment.swift; sourceTree = "<group>"; };
 		EFB6B0B52583C30D00D9F924 /* CurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyView.swift; sourceTree = "<group>"; };
 		EFBA41FE25821E2800C2AFC8 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		EFBA420E25821EDF00C2AFC8 /* Decoder+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decoder+Ex.swift"; sourceTree = "<group>"; };
@@ -224,6 +244,7 @@
 		EFC99735258114DC00A722F7 /* InstrumentsPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentsPayload.swift; sourceTree = "<group>"; };
 		EFC99736258114DC00A722F7 /* Instrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		EFC99747258115B000A722F7 /* InstrumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentsService.swift; sourceTree = "<group>"; };
+		EFF78C5525933D6F00EFC040 /* CurrencyPairSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairSerializer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -231,12 +252,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF761AEB2590FE3400320289 /* RealmSwift in Frameworks */,
 				EF76A0F9257FB23A00991AE3 /* CombineMoya in Frameworks */,
 				EF76A0F7257FB23A00991AE3 /* Moya in Frameworks */,
 				76F60D7017DC2F69240FC3F1 /* Pods_Investing__iOS_.framework in Frameworks */,
 				EF9581772590903000D559E7 /* InvestModels.framework in Frameworks */,
-				EF761AE92590FE3400320289 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +288,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFB534D12591E18200C93C3C /* RealmSwift in Frameworks */,
+				EFB534CF2591E18200C93C3C /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -303,6 +324,24 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		EF637FF4259364DB00D2C42D /* Positions */ = {
+			isa = PBXGroup;
+			children = (
+				EF76A16A257FCDDE00991AE3 /* PositionsPayload.swift */,
+				EF76A14C257FCC7E00991AE3 /* Position.swift */,
+			);
+			path = Positions;
+			sourceTree = "<group>";
+		};
+		EF637FF5259364E900D2C42D /* Currencies */ = {
+			isa = PBXGroup;
+			children = (
+				EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */,
+				EF637FFB259364FF00D2C42D /* CurrenciesPayload.swift */,
+			);
+			path = Currencies;
+			sourceTree = "<group>";
+		};
 		EF761AD72590E5B900320289 /* Analytics Tab */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,6 +370,7 @@
 		EF76A091257FA7FE00991AE3 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				EFB535402592207A00C93C3C /* Data Base */,
 				EF76A092257FA7FE00991AE3 /* InvestingApp.swift */,
 				EF76A0FE257FB4AF00991AE3 /* Application */,
 				EFBA420D25821ED100C2AFC8 /* Utils */,
@@ -396,6 +436,7 @@
 				EF76A0FF257FB4BE00991AE3 /* Storage.swift */,
 				EF76A10F257FB55000991AE3 /* Settings.swift */,
 				EF76A122257FBE5B00991AE3 /* ApiProvider.swift */,
+				EFB535D72592450200C93C3C /* Enviroment.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -438,8 +479,8 @@
 		EF76A149257FCC6D00991AE3 /* Portfolio */ = {
 			isa = PBXGroup;
 			children = (
-				EF76A16A257FCDDE00991AE3 /* PositionsPayload.swift */,
-				EF76A14C257FCC7E00991AE3 /* Position.swift */,
+				EF637FF5259364E900D2C42D /* Currencies */,
+				EF637FF4259364DB00D2C42D /* Positions */,
 			);
 			path = Portfolio;
 			sourceTree = "<group>";
@@ -447,11 +488,11 @@
 		EF76A171257FCE1600991AE3 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				EFF78C5425933D6300EFC040 /* CurrencyPair */,
 				EF76A172257FCE2100991AE3 /* AccountService.swift */,
 				EF76A17D257FCE6400991AE3 /* PositionsService.swift */,
 				EFC02B0725800BF6008AF0FF /* OperationsService.swift */,
 				EFC99747258115B000A722F7 /* InstrumentsService.swift */,
-				EF761AF02590FF6200320289 /* RealmManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -459,6 +500,7 @@
 		EF9581632590903000D559E7 /* InvestModels */ = {
 			isa = PBXGroup;
 			children = (
+				EFB534C32591E15900C93C3C /* Realm */,
 				EF9581E92590A1AD00D559E7 /* Helper */,
 				EF76A132257FC17300991AE3 /* Models */,
 				EF9581642590903000D559E7 /* InvestModels.h */,
@@ -500,6 +542,24 @@
 				EF9581EA2590A1C600D559E7 /* Decoder+Ex.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		EFB534C32591E15900C93C3C /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				EFB534C42591E17300C93C3C /* CurrencyPair.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
+		EFB535402592207A00C93C3C /* Data Base */ = {
+			isa = PBXGroup;
+			children = (
+				EF637FED259362D900D2C42D /* DBManager.swift */,
+				EF761AF02590FF6200320289 /* RealmManager.swift */,
+				EF63800E25936B5C00D2C42D /* InstrumentsStorage.swift */,
+			);
+			path = "Data Base";
 			sourceTree = "<group>";
 		};
 		EFBA41FD25821E1F00C2AFC8 /* Common */ = {
@@ -544,6 +604,15 @@
 			path = Instruments;
 			sourceTree = "<group>";
 		};
+		EFF78C5425933D6300EFC040 /* CurrencyPair */ = {
+			isa = PBXGroup;
+			children = (
+				EFB5354D2592209500C93C3C /* CurrencyPairService.swift */,
+				EFF78C5525933D6F00EFC040 /* CurrencyPairSerializer.swift */,
+			);
+			path = CurrencyPair;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -578,8 +647,6 @@
 			packageProductDependencies = (
 				EF76A0F6257FB23A00991AE3 /* Moya */,
 				EF76A0F8257FB23A00991AE3 /* CombineMoya */,
-				EF761AE82590FE3400320289 /* Realm */,
-				EF761AEA2590FE3400320289 /* RealmSwift */,
 			);
 			productName = "Investing (iOS)";
 			productReference = EF76A099257FA80200991AE3 /* Investing.app */;
@@ -659,6 +726,10 @@
 			dependencies = (
 			);
 			name = InvestModels;
+			packageProductDependencies = (
+				EFB534CE2591E18200C93C3C /* Realm */,
+				EFB534D02591E18200C93C3C /* RealmSwift */,
+			);
 			productName = InvestModels;
 			productReference = EF9581622590903000D559E7 /* InvestModels.framework */;
 			productType = "com.apple.product-type.framework";
@@ -868,11 +939,15 @@
 				EF9581B425909E5500D559E7 /* CommonViewModel.swift in Sources */,
 				EF76A0BB257FA80200991AE3 /* InvestingApp.swift in Sources */,
 				EFC02B0825800BF6008AF0FF /* OperationsService.swift in Sources */,
+				EFB5354E2592209500C93C3C /* CurrencyPairService.swift in Sources */,
+				EFB535D82592450200C93C3C /* Enviroment.swift in Sources */,
 				EF9581CA25909FC800D559E7 /* OperationSum.swift in Sources */,
 				EF76A0D4257FAA5A00991AE3 /* HomeView.swift in Sources */,
+				EFF78C5625933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
 				EF76A0EF257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
 				EF4F18D7258DF46C008BD22A /* TickersView.swift in Sources */,
+				EF63800F25936B5C00D2C42D /* InstrumentsStorage.swift in Sources */,
 				EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EF761AF12590FF6200320289 /* RealmManager.swift in Sources */,
 				EFBA424925828BDE00C2AFC8 /* ComissionView.swift in Sources */,
@@ -881,6 +956,7 @@
 				EF9581D82590A10100D559E7 /* OperationRowView.swift in Sources */,
 				EFBA420F25821EDF00C2AFC8 /* Decoder+Ex.swift in Sources */,
 				EF76A100257FB4BE00991AE3 /* Storage.swift in Sources */,
+				EF637FEE259362DA00D2C42D /* DBManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -899,11 +975,15 @@
 				EF9581B525909E5500D559E7 /* CommonViewModel.swift in Sources */,
 				EF76A0BC257FA80200991AE3 /* InvestingApp.swift in Sources */,
 				EFC02B0925800BF6008AF0FF /* OperationsService.swift in Sources */,
+				EFB5354F2592209500C93C3C /* CurrencyPairService.swift in Sources */,
+				EFB535D92592450200C93C3C /* Enviroment.swift in Sources */,
 				EF9581CB25909FC800D559E7 /* OperationSum.swift in Sources */,
 				EF76A0D5257FAA5A00991AE3 /* HomeView.swift in Sources */,
+				EFF78C5725933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
 				EF76A0F0257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE625800086008AF0FF /* PositionRowView.swift in Sources */,
 				EF4F18D8258DF46C008BD22A /* TickersView.swift in Sources */,
+				EF63801025936B5C00D2C42D /* InstrumentsStorage.swift in Sources */,
 				EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EF761AF22590FF6200320289 /* RealmManager.swift in Sources */,
 				EFBA424A25828BDE00C2AFC8 /* ComissionView.swift in Sources */,
@@ -912,6 +992,7 @@
 				EF9581D92590A10100D559E7 /* OperationRowView.swift in Sources */,
 				EFBA421025821EDF00C2AFC8 /* Decoder+Ex.swift in Sources */,
 				EF76A101257FB4BE00991AE3 /* Storage.swift in Sources */,
+				EF637FEF259362DA00D2C42D /* DBManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -942,12 +1023,15 @@
 				EF9582042590A28700D559E7 /* InstrumentType.swift in Sources */,
 				EF9582032590A28700D559E7 /* MoneyAmount.swift in Sources */,
 				EF958197259093EF00D559E7 /* PositionsPayload.swift in Sources */,
+				EFB534C52591E17300C93C3C /* CurrencyPair.swift in Sources */,
 				EF958199259093EF00D559E7 /* OperationsPayload.swift in Sources */,
 				EF958193259093EF00D559E7 /* AccountsPayload.swift in Sources */,
 				EF958198259093EF00D559E7 /* APIBaseModel.swift in Sources */,
 				EF9581EB2590A1C600D559E7 /* Decoder+Ex.swift in Sources */,
+				EF637FFD259364FF00D2C42D /* CurrenciesPayload.swift in Sources */,
 				EF958192259093EF00D559E7 /* Position.swift in Sources */,
 				EF958195259093EF00D559E7 /* Operation.swift in Sources */,
+				EF637FFC259364FF00D2C42D /* CurrencyPosition.swift in Sources */,
 				EF958196259093EF00D559E7 /* Trades.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1124,6 +1208,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ba1ashov.Investing;
 				PRODUCT_NAME = Investing;
 				SDKROOT = iphoneos;
@@ -1150,6 +1235,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.ba1ashov.Investing;
 				PRODUCT_NAME = Investing;
 				SDKROOT = iphoneos;
@@ -1365,7 +1451,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6XNMN66Z79;
 				INFOPLIST_FILE = InvestModelsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1387,7 +1472,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6XNMN66Z79;
 				INFOPLIST_FILE = InvestModelsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1491,16 +1575,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		EF761AE82590FE3400320289 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
-			productName = Realm;
-		};
-		EF761AEA2590FE3400320289 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
-			productName = RealmSwift;
-		};
 		EF76A0F6257FB23A00991AE3 /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EF76A0F5257FB23A00991AE3 /* XCRemoteSwiftPackageReference "Moya" */;
@@ -1520,6 +1594,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EF76A0F5257FB23A00991AE3 /* XCRemoteSwiftPackageReference "Moya" */;
 			productName = Moya;
+		};
+		EFB534CE2591E18200C93C3C /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		EFB534D02591E18200C93C3C /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

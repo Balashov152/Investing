@@ -19,24 +19,51 @@ struct ResultTickerMoney: Hashable {
     let money: MoneyAmount
 }
 
-class TickersViewModel: MainCommonViewModel {
+class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var results: [ResultTickerMoney] = []
 
     @Published var totalRUB: Double = 0
     @Published var totalUSD: Double = 0
 
-    func fillFileds() {
-        let uniqTickers = Array(Set(mainViewModel.operations.compactMap { $0.instument }))
-        results = uniqTickers.map { ticker -> ResultTickerMoney in
-            let nowInProfile = mainViewModel.positions.first(where: { $0.figi == ticker.figi })?.totalInProfile ?? 0
-            let allOperationsForTicker = mainViewModel.operations.filter { $0.instument == ticker }
+    override init(env: Environment = .current) {
+        super.init(env: env)
+        bindings()
+    }
+
+    public func loadOperaions() {
+        env.operationsService.getOperations(request: .init(env: env))
+    }
+
+    override func bindings() {
+        env.operationsService.$operations
+            .receive(on: DispatchQueue.global())
+            .map { [unowned self] operations in
+                mapToResults(operations: operations)
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.results, on: self)
+            .store(in: &cancellables)
+
+        $results
+            .map { $0.filter { $0.instrument.currency == .USD }.map { $0.money }.sum }
+            .assign(to: \.totalUSD, on: self)
+            .store(in: &cancellables)
+
+        $results
+            .map { $0.filter { $0.instrument.currency == .RUB }.map { $0.money }.sum }
+            .assign(to: \.totalRUB, on: self)
+            .store(in: &cancellables)
+    }
+
+    private func mapToResults(operations: [Operation]) -> [ResultTickerMoney] {
+        let uniqTickers = Array(Set(operations.compactMap { $0.instument }))
+        return uniqTickers.map { ticker -> ResultTickerMoney in
+            let nowInProfile: Double = 0 // TODO: addPositions mainViewModel.positions.first(where: { $0.figi == ticker.figi })?.totalInProfile ?? 0
+            let allOperationsForTicker = operations.filter { $0.instument == ticker }
             let sumOperation = allOperationsForTicker.sum + nowInProfile
             return ResultTickerMoney(instrument: ticker, money: MoneyAmount(currency: allOperationsForTicker.first?.currency ?? .TRY,
                                                                             value: sumOperation))
         }.sorted(by: { $0.instrument.name.orEmpty < $1.instrument.name.orEmpty })
-
-        totalUSD = results.filter { $0.instrument.currency == .USD }.map { $0.money }.sum
-        totalRUB = results.filter { $0.instrument.currency == .RUB }.map { $0.money }.sum
     }
 }
 
@@ -56,7 +83,7 @@ struct TickersView: View {
                 }
             }
         }.navigationTitle("Tickers")
-            .onAppear(perform: viewModel.fillFileds)
+            .onAppear(perform: viewModel.loadOperaions)
     }
 
     func totalCell(label: String, value: Double) -> some View {
@@ -88,7 +115,7 @@ struct TickersView: View {
             }
             Spacer()
             Text(currency.value.string(f: ".2") + " " + currency.currency.rawValue)
-                .foregroundColor(currency.value > 0 ? .green : .red)
+                .foregroundColor(Color.currency(value: currency.value))
         }
     }
 }

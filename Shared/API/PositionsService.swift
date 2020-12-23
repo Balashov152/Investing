@@ -10,10 +10,11 @@ import Foundation
 import InvestModels
 import Moya
 
-class PositionsService: CancebleObservableObject {
-    @Published var positions: [Position] = []
+struct PositionsService {
+    static let shared = PositionsService()
 
     let provider = ApiProvider<PositionAPI>()
+
     func getPositions() -> AnyPublisher<[Position], MoyaError> {
         provider.request(.getPositions)
             .map(APIBaseModel<PositionsPayload>.self)
@@ -21,27 +22,34 @@ class PositionsService: CancebleObservableObject {
             .eraseToAnyPublisher()
     }
 
-    func fillPositions() {
-        getPositions()
-            .replaceError(with: [])
-            .assign(to: \.positions, on: self)
-            .store(in: &cancellables)
+    func getCurrences() -> AnyPublisher<[CurrencyPosition], MoyaError> {
+        provider.request(.getCurrences)
+            .map(APIBaseModel<CurrenciesPayload>.self)
+            .map { $0.payload?.currencies ?? [] }
+            .eraseToAnyPublisher()
     }
 }
 
 enum PositionAPI {
-    case getPositions
+    case getPositions, getCurrences
 }
 
 extension PositionAPI: TargetType {
-    var path: String { "/portfolio" }
+    var path: String {
+        switch self {
+        case .getPositions:
+            return "/portfolio"
+        case .getCurrences:
+            return "/portfolio/currencies"
+        }
+    }
 
     var method: Moya.Method { .get }
 
     var task: Task {
         switch self {
-        case .getPositions:
-            return .requestPlain // .requestParameters(parameters: ["brokerAccountId": profileId], encoding: URLEncoding.default)
+        case .getPositions, .getCurrences:
+            return .requestPlain
         }
     }
 }

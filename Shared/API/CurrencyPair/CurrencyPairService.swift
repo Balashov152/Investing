@@ -1,0 +1,75 @@
+//
+//  CurrencyPairService.swift
+//  Investing
+//
+//  Created by Sergey Balashov on 22.12.2020.
+//
+
+import Combine
+import InvestModels
+import Moya
+
+class CurrencyPairObject: EnvironmentCancebleObject {
+    var service: CurrencyPairService { env.currencyPairService }
+
+    func fillDB() {
+        let request = CurrencyPairService.CurrencyRequest(dateInterval: env.dateInterval())
+        service.getCurrencyPairs(request: request)
+            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
+            .store(in: &cancellables)
+    }
+}
+
+struct CurrencyPairService {
+    let provider = ApiProvider<CurrencyPairAPI>()
+
+    func getCurrencyPairs(request: CurrencyRequest) -> AnyPublisher<[CurrencyPair], MoyaError> {
+        provider.request(.getPairs(request: request))
+            .receive(on: DispatchQueue.global())
+            .map { CurrencyPairSerializer.serialize(json: $0.json) }
+            .eraseToAnyPublisher()
+    }
+
+    struct CurrencyRequest: Encodable {
+        let dateInterval: DateInterval
+
+        let base: Currency = .RUB
+        let symbols: [Currency] = [.USD, .EUR]
+
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(base, forKey: .base)
+            try container.encode(symbols.map { $0.rawValue }.joined(separator: ","), forKey: .symbols)
+
+            try container.encode(dateInterval.start, forKey: .start)
+            try container.encode(dateInterval.end, forKey: .end)
+        }
+
+        enum CodingKeys: String, CodingKey {
+            case start = "start_at"
+            case end = "end_at"
+
+            case symbols
+            case base
+        }
+    }
+}
+
+enum CurrencyPairAPI {
+    case getPairs(request: CurrencyPairService.CurrencyRequest)
+}
+
+extension CurrencyPairAPI: TargetType {
+    var baseURL: URL { URL(string: "https://api.exchangeratesapi.io")! }
+    var path: String { "/history" }
+    var method: Moya.Method { .get }
+
+    var task: Task {
+        switch self {
+        case let .getPairs(request):
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .formatted(.format("yyyy-MM-dd"))
+            return .requestCustomParametersEncodable(request, encoder: encoder)
+        }
+    }
+}

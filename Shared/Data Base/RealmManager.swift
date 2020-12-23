@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import InvestModels
 import RealmSwift
 
 class RealmManager {
@@ -22,7 +23,7 @@ class RealmManager {
         return queue
     }()
 
-    var objectTypes: [Object.Type] = []
+    var objectTypes: [Object.Type] = [CurrencyPair.self]
     lazy var realm: Realm = {
         do {
             let configuration = Realm.Configuration(schemaVersion: UInt64(RealmManager.version),

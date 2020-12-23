@@ -10,21 +10,19 @@ import InvestModels
 import Moya
 import SwiftUI
 
-class HomeViewModel: MainCommonViewModel {
+class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     struct Section: Hashable {
         let type: InstrumentType
         let positions: [Position]
     }
 
-    var sections: [Section] = [] {
-        willSet { objectWillChange.send() }
-    }
+    @Published var sections: [Section] = []
+//    @Published var positions: [Position] = []
+    @Published var currencies: [CurrencyPosition] = []
 
-    override init(mainViewModel: MainViewModel) {
-        super.init(mainViewModel: mainViewModel)
-        _ = RealmManager.shared
-
-        mainViewModel.$positions
+    public func loadPositions() {
+        env.positionService.getPositions()
+            .replaceError(with: [])
             .receive(on: DispatchQueue.global())
             .map { positions -> [Section] in
                 if positions.isEmpty { return [] }
@@ -38,6 +36,11 @@ class HomeViewModel: MainCommonViewModel {
             }
             .receive(on: DispatchQueue.main)
             .assign(to: \.sections, on: self)
+            .store(in: &cancellables)
+
+        env.positionService.getCurrences()
+            .replaceError(with: [])
+            .assign(to: \.currencies, on: self)
             .store(in: &cancellables)
     }
 }
@@ -54,10 +57,18 @@ struct HomeView: View {
                                 id: \.self, content: PositionRowView.init)
                     }
                 }
+
+                ForEach(viewModel.currencies, id: \.self) { currency in
+                    HStack {
+                        Text(currency.currency.rawValue)
+                        Spacer()
+                        Text(currency.balance.string(f: ".2"))
+                    }
+                }
             }
             .listStyle(GroupedListStyle())
             .navigationBarTitle("Profile")
-            .onAppear(perform: viewModel.mainViewModel.loadPositions)
+            .onAppear(perform: viewModel.loadPositions)
         }
     }
 

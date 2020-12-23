@@ -12,36 +12,32 @@ import UIKit
 struct ViewFactory {
     // MAIN TABS
     static func mainView() -> MainView {
-        .init(viewModel: .init(accountService: .init(), positionService: .init(),
-                               operationsService: .init(), instrumentsStorage: .init()))
+        .init(viewModel: .init())
     }
 
-    static func homeView(mainViewModel: MainViewModel) -> HomeView {
-        .init(viewModel: .init(mainViewModel: mainViewModel))
+    static func homeView() -> HomeView {
+        .init(viewModel: .init())
     }
 
-    static func operationsView(mainViewModel: MainViewModel) -> OperationsView {
-        .init(viewModel: .init(mainViewModel: mainViewModel))
+    static func operationsView() -> OperationsView {
+        .init(viewModel: .init())
     }
 
-    static func analyticsView(mainViewModel: MainViewModel) -> AnalyticsView {
-        .init(viewModel: .init(mainViewModel: mainViewModel))
+    static func analyticsView() -> AnalyticsView {
+        .init(viewModel: .init())
     }
 
     // VIEWS
-//    static func balanceView(mainViewModel: MainViewModel) -> BalanceView {
-//        .init(viewModel: .init(mainViewModel: mainViewModel))
-//    }
 
-    static func comissionView(mainViewModel: MainViewModel) -> ComissionView {
-        .init(viewModel: .init(mainViewModel: mainViewModel))
+    static func comissionView() -> ComissionView {
+        .init(viewModel: .init())
     }
 
-    static func currencyView(mainViewModel: MainViewModel) -> CurrencyView {
-        .init(viewModel: .init(mainViewModel: mainViewModel))
+    static func currencyView() -> CurrencyView {
+        .init(viewModel: .init())
     }
 
-    static func tickersView(mainViewModel: MainViewModel) -> TickersView {
-        .init(viewModel: .init(mainViewModel: mainViewModel))
+    static func tickersView() -> TickersView {
+        .init(viewModel: .init())
     }
 }
