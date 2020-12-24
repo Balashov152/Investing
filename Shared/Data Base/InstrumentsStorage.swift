@@ -15,22 +15,24 @@ class InstrumentsStorage: CancebleObject {
 
     override init() {
         super.init()
-        if let saved = Storage.instruments {
-            instruments = decondingSave(data: saved)
-        } else {
-            Publishers.CombineLatest4(service.getBonds(), service.getStocks(), service.getCurrency(), service.getEtfs())
-                .map { $0 + $1 + $2 + $3 }
-                .print("getInstruments")
-                .replaceError(with: [])
-                .assign(to: \.instruments, on: self)
-                .store(in: &cancellables)
+        /*
+         if let saved = Storage.instruments {
+             instruments = decondingSave(data: saved)
+         } else {
+             Publishers.CombineLatest4(service.getBonds(), service.getStocks(), service.getCurrency(), service.getEtfs())
+                 .map { $0 + $1 + $2 + $3 }
+                 .print("getInstruments")
+                 .replaceError(with: [])
+                 .assign(to: \.instruments, on: self)
+                 .store(in: &cancellables)
 
-            $instruments.sink { instuments in
-                if let data = try? JSONEncoder().encode(instuments) {
-                    Storage.instruments = data
-                }
-            }.store(in: &cancellables)
-        }
+             $instruments.sink { instuments in
+                 if let data = try? JSONEncoder().encode(instuments) {
+                     Storage.instruments = data
+                 }
+             }.store(in: &cancellables)
+         }
+          */
     }
 
     private func decondingSave(data: Data) -> [Instrument] {

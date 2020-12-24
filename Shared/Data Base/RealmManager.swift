@@ -11,8 +11,8 @@ import InvestModels
 import RealmSwift
 
 class RealmManager {
-    static let shared = RealmManager()
-    static let version = 1
+//    static let shared = RealmManager()
+//    static let version = 1
 
     let specificKey = DispatchSpecificKey<String>()
     let specificValue = "RealmManager.queue"
@@ -23,10 +23,10 @@ class RealmManager {
         return queue
     }()
 
-    var objectTypes: [Object.Type] = [CurrencyPair.self]
+    let objectTypes: [Object.Type] = [CurrencyPair.self, Instrument.self]
     lazy var realm: Realm = {
         do {
-            let configuration = Realm.Configuration(schemaVersion: UInt64(RealmManager.version),
+            let configuration = Realm.Configuration(schemaVersion: UInt64(DBManager.version),
                                                     migrationBlock: { migration, oldSchemaVersion in
                                                         print("migration", migration, "oldSchemaVersion", oldSchemaVersion)
                                                     }, objectTypes: objectTypes)
@@ -38,6 +38,10 @@ class RealmManager {
             fatalError(error.localizedDescription)
         }
     }()
+
+    func isEmptyDB() -> Bool {
+        return objectTypes.allSatisfy(isEmpty)
+    }
 
     func syncQueueBlock(block: () -> Void) {
         if DispatchQueue.getSpecific(key: specificKey) == specificValue {

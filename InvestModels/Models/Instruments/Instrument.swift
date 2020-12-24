@@ -14,19 +14,36 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 import Foundation
 import RealmSwift
 
-open class Instrument: Object, Codable {
-    public let name: String?
-    public let ticker: String?
+open class Instrument: Object, Decodable {
+    static let defaultCurrency = Currency.USD
+    static let defaultInstrument = InstrumentType.Stock
     
-    public let figi: String?
-    public let isin: String?
+    @objc public dynamic var name: String?
+    @objc public dynamic var ticker: String?
     
-    public let minQuantity: Int?
-    public let minPriceIncrement: Double?
-    public let lot: Int?
+    @objc public dynamic var figi: String?
+    @objc public dynamic var isin: String?
     
-    public let currency: Currency
-    public let type: InstrumentType?
+    @objc public dynamic var minQuantity: Int = 1
+    @objc public dynamic var minPriceIncrement: Double = 0.01
+    @objc public dynamic var lot: Int = 1
+    
+    @objc public dynamic var currencyRaw: String = Instrument.defaultCurrency.rawValue
+    @objc public dynamic var typeRaw: String = Instrument.defaultInstrument.rawValue
+    
+    open override class func primaryKey() -> String? {
+        return "figi"
+    }
+    
+    public var currency: Currency {
+        get { Currency(rawValue: currencyRaw) ?? Instrument.defaultCurrency }
+        set { currencyRaw = newValue.rawValue }
+    }
+    
+   public var type: InstrumentType {
+        get { InstrumentType(rawValue: typeRaw) ?? Instrument.defaultInstrument }
+        set { typeRaw = newValue.rawValue }
+    }
     
     public enum CodingKeys: String, CodingKey {
 		case figi = "figi"
@@ -39,18 +56,24 @@ open class Instrument: Object, Codable {
 		case name = "name"
 		case type = "type"
 	}
+    
+    public override init() {
+        super.init()
+    }
 
     required public init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		figi = try values.decodeIfPresent(forKey: .figi)
 		ticker = try values.decodeIfPresent(forKey: .ticker)
 		isin = try values.decodeIfPresent(forKey: .isin)
-		minPriceIncrement = try values.decodeIfPresent(forKey: .minPriceIncrement)
-		lot = try values.decodeIfPresent(forKey: .lot)
-		minQuantity = try values.decodeIfPresent(forKey: .minQuantity)
-        currency = try values.decodeIfPresent(forKey: .currency, default: .TRY)
+        minPriceIncrement = try values.decodeIfPresent(forKey: .minPriceIncrement, default: 0.01)
+		lot = try values.decodeIfPresent(forKey: .lot, default: 1)
+		minQuantity = try values.decodeIfPresent(forKey: .minQuantity, default: 1)
+        
 		name = try values.decodeIfPresent(forKey: .name)
-		type = try values.decodeIfPresent(forKey: .type)
+        
+        currencyRaw = try values.decodeIfPresent(forKey: .currency, default: Instrument.defaultCurrency.rawValue)
+        typeRaw = try values.decodeIfPresent(forKey: .type, default: Instrument.defaultInstrument.rawValue)
 	}
     
     // Hashable

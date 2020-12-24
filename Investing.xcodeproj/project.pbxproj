@@ -15,8 +15,6 @@
 		EF637FEF259362DA00D2C42D /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FED259362D900D2C42D /* DBManager.swift */; };
 		EF637FFC259364FF00D2C42D /* CurrencyPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */; };
 		EF637FFD259364FF00D2C42D /* CurrenciesPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FFB259364FF00D2C42D /* CurrenciesPayload.swift */; };
-		EF63800F25936B5C00D2C42D /* InstrumentsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF63800E25936B5C00D2C42D /* InstrumentsStorage.swift */; };
-		EF63801025936B5C00D2C42D /* InstrumentsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF63800E25936B5C00D2C42D /* InstrumentsStorage.swift */; };
 		EF761AD92590E5DD00320289 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AD82590E5DD00320289 /* AnalyticsView.swift */; };
 		EF761ADA2590E5DD00320289 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AD82590E5DD00320289 /* AnalyticsView.swift */; };
 		EF761AF12590FF6200320289 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AF02590FF6200320289 /* RealmManager.swift */; };
@@ -947,7 +945,6 @@
 				EF76A0EF257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
 				EF4F18D7258DF46C008BD22A /* TickersView.swift in Sources */,
-				EF63800F25936B5C00D2C42D /* InstrumentsStorage.swift in Sources */,
 				EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EF761AF12590FF6200320289 /* RealmManager.swift in Sources */,
 				EFBA424925828BDE00C2AFC8 /* ComissionView.swift in Sources */,
@@ -983,7 +980,6 @@
 				EF76A0F0257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE625800086008AF0FF /* PositionRowView.swift in Sources */,
 				EF4F18D8258DF46C008BD22A /* TickersView.swift in Sources */,
-				EF63801025936B5C00D2C42D /* InstrumentsStorage.swift in Sources */,
 				EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EF761AF22590FF6200320289 /* RealmManager.swift in Sources */,
 				EFBA424A25828BDE00C2AFC8 /* ComissionView.swift in Sources */,

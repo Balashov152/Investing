@@ -10,8 +10,7 @@ import Foundation
 extension Environment {
     static let current = Environment(settings: { Settings() },
                                      dateInterval: { .lastYear },
-                                     api: { .current },
-                                     realmManager: { .shared })
+                                     api: { .current })
 }
 
 struct Environment {
@@ -24,20 +23,20 @@ struct Environment {
     var accountService: AccountService { api().accountService }
     var positionService: PositionsService { api().positionService }
     var operationsService: OperationsService { api().operationsService }
-
-    var realmManager: () -> RealmManager
 }
 
 struct API {
     static let current = API(currencyPairService: .init(),
                              accountService: .init(),
                              positionService: .init(),
-                             operationsService: .init())
+                             operationsService: .init(),
+                             instrumentsService: .init())
 
     var currencyPairService: CurrencyPairService
     var accountService: AccountService
     var positionService: PositionsService
     var operationsService: OperationsService
+    var instrumentsService: InstrumentsService
 }
 
 struct DateInterval {

@@ -10,10 +10,38 @@ import Combine
 import Foundation
 
 struct DBManager {
-    static var shared = DBManager()
-    private init() {}
-
     static let version = 1
+
+    let env: Environment
+    let realmManager: RealmManager
+    var cancellables = Set<AnyCancellable>()
+
+    init(env: Environment, realmManager: RealmManager) {
+        self.env = env
+        self.realmManager = realmManager
+    }
+
+    mutating func updateIfNeeded(didUpdate: @escaping () -> Void) {
+        let isNeedUpdate = realmManager.isEmptyDB() || Storage.currentDBVersion < DBManager.version
+
+        guard isNeedUpdate else {
+            didUpdate()
+            return
+        }
+
+        Publishers.CombineLatest4(env.api().instrumentsService.getBonds(),
+                                  env.api().instrumentsService.getStocks(),
+                                  env.api().instrumentsService.getCurrency(),
+                                  env.api().instrumentsService.getEtfs()).map { $0 + $1 + $2 + $3 }
+            .print("getInstruments")
+            .replaceError(with: [])
+            .receive(on: realmManager.syncQueue)
+            .sink { [unowned realmManager] instuments in
+                realmManager.write(objects: instuments)
+                Storage.currentDBVersion = DBManager.version
+                didUpdate()
+            }.store(in: &cancellables)
+    }
 
 //    private func checkUpdateCoreData(lastUpdateTimeshamp: Int, didUpdate: @escaping () -> Void) {
 //        print("check update core data values to version: \(DBManager.version) from last save \(Storage.currentDBVersion)")

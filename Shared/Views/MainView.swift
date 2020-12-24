@@ -16,6 +16,20 @@ enum LoadingState<Object> {
 
     case loaded(object: Object)
     case failure(error: LoadingError)
+
+    var object: Object? {
+        guard case let .loaded(object) = self else {
+            return nil
+        }
+        return object
+    }
+
+    var error: LoadingError? {
+        guard case let .failure(error) = self else {
+            return nil
+        }
+        return error
+    }
 }
 
 enum LoadingError: Error, LocalizedError {
@@ -30,7 +44,22 @@ enum LoadingError: Error, LocalizedError {
 }
 
 class MainViewModel: EnvironmentCancebleObject, ObservableObject {
-    @Published var loadingState: LoadingState<[Instrument]> = .loading
+    @Published var loadDB: LoadingState<Void> = Storage.isFillDB ? .loaded(object: ()) : .loading
+
+    var dbManager: DBManager
+
+    override init(env: Environment = .current) {
+        dbManager = DBManager(env: env, realmManager: RealmManager())
+
+        super.init(env: env)
+    }
+
+    func loadData() {
+        loadDB = .loading
+        dbManager.updateIfNeeded { [unowned self] in
+            self.loadDB = .loaded(object: ())
+        }
+    }
 }
 
 struct MainView: View {
@@ -38,17 +67,24 @@ struct MainView: View {
 
     var body: some View {
         Group {
-            switch viewModel.loadingState {
+            switch viewModel.loadDB {
             case .loading:
-                Text("loading")
+                loadingView
             case .loaded:
                 tabBarView
             case let .failure(error):
                 Text("error \(error.errorDescription.orEmpty)")
             }
         }
-        .accentColor(Color(UIColor.systemOrange))
-        // .onAppear(perform: viewModel.loadData)
+        .onAppear(perform: viewModel.loadData)
+    }
+
+    var loadingView: some View {
+        VStack(spacing: 8) {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+            Text("Loading..")
+        }
     }
 
     var tabBarView: some View {
@@ -57,6 +93,7 @@ struct MainView: View {
             analyticsView
             operationsView
         }
+        .accentColor(Color(UIColor.systemOrange))
     }
 
     var profileView: some View {
