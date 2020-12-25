@@ -38,7 +38,7 @@ extension Operation {
     }
 }
 
-public struct Operation: Decodable {
+public struct Operation: Decodable, CurrencyConvertModel {
     public let id: String?
 
     public let status: OperationStatus?
@@ -56,7 +56,10 @@ public struct Operation: Decodable {
     public let quantityExecuted: Int
 
     public let figi: String?
+    
+    // fill from db
     public var instrument: Instrument?
+    public var currencyPair: CurrencyPair?
     
     public let instrumentType: InstrumentType?
 

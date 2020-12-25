@@ -31,25 +31,34 @@ class OperationsService: CancebleObject, ObservableObject {
             .replaceError(with: [])
             .map { $0.filter { $0.status == .some(.Done) } }
             .receive(on: realmManager.syncQueue)
-            .map { [unowned realmManager] operations -> [Operation] in
-                let newOperations = operations.map { operation -> Operation in
-
-                    guard let figi = operation.figi,
-                          let instrumentR = realmManager.object(InstrumentR.self, for: figi)
-                    else {
-                        return operation
-                    }
-
+            .map { [unowned self] operations -> [Operation] in
+                operations.map { operation -> Operation in
                     var newOperation = operation
-                    newOperation.instrument = Instrument(instrument: instrumentR)
+                    self.fillOperationFromDB(operation: &newOperation)
                     return newOperation
                 }
-
-                return newOperations
             }
             .receive(on: DispatchQueue.main)
             .assign(to: \.operations, on: self)
             .store(in: &cancellables)
+    }
+
+    func fillOperationFromDB(operation: inout Operation) {
+        guard let figi = operation.figi,
+              let instrumentR = realmManager.object(InstrumentR.self, for: figi)
+        else {
+            return
+        }
+
+        operation.instrument = Instrument(instrument: instrumentR)
+
+        guard let pair = realmManager.object(CurrencyPairR.self,
+                                             for: CurrencyPair.dateFormatter.string(from: operation.date))
+        else {
+            return
+        }
+
+        operation.currencyPair = CurrencyPair(currencyPairR: pair)
     }
 }
 

@@ -12,6 +12,11 @@ extension Collection where Element == Operation {
     var sum: Double {
         map { $0.payment }.reduce(0, +)
     }
+
+    func envSum(env: Environment) -> Double {
+        map { $0.convert(money: MoneyAmount(currency: $0.currency, value: $0.payment), to: env.currency()) }
+            .map { $0.value }.reduce(0, +)
+    }
 }
 
 extension Collection where Element == MoneyAmount {

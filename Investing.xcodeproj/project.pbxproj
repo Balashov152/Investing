@@ -43,6 +43,7 @@
 		EF76A174257FCE2100991AE3 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A172257FCE2100991AE3 /* AccountService.swift */; };
 		EF76A17E257FCE6400991AE3 /* PositionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A17D257FCE6400991AE3 /* PositionsService.swift */; };
 		EF76A17F257FCE6400991AE3 /* PositionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A17D257FCE6400991AE3 /* PositionsService.swift */; };
+		EF8114B22596375700773236 /* CurrencyTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8114B12596375700773236 /* CurrencyTabView.swift */; };
 		EF95816B2590903000D559E7 /* InvestModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9581622590903000D559E7 /* InvestModels.framework */; };
 		EF9581722590903000D559E7 /* InvestModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9581712590903000D559E7 /* InvestModelsTests.swift */; };
 		EF9581742590903000D559E7 /* InvestModels.h in Headers */ = {isa = PBXBuildFile; fileRef = EF9581642590903000D559E7 /* InvestModels.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -76,7 +77,7 @@
 		EF9582122590A4BA00D559E7 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = EF9582112590A4BA00D559E7 /* Moya */; };
 		EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */; };
 		EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */; };
-		EFB534C52591E17300C93C3C /* CurrencyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB534C42591E17300C93C3C /* CurrencyPair.swift */; };
+		EFB534C52591E17300C93C3C /* CurrencyPairR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB534C42591E17300C93C3C /* CurrencyPairR.swift */; };
 		EFB534CF2591E18200C93C3C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534CE2591E18200C93C3C /* Realm */; };
 		EFB534D12591E18200C93C3C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534D02591E18200C93C3C /* RealmSwift */; };
 		EFB5354E2592209500C93C3C /* CurrencyPairService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB5354D2592209500C93C3C /* CurrencyPairService.swift */; };
@@ -95,6 +96,8 @@
 		EFC02AFE25800BD3008AF0FF /* OperationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02AFC25800BD3008AF0FF /* OperationsView.swift */; };
 		EFC02B0825800BF6008AF0FF /* OperationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02B0725800BF6008AF0FF /* OperationsService.swift */; };
 		EFC02B0925800BF6008AF0FF /* OperationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02B0725800BF6008AF0FF /* OperationsService.swift */; };
+		EFC7F6882595F13A000A6A80 /* CurrencyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7F6872595F13A000A6A80 /* CurrencyPair.swift */; };
+		EFC7F6972595F17B000A6A80 /* CurrencyConvertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7F6962595F17B000A6A80 /* CurrencyConvertModel.swift */; };
 		EFC99748258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
 		EFC99749258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
 		EFDED5CA2594D35A00618E14 /* InstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDED5C92594D35A00618E14 /* InstrumentR.swift */; };
@@ -212,6 +215,7 @@
 		EF76A16A257FCDDE00991AE3 /* PositionsPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsPayload.swift; sourceTree = "<group>"; };
 		EF76A172257FCE2100991AE3 /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
 		EF76A17D257FCE6400991AE3 /* PositionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsService.swift; sourceTree = "<group>"; };
+		EF8114B12596375700773236 /* CurrencyTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTabView.swift; sourceTree = "<group>"; };
 		EF9581622590903000D559E7 /* InvestModels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InvestModels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9581642590903000D559E7 /* InvestModels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InvestModels.h; sourceTree = "<group>"; };
 		EF9581652590903000D559E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -225,7 +229,7 @@
 		EF9581D72590A10100D559E7 /* OperationRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationRowView.swift; sourceTree = "<group>"; };
 		EF9581EA2590A1C600D559E7 /* Decoder+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decoder+Ex.swift"; sourceTree = "<group>"; };
 		EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoyaTask+Ex.swift"; sourceTree = "<group>"; };
-		EFB534C42591E17300C93C3C /* CurrencyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPair.swift; sourceTree = "<group>"; };
+		EFB534C42591E17300C93C3C /* CurrencyPairR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairR.swift; sourceTree = "<group>"; };
 		EFB5354D2592209500C93C3C /* CurrencyPairService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairService.swift; sourceTree = "<group>"; };
 		EFB535D72592450200C93C3C /* Enviroment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enviroment.swift; sourceTree = "<group>"; };
 		EFB6B0B52583C30D00D9F924 /* CurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyView.swift; sourceTree = "<group>"; };
@@ -239,6 +243,8 @@
 		EFC02B0F25800C49008AF0FF /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		EFC02B1025800C49008AF0FF /* Trades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trades.swift; sourceTree = "<group>"; };
 		EFC02B2C25800CE3008AF0FF /* OperationsPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationsPayload.swift; sourceTree = "<group>"; };
+		EFC7F6872595F13A000A6A80 /* CurrencyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPair.swift; sourceTree = "<group>"; };
+		EFC7F6962595F17B000A6A80 /* CurrencyConvertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConvertModel.swift; sourceTree = "<group>"; };
 		EFC99735258114DC00A722F7 /* InstrumentsPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentsPayload.swift; sourceTree = "<group>"; };
 		EFC99736258114DC00A722F7 /* Instrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		EFC99747258115B000A722F7 /* InstrumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentsService.swift; sourceTree = "<group>"; };
@@ -447,6 +453,7 @@
 				EF9581BB25909ECA00D559E7 /* Home tab */,
 				EF761AD72590E5B900320289 /* Analytics Tab */,
 				EF9581D62590A0F200D559E7 /* Operations Tab */,
+				EF8114AC2596371300773236 /* Currency tab */,
 				EFBA424825828BDE00C2AFC8 /* ComissionView.swift */,
 				EFB6B0B52583C30D00D9F924 /* CurrencyView.swift */,
 				EF4F18D6258DF46C008BD22A /* TickersView.swift */,
@@ -457,6 +464,7 @@
 		EF76A132257FC17300991AE3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				EFC7F6862595F132000A6A80 /* CurrencyPair */,
 				EFBA41FD25821E1F00C2AFC8 /* Common */,
 				EFC997342581148700A722F7 /* Instruments */,
 				EFC02B0E25800C40008AF0FF /* Operations */,
@@ -494,6 +502,14 @@
 				EFC99747258115B000A722F7 /* InstrumentsService.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		EF8114AC2596371300773236 /* Currency tab */ = {
+			isa = PBXGroup;
+			children = (
+				EF8114B12596375700773236 /* CurrencyTabView.swift */,
+			);
+			path = "Currency tab";
 			sourceTree = "<group>";
 		};
 		EF9581632590903000D559E7 /* InvestModels */ = {
@@ -546,7 +562,7 @@
 		EFB534C32591E15900C93C3C /* Realm */ = {
 			isa = PBXGroup;
 			children = (
-				EFB534C42591E17300C93C3C /* CurrencyPair.swift */,
+				EFB534C42591E17300C93C3C /* CurrencyPairR.swift */,
 				EFDED5C92594D35A00618E14 /* InstrumentR.swift */,
 			);
 			path = Realm;
@@ -592,6 +608,15 @@
 				EFC02B1025800C49008AF0FF /* Trades.swift */,
 			);
 			path = Operations;
+			sourceTree = "<group>";
+		};
+		EFC7F6862595F132000A6A80 /* CurrencyPair */ = {
+			isa = PBXGroup;
+			children = (
+				EFC7F6872595F13A000A6A80 /* CurrencyPair.swift */,
+				EFC7F6962595F17B000A6A80 /* CurrencyConvertModel.swift */,
+			);
+			path = CurrencyPair;
 			sourceTree = "<group>";
 		};
 		EFC997342581148700A722F7 /* Instruments */ = {
@@ -951,6 +976,7 @@
 				EFBA424925828BDE00C2AFC8 /* ComissionView.swift in Sources */,
 				EF76A123257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
 				EF76A173257FCE2100991AE3 /* AccountService.swift in Sources */,
+				EF8114B22596375700773236 /* CurrencyTabView.swift in Sources */,
 				EF9581D82590A10100D559E7 /* OperationRowView.swift in Sources */,
 				EFBA420F25821EDF00C2AFC8 /* Decoder+Ex.swift in Sources */,
 				EF76A100257FB4BE00991AE3 /* Storage.swift in Sources */,
@@ -1021,9 +1047,11 @@
 				EFDED5CA2594D35A00618E14 /* InstrumentR.swift in Sources */,
 				EF9582032590A28700D559E7 /* MoneyAmount.swift in Sources */,
 				EF958197259093EF00D559E7 /* PositionsPayload.swift in Sources */,
-				EFB534C52591E17300C93C3C /* CurrencyPair.swift in Sources */,
+				EFB534C52591E17300C93C3C /* CurrencyPairR.swift in Sources */,
 				EF958199259093EF00D559E7 /* OperationsPayload.swift in Sources */,
+				EFC7F6972595F17B000A6A80 /* CurrencyConvertModel.swift in Sources */,
 				EF958193259093EF00D559E7 /* AccountsPayload.swift in Sources */,
+				EFC7F6882595F13A000A6A80 /* CurrencyPair.swift in Sources */,
 				EF958198259093EF00D559E7 /* APIBaseModel.swift in Sources */,
 				EF9581EB2590A1C600D559E7 /* Decoder+Ex.swift in Sources */,
 				EF637FFD259364FF00D2C42D /* CurrenciesPayload.swift in Sources */,

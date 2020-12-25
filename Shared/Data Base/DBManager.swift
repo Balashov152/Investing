@@ -11,7 +11,7 @@ import Foundation
 import InvestModels
 
 struct DBManager {
-    static let version = 1
+    static let version = 3
 
     let env: Environment
     let realmManager: RealmManager
@@ -23,10 +23,11 @@ struct DBManager {
     }
 
     mutating func updateIfNeeded(didUpdate: @escaping () -> Void) {
-        guard realmManager.isEmptyDB() || Storage.currentDBVersion < DBManager.version else {
-            didUpdate()
-            return
-        }
+//        guard realmManager.isEmptyDB() || Storage.currentDBVersion < DBManager.version else {
+//            didUpdate()
+//            return
+//        }
+//        realmManager.objectTypes.forEach(realmManager.deleteAllObjects)
 
         let saveInstruments = Publishers.CombineLatest4(env.api().instrumentsService.getBonds(),
                                                         env.api().instrumentsService.getStocks(),
@@ -52,10 +53,36 @@ struct DBManager {
             }
 
         Publishers.CombineLatest(saveInstruments, saveCurrencyPairs)
+            .receive(on: DispatchQueue.main)
             .sink { _ in
                 Storage.currentDBVersion = DBManager.version
                 didUpdate()
             }.store(in: &cancellables)
+    }
+
+    func updateCurrency() -> AnyPublisher<Void, Never> {
+        var lastUpdateCurrency: Date?
+
+        realmManager.syncQueueBlock {
+            let sort = NSSortDescriptor(key: "date", ascending: true)
+            lastUpdateCurrency = realmManager.objects(CurrencyPairR.self, sorted: [sort]).last?.date
+        }
+
+        guard let lastUpdate = lastUpdateCurrency,
+              lastUpdate < Calendar.current.startOfDay(for: Date())
+        else {
+            return [()].publisher.eraseToAnyPublisher()
+        }
+
+        return env.api().currencyPairService
+            .getCurrencyPairs(request: .init(dateInterval: DateInterval(start: lastUpdate, end: Date())))
+            .replaceError(with: [])
+            .map { $0.map { CurrencyPairR(currencyPair: $0) } }
+            .receive(on: realmManager.syncQueue)
+            .flatMap { [unowned realmManager] (instuments) -> AnyPublisher<Void, Never> in
+                realmManager.write(objects: instuments)
+                return [()].publisher.eraseToAnyPublisher()
+            }.eraseToAnyPublisher()
     }
 
 //    private func checkUpdateCoreData(lastUpdateTimeshamp: Int, didUpdate: @escaping () -> Void) {

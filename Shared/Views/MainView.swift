@@ -11,7 +11,19 @@ import InvestModels
 import Moya
 import SwiftUI
 
-enum LoadingState<Object> {
+enum LoadingState<Object>: Equatable {
+    static func == (lhs: LoadingState<Object>, rhs: LoadingState<Object>) -> Bool {
+        switch (lhs, rhs) {
+        case (.loading, .loading):
+            return true
+        case let (.loaded(obj1), .loaded(obj2)):
+            return true
+        case let (.failure(err1), .failure(err2)):
+            return true
+        default: return false
+        }
+    }
+
     case loading
 
     case loaded(object: Object)
@@ -44,7 +56,7 @@ enum LoadingError: Error, LocalizedError {
 }
 
 class MainViewModel: EnvironmentCancebleObject, ObservableObject {
-    @Published var loadDB: LoadingState<Void> = Storage.isFillDB ? .loaded(object: ()) : .loading
+    @Published var loadDB: LoadingState<Void> = .loading
 
     var dbManager: DBManager
 
@@ -55,10 +67,16 @@ class MainViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     func loadData() {
-        loadDB = .loading
+        guard loadDB == .loading else { return }
+
         dbManager.updateIfNeeded { [unowned self] in
             self.loadDB = .loaded(object: ())
         }
+    }
+
+    func loadCurrency() {
+        dbManager.updateCurrency()
+            .sink(receiveValue: {}).store(in: &cancellables)
     }
 }
 
@@ -92,6 +110,13 @@ struct MainView: View {
             profileView
             analyticsView
             operationsView
+            CurrencyTabView(viewModel: .init())
+                .tabItem {
+                    VStack {
+                        Image(systemName: "dollarsign.circle")
+                        Text("Profile")
+                    }
+                }
         }
         .accentColor(Color(UIColor.systemOrange))
     }

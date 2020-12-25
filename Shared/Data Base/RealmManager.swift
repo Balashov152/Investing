@@ -11,9 +11,6 @@ import InvestModels
 import RealmSwift
 
 class RealmManager {
-//    static let shared = RealmManager()
-//    static let version = 1
-
     let specificKey = DispatchSpecificKey<String>()
     let specificValue = "RealmManager.queue"
 

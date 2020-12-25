@@ -6,16 +6,19 @@
 //
 
 import Foundation
+import InvestModels
 
 extension Environment {
     static let current = Environment(settings: { Settings() },
-                                     dateInterval: { .lastYear },
+                                     dateInterval: { .lastYear }, currency: { .RUB },
                                      api: { .current })
 }
 
 struct Environment {
     var settings: () -> Settings
     var dateInterval: () -> DateInterval
+
+    var currency: () -> Currency
 
     var api: () -> API
 
@@ -40,7 +43,7 @@ struct API {
 }
 
 struct DateInterval {
-    static let lastYear = DateInterval(start: Calendar.current.date(byAdding: .year, value: -1, to: Date())!, end: Date())
+    static let lastYear = DateInterval(start: Calendar.current.date(byAdding: .month, value: -1, to: Date())!, end: Date())
 
     let start, end: Date
 }

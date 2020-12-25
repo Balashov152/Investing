@@ -10,7 +10,7 @@ import Foundation
 struct Storage {
     enum Keys: String {
         case token, instruments, usdValue
-        case isFillDB, currentDBVersion
+        case currentDBVersion
     }
 
     static var isAuthorized: Bool { token != nil }
@@ -28,14 +28,6 @@ struct Storage {
             UserDefaults.standard.data(forKey: Keys.instruments.rawValue)
         } set {
             UserDefaults.standard.set(newValue, forKey: Keys.instruments.rawValue)
-        }
-    }
-
-    static var isFillDB: Bool {
-        get {
-            UserDefaults.standard.bool(forKey: Keys.isFillDB.rawValue)
-        } set {
-            UserDefaults.standard.set(newValue, forKey: Keys.isFillDB.rawValue)
         }
     }
 

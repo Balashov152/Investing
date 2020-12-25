@@ -13,9 +13,6 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
 
     public func loadOperaions() {
         env.operationsService.getOperations(request: .init(env: env))
-//            .replaceError(with: [])
-//            .assign(to: \.operations, on: self)
-//            .store(in: &cancellables)
     }
 
     override func bindings() {
@@ -36,7 +33,7 @@ struct ComissionView: View {
             switch type {
             case .BrokerCommission, .ServiceCommission, .MarginCommission:
                 commisionCell(label: type.rawValue,
-                              double: viewModel.operations.filter { $0.operationType == .some(type) }.sum)
+                              double: viewModel.operations.filter { $0.operationType == .some(type) }.envSum(env: viewModel.env))
             case .ExchangeCommission, .OtherCommission:
                 commisionCell(label: type.rawValue,
                               double: viewModel.operations
