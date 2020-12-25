@@ -10,9 +10,16 @@ import InvestModels
 import Moya
 
 class OperationsService: CancebleObject, ObservableObject {
-    let provider = ApiProvider<OperationAPI>()
-
     @Published public var operations: [Operation] = []
+
+    private let provider = ApiProvider<OperationAPI>()
+    private let realmManager: RealmManager
+
+    init(realmManager: RealmManager) {
+        self.realmManager = realmManager
+
+        super.init()
+    }
 
     func getOperations(request: OperationsRequest) {
         guard operations.isEmpty else { return } // think about it
@@ -23,6 +30,23 @@ class OperationsService: CancebleObject, ObservableObject {
             .map { $0.payload?.operations ?? [] }
             .replaceError(with: [])
             .map { $0.filter { $0.status == .some(.Done) } }
+            .receive(on: realmManager.syncQueue)
+            .map { [unowned realmManager] operations -> [Operation] in
+                let newOperations = operations.map { operation -> Operation in
+
+                    guard let figi = operation.figi,
+                          let instrumentR = realmManager.object(InstrumentR.self, for: figi)
+                    else {
+                        return operation
+                    }
+
+                    var newOperation = operation
+                    newOperation.instrument = Instrument(instrument: instrumentR)
+                    return newOperation
+                }
+
+                return newOperations
+            }
             .receive(on: DispatchQueue.main)
             .assign(to: \.operations, on: self)
             .store(in: &cancellables)

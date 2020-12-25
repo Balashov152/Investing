@@ -14,8 +14,8 @@ class CurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var buyUSD: Double = 0
 
     let filterBuyUsd: ((Operation) -> Bool) = {
-        $0.instument?.currency == .some(.RUB) &&
-            $0.instument?.type == .some(.Currency) &&
+        $0.instrument?.currency == .some(.RUB) &&
+            $0.instrument?.type == .some(.Currency) &&
             $0.operationType == .some(.Buy) &&
             $0.currency == .RUB
     }

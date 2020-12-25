@@ -18,9 +18,7 @@ struct CurrencyPairSerializer {
             if let date = DateFormatter.format("yyyy-MM-dd").date(from: key),
                let usd = value["USD"] as? Double, let eur = value["EUR"] as? Double
             {
-                let pair = CurrencyPair()
-                pair.fill(date: date, USD: usd, EUR: eur)
-                return pair
+                return CurrencyPair(date: date, USD: usd, EUR: eur)
             }
             return nil
         }

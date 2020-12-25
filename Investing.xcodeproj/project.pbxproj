@@ -97,6 +97,7 @@
 		EFC02B0925800BF6008AF0FF /* OperationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02B0725800BF6008AF0FF /* OperationsService.swift */; };
 		EFC99748258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
 		EFC99749258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
+		EFDED5CA2594D35A00618E14 /* InstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDED5C92594D35A00618E14 /* InstrumentR.swift */; };
 		EFF78C5625933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF78C5525933D6F00EFC040 /* CurrencyPairSerializer.swift */; };
 		EFF78C5725933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF78C5525933D6F00EFC040 /* CurrencyPairSerializer.swift */; };
 /* End PBXBuildFile section */
@@ -182,7 +183,6 @@
 		EF637FED259362D900D2C42D /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyPosition.swift; sourceTree = "<group>"; };
 		EF637FFB259364FF00D2C42D /* CurrenciesPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrenciesPayload.swift; sourceTree = "<group>"; };
-		EF63800E25936B5C00D2C42D /* InstrumentsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentsStorage.swift; sourceTree = "<group>"; };
 		EF761AD82590E5DD00320289 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
 		EF761AF02590FF6200320289 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		EF76A092257FA7FE00991AE3 /* InvestingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestingApp.swift; sourceTree = "<group>"; };
@@ -242,6 +242,7 @@
 		EFC99735258114DC00A722F7 /* InstrumentsPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentsPayload.swift; sourceTree = "<group>"; };
 		EFC99736258114DC00A722F7 /* Instrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		EFC99747258115B000A722F7 /* InstrumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentsService.swift; sourceTree = "<group>"; };
+		EFDED5C92594D35A00618E14 /* InstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentR.swift; sourceTree = "<group>"; };
 		EFF78C5525933D6F00EFC040 /* CurrencyPairSerializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairSerializer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -546,6 +547,7 @@
 			isa = PBXGroup;
 			children = (
 				EFB534C42591E17300C93C3C /* CurrencyPair.swift */,
+				EFDED5C92594D35A00618E14 /* InstrumentR.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -555,7 +557,6 @@
 			children = (
 				EF637FED259362D900D2C42D /* DBManager.swift */,
 				EF761AF02590FF6200320289 /* RealmManager.swift */,
-				EF63800E25936B5C00D2C42D /* InstrumentsStorage.swift */,
 			);
 			path = "Data Base";
 			sourceTree = "<group>";
@@ -1017,6 +1018,7 @@
 				EF958190259093EF00D559E7 /* Accounts.swift in Sources */,
 				EF958191259093EF00D559E7 /* InstrumentsPayload.swift in Sources */,
 				EF9582042590A28700D559E7 /* InstrumentType.swift in Sources */,
+				EFDED5CA2594D35A00618E14 /* InstrumentR.swift in Sources */,
 				EF9582032590A28700D559E7 /* MoneyAmount.swift in Sources */,
 				EF958197259093EF00D559E7 /* PositionsPayload.swift in Sources */,
 				EFB534C52591E17300C93C3C /* CurrencyPair.swift in Sources */,

@@ -56,14 +56,14 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     private func mapToResults(operations: [Operation]) -> [ResultTickerMoney] {
-        let uniqTickers = Array(Set(operations.compactMap { $0.instument }))
+        let uniqTickers = Array(Set(operations.compactMap { $0.instrument }))
         return uniqTickers.map { ticker -> ResultTickerMoney in
             let nowInProfile: Double = 0 // TODO: addPositions mainViewModel.positions.first(where: { $0.figi == ticker.figi })?.totalInProfile ?? 0
-            let allOperationsForTicker = operations.filter { $0.instument == ticker }
+            let allOperationsForTicker = operations.filter { $0.instrument?.figi == ticker.figi }
             let sumOperation = allOperationsForTicker.sum + nowInProfile
             return ResultTickerMoney(instrument: ticker, money: MoneyAmount(currency: allOperationsForTicker.first?.currency ?? .TRY,
                                                                             value: sumOperation))
-        }.sorted(by: { $0.instrument.name.orEmpty < $1.instrument.name.orEmpty })
+        }.sorted(by: { $0.instrument.name < $1.instrument.name })
     }
 }
 

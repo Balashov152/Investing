@@ -23,7 +23,7 @@ class RealmManager {
         return queue
     }()
 
-    let objectTypes: [Object.Type] = [CurrencyPair.self, Instrument.self]
+    let objectTypes: [Object.Type] = [CurrencyPairR.self, InstrumentR.self]
     lazy var realm: Realm = {
         do {
             let configuration = Realm.Configuration(schemaVersion: UInt64(DBManager.version),

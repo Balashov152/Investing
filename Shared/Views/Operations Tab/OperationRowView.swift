@@ -13,7 +13,7 @@ struct OperationRowView: View {
     let operation: Operation
     var body: some View {
         VStack(alignment: .leading) {
-            if let instument = operation.instument {
+            if let instument = operation.instrument {
                 HStack {
                     if let ticker = instument.ticker, let name = instument.name {
                         Text(name + " (\(ticker))").lineLimit(1)

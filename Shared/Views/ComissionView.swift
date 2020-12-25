@@ -27,7 +27,7 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
 }
 
 struct ComissionView: View {
-    @StateObject var viewModel: ComissionViewModel
+    @ObservedObject var viewModel: ComissionViewModel
     let commissionTypes = [Operation.OperationTypeWithCommission.BrokerCommission,
                            .ExchangeCommission, .ServiceCommission, .MarginCommission, .OtherCommission]
 

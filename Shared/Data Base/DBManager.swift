@@ -8,6 +8,7 @@
 
 import Combine
 import Foundation
+import InvestModels
 
 struct DBManager {
     static let version = 1
@@ -22,22 +23,36 @@ struct DBManager {
     }
 
     mutating func updateIfNeeded(didUpdate: @escaping () -> Void) {
-        let isNeedUpdate = realmManager.isEmptyDB() || Storage.currentDBVersion < DBManager.version
-
-        guard isNeedUpdate else {
+        guard realmManager.isEmptyDB() || Storage.currentDBVersion < DBManager.version else {
             didUpdate()
             return
         }
 
-        Publishers.CombineLatest4(env.api().instrumentsService.getBonds(),
-                                  env.api().instrumentsService.getStocks(),
-                                  env.api().instrumentsService.getCurrency(),
-                                  env.api().instrumentsService.getEtfs()).map { $0 + $1 + $2 + $3 }
-            .print("getInstruments")
+        let saveInstruments = Publishers.CombineLatest4(env.api().instrumentsService.getBonds(),
+                                                        env.api().instrumentsService.getStocks(),
+                                                        env.api().instrumentsService.getCurrency(),
+                                                        env.api().instrumentsService.getEtfs())
+            .map { $0 + $1 + $2 + $3 }
             .replaceError(with: [])
             .receive(on: realmManager.syncQueue)
-            .sink { [unowned realmManager] instuments in
+            .map { $0.map { InstrumentR(instrument: $0) } }
+            .flatMap { [unowned realmManager] (instuments) -> AnyPublisher<Void, Never> in
                 realmManager.write(objects: instuments)
+                return [()].publisher.eraseToAnyPublisher()
+            }
+
+        let saveCurrencyPairs = env.api().currencyPairService
+            .getCurrencyPairs(request: .init(dateInterval: env.dateInterval()))
+            .replaceError(with: [])
+            .map { $0.map { CurrencyPairR(currencyPair: $0) } }
+            .receive(on: realmManager.syncQueue)
+            .flatMap { [unowned realmManager] (instuments) -> AnyPublisher<Void, Never> in
+                realmManager.write(objects: instuments)
+                return [()].publisher.eraseToAnyPublisher()
+            }
+
+        Publishers.CombineLatest(saveInstruments, saveCurrencyPairs)
+            .sink { _ in
                 Storage.currentDBVersion = DBManager.version
                 didUpdate()
             }.store(in: &cancellables)

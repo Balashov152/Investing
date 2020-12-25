@@ -9,17 +9,6 @@ import Combine
 import InvestModels
 import Moya
 
-class CurrencyPairObject: EnvironmentCancebleObject {
-    var service: CurrencyPairService { env.currencyPairService }
-
-    func fillDB() {
-        let request = CurrencyPairService.CurrencyRequest(dateInterval: env.dateInterval())
-        service.getCurrencyPairs(request: request)
-            .sink(receiveCompletion: { _ in }, receiveValue: { _ in })
-            .store(in: &cancellables)
-    }
-}
-
 struct CurrencyPairService {
     let provider = ApiProvider<CurrencyPairAPI>()
 
@@ -29,7 +18,9 @@ struct CurrencyPairService {
             .map { CurrencyPairSerializer.serialize(json: $0.json) }
             .eraseToAnyPublisher()
     }
+}
 
+extension CurrencyPairService {
     struct CurrencyRequest: Encodable {
         let dateInterval: DateInterval
 

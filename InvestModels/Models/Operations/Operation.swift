@@ -23,21 +23,28 @@ extension Operation: Hashable {
     }
 }
 
+extension Operation {
+    public enum OperationStatus: String, Decodable {
+        case Done, Decline, Progress
+    }
+    
+    public enum OperationTypeWithCommission: String, Decodable, CaseIterable {
+        case Buy, BuyCard, Sell
+        case BrokerCommission, ExchangeCommission, ServiceCommission, MarginCommission, OtherCommission
+        case PayIn, PayOut
+        case Tax, TaxLucre, TaxDividend, TaxCoupon, TaxBack
+        case Repayment, PartRepayment
+        case Coupon, Dividend, SecurityIn, SecurityOut
+    }
+}
+
 public struct Operation: Decodable {
     public let id: String?
 
     public let status: OperationStatus?
-    public enum OperationStatus: String, Decodable {
-        case Done, Decline, Progress
-    }
-
+    public let operationType: OperationTypeWithCommission?
+    
     public let trades: [Trades]
-    public var tradersCount: Int {
-        trades.compactMap { $0.quantity }.reduce(0, +)
-    }
-    public var changeCount: Int {
-        Int(payment)
-    }
     public let commission: MoneyAmount?
 
     public let currency: Currency
@@ -49,21 +56,12 @@ public struct Operation: Decodable {
     public let quantityExecuted: Int
 
     public let figi: String?
-    public var instument: Instrument?
+    public var instrument: Instrument?
+    
     public let instrumentType: InstrumentType?
 
     public let isMarginCall: Bool
     public let date: Date
-    public let operationType: OperationTypeWithCommission?
-
-    public enum OperationTypeWithCommission: String, Decodable, CaseIterable {
-        case Buy, BuyCard, Sell
-        case BrokerCommission, ExchangeCommission, ServiceCommission, MarginCommission, OtherCommission
-        case PayIn, PayOut
-        case Tax, TaxLucre, TaxDividend, TaxCoupon, TaxBack
-        case Repayment, PartRepayment
-        case Coupon, Dividend, SecurityIn, SecurityOut
-    }
 
     public enum CodingKeys: String, CodingKey {
         case id = "id"

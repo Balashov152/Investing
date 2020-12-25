@@ -29,7 +29,7 @@ struct API {
     static let current = API(currencyPairService: .init(),
                              accountService: .init(),
                              positionService: .init(),
-                             operationsService: .init(),
+                             operationsService: .init(realmManager: RealmManager()),
                              instrumentsService: .init())
 
     var currencyPairService: CurrencyPairService

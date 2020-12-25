@@ -12,38 +12,40 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-import RealmSwift
 
-open class Instrument: Object, Decodable {
+extension Instrument {
     static let defaultCurrency = Currency.USD
     static let defaultInstrument = InstrumentType.Stock
-    
-    @objc public dynamic var name: String?
-    @objc public dynamic var ticker: String?
-    
-    @objc public dynamic var figi: String?
-    @objc public dynamic var isin: String?
-    
-    @objc public dynamic var minQuantity: Int = 1
-    @objc public dynamic var minPriceIncrement: Double = 0.01
-    @objc public dynamic var lot: Int = 1
-    
-    @objc public dynamic var currencyRaw: String = Instrument.defaultCurrency.rawValue
-    @objc public dynamic var typeRaw: String = Instrument.defaultInstrument.rawValue
-    
-    open override class func primaryKey() -> String? {
-        return "figi"
+}
+
+extension Instrument: Hashable {
+    public static func == (lhs: Instrument, rhs: Instrument) -> Bool {
+        lhs.hashValue == rhs.hashValue
     }
     
-    public var currency: Currency {
-        get { Currency(rawValue: currencyRaw) ?? Instrument.defaultCurrency }
-        set { currencyRaw = newValue.rawValue }
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(figi)
+        hasher.combine(ticker)
     }
+}
+
+extension String {
+    static let empty: String = ""
+}
+
+public struct Instrument: Decodable {
+    public let name: String
+    public let ticker: String
+
+    public let figi: String
+    public let isin: String
+
+    public let minQuantity: Int
+    public let minPriceIncrement: Double
+    public let lot: Int
     
-   public var type: InstrumentType {
-        get { InstrumentType(rawValue: typeRaw) ?? Instrument.defaultInstrument }
-        set { typeRaw = newValue.rawValue }
-    }
+    public let currency: Currency
+    public let type: InstrumentType
     
     public enum CodingKeys: String, CodingKey {
 		case figi = "figi"
@@ -56,35 +58,31 @@ open class Instrument: Object, Decodable {
 		case name = "name"
 		case type = "type"
 	}
-    
-    public override init() {
-        super.init()
-    }
 
-    required public init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
-		figi = try values.decodeIfPresent(forKey: .figi)
-		ticker = try values.decodeIfPresent(forKey: .ticker)
-		isin = try values.decodeIfPresent(forKey: .isin)
+        name = try values.decodeIfPresent(forKey: .name, default: .empty)
+        figi = try values.decodeIfPresent(forKey: .figi, default: .empty)
+		ticker = try values.decodeIfPresent(forKey: .ticker, default: .empty)
+		isin = try values.decodeIfPresent(forKey: .isin, default: .empty)
+        
         minPriceIncrement = try values.decodeIfPresent(forKey: .minPriceIncrement, default: 0.01)
 		lot = try values.decodeIfPresent(forKey: .lot, default: 1)
 		minQuantity = try values.decodeIfPresent(forKey: .minQuantity, default: 1)
         
-		name = try values.decodeIfPresent(forKey: .name)
-        
-        currencyRaw = try values.decodeIfPresent(forKey: .currency, default: Instrument.defaultCurrency.rawValue)
-        typeRaw = try values.decodeIfPresent(forKey: .type, default: Instrument.defaultInstrument.rawValue)
+        currency = try values.decodeIfPresent(forKey: .currency, default: Instrument.defaultCurrency)
+        type = try values.decodeIfPresent(forKey: .type, default: Instrument.defaultInstrument)
 	}
     
-    // Hashable
-    
-//    public static func == (lhs: Instrument, rhs: Instrument) -> Bool {
-//        lhs.hashValue == rhs.hashValue
-//    }
-    
-//    public override func hash(into hasher: inout Hasher) {
-//        hasher.combine(figi)
-//        hasher.combine(ticker)
-//    }
-
+    public init(instrument: InstrumentR) {
+        self.name = instrument.name
+        self.ticker = instrument.ticker
+        self.figi = instrument.figi
+        self.isin = instrument.isin
+        self.minQuantity = instrument.minQuantity
+        self.minPriceIncrement = instrument.minPriceIncrement
+        self.lot = instrument.lot
+        self.currency = Currency(rawValue: instrument.currencyRaw) ?? Instrument.defaultCurrency
+        self.type = InstrumentType(rawValue: instrument.typeRaw) ?? Instrument.defaultInstrument
+    }
 }
