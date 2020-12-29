@@ -375,12 +375,12 @@
 		EF76A091257FA7FE00991AE3 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				EFB535402592207A00C93C3C /* Data Base */,
 				EF76A092257FA7FE00991AE3 /* InvestingApp.swift */,
 				EF76A0FE257FB4AF00991AE3 /* Application */,
-				EFBA420D25821ED100C2AFC8 /* Utils */,
-				EF76A171257FCE1600991AE3 /* API */,
 				EF76A10A257FB4D100991AE3 /* Views */,
+				EFBA420D25821ED100C2AFC8 /* Utils */,
+				EFB535402592207A00C93C3C /* Data Base */,
+				EF76A171257FCE1600991AE3 /* API */,
 				EF76A094257FA80200991AE3 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -453,7 +453,7 @@
 				EF9581BB25909ECA00D559E7 /* Home tab */,
 				EF761AD72590E5B900320289 /* Analytics Tab */,
 				EF9581D62590A0F200D559E7 /* Operations Tab */,
-				EF8114AC2596371300773236 /* Currency tab */,
+				EF8114AC2596371300773236 /* Settings tab */,
 				EFBA424825828BDE00C2AFC8 /* ComissionView.swift */,
 				EFB6B0B52583C30D00D9F924 /* CurrencyView.swift */,
 				EF4F18D6258DF46C008BD22A /* TickersView.swift */,
@@ -504,12 +504,12 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		EF8114AC2596371300773236 /* Currency tab */ = {
+		EF8114AC2596371300773236 /* Settings tab */ = {
 			isa = PBXGroup;
 			children = (
 				EF8114B12596375700773236 /* CurrencyTabView.swift */,
 			);
-			path = "Currency tab";
+			path = "Settings tab";
 			sourceTree = "<group>";
 		};
 		EF9581632590903000D559E7 /* InvestModels */ = {

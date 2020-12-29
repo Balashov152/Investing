@@ -110,11 +110,11 @@ struct MainView: View {
             profileView
             analyticsView
             operationsView
-            CurrencyTabView(viewModel: .init())
+            SettingsTabView(viewModel: .init())
                 .tabItem {
                     VStack {
-                        Image(systemName: "dollarsign.circle")
-                        Text("Profile")
+                        Image(systemName: "gear")
+                        Text("Settings")
                     }
                 }
         }

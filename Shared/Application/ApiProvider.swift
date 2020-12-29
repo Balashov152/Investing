@@ -44,7 +44,10 @@ class ApiProvider<Target>: MoyaProvider<Target> where Target: TargetType {
 }
 
 extension TargetType {
-    var baseURL: URL { Settings.kBaseUrl }
+    var baseURL: URL {
+        URL(string: "https://api-invest.tinkoff.ru/openapi")!
+    }
+
     var headers: [String: String]? { nil }
 
     var sampleData: Data { Data() }
@@ -77,7 +80,7 @@ extension Response {
 struct BearerTokenPlugin: PluginType {
     public func prepare(_ request: URLRequest, target _: TargetType) -> URLRequest {
         var request = request
-        let authValue = AuthorizationType.bearer.value + " " + Settings.apiToken
+        let authValue = AuthorizationType.bearer.value + " " + Settings.shared.apiToken
         request.addValue(authValue, forHTTPHeaderField: "Authorization")
         return request
     }
