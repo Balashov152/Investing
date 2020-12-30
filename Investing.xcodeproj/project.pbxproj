@@ -96,8 +96,6 @@
 		EFC02AFE25800BD3008AF0FF /* OperationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02AFC25800BD3008AF0FF /* OperationsView.swift */; };
 		EFC02B0825800BF6008AF0FF /* OperationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02B0725800BF6008AF0FF /* OperationsService.swift */; };
 		EFC02B0925800BF6008AF0FF /* OperationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02B0725800BF6008AF0FF /* OperationsService.swift */; };
-		EFC5A61825966BC8008E2B11 /* DividentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC5A61725966BC8008E2B11 /* DividentsView.swift */; };
-		EFC5A61925966BC8008E2B11 /* DividentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC5A61725966BC8008E2B11 /* DividentsView.swift */; };
 		EFC7F6882595F13A000A6A80 /* CurrencyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7F6872595F13A000A6A80 /* CurrencyPair.swift */; };
 		EFC7F6972595F17B000A6A80 /* CurrencyConvertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7F6962595F17B000A6A80 /* CurrencyConvertModel.swift */; };
 		EFC99748258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
@@ -245,7 +243,6 @@
 		EFC02B0F25800C49008AF0FF /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		EFC02B1025800C49008AF0FF /* Trades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trades.swift; sourceTree = "<group>"; };
 		EFC02B2C25800CE3008AF0FF /* OperationsPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationsPayload.swift; sourceTree = "<group>"; };
-		EFC5A61725966BC8008E2B11 /* DividentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividentsView.swift; sourceTree = "<group>"; };
 		EFC7F6872595F13A000A6A80 /* CurrencyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPair.swift; sourceTree = "<group>"; };
 		EFC7F6962595F17B000A6A80 /* CurrencyConvertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConvertModel.swift; sourceTree = "<group>"; };
 		EFC99735258114DC00A722F7 /* InstrumentsPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentsPayload.swift; sourceTree = "<group>"; };
@@ -378,12 +375,12 @@
 		EF76A091257FA7FE00991AE3 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				EFB535402592207A00C93C3C /* Data Base */,
 				EF76A092257FA7FE00991AE3 /* InvestingApp.swift */,
 				EF76A0FE257FB4AF00991AE3 /* Application */,
-				EFBA420D25821ED100C2AFC8 /* Utils */,
-				EF76A171257FCE1600991AE3 /* API */,
 				EF76A10A257FB4D100991AE3 /* Views */,
+				EFBA420D25821ED100C2AFC8 /* Utils */,
+				EFB535402592207A00C93C3C /* Data Base */,
+				EF76A171257FCE1600991AE3 /* API */,
 				EF76A094257FA80200991AE3 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -456,8 +453,10 @@
 				EF9581BB25909ECA00D559E7 /* Home tab */,
 				EF761AD72590E5B900320289 /* Analytics Tab */,
 				EF9581D62590A0F200D559E7 /* Operations Tab */,
-				EF8114AC2596371300773236 /* Currency tab */,
-				EFC5A61225966B9D008E2B11 /* Analitycs Views */,
+				EF8114AC2596371300773236 /* Settings tab */,
+				EFBA424825828BDE00C2AFC8 /* ComissionView.swift */,
+				EFB6B0B52583C30D00D9F924 /* CurrencyView.swift */,
+				EF4F18D6258DF46C008BD22A /* TickersView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -505,12 +504,12 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		EF8114AC2596371300773236 /* Currency tab */ = {
+		EF8114AC2596371300773236 /* Settings tab */ = {
 			isa = PBXGroup;
 			children = (
 				EF8114B12596375700773236 /* CurrencyTabView.swift */,
 			);
-			path = "Currency tab";
+			path = "Settings tab";
 			sourceTree = "<group>";
 		};
 		EF9581632590903000D559E7 /* InvestModels */ = {
@@ -609,17 +608,6 @@
 				EFC02B1025800C49008AF0FF /* Trades.swift */,
 			);
 			path = Operations;
-			sourceTree = "<group>";
-		};
-		EFC5A61225966B9D008E2B11 /* Analitycs Views */ = {
-			isa = PBXGroup;
-			children = (
-				EFBA424825828BDE00C2AFC8 /* ComissionView.swift */,
-				EFB6B0B52583C30D00D9F924 /* CurrencyView.swift */,
-				EF4F18D6258DF46C008BD22A /* TickersView.swift */,
-				EFC5A61725966BC8008E2B11 /* DividentsView.swift */,
-			);
-			path = "Analitycs Views";
 			sourceTree = "<group>";
 		};
 		EFC7F6862595F132000A6A80 /* CurrencyPair */ = {
@@ -968,7 +956,6 @@
 				EFB6B0B62583C30D00D9F924 /* CurrencyView.swift in Sources */,
 				EFC02AFD25800BD3008AF0FF /* OperationsView.swift in Sources */,
 				EF76A110257FB55000991AE3 /* Settings.swift in Sources */,
-				EFC5A61825966BC8008E2B11 /* DividentsView.swift in Sources */,
 				EF76A0BD257FA80200991AE3 /* MainView.swift in Sources */,
 				EF761AD92590E5DD00320289 /* AnalyticsView.swift in Sources */,
 				EFC99748258115B000A722F7 /* InstrumentsService.swift in Sources */,
@@ -1020,7 +1007,6 @@
 				EF76A0F0257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE625800086008AF0FF /* PositionRowView.swift in Sources */,
 				EF4F18D8258DF46C008BD22A /* TickersView.swift in Sources */,
-				EFC5A61925966BC8008E2B11 /* DividentsView.swift in Sources */,
 				EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EF761AF22590FF6200320289 /* RealmManager.swift in Sources */,
 				EFBA424A25828BDE00C2AFC8 /* ComissionView.swift in Sources */,
