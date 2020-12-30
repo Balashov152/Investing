@@ -14,8 +14,9 @@ extension Collection where Element == Operation {
     }
 
     func envSum(env: Environment) -> Double {
-        map { $0.convert(money: MoneyAmount(currency: $0.currency, value: $0.payment), to: env.currency()) }
-            .map { $0.value }.reduce(0, +)
+        map { operation in
+            operation.convertPay(to: env.currency())
+        }.map { $0.value }.reduce(0, +)
     }
 }
 
@@ -36,5 +37,38 @@ extension DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = string
         return formatter
+    }
+}
+
+extension Double {
+    func formattedCurrency(locale: Locale = Locale(identifier: "ru_RU")) -> String {
+        (self as NSNumber).formattedCurrency(locale: locale)
+    }
+}
+
+extension NSNumber {
+    func formattedCurrency(locale: Locale = Locale(identifier: "ru_RU")) -> String {
+        let formater = NumberFormatter()
+        formater.groupingSeparator = " "
+        formater.numberStyle = .currency
+        formater.locale = locale
+        let isInteger = floor(doubleValue) == doubleValue
+        formater.minimumFractionDigits = isInteger ? 0 : 2
+        return formater.string(from: self).orEmpty
+    }
+}
+
+extension Currency {
+    var locale: Locale {
+        switch self {
+        case .USD:
+            return Locale(identifier: "en_US")
+        case .RUB:
+            return Locale(identifier: "ru_RU")
+        case .EUR:
+            return Locale(identifier: "eu_EU")
+        default:
+            return Locale(identifier: "ru_RU")
+        }
     }
 }

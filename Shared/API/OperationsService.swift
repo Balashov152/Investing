@@ -44,21 +44,17 @@ class OperationsService: CancebleObject, ObservableObject {
     }
 
     func fillOperationFromDB(operation: inout Operation) {
-        guard let figi = operation.figi,
-              let instrumentR = realmManager.object(InstrumentR.self, for: figi)
-        else {
-            return
+        if let figi = operation.figi,
+           let instrumentR = realmManager.object(InstrumentR.self, for: figi)
+        {
+            operation.instrument = Instrument(instrument: instrumentR)
         }
 
-        operation.instrument = Instrument(instrument: instrumentR)
-
-        guard let pair = realmManager.object(CurrencyPairR.self,
-                                             for: CurrencyPair.dateFormatter.string(from: operation.date))
-        else {
-            return
+        if let pair = realmManager.object(CurrencyPairR.self,
+                                          for: CurrencyPair.dateFormatter.string(from: operation.date))
+        {
+            operation.currencyPair = CurrencyPair(currencyPairR: pair)
         }
-
-        operation.currencyPair = CurrencyPair(currencyPairR: pair)
     }
 }
 

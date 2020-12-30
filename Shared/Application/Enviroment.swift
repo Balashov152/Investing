@@ -43,7 +43,7 @@ struct API {
 }
 
 struct DateInterval {
-    static let lastYear = DateInterval(start: Calendar.current.date(byAdding: .month, value: -1, to: Date())!, end: Date())
+    static let lastYear = DateInterval(start: Calendar.current.date(byAdding: .year, value: -1, to: Date())!, end: Date())
 
     let start, end: Date
 }

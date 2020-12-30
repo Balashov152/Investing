@@ -11,7 +11,15 @@ import SwiftUI
 
 class CurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var sections: [Section] = []
-    @Published var buyUSD: Double = 0
+    @Published var sellRUB = MoneyAmount(currency: .RUB, value: 0)
+    @Published var buyUSD = MoneyAmount(currency: .USD, value: 0)
+
+    var total: Set<Total> = []
+
+    struct Total: Hashable {
+        let cur: Currency
+        let value: Double
+    }
 
     let filterBuyUsd: ((Operation) -> Bool) = {
         $0.instrument?.currency == .some(.RUB) &&
@@ -20,8 +28,7 @@ class CurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
             $0.currency == .RUB
     }
 
-    let currences: [Currency] = [.USD, .RUB, .EUR]
-    let types: [Operation.OperationTypeWithCommission] = [.PayIn, .PayOut]
+    let currences: [Currency] = [.RUB, .USD, .EUR]
 
     override func bindings() {
         env.operationsService.$operations
@@ -29,7 +36,26 @@ class CurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
             .map { [unowned self] operations in
                 mapToSections(operations: operations)
             }
+            .receive(on: DispatchQueue.main)
             .assign(to: \.sections, on: self)
+            .store(in: &cancellables)
+
+        let buyUSDOperations = env.operationsService.$operations
+            .receive(on: DispatchQueue.global())
+            .map { $0.filter(self.filterBuyUsd) }
+            .share()
+
+        buyUSDOperations
+            .map { MoneyAmount(currency: .RUB, value: $0.sum) }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.sellRUB, on: self)
+            .store(in: &cancellables)
+
+        buyUSDOperations
+            .map { MoneyAmount(currency: .USD,
+                               value: $0.reduce(0) { $0 + Double($1.quantityExecuted) }) }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.buyUSD, on: self)
             .store(in: &cancellables)
     }
 
@@ -49,21 +75,19 @@ class CurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
             let rows = Section.RowType.allCases.map { type -> Section.Row in
                 switch type {
                 case .payIn:
-                    return Section.Row(title: type, value: payIn)
+                    return Section.Row(title: type,
+                                       value: .init(currency: currency, value: payIn))
                 case .payOut:
-                    return Section.Row(title: type, value: payOut)
+                    return Section.Row(title: type,
+                                       value: .init(currency: currency, value: payOut))
                 case .total:
-                    return Section.Row(title: type, value: payIn + payOut)
+                    return Section.Row(title: type,
+                                       value: .init(currency: currency, value: payIn + payOut))
                 }
             }
-
             return Section(currency: currency, rows: rows)
         }
     }
-
-//    func loadView() {
-//        buyUSD = Double(mainViewModel.operations.filter(filterBuyUsd).reduce(0) { $0 + $1.quantityExecuted })
-//    }
 }
 
 extension CurrencyViewModel {
@@ -73,7 +97,7 @@ extension CurrencyViewModel {
 
         struct Row: Hashable {
             let title: RowType
-            let value: Double
+            let value: MoneyAmount
         }
 
         enum RowType: String, Hashable, CaseIterable {
@@ -98,10 +122,15 @@ struct CurrencyView: View {
 
     var body: some View {
         List {
+            Section(header: Text("Buy currency").font(.title)) {
+                commisionCell(label: "Sell RUB", money: viewModel.sellRUB)
+                commisionCell(label: "Buy USD", money: viewModel.buyUSD)
+            }
+
             ForEach(viewModel.sections, id: \.self) { section in
                 Section(header: Text(section.currency.rawValue).font(.title)) {
                     ForEach(section.rows, id: \.self) { currency in
-                        commisionCell(label: currency.title.name, double: currency.value)
+                        commisionCell(label: currency.title.name, money: currency.value)
                     }
                 }
             }
@@ -111,12 +140,11 @@ struct CurrencyView: View {
         .onAppear(perform: viewModel.loadOperaions)
     }
 
-    func commisionCell(label: String, double: Double) -> some View {
+    func commisionCell(label: String, money: MoneyAmount) -> some View {
         HStack {
             Text(label)
             Spacer()
-            Text(double.string(f: ".2"))
-                .foregroundColor(.currency(value: double))
+            MoneyText(money: money)
         }
     }
 }

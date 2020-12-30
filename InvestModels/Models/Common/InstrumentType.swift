@@ -8,6 +8,6 @@
 import Foundation
 import UIKit
 
-public enum InstrumentType: String, Codable {
+public enum InstrumentType: String, Codable, CaseIterable {
     case Stock, Currency, Bond, Etf
 }

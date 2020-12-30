@@ -50,9 +50,8 @@ struct PositionRowView: View {
             }
 
             if let value = position.expectedYield?.value {
-                Text(value.string(f: ".2"))
+                MoneyText(money: .init(currency: .USD, value: value))
                     .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(value > 0 ? .green : .red)
             }
         }
     }

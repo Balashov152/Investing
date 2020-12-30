@@ -14,28 +14,39 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     struct Section: Hashable {
         let type: InstrumentType
         let positions: [Position]
+        let currencies: [CurrencyPosition]
     }
 
     @Published var sections: [Section] = []
-//    @Published var positions: [Position] = []
+    @Published var positions: [Position] = []
     @Published var currencies: [CurrencyPosition] = []
 
     public func loadPositions() {
-        env.positionService.getPositions()
-            .replaceError(with: [])
+        Publishers.CombineLatest($positions, $currencies)
             .receive(on: DispatchQueue.global())
-            .map { positions -> [Section] in
-                if positions.isEmpty { return [] }
-                return [InstrumentType.Stock, .Bond, .Etf].compactMap { type -> Section? in
-                    let filtered = positions.filter { $0.instrumentType == .some(type) }
-                    if !filtered.isEmpty {
-                        return Section(type: type, positions: filtered)
+            .map { positions, currencies -> [Section] in
+                InstrumentType.allCases.compactMap { type -> Section? in
+                    switch type {
+                    case .Stock, .Bond, .Etf:
+                        let filtered = positions.filter { $0.instrumentType == .some(type) }
+                        if !filtered.isEmpty {
+                            return Section(type: type, positions: filtered, currencies: [])
+                        }
+                    case .Currency:
+                        if !currencies.isEmpty {
+                            return Section(type: type, positions: [], currencies: currencies)
+                        }
                     }
+
                     return nil
                 }
-            }
-            .receive(on: DispatchQueue.main)
+            }.receive(on: DispatchQueue.main)
             .assign(to: \.sections, on: self)
+            .store(in: &cancellables)
+
+        env.positionService.getPositions()
+            .replaceError(with: [])
+            .assign(to: \.positions, on: self)
             .store(in: &cancellables)
 
         env.positionService.getCurrences()
