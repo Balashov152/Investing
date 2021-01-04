@@ -10,7 +10,7 @@ import InvestModels
 
 extension Environment {
     static let current = Environment(settings: { Settings() },
-                                     dateInterval: { .lastYear }, currency: { .RUB },
+                                     dateInterval: { Settings.shared.dateInterval }, currency: { .RUB },
                                      api: { .current })
 }
 

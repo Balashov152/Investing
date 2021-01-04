@@ -33,7 +33,6 @@ public extension CurrencyConvertModel {
         case (.USD, .RUB):  // USD -> RUB
             let newValue = money.value / currencyPair.USD
             debugPrint("USD(\(money.value)) -> RUB(\(newValue))")
-<<<<<<< HEAD
             return MoneyAmount(currency: currency, value: newValue)
         case (.RUB, .EUR):
             let newValue = money.value * currencyPair.EUR
@@ -42,8 +41,6 @@ public extension CurrencyConvertModel {
         case (.EUR, .RUB):
             let newValue = money.value / currencyPair.EUR
             debugPrint("EUR(\(money.value)) -> RUB(\(newValue))")
-=======
->>>>>>> 60f32f9860ea8e20e18e368baaf4f41fc874579d
             return MoneyAmount(currency: currency, value: newValue)
         default:
             assertionFailure("not implement case \((money.currency, currency))")
