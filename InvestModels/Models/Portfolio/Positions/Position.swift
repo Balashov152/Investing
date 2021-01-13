@@ -23,15 +23,45 @@ extension Position: Hashable {
     }
     
     public var totalBuyPayment: Double {
-        (averagePositionPrice?.value ?? 0) * Double(lots ?? 0)
+        (averagePositionPrice?.value ?? 0) * Double(lots)
     }
 
     public var totalInProfile: Double {
         totalBuyPayment + (expectedYield?.value ?? 0)
     }
+    
+    public var delta: Double {
+        totalBuyPayment + (expectedYield?.value ?? 0)
+    }
+    
+    public var averagePositionPriceNow: MoneyAmount? {
+        if let avg = averagePositionPrice {
+            return MoneyAmount(currency: avg.currency, value: totalInProfile / Double(lots))
+        }
+        return nil
+    }
 }
 
 public struct Position: Decodable {
+    public init(name: String?, figi: String?, ticker: String?, isin: String?,
+                instrumentType: InstrumentType?, balance: Double?, blocked: Double?,
+                lots: Int, expectedYield: MoneyAmount?,
+                averagePositionPrice: MoneyAmount?,
+                averagePositionPriceNoNkd: MoneyAmount?) {
+        
+        self.name = name
+        self.figi = figi
+        self.ticker = ticker
+        self.isin = isin
+        self.instrumentType = instrumentType
+        self.balance = balance
+        self.blocked = blocked
+        self.lots = lots
+        self.expectedYield = expectedYield
+        self.averagePositionPrice = averagePositionPrice
+        self.averagePositionPriceNoNkd = averagePositionPriceNoNkd
+    }
+    
     public let name: String?
     public let figi: String?
     public let ticker: String?

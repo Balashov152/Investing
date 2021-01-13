@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum LoadingState<Object>: Equatable  {
+enum LoadingState<Object>: Equatable {
     static func == (lhs: LoadingState<Object>, rhs: LoadingState<Object>) -> Bool {
         switch (lhs, rhs) {
         case (.loading, .loading):

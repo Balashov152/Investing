@@ -135,6 +135,14 @@ struct TickersView: View {
     }
 }
 
+struct CurrencyText: View {
+    let money: MoneyAmount
+
+    var body: some View {
+        Text(money.value.formattedCurrency(locale: money.currency.locale))
+    }
+}
+
 struct MoneyText: View {
     let money: MoneyAmount
 
