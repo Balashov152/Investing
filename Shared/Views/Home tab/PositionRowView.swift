@@ -17,18 +17,20 @@ struct PositionRowView: View {
             HStack {
                 positionName
                 Spacer()
-                Text("Lots: " + position.lots.string)
+                Text(position.lots.string + " pcs")
             }
             .lineLimit(1)
             .font(.system(size: 17, weight: .bold))
 
             HStack {
-                leftStack
+                leftStack.font(.system(size: 14))
                 Spacer()
                 centralStack
                 Spacer()
-                rightStack
-            }.padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+                rightStack.font(.system(size: 14))
+            }
+
+            .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
         } // .padding()
     }
 
@@ -59,16 +61,16 @@ struct PositionRowView: View {
                                               value: Double(position.lots) * value.value))
                 }
             }
-        }.font(.system(size: 12, weight: .semibold))
+        }
     }
 
     var centralStack: some View {
         VStack(alignment: .center) {
-            if let value = position.expectedYield / position.lots {
+            if let value = position.deltaAveragePositionPrice {
                 MoneyText(money: value)
                     .font(.system(size: 14, weight: .semibold))
             }
-            
+
             if let value = position.expectedYield {
                 MoneyText(money: value)
                     .font(.system(size: 14, weight: .semibold))
@@ -84,7 +86,6 @@ struct PositionRowView: View {
 
             if let value = position.totalInProfile {
                 Text(value.string(f: ".2"))
-                    .font(.system(size: 12))
             }
         }
     }

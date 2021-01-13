@@ -28,7 +28,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
                 [InstrumentType.Stock, .Bond, .Etf].compactMap { type -> Section? in
                     let filtered = positions
                         .filter { $0.instrumentType == .some(type) }
-                        .sorted { ($0.expectedYield?.value ?? 0) > ($1.expectedYield?.value ?? 0) }
+                        .sorted { $0.name.orEmpty < $1.name.orEmpty }
                     if !filtered.isEmpty {
                         return Section(type: type, positions: filtered, currencies: [])
                     }

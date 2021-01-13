@@ -30,13 +30,18 @@ extension Position: Hashable {
         totalBuyPayment + (expectedYield?.value ?? 0)
     }
     
-    public var delta: Double {
-        totalBuyPayment + (expectedYield?.value ?? 0)
+    public var deltaAveragePositionPrice: MoneyAmount? {
+        if let expectedYield = expectedYield {
+            let delta = expectedYield.value / Double(lots)
+            return MoneyAmount(currency: expectedYield.currency, value: delta)
+        }
+        return nil
     }
     
     public var averagePositionPriceNow: MoneyAmount? {
         if let avg = averagePositionPrice {
-            return MoneyAmount(currency: avg.currency, value: totalInProfile / Double(lots))
+            return MoneyAmount(currency: avg.currency,
+                               value: totalInProfile / Double(lots))
         }
         return nil
     }
