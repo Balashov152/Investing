@@ -13,6 +13,10 @@
 		EF637FEF259362DA00D2C42D /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FED259362D900D2C42D /* DBManager.swift */; };
 		EF637FFC259364FF00D2C42D /* CurrencyPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */; };
 		EF637FFD259364FF00D2C42D /* CurrenciesPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FFB259364FF00D2C42D /* CurrenciesPayload.swift */; };
+		EF647E5C25AF41BE00D20761 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF647E5B25AF41BE00D20761 /* LoadingState.swift */; };
+		EF647E5D25AF41BE00D20761 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF647E5B25AF41BE00D20761 /* LoadingState.swift */; };
+		EF647E6725AF41D100D20761 /* LoadingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF647E6625AF41D100D20761 /* LoadingError.swift */; };
+		EF647E6825AF41D100D20761 /* LoadingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF647E6625AF41D100D20761 /* LoadingError.swift */; };
 		EF761AD92590E5DD00320289 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AD82590E5DD00320289 /* AnalyticsView.swift */; };
 		EF761ADA2590E5DD00320289 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AD82590E5DD00320289 /* AnalyticsView.swift */; };
 		EF761AF12590FF6200320289 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AF02590FF6200320289 /* RealmManager.swift */; };
@@ -187,6 +191,9 @@
 		EF637FED259362D900D2C42D /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyPosition.swift; sourceTree = "<group>"; };
 		EF637FFB259364FF00D2C42D /* CurrenciesPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrenciesPayload.swift; sourceTree = "<group>"; };
+		EF647E5B25AF41BE00D20761 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
+		EF647E6625AF41D100D20761 /* LoadingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingError.swift; sourceTree = "<group>"; };
+		EF647E6D25AF420200D20761 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EF761AD82590E5DD00320289 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
 		EF761AF02590FF6200320289 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		EF76A092257FA7FE00991AE3 /* InvestingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestingApp.swift; sourceTree = "<group>"; };
@@ -379,6 +386,7 @@
 		EF76A091257FA7FE00991AE3 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				EF647E6D25AF420200D20761 /* README.md */,
 				EF76A092257FA7FE00991AE3 /* InvestingApp.swift */,
 				EF76A0FE257FB4AF00991AE3 /* Application */,
 				EF76A10A257FB4D100991AE3 /* Views */,
@@ -597,6 +605,8 @@
 				EF9581B325909E5500D559E7 /* CommonViewModel.swift */,
 				EF9581C925909FC800D559E7 /* OperationSum.swift */,
 				EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */,
+				EF647E5B25AF41BE00D20761 /* LoadingState.swift */,
+				EF647E6625AF41D100D20761 /* LoadingError.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -970,6 +980,7 @@
 				EF76A0BD257FA80200991AE3 /* MainView.swift in Sources */,
 				EF761AD92590E5DD00320289 /* AnalyticsView.swift in Sources */,
 				EFC99748258115B000A722F7 /* InstrumentsService.swift in Sources */,
+				EF647E5C25AF41BE00D20761 /* LoadingState.swift in Sources */,
 				EF9581BD25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF9581B425909E5500D559E7 /* CommonViewModel.swift in Sources */,
 				EF76A0BB257FA80200991AE3 /* InvestingApp.swift in Sources */,
@@ -984,6 +995,7 @@
 				EFF46B77259C6B6200EFD02A /* CurrencyView.swift in Sources */,
 				EFF46B79259C6B6200EFD02A /* DividentsView.swift in Sources */,
 				EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
+				EF647E6725AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF761AF12590FF6200320289 /* RealmManager.swift in Sources */,
 				EFF46B75259C6B6200EFD02A /* TickersView.swift in Sources */,
 				EF76A123257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
@@ -1013,6 +1025,7 @@
 				EFC02B0925800BF6008AF0FF /* OperationsService.swift in Sources */,
 				EFB5354F2592209500C93C3C /* CurrencyPairService.swift in Sources */,
 				EFB535D92592450200C93C3C /* Enviroment.swift in Sources */,
+				EF647E5D25AF41BE00D20761 /* LoadingState.swift in Sources */,
 				EF9581CB25909FC800D559E7 /* OperationSum.swift in Sources */,
 				EF76A0D5257FAA5A00991AE3 /* HomeView.swift in Sources */,
 				EFF78C5725933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
@@ -1024,6 +1037,7 @@
 				EFF46B76259C6B6200EFD02A /* TickersView.swift in Sources */,
 				EF761AF22590FF6200320289 /* RealmManager.swift in Sources */,
 				EFF46B74259C6B6200EFD02A /* ComissionView.swift in Sources */,
+				EF647E6825AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF76A124257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
 				EF76A174257FCE2100991AE3 /* AccountService.swift in Sources */,
 				EF9581D92590A10100D559E7 /* OperationRowView.swift in Sources */,
