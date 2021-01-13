@@ -24,20 +24,14 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     public func loadPositions() {
         Publishers.CombineLatest($positions, $currencies)
             .receive(on: DispatchQueue.global())
-            .map { positions, currencies -> [Section] in
-                InstrumentType.allCases.compactMap { type -> Section? in
-                    switch type {
-                    case .Stock, .Bond, .Etf:
-                        let filtered = positions.filter { $0.instrumentType == .some(type) }
-                        if !filtered.isEmpty {
-                            return Section(type: type, positions: filtered, currencies: [])
-                        }
-                    case .Currency:
-                        if !currencies.isEmpty {
-                            return Section(type: type, positions: [], currencies: currencies)
-                        }
+            .map { positions, _ -> [Section] in
+                [InstrumentType.Stock, .Bond, .Etf].compactMap { type -> Section? in
+                    let filtered = positions
+                        .filter { $0.instrumentType == .some(type) }
+                        .sorted { ($0.expectedYield?.value ?? 0) > ($1.expectedYield?.value ?? 0) }
+                    if !filtered.isEmpty {
+                        return Section(type: type, positions: filtered, currencies: [])
                     }
-
                     return nil
                 }
             }.receive(on: DispatchQueue.main)
@@ -73,7 +67,7 @@ struct HomeView: View {
                     HStack {
                         Text(currency.currency.rawValue)
                         Spacer()
-                        Text(currency.balance.string(f: ".2"))
+                        MoneyText(money: .init(currency: currency.currency, value: currency.balance))
                     }
                 }
             }

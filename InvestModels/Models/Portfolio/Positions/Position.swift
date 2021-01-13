@@ -21,6 +21,14 @@ extension Position: Hashable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(ticker)
     }
+    
+    public var totalBuyPayment: Double {
+        (averagePositionPrice?.value ?? 0) * Double(lots ?? 0)
+    }
+
+    public var totalInProfile: Double {
+        totalBuyPayment + (expectedYield?.value ?? 0)
+    }
 }
 
 public struct Position: Decodable {
@@ -34,19 +42,11 @@ public struct Position: Decodable {
     public let balance: Double?
     public let blocked: Double?
 
-    public let lots: Int?
+    public let lots: Int
 
     public let expectedYield: MoneyAmount?
     public let averagePositionPrice: MoneyAmount?
     public let averagePositionPriceNoNkd: MoneyAmount?
-
-    public var totalBuyPayment: Double {
-        (averagePositionPrice?.value ?? 0) * Double(lots ?? 0)
-    }
-
-    public var totalInProfile: Double {
-        totalBuyPayment + (expectedYield?.value ?? 0)
-    }
 
     public init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
@@ -57,7 +57,7 @@ public struct Position: Decodable {
 		balance = try values.decodeIfPresent(forKey: .balance)
 		blocked = try values.decodeIfPresent(forKey: .blocked)
 		expectedYield = try values.decodeIfPresent(forKey: .expectedYield)
-		lots = try values.decodeIfPresent(forKey: .lots)
+		lots = try values.decodeIfPresent(forKey: .lots, default: 0)
 		averagePositionPrice = try values.decodeIfPresent(forKey: .averagePositionPrice)
 		averagePositionPriceNoNkd = try values.decodeIfPresent(forKey: .averagePositionPriceNoNkd)
 		name = try values.decodeIfPresent(forKey: .name)
