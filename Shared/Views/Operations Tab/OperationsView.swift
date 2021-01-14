@@ -24,8 +24,8 @@ class OperationsViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         super.bindings()
-        env.operationsService.$operations.sink(receiveValue: { _ in 
-            objectWillChange.send()
+        env.operationsService.$operations.sink(receiveValue: { _ in
+            self.objectWillChange.send()
         }).store(in: &cancellables)
     }
 }
