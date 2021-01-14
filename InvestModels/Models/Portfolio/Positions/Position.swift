@@ -22,36 +22,41 @@ extension Position: Hashable {
         hasher.combine(ticker)
     }
     
-    public var totalBuyPayment: Double {
-        (averagePositionPrice?.value ?? 0) * Double(lots)
+    public var currency: Currency {
+        averagePositionPrice.currency
+    }
+    
+    public var totalBuyPayment: MoneyAmount {
+        MoneyAmount(currency: currency,
+                    value: averagePositionPrice.value * Double(lots))
     }
 
-    public var totalInProfile: Double {
-        totalBuyPayment + (expectedYield?.value ?? 0)
+    public var totalInProfile: MoneyAmount {
+        MoneyAmount(currency: currency,
+                    value: totalBuyPayment.value + expectedYield.value)
     }
     
-    public var deltaAveragePositionPrice: MoneyAmount? {
-        if let expectedYield = expectedYield {
-            let delta = expectedYield.value / Double(lots)
-            return MoneyAmount(currency: expectedYield.currency, value: delta)
-        }
-        return nil
+    public var deltaAveragePositionPrice: MoneyAmount {
+        MoneyAmount(currency: expectedYield.currency,
+                           value: expectedYield.value / Double(lots))
     }
     
-    public var averagePositionPriceNow: MoneyAmount? {
-        if let avg = averagePositionPrice {
-            return MoneyAmount(currency: avg.currency,
-                               value: totalInProfile / Double(lots))
-        }
-        return nil
+    public var averagePositionPriceNow: MoneyAmount {
+        MoneyAmount(currency: currency,
+                    value: totalInProfile.value / Double(lots))
+    }
+    
+    public var expectedPercent: Double {
+        (expectedYield.value / totalBuyPayment.value) * 100
     }
 }
 
 public struct Position: Decodable {
     public init(name: String?, figi: String?, ticker: String?, isin: String?,
                 instrumentType: InstrumentType?, balance: Double?, blocked: Double?,
-                lots: Int, expectedYield: MoneyAmount?,
-                averagePositionPrice: MoneyAmount?,
+                lots: Int,
+                expectedYield: MoneyAmount,
+                averagePositionPrice: MoneyAmount,
                 averagePositionPriceNoNkd: MoneyAmount?) {
         
         self.name = name
@@ -79,8 +84,8 @@ public struct Position: Decodable {
 
     public let lots: Int
 
-    public let expectedYield: MoneyAmount?
-    public let averagePositionPrice: MoneyAmount?
+    public let expectedYield: MoneyAmount
+    public let averagePositionPrice: MoneyAmount
     public let averagePositionPriceNoNkd: MoneyAmount?
 
     public init(from decoder: Decoder) throws {
@@ -91,15 +96,15 @@ public struct Position: Decodable {
 		instrumentType = try values.decodeIfPresent(forKey: .instrumentType)
 		balance = try values.decodeIfPresent(forKey: .balance)
 		blocked = try values.decodeIfPresent(forKey: .blocked)
-		expectedYield = try values.decodeIfPresent(forKey: .expectedYield)
-		lots = try values.decodeIfPresent(forKey: .lots, default: 0)
-		averagePositionPrice = try values.decodeIfPresent(forKey: .averagePositionPrice)
+        lots = try values.decodeIfPresent(forKey: .lots, default: 0)
+        
+        expectedYield = try values.decodeIfPresent(forKey: .expectedYield, default: MoneyAmount(currency: .USD, value: 0))
+		averagePositionPrice = try values.decodeIfPresent(forKey: .averagePositionPrice, default: MoneyAmount(currency: .USD, value: 0))
 		averagePositionPriceNoNkd = try values.decodeIfPresent(forKey: .averagePositionPriceNoNkd)
 		name = try values.decodeIfPresent(forKey: .name)
 	}
 
     public enum CodingKeys: String, CodingKey {
-
         case figi = "figi"
         case ticker = "ticker"
         case isin = "isin"

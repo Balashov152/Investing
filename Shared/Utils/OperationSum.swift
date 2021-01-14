@@ -53,7 +53,7 @@ extension NSNumber {
         formater.numberStyle = .currency
         formater.locale = locale
         let isInteger = floor(doubleValue) == doubleValue
-        formater.minimumFractionDigits = isInteger ? 0 : 2
+        formater.minimumFractionDigits = 2 // isInteger ? 0 : 2
         return formater.string(from: self).orEmpty
     }
 }

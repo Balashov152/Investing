@@ -10,11 +10,6 @@ import InvestModels
 import SwiftUI
 
 struct ResultTickerMoney: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(instrument)
-        hasher.combine(money)
-    }
-
     let instrument: Instrument
     let money: MoneyAmount
 }
@@ -70,9 +65,9 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     private func mapToResults(operations: [Operation], positions: [Position]) -> [ResultTickerMoney] {
-        let uniqTickers = Array(Set(operations.compactMap { $0.instrument }))
+        let uniqTickers = Array(Set(operations.compactMap { $0.instrument }.filter { $0.type != .Currency }))
         return uniqTickers.map { ticker -> ResultTickerMoney in
-            let nowInProfile: Double = positions.first(where: { $0.figi == ticker.figi })?.totalInProfile ?? 0
+            let nowInProfile: Double = positions.first(where: { $0.figi == ticker.figi })?.totalInProfile.value ?? 0
             let allOperationsForTicker = operations.filter { $0.instrument?.figi == ticker.figi }
             let sumOperation = allOperationsForTicker.sum + nowInProfile
             return ResultTickerMoney(instrument: ticker,
@@ -93,9 +88,13 @@ struct TickersView: View {
                           currency: .init(currency: .USD, value: viewModel.totalUSD))
             }
 
-            Section(header: Text("Tickers")) {
-                ForEach(viewModel.results, id: \.self) {
-                    commisionCell(insturment: $0.instrument, currency: $0.money)
+            if !viewModel.results.isEmpty {
+                ForEach([InstrumentType.Stock, .Bond, .Etf], id: \.self) { type in
+                    Section(header: Text(type.rawValue)) {
+                        ForEach(viewModel.results.filter { $0.instrument.type == type }, id: \.self) {
+                            commisionCell(insturment: $0.instrument, currency: $0.money)
+                        }
+                    }
                 }
             }
         }.navigationTitle("Tickers")

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		76F60D7017DC2F69240FC3F1 /* Pods_Investing__iOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DB8D0B7808B6A56706FF239 /* Pods_Investing__iOS_.framework */; };
 		BC8AA69A44FCFC844A50D0B4 /* Pods_Investing__macOS_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AFAC8B963236EDC782AF3DE /* Pods_Investing__macOS_.framework */; };
+		EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
+		EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
 		EF637FEE259362DA00D2C42D /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FED259362D900D2C42D /* DBManager.swift */; };
 		EF637FEF259362DA00D2C42D /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FED259362D900D2C42D /* DBManager.swift */; };
 		EF637FFC259364FF00D2C42D /* CurrencyPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */; };
@@ -188,6 +190,7 @@
 		5C641895ACAF843ACAE70349 /* Pods-Investing (macOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Investing (macOS).debug.xcconfig"; path = "Target Support Files/Pods-Investing (macOS)/Pods-Investing (macOS).debug.xcconfig"; sourceTree = "<group>"; };
 		6F44ED1DEA63508B8A0EC883 /* Pods-Investing (iOS).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Investing (iOS).debug.xcconfig"; path = "Target Support Files/Pods-Investing (iOS)/Pods-Investing (iOS).debug.xcconfig"; sourceTree = "<group>"; };
 		B1492304DEC40D5340801A5A /* Pods-Investing (iOS).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Investing (iOS).release.xcconfig"; path = "Target Support Files/Pods-Investing (iOS)/Pods-Investing (iOS).release.xcconfig"; sourceTree = "<group>"; };
+		EF27F73025B089FA00E83EE3 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		EF637FED259362D900D2C42D /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyPosition.swift; sourceTree = "<group>"; };
 		EF637FFB259364FF00D2C42D /* CurrenciesPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrenciesPayload.swift; sourceTree = "<group>"; };
@@ -600,13 +603,14 @@
 		EFBA420D25821ED100C2AFC8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EF9581B325909E5500D559E7 /* CommonViewModel.swift */,
 				EF9581BC25909F2900D559E7 /* StringConvertible.swift */,
 				EFBA420E25821EDF00C2AFC8 /* Decoder+Ex.swift */,
-				EF9581B325909E5500D559E7 /* CommonViewModel.swift */,
 				EF9581C925909FC800D559E7 /* OperationSum.swift */,
 				EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */,
 				EF647E5B25AF41BE00D20761 /* LoadingState.swift */,
 				EF647E6625AF41D100D20761 /* LoadingError.swift */,
+				EF27F73025B089FA00E83EE3 /* Date+Ex.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -974,6 +978,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */,
 				EF76A17E257FCE6400991AE3 /* PositionsService.swift in Sources */,
 				EFC02AFD25800BD3008AF0FF /* OperationsView.swift in Sources */,
 				EF76A110257FB55000991AE3 /* Settings.swift in Sources */,
@@ -1027,6 +1032,7 @@
 				EFB535D92592450200C93C3C /* Enviroment.swift in Sources */,
 				EF647E5D25AF41BE00D20761 /* LoadingState.swift in Sources */,
 				EF9581CB25909FC800D559E7 /* OperationSum.swift in Sources */,
+				EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */,
 				EF76A0D5257FAA5A00991AE3 /* HomeView.swift in Sources */,
 				EFF78C5725933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
 				EF76A0F0257FAD0000991AE3 /* ViewFactory.swift in Sources */,

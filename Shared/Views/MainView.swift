@@ -13,7 +13,6 @@ import SwiftUI
 
 class MainViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var loadDB: LoadingState<Void> = .loading
-
     var dbManager: DBManager
 
     override init(env: Environment = .current) {
@@ -24,6 +23,8 @@ class MainViewModel: EnvironmentCancebleObject, ObservableObject {
 
     func loadData() {
         guard loadDB == .loading else { return }
+        dbManager.updateCurrency()
+            .sink(receiveValue: {}).store(in: &cancellables)
 
         dbManager.updateIfNeeded { [unowned self] in
             self.loadDB = .loaded(object: ())

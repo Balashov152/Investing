@@ -12,8 +12,11 @@ import Moya
 import SwiftUI
 
 class OperationsViewModel: EnvironmentCancebleObject, ObservableObject {
-    @Published var operations: [Operation] = []
-    @State var selectedType = Operation.OperationTypeWithCommission.Buy
+    @Published var selectedType = Operation.OperationTypeWithCommission.Buy
+
+    var operations: [Operation] {
+        env.api().operationsService.operations
+    }
 
     public func loadOperaions() {
         env.operationsService.getOperations(request: .init(env: env))
@@ -21,9 +24,9 @@ class OperationsViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         super.bindings()
-        env.operationsService.$operations
-            .assign(to: \.operations, on: self)
-            .store(in: &cancellables)
+        env.operationsService.$operations.sink(receiveValue: { _ in 
+            objectWillChange.send()
+        }).store(in: &cancellables)
     }
 }
 

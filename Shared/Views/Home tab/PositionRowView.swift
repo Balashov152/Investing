@@ -15,87 +15,68 @@ struct PositionRowView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                positionName
+                VStack(alignment: .leading) {
+                    Text(position.name.orEmpty).lineLimit(1)
+                        .font(.system(size: 17, weight: .bold))
+                    Text("$\(position.ticker.orEmpty)")
+                        .font(.system(size: 14, weight: .bold))
+                        .foregroundColor(Color.gray)
+                }
                 Spacer()
                 Text(position.lots.string + " pcs")
+                    .font(.system(size: 17, weight: .bold))
             }
-            .lineLimit(1)
-            .font(.system(size: 17, weight: .bold))
-
+            Spacer(minLength: 8)
             HStack {
-                leftStack.font(.system(size: 14))
+                leftStack
                 Spacer()
-                centralStack
-                Spacer()
-                rightStack.font(.system(size: 14))
+                rightStack
             }
-
-            .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
-        } // .padding()
-    }
-
-    var positionName: some View {
-        HStack {
-            Text(position.name.orEmpty + " (" + position.ticker.orEmpty + ")")
-        }
+        }.padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
     }
 
     var leftStack: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                if let value = position.averagePositionPriceNoNkd {
-                    Text("Primary:")
-                    CurrencyText(money: value)
-                }
-
-                if let value = position.averagePositionPrice {
+        HStack {
+            VStack(alignment: .leading) {
+                if position.lots > 1 {
                     Text("Avg:")
-                    CurrencyText(money: value)
                 }
+                Text("Total:")
             }
-
-            if let value = position.averagePositionPrice {
-                HStack {
-                    Text("Total:")
-                    CurrencyText(money: .init(currency: value.currency,
-                                              value: Double(position.lots) * value.value))
+            VStack(alignment: .leading) {
+                if position.lots > 1 {
+                    CurrencyText(money: position.averagePositionPrice)
                 }
+                CurrencyText(money: position.totalBuyPayment)
             }
-        }
-    }
-
-    var centralStack: some View {
-        VStack(alignment: .center) {
-            if let value = position.deltaAveragePositionPrice {
-                MoneyText(money: value)
-                    .font(.system(size: 14, weight: .semibold))
+            Image(systemName: "arrow.forward")
+            VStack(alignment: .leading) {
+                if position.lots > 1 {
+                    CurrencyText(money: position.averagePositionPriceNow)
+                }
+                CurrencyText(money: position.totalInProfile)
             }
-
-            if let value = position.expectedYield {
-                MoneyText(money: value)
-                    .font(.system(size: 14, weight: .semibold))
-            }
-        }
+        }.font(.system(size: 14))
     }
 
     var rightStack: some View {
-        VStack(alignment: .trailing) {
-            if let value = position.averagePositionPriceNow {
-                CurrencyText(money: value)
+        HStack(spacing: 4) {
+            VStack(alignment: .trailing) {
+                if position.lots > 1 {
+                    MoneyText(money: position.deltaAveragePositionPrice)
+                }
+                MoneyText(money: position.expectedYield)
             }
 
-            if let value = position.totalInProfile {
-                Text(value.string(f: ".2"))
-            }
-        }
+            Image(systemName: position.expectedYield.value > 0 ? "arrow.up" : "arrow.down")
+                .foregroundColor(Color.currency(value: position.expectedYield.value))
+
+            Text(position.expectedPercent.string(f: ".2") + "%")
+                .foregroundColor(Color.currency(value: position.expectedYield.value))
+
+        }.font(.system(size: 14, weight: .semibold))
     }
 }
-
-// struct PositionRowViewPreview: PreviewProvider {
-//    static var previews: some View {
-//        PositionRowView(position: .tesla)
-//    }
-// }
 
 extension Position {
     static let tesla = Position(name: "Tesla",

@@ -7,6 +7,6 @@
 
 import Foundation
 
-public enum Currency: String, Codable {
+public enum Currency: String, Codable, CaseIterable {
     case RUB, USD, EUR, GBP, HKD, CHF, JPY, CNY, TRY
 }
