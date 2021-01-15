@@ -10,13 +10,21 @@ import Foundation
 
 struct Storage {
     enum Keys: String {
-        case token, instruments, usdValue
+        case token, currency
         case currentDBVersion
         case startInterval, endInterval
     }
 
     static var isAuthorized: Bool { token != nil }
     static var defaults: UserDefaults { .standard }
+
+    static var currency: String? {
+        get {
+            defaults.string(forKey: Keys.currency.rawValue)
+        } set {
+            defaults.set(newValue, forKey: Keys.currency.rawValue)
+        }
+    }
 
     static var token: String? {
         get {

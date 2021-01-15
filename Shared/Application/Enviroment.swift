@@ -9,16 +9,15 @@ import Foundation
 import InvestModels
 
 extension Environment {
-    static let current = Environment(settings: { Settings() },
-                                     dateInterval: { Settings.shared.dateInterval }, currency: { .RUB },
+    static let current = Environment(settings: { .shared },
+                                     operationCurrency: { .RUB },
                                      api: { .current })
 }
 
 struct Environment {
     var settings: () -> Settings
-    var dateInterval: () -> DateInterval
 
-    var currency: () -> Currency
+    var operationCurrency: () -> Currency
 
     var api: () -> API
 

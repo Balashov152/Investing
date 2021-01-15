@@ -69,8 +69,8 @@ extension OperationsService {
         }
 
         internal init(env: Environment) {
-            from = env.dateInterval().start.startOfDay
-            to = env.dateInterval().end.endOfDay
+            from = env.settings().dateInterval.start.startOfDay
+            to = env.settings().dateInterval.end.endOfDay
         }
     }
 }

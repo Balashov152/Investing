@@ -65,7 +65,7 @@ struct OperationsView: View {
                         viewModel.selectedType = type
                     }, label: {
                         Text(type.rawValue)
-                            .foregroundColor(Color(UIColor.systemOrange))
+                            .foregroundColor(Color.accentColor)
                             .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
                             .background(viewModel.selectedType == .some(type) ? Color(UIColor.systemGray2) : Color.clear)
                             .cornerRadius(7)

@@ -22,9 +22,9 @@ class CurrencyPairServiceLatest: EnvironmentCancebleObject, ObservableObject {
     override func bindings() {
         super.bindings()
         update()
-        timer = .scheduledTimer(withTimeInterval: 10, repeats: true) { [unowned self] _ in
-            update()
-        }
+//        timer = .scheduledTimer(withTimeInterval: 10, repeats: true) { [unowned self] _ in
+//            update()
+//        }
     }
 
     func update() {

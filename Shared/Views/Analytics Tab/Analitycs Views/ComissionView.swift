@@ -40,7 +40,7 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
                             .filter { $0.operationType == .some(type) }
                             .compactMap { operation -> MoneyAmount? in
                                 if let commission = operation.commission {
-                                    return operation.convert(money: commission, to: env.currency())
+                                    return operation.convert(money: commission, to: env.operationCurrency())
                                 }
                                 return nil
                             }.map { $0.value }.sum
