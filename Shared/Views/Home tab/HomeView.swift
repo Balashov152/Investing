@@ -10,112 +10,9 @@ import InvestModels
 import Moya
 import SwiftUI
 
-extension HomeViewModel {
-    enum ConvertedType: Equatable {
-        case original
-        case currency(Currency)
-
-        var localize: String {
-            switch self {
-            case let .currency(currency):
-                return currency.rawValue
-            case .original:
-                return "orignal"
-            }
-        }
-    }
-}
-
-class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
-    struct Section: Hashable {
-        let type: InstrumentType
-        let positions: [PositionView]
-    }
-
-    let currencyPairServiceLatest: CurrencyPairServiceLatest
-
-    @Published var currency: ConvertedType = .original
-
-    @Published var sections: [Section] = []
-    @Published var positions: [Position] = []
-    @Published var currencies: [CurrencyPosition] = []
-
-    override init(env: Environment = .current) {
-        currencyPairServiceLatest = CurrencyPairServiceLatest(env: env)
-
-        super.init(env: env)
-    }
-
-    var timer: Timer?
-
-    override func bindings() {
-        Publishers.CombineLatest($positions.dropFirst(), $currency.removeDuplicates())
-            .receive(on: DispatchQueue.global())
-            .map { [unowned self] positions, currencyType -> [PositionView] in
-                self.map(positions: positions, to: currencyType)
-            }
-            .map { positions -> [Section] in
-                [InstrumentType.Stock, .Bond, .Etf].compactMap { type -> Section? in
-                    let filtered = positions
-                        .filter { $0.instrumentType == .some(type) }
-                        .sorted { $0.name.orEmpty < $1.name.orEmpty }
-                    if !filtered.isEmpty {
-                        return Section(type: type, positions: filtered)
-                    }
-                    return nil
-                }
-            }.receive(on: DispatchQueue.main)
-            .assign(to: \.sections, on: self)
-            .store(in: &cancellables)
-
-//        startTimer()
-    }
-
-    public func loadPositions() {
-        env.api().positionService.getPositions()
-            .replaceError(with: [])
-            .assign(to: \.positions, on: self)
-            .store(in: &cancellables)
-
-        env.api().positionService.getCurrences()
-            .replaceError(with: [])
-            .assign(to: \.currencies, on: self)
-            .store(in: &cancellables)
-    }
-
-    private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: { [unowned self] _ in
-            loadPositions()
-        })
-    }
-
-    private func map(positions: [Position], to currencyType: ConvertedType) -> [PositionView] {
-        switch currencyType {
-        case let .currency(currency):
-            return positions.map { position -> PositionView in
-                PositionView(position: position,
-                             expectedYield: CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                                           money: position.expectedYield,
-                                                                           to: currency),
-                             averagePositionPrice: CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                                                  money: position.averagePositionPrice,
-                                                                                  to: currency))
-            }
-        case .original:
-            return positions.map { position -> PositionView in
-                PositionView(position: position)
-            }
-        }
-    }
-}
-
-struct PlainSection<Header: View, Content: View>: View {
-    let header: Header
-    let content: () -> Content
-
-    var body: some View {
-        header
-        content()
+extension Collection {
+    func enumeratedArray() -> [(offset: Int, element: Self.Element)] {
+        return Array(enumerated())
     }
 }
 
@@ -125,72 +22,139 @@ struct HomeView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                topView
-                if isShowingPopover {
-                    segment
-                }
-
-                ForEach(viewModel.sections, id: \.self) { section in
-                    Section {
-                        PlainSection(header: HeaderView(section: section)) {
-                            ForEach(section.positions,
-                                    id: \.self, content: PositionRowView.init)
-                        }
-                    }
-                }
-
-//                if !viewModel.positions.isEmpty {
-//                    Section {
-//                        PlainSection(header: HeaderView(section: .init(type: .Currency, positions: []))) {
-//                            ForEach(viewModel.currencies, id: \.self) { currency in
-//                                HStack {
-//                                    Text(currency.currency.rawValue)
-//                                    Spacer()
-//                                    MoneyText(money: .init(currency: currency.currency, value: currency.balance))
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
+            VStack(alignment: .leading, spacing: 0) {
+                convertView
+                list
             }
             .navigationBarTitleDisplayMode(.inline)
-            .listStyle(GroupedListStyle())
-            .listSeparatorStyle(style: .none)
             .onAppear(perform: viewModel.loadPositions)
-            .navigationBarItems(trailing: Button("Edit", action: {}))
+        }
+    }
+
+    var totalTitleView: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("Total profile")
+                    .font(.largeTitle).bold()
+            }.onTapGesture {
+                isShowingPopover.toggle()
+            }
+            if isShowingPopover {
+                ForEach(viewModel.positions.map { $0.currency }.unique.sorted(by: >).enumeratedArray(), id: \.element) { index, currency in
+                    if index != 0 {
+                        Divider()
+                    }
+                    TotalView(currency: currency, positions: viewModel.positions)
+                }
+            }
+        }.animation(.linear)
+    }
+
+    var convertView: some View {
+        VStack(spacing: 0) {
+            VStack(spacing: 8) {
+                HStack {
+                    Text("Convert positions")
+                        .font(.system(size: 20, weight: .medium))
+                    Spacer(minLength: 16)
+                    segment
+                }
+            }.padding()
+
+            Divider()
         }
     }
 
     var segment: some View {
-        ScrollView {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack {
                 ForEach(viewModel.positions.map { $0.currency }.unique.sorted(by: >), id: \.self) { currency in
-                    Button(currency.rawValue) {
-                        viewModel.currency = .currency(currency)
+                    BackgroundButton(title: currency.rawValue, isSelected: viewModel.currency == .currency(currency)) {
+                        if viewModel.currency == .currency(currency) {
+                            viewModel.currency = .original
+                        } else {
+                            viewModel.currency = .currency(currency)
+                        }
                     }
                 }
-            }.frame(height: 40, alignment: .leading)
+            }.font(.system(size: 17, weight: .semibold))
         }
     }
 
-    var topView: some View {
-        HStack {
-            Text("Profile in")
-            Button(viewModel.currency.localize) {
-                isShowingPopover.toggle()
+    var list: some View {
+        List {
+            totalTitleView
+            ForEach(viewModel.sections, id: \.self) { section in
+                Section {
+                    PlainSection(header: HeaderView(section: section)) {
+                        ForEach(section.positions,
+                                id: \.self, content: PositionRowView.init)
+                    }
+                }
+            }
+        }.listStyle(GroupedListStyle())
+    }
+
+    var currencies: some View {
+        Section {
+            PlainSection(header: HeaderView(section: .init(type: .Currency, positions: []))) {
+                ForEach(viewModel.currencies, id: \.self) { currency in
+                    HStack {
+                        Text(currency.currency.rawValue)
+                        Spacer()
+                        MoneyText(money: .init(currency: currency.currency, value: currency.balance))
+                    }
+                }
             }
         }
-        .textCase(.uppercase)
-        .font(.system(size: 24, weight: .bold))
+    }
+}
+
+struct BackgroundButton: View {
+    let title: String
+    let isSelected: Bool
+
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .foregroundColor(isSelected ? Color.white : Color.accentColor)
+                .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
+                .background(isSelected ? Color.accentColor : Color(UIColor.litleGray))
+                .cornerRadius(6)
+                .textCase(nil)
+        }
+    }
+}
+
+extension HomeView {
+    struct TotalView: View {
+        let currency: Currency
+        let positions: [Position]
+
+        var filteredPositions: [Position] {
+            positions.filter { $0.currency == currency }
+        }
+
+        var totalInProfile: MoneyAmount {
+            MoneyAmount(currency: currency, value: filteredPositions.map { $0.totalInProfile }.sum)
+        }
+
+        var expectedProfile: MoneyAmount {
+            MoneyAmount(currency: currency, value: filteredPositions.map { $0.expectedYield }.sum)
+        }
+
+        var body: some View {
+            HStack {
+                CurrencyText(money: totalInProfile)
+                MoneyText(money: expectedProfile)
+            }
+        }
     }
 
     struct HeaderView: View {
         let section: HomeViewModel.Section
-
-        var alpha: Double {
-            section.positions.reduce(0) { $0 + $1.totalInProfile.value } - section.positions.reduce(0) { $0 + $1.totalBuyPayment.value }
-        }
 
         var body: some View {
             HStack {
@@ -198,10 +162,14 @@ struct HomeView: View {
                     .font(.system(size: 20, weight: .bold))
                     .textCase(.uppercase)
                 Spacer()
-                if alpha > 0 {
-                    Text(alpha.string(f: ".2"))
-                        .font(.system(size: 20, weight: .regular))
-                        .foregroundColor(.currency(value: alpha))
+                HStack {
+                    ForEach(section.currencies, id: \.self) { currency in
+                        if section.sum(currency: currency) > 0 {
+                            MoneyText(money: MoneyAmount(currency: currency,
+                                                         value: section.sum(currency: currency)))
+                                .font(.system(size: 20, weight: .regular))
+                        }
+                    }
                 }
             }.padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
         }

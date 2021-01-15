@@ -47,6 +47,14 @@
 		EF76A174257FCE2100991AE3 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A172257FCE2100991AE3 /* AccountService.swift */; };
 		EF76A17E257FCE6400991AE3 /* PositionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A17D257FCE6400991AE3 /* PositionsService.swift */; };
 		EF76A17F257FCE6400991AE3 /* PositionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A17D257FCE6400991AE3 /* PositionsService.swift */; };
+		EF79B76425B1B128005C2EB8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B76325B1B128005C2EB8 /* HomeViewModel.swift */; };
+		EF79B76525B1B128005C2EB8 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B76325B1B128005C2EB8 /* HomeViewModel.swift */; };
+		EF79B7B125B1BE3A005C2EB8 /* PlainSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B7B025B1BE3A005C2EB8 /* PlainSection.swift */; };
+		EF79B7B225B1BE3A005C2EB8 /* PlainSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B7B025B1BE3A005C2EB8 /* PlainSection.swift */; };
+		EF79B7BD25B1CA9B005C2EB8 /* UIColor+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B7BC25B1CA9B005C2EB8 /* UIColor+Ex.swift */; };
+		EF79B7BE25B1CA9B005C2EB8 /* UIColor+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B7BC25B1CA9B005C2EB8 /* UIColor+Ex.swift */; };
+		EF79B80525B1E064005C2EB8 /* LogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B80425B1E064005C2EB8 /* LogoService.swift */; };
+		EF79B80625B1E064005C2EB8 /* LogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B80425B1E064005C2EB8 /* LogoService.swift */; };
 		EF8114B22596375700773236 /* SettingsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8114B12596375700773236 /* SettingsTabView.swift */; };
 		EF95816B2590903000D559E7 /* InvestModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9581622590903000D559E7 /* InvestModels.framework */; };
 		EF9581722590903000D559E7 /* InvestModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9581712590903000D559E7 /* InvestModelsTests.swift */; };
@@ -226,6 +234,12 @@
 		EF76A16A257FCDDE00991AE3 /* PositionsPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsPayload.swift; sourceTree = "<group>"; };
 		EF76A172257FCE2100991AE3 /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
 		EF76A17D257FCE6400991AE3 /* PositionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsService.swift; sourceTree = "<group>"; };
+		EF79B76325B1B128005C2EB8 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		EF79B7B025B1BE3A005C2EB8 /* PlainSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainSection.swift; sourceTree = "<group>"; };
+		EF79B7BC25B1CA9B005C2EB8 /* UIColor+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ex.swift"; sourceTree = "<group>"; };
+		EF79B80425B1E064005C2EB8 /* LogoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoService.swift; sourceTree = "<group>"; };
+		EF79B80B25B1E164005C2EB8 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		EF79B81325B1E182005C2EB8 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		EF8114B12596375700773236 /* SettingsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabView.swift; sourceTree = "<group>"; };
 		EF9581622590903000D559E7 /* InvestModels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InvestModels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9581642590903000D559E7 /* InvestModels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InvestModels.h; sourceTree = "<group>"; };
@@ -257,6 +271,7 @@
 		EFC99735258114DC00A722F7 /* InstrumentsPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentsPayload.swift; sourceTree = "<group>"; };
 		EFC99736258114DC00A722F7 /* Instrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		EFC99747258115B000A722F7 /* InstrumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentsService.swift; sourceTree = "<group>"; };
+		EFDC127325B1E2FE00C3C388 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		EFDED5C92594D35A00618E14 /* InstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentR.swift; sourceTree = "<group>"; };
 		EFF46B6F259C6B6200EFD02A /* ComissionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComissionView.swift; sourceTree = "<group>"; };
 		EFF46B70259C6B6200EFD02A /* TickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickersView.swift; sourceTree = "<group>"; };
@@ -452,6 +467,7 @@
 		EF76A0FE257FB4AF00991AE3 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				EF79B7BB25B1CA8B005C2EB8 /* Apperance */,
 				EF76A0EE257FAD0000991AE3 /* ViewFactory.swift */,
 				EF76A0FF257FB4BE00991AE3 /* Storage.swift */,
 				EF76A10F257FB55000991AE3 /* Settings.swift */,
@@ -464,6 +480,7 @@
 		EF76A10A257FB4D100991AE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EF79B7AF25B1BE32005C2EB8 /* Common */,
 				EF76A093257FA7FE00991AE3 /* MainView.swift */,
 				EF9581BB25909ECA00D559E7 /* Home tab */,
 				EF761AD72590E5B900320289 /* Analytics Tab */,
@@ -512,8 +529,35 @@
 				EF76A17D257FCE6400991AE3 /* PositionsService.swift */,
 				EFC02B0725800BF6008AF0FF /* OperationsService.swift */,
 				EFC99747258115B000A722F7 /* InstrumentsService.swift */,
+				EF79B80425B1E064005C2EB8 /* LogoService.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		EF79B7AF25B1BE32005C2EB8 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				EF79B7B025B1BE3A005C2EB8 /* PlainSection.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		EF79B7BB25B1CA8B005C2EB8 /* Apperance */ = {
+			isa = PBXGroup;
+			children = (
+				EF79B7BC25B1CA9B005C2EB8 /* UIColor+Ex.swift */,
+			);
+			path = Apperance;
+			sourceTree = "<group>";
+		};
+		EF79B81225B1E175005C2EB8 /* Image Loader */ = {
+			isa = PBXGroup;
+			children = (
+				EF79B80B25B1E164005C2EB8 /* ImageLoader.swift */,
+				EF79B81325B1E182005C2EB8 /* AsyncImage.swift */,
+				EFDC127325B1E2FE00C3C388 /* ImageCache.swift */,
+			);
+			path = "Image Loader";
 			sourceTree = "<group>";
 		};
 		EF8114AC2596371300773236 /* Settings tab */ = {
@@ -550,6 +594,7 @@
 			children = (
 				EF76A0D3257FAA5A00991AE3 /* HomeView.swift */,
 				EFC02AE425800086008AF0FF /* PositionRowView.swift */,
+				EF79B76325B1B128005C2EB8 /* HomeViewModel.swift */,
 			);
 			path = "Home tab";
 			sourceTree = "<group>";
@@ -603,6 +648,7 @@
 		EFBA420D25821ED100C2AFC8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EF79B81225B1E175005C2EB8 /* Image Loader */,
 				EF9581B325909E5500D559E7 /* CommonViewModel.swift */,
 				EF9581BC25909F2900D559E7 /* StringConvertible.swift */,
 				EFBA420E25821EDF00C2AFC8 /* Decoder+Ex.swift */,
@@ -992,14 +1038,18 @@
 				EFC02B0825800BF6008AF0FF /* OperationsService.swift in Sources */,
 				EFB5354E2592209500C93C3C /* CurrencyPairService.swift in Sources */,
 				EFB535D82592450200C93C3C /* Enviroment.swift in Sources */,
+				EF79B80525B1E064005C2EB8 /* LogoService.swift in Sources */,
 				EF9581CA25909FC800D559E7 /* OperationSum.swift in Sources */,
 				EF76A0D4257FAA5A00991AE3 /* HomeView.swift in Sources */,
 				EFF78C5625933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
+				EF79B7B125B1BE3A005C2EB8 /* PlainSection.swift in Sources */,
+				EF79B76425B1B128005C2EB8 /* HomeViewModel.swift in Sources */,
 				EF76A0EF257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
 				EFF46B77259C6B6200EFD02A /* CurrencyView.swift in Sources */,
 				EFF46B79259C6B6200EFD02A /* DividentsView.swift in Sources */,
 				EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
+				EF79B7BD25B1CA9B005C2EB8 /* UIColor+Ex.swift in Sources */,
 				EF647E6725AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF761AF12590FF6200320289 /* RealmManager.swift in Sources */,
 				EFF46B75259C6B6200EFD02A /* TickersView.swift in Sources */,
@@ -1019,6 +1069,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF76A17F257FCE6400991AE3 /* PositionsService.swift in Sources */,
+				EF79B76525B1B128005C2EB8 /* HomeViewModel.swift in Sources */,
+				EF79B7BE25B1CA9B005C2EB8 /* UIColor+Ex.swift in Sources */,
 				EFC02AFE25800BD3008AF0FF /* OperationsView.swift in Sources */,
 				EF76A111257FB55000991AE3 /* Settings.swift in Sources */,
 				EF76A0BE257FA80200991AE3 /* MainView.swift in Sources */,
@@ -1034,6 +1086,7 @@
 				EF9581CB25909FC800D559E7 /* OperationSum.swift in Sources */,
 				EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */,
 				EF76A0D5257FAA5A00991AE3 /* HomeView.swift in Sources */,
+				EF79B80625B1E064005C2EB8 /* LogoService.swift in Sources */,
 				EFF78C5725933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
 				EF76A0F0257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE625800086008AF0FF /* PositionRowView.swift in Sources */,
@@ -1041,6 +1094,7 @@
 				EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EFF46B78259C6B6200EFD02A /* CurrencyView.swift in Sources */,
 				EFF46B76259C6B6200EFD02A /* TickersView.swift in Sources */,
+				EF79B7B225B1BE3A005C2EB8 /* PlainSection.swift in Sources */,
 				EF761AF22590FF6200320289 /* RealmManager.swift in Sources */,
 				EFF46B74259C6B6200EFD02A /* ComissionView.swift in Sources */,
 				EF647E6825AF41D100D20761 /* LoadingError.swift in Sources */,
@@ -1274,6 +1328,7 @@
 				PRODUCT_NAME = Investing;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1302,6 +1357,7 @@
 				PRODUCT_NAME = Investing;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;

@@ -15,7 +15,7 @@ extension Collection where Element == Operation {
 
     func envSum(env: Environment) -> Double {
         map { operation in
-            operation.convertPayment(to: env.currency())
+            operation.convertPayment(to: env.operationCurrency())
         }.map { $0.value }.reduce(0, +)
     }
 }
@@ -54,6 +54,9 @@ extension NSNumber {
         formater.locale = locale
         let isInteger = floor(doubleValue) == doubleValue
         formater.minimumFractionDigits = isInteger ? 0 : 2
+//        if doubleValue < 5 {
+//            formater.maximumFractionDigits = 4
+//        }
         return formater.string(from: self).orEmpty
     }
 }

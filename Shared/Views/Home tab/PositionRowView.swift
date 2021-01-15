@@ -22,6 +22,7 @@ struct PositionView: Hashable {
         instrumentType = position.instrumentType
         blocked = position.blocked
         lots = position.lots
+        isin = position.isin
         self.expectedYield = expectedYield
         self.averagePositionPrice = averagePositionPrice
     }
@@ -29,6 +30,7 @@ struct PositionView: Hashable {
     public let name: String?
     public let ticker: String?
 
+    public let isin: String?
     public let instrumentType: InstrumentType?
 
     public let blocked: Double?
@@ -91,10 +93,17 @@ struct PositionRowView: View {
                 Text("$\(position.ticker.orEmpty)")
                     .font(.system(size: 14, weight: .bold))
                     .foregroundColor(Color.gray)
+                Text(position.lots.string + " pcs")
+                    .font(.system(size: 12, weight: .bold))
+                    .foregroundColor(Color.gray)
+            }
+            if let isin = position.isin {
+//                AsyncImage(url: LogoService.logoUrl(for: isin)) {
+//                    ProgressView()
+//                }
             }
             Spacer()
-            Text(position.lots.string + " pcs")
-                .font(.system(size: 17, weight: .bold))
+            percentStack
         }
     }
 
@@ -130,13 +139,16 @@ struct PositionRowView: View {
                 }
                 MoneyText(money: position.expectedYield)
             }
+        }.font(.system(size: 14, weight: .semibold))
+    }
 
+    var percentStack: some View {
+        HStack(spacing: 4) {
             Image(systemName: position.expectedYield.value > 0 ? "arrow.up" : "arrow.down")
                 .foregroundColor(Color.currency(value: position.expectedYield.value))
 
             Text(position.expectedPercent.string(f: ".2") + "%")
                 .foregroundColor(Color.currency(value: position.expectedYield.value))
-
-        }.font(.system(size: 14, weight: .semibold))
+        }.font(.system(size: 16, weight: .semibold))
     }
 }
