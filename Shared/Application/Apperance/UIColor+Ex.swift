@@ -17,7 +17,7 @@ extension UIColor {
             case .dark:
                 return UIColor(white: 0.07, alpha: 1)
             @unknown default:
-                return UIColor(white: 0.95, alpha: 1)
+                return UIColor(white: 0.93, alpha: 1)
             }
         }
     }
