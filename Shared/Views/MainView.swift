@@ -70,7 +70,7 @@ struct MainView: View {
             SettingsTabView(viewModel: .init())
                 .tabItem {
                     VStack {
-                        Image(systemName: "gear")
+                        Image(systemName: "gearshape")
                         Text("Settings")
                     }
                 }
@@ -102,7 +102,7 @@ struct MainView: View {
         ViewFactory.operationsView()
             .tabItem {
                 VStack {
-                    Image(systemName: "list.bullet")
+                    Image(systemName: "list.bullet.rectangle")
                     Text("Operations")
                 }
             }

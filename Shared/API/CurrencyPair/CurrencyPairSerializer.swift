@@ -27,4 +27,14 @@ struct CurrencyPairSerializer {
 
         return pairs
     }
+
+    static func serializeLatest(json: [String: Any]) -> CurrencyPair? {
+        guard let rate = json["rates"] as? [String: Any],
+              let usd = rate["USD"] as? Double,
+              let eur = rate["EUR"] as? Double
+        else {
+            return nil
+        }
+        return CurrencyPair(date: Date(), USD: usd, EUR: eur)
+    }
 }

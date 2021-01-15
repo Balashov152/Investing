@@ -13,8 +13,9 @@ public protocol CurrencyConvertModel {
     func convert(money: MoneyAmount, to currency: Currency) -> MoneyAmount
 }
 
-public extension CurrencyConvertModel {
-    func convert(money: MoneyAmount, to currency: Currency) -> MoneyAmount {
+public struct CurrencyConvertManager {
+    public static func convert(currencyPair: CurrencyPair?,
+                        money: MoneyAmount, to currency: Currency) -> MoneyAmount {
         guard let currencyPair = currencyPair else {
 //            assertionFailure("currencyPair is nil")
             return money
@@ -42,6 +43,14 @@ public extension CurrencyConvertModel {
             let newValue = money.value / currencyPair.EUR
             debugPrint("EUR(\(money.value)) -> RUB(\(newValue))")
             return MoneyAmount(currency: currency, value: newValue)
+        case (.USD, .EUR):
+            let newValue = money.value / currencyPair.USD * currencyPair.EUR
+            debugPrint("USD(\(money.value)) -> EUR(\(newValue))")
+            return MoneyAmount(currency: currency, value: newValue)
+        case (.EUR, .USD):
+            let newValue = money.value / currencyPair.EUR * currencyPair.USD
+            debugPrint("EUR(\(money.value)) -> USD(\(newValue))")
+            return MoneyAmount(currency: currency, value: newValue)
         default:
             assertionFailure("not implement case \((money.currency, currency))")
             return money
@@ -49,8 +58,14 @@ public extension CurrencyConvertModel {
     }
 }
 
+public extension CurrencyConvertModel {
+    func convert(money: MoneyAmount, to currency: Currency) -> MoneyAmount {
+        CurrencyConvertManager.convert(currencyPair: currencyPair, money: money, to: currency)
+    }
+}
+
 public extension CurrencyConvertModel where Self == Operation {
-    func convertPay(to cur: Currency) -> MoneyAmount {
+    func convertPayment(to cur: Currency) -> MoneyAmount {
         convert(money: MoneyAmount(currency: self.currency, value: self.payment), to: cur)
     }
 }

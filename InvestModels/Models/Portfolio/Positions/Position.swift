@@ -17,10 +17,6 @@ extension Position: Hashable {
     public static func == (lhs: Position, rhs: Position) -> Bool {
         lhs.hashValue == rhs.hashValue
     }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(ticker)
-    }
     
     public var currency: Currency {
         averagePositionPrice.currency
@@ -30,48 +26,14 @@ extension Position: Hashable {
         MoneyAmount(currency: currency,
                     value: averagePositionPrice.value * Double(lots))
     }
-
+    
     public var totalInProfile: MoneyAmount {
         MoneyAmount(currency: currency,
                     value: totalBuyPayment.value + expectedYield.value)
     }
-    
-    public var deltaAveragePositionPrice: MoneyAmount {
-        MoneyAmount(currency: expectedYield.currency,
-                           value: expectedYield.value / Double(lots))
-    }
-    
-    public var averagePositionPriceNow: MoneyAmount {
-        MoneyAmount(currency: currency,
-                    value: totalInProfile.value / Double(lots))
-    }
-    
-    public var expectedPercent: Double {
-        (expectedYield.value / totalBuyPayment.value) * 100
-    }
 }
 
-public struct Position: Decodable {
-    public init(name: String?, figi: String?, ticker: String?, isin: String?,
-                instrumentType: InstrumentType?, balance: Double?, blocked: Double?,
-                lots: Int,
-                expectedYield: MoneyAmount,
-                averagePositionPrice: MoneyAmount,
-                averagePositionPriceNoNkd: MoneyAmount?) {
-        
-        self.name = name
-        self.figi = figi
-        self.ticker = ticker
-        self.isin = isin
-        self.instrumentType = instrumentType
-        self.balance = balance
-        self.blocked = blocked
-        self.lots = lots
-        self.expectedYield = expectedYield
-        self.averagePositionPrice = averagePositionPrice
-        self.averagePositionPriceNoNkd = averagePositionPriceNoNkd
-    }
-    
+public struct Position: Decodable {    
     public let name: String?
     public let figi: String?
     public let ticker: String?

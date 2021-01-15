@@ -9,23 +9,71 @@ import Foundation
 import InvestModels
 import SwiftUI
 
+struct PositionView: Hashable {
+    init(position: Position) {
+        self.init(position: position,
+                  expectedYield: position.expectedYield,
+                  averagePositionPrice: position.averagePositionPrice)
+    }
+
+    init(position: Position, expectedYield: MoneyAmount, averagePositionPrice: MoneyAmount) {
+        name = position.name
+        ticker = position.ticker
+        instrumentType = position.instrumentType
+        blocked = position.blocked
+        lots = position.lots
+        self.expectedYield = expectedYield
+        self.averagePositionPrice = averagePositionPrice
+    }
+
+    public let name: String?
+    public let ticker: String?
+
+    public let instrumentType: InstrumentType?
+
+    public let blocked: Double?
+    public let lots: Int
+
+    public let expectedYield: MoneyAmount
+    public let averagePositionPrice: MoneyAmount
+}
+
+extension PositionView {
+    public var currency: Currency {
+        averagePositionPrice.currency
+    }
+
+    public var totalBuyPayment: MoneyAmount {
+        MoneyAmount(currency: currency,
+                    value: averagePositionPrice.value * Double(lots))
+    }
+
+    public var totalInProfile: MoneyAmount {
+        MoneyAmount(currency: currency,
+                    value: totalBuyPayment.value + expectedYield.value)
+    }
+
+    public var deltaAveragePositionPrice: MoneyAmount {
+        MoneyAmount(currency: expectedYield.currency,
+                    value: expectedYield.value / Double(lots))
+    }
+
+    public var averagePositionPriceNow: MoneyAmount {
+        MoneyAmount(currency: currency,
+                    value: totalInProfile.value / Double(lots))
+    }
+
+    public var expectedPercent: Double {
+        (expectedYield.value / totalBuyPayment.value) * 100
+    }
+}
+
 struct PositionRowView: View {
-    let position: Position
+    let position: PositionView
 
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(position.name.orEmpty).lineLimit(1)
-                        .font(.system(size: 17, weight: .bold))
-                    Text("$\(position.ticker.orEmpty)")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(Color.gray)
-                }
-                Spacer()
-                Text(position.lots.string + " pcs")
-                    .font(.system(size: 17, weight: .bold))
-            }
+            topNameStack
             Spacer(minLength: 8)
             HStack {
                 leftStack
@@ -33,6 +81,21 @@ struct PositionRowView: View {
                 rightStack
             }
         }.padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+    }
+
+    var topNameStack: some View {
+        HStack {
+            VStack(alignment: .leading) {
+                Text(position.name.orEmpty).lineLimit(1)
+                    .font(.system(size: 17, weight: .bold))
+                Text("$\(position.ticker.orEmpty)")
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(Color.gray)
+            }
+            Spacer()
+            Text(position.lots.string + " pcs")
+                .font(.system(size: 17, weight: .bold))
+        }
     }
 
     var leftStack: some View {
@@ -76,14 +139,4 @@ struct PositionRowView: View {
 
         }.font(.system(size: 14, weight: .semibold))
     }
-}
-
-extension Position {
-    static let tesla = Position(name: "Tesla",
-                                figi: "3125FSDGA135", ticker: "TSLA",
-                                isin: "!512FAF", instrumentType: .Stock,
-                                balance: 1000, blocked: 0, lots: 10,
-                                expectedYield: MoneyAmount(currency: .USD, value: 2534), // changes
-                                averagePositionPrice: MoneyAmount(currency: .USD, value: 87), // avg when buy, with ndk if bond
-                                averagePositionPriceNoNkd: nil) // avg when buy without nkd if bond
 }

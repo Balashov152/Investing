@@ -10,6 +10,11 @@ import InvestModels
 import Moya
 
 class CurrencyPairServiceLatest: EnvironmentCancebleObject, ObservableObject {
+    static let shared = CurrencyPairServiceLatest()
+    override init(env: Environment = .current) {
+        super.init(env: env)
+    }
+
     @Published public var latest: CurrencyPair?
 
     var timer: Timer?
@@ -37,7 +42,7 @@ struct CurrencyPairService {
         let req = CurrencyRequest(dateInterval: DateInterval(start: Date(), end: Date()))
         return provider.request(.getLatest(request: req))
             .receive(on: DispatchQueue.global())
-            .map { CurrencyPairSerializer.serialize(json: $0.json).first }
+            .map { CurrencyPairSerializer.serializeLatest(json: $0.json) }
             .eraseToAnyPublisher()
     }
 

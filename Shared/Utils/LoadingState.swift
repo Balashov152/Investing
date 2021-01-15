@@ -12,9 +12,9 @@ enum LoadingState<Object>: Equatable {
         switch (lhs, rhs) {
         case (.loading, .loading):
             return true
-        case let (.loaded(obj1), .loaded(obj2)):
+        case (.loaded, .loaded):
             return true
-        case let (.failure(err1), .failure(err2)):
+        case (.failure, .failure):
             return true
         default: return false
         }
