@@ -87,6 +87,21 @@ struct PositionRowView: View {
 
     var topNameStack: some View {
         HStack {
+            if position.instrumentType == .Stock,
+               let isin = position.isin
+            {
+                AsyncImage(url: LogoService.logoUrl(for: isin)) {
+                    ProgressView()
+                        .frame(width: 50, height: 50)
+                } image: { image in
+                    Image(uiImage: image)
+                        .resizable()
+                        .scaledToFit()
+                        .cornerRadius(25)
+                        .frame(width: 50, height: 50)
+                }
+            }
+
             VStack(alignment: .leading) {
                 Text(position.name.orEmpty).lineLimit(1)
                     .font(.system(size: 17, weight: .bold))
@@ -97,11 +112,7 @@ struct PositionRowView: View {
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(Color.gray)
             }
-//            if let isin = position.isin {
-//                AsyncImage(url: LogoService.logoUrl(for: isin)) {
-//                    ProgressView()
-//                }
-//            }
+
             Spacer()
             percentStack
         }

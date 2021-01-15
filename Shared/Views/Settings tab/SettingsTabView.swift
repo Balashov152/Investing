@@ -89,13 +89,13 @@ struct SettingsTabView: View {
     }
 
     var startPicker: some View {
-        DatePicker(selection: $viewModel.startDate, in: ...Date(), displayedComponents: .date) {
+        DatePicker(selection: $viewModel.startDate, in: ...viewModel.endDate, displayedComponents: .date) {
             Text("Start interval")
         }.datePickerStyle(DefaultDatePickerStyle())
     }
 
     var endPicker: some View {
-        DatePicker(selection: $viewModel.endDate, in: ...Date(), displayedComponents: .date) {
+        DatePicker(selection: $viewModel.endDate, in: viewModel.startDate ... Date(), displayedComponents: .date) {
             Text("End interval")
         }.datePickerStyle(DefaultDatePickerStyle())
     }

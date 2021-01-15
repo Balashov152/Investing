@@ -54,9 +54,10 @@ extension NSNumber {
         formater.locale = locale
         let isInteger = floor(doubleValue) == doubleValue
         formater.minimumFractionDigits = isInteger ? 0 : 2
-//        if doubleValue < 5 {
-//            formater.maximumFractionDigits = 4
-//        }
+
+        if abs(doubleValue).isLess(than: 1) {
+            formater.maximumFractionDigits = 4
+        }
         return formater.string(from: self).orEmpty
     }
 }
