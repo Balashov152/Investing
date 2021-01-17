@@ -124,6 +124,8 @@
 		EFC7F6972595F17B000A6A80 /* CurrencyConvertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7F6962595F17B000A6A80 /* CurrencyConvertModel.swift */; };
 		EFC99748258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
 		EFC99749258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
+		EFD60C3D25B42C2D003337C2 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD60C3C25B42C2D003337C2 /* UserDefault.swift */; };
+		EFD60C3E25B42C2D003337C2 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD60C3C25B42C2D003337C2 /* UserDefault.swift */; };
 		EFDED5CA2594D35A00618E14 /* InstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDED5C92594D35A00618E14 /* InstrumentR.swift */; };
 		EFF46B73259C6B6200EFD02A /* ComissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B6F259C6B6200EFD02A /* ComissionView.swift */; };
 		EFF46B74259C6B6200EFD02A /* ComissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B6F259C6B6200EFD02A /* ComissionView.swift */; };
@@ -293,6 +295,7 @@
 		EFC99735258114DC00A722F7 /* InstrumentsPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentsPayload.swift; sourceTree = "<group>"; };
 		EFC99736258114DC00A722F7 /* Instrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		EFC99747258115B000A722F7 /* InstrumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentsService.swift; sourceTree = "<group>"; };
+		EFD60C3C25B42C2D003337C2 /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		EFDED5C92594D35A00618E14 /* InstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentR.swift; sourceTree = "<group>"; };
 		EFF46B6F259C6B6200EFD02A /* ComissionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComissionView.swift; sourceTree = "<group>"; };
 		EFF46B70259C6B6200EFD02A /* TickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickersView.swift; sourceTree = "<group>"; };
@@ -531,6 +534,7 @@
 				EF76A10F257FB55000991AE3 /* Settings.swift */,
 				EF76A122257FBE5B00991AE3 /* ApiProvider.swift */,
 				EFB535D72592450200C93C3C /* Enviroment.swift */,
+				EFD60C3C25B42C2D003337C2 /* UserDefault.swift */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -1092,6 +1096,7 @@
 				EF76A0D4257FAA5A00991AE3 /* HomeView.swift in Sources */,
 				EFF78C5625933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
 				EF79B7B125B1BE3A005C2EB8 /* PlainSection.swift in Sources */,
+				EFD60C3D25B42C2D003337C2 /* UserDefault.swift in Sources */,
 				EF79B76425B1B128005C2EB8 /* HomeViewModel.swift in Sources */,
 				EF76A0EF257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
@@ -1150,6 +1155,7 @@
 				EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EFF46B78259C6B6200EFD02A /* CurrencyView.swift in Sources */,
 				EF1281E625B202D40018E5FC /* BackgroundButton.swift in Sources */,
+				EFD60C3E25B42C2D003337C2 /* UserDefault.swift in Sources */,
 				EF9CD35125B232430043E9E1 /* DetailCurrencyView.swift in Sources */,
 				EFF46B76259C6B6200EFD02A /* TickersView.swift in Sources */,
 				EF79B7B225B1BE3A005C2EB8 /* PlainSection.swift in Sources */,

@@ -8,59 +8,40 @@
 import Combine
 import Foundation
 
-struct Storage {
+extension Storage {
     enum Keys: String {
         case token, currency
         case currentDBVersion
         case startInterval, endInterval
     }
+}
 
+struct Storage {
     static var isAuthorized: Bool { token != nil }
-    static var defaults: UserDefaults { .standard }
 
-    static var currency: String? {
-        get {
-            defaults.string(forKey: Keys.currency.rawValue)
-        } set {
-            defaults.set(newValue, forKey: Keys.currency.rawValue)
-        }
-    }
+    @UserDefault(key: .currency, defaultValue: nil)
+    static var currency: String?
 
-    static var token: String? {
-        get {
-            defaults.string(forKey: Keys.token.rawValue)
-        } set {
-            defaults.set(newValue, forKey: Keys.token.rawValue)
-        }
-    }
-
+    @UserDefault(key: .token, defaultValue: nil)
+    static var token: String?
+    
+    @UserDefault(key: .currentDBVersion, defaultValue: 0)
+    static var currentDBVersion: Int
+    
     static var dateInterval: DateInterval? {
         get {
-            let formatter = DateFormatter.format("yyyy-MM-dd")
-
-            guard let start = defaults.string(forKey: Keys.startInterval.rawValue),
-                  let end = defaults.string(forKey: Keys.endInterval.rawValue),
-                  let startDate = formatter.date(from: start),
-                  let endDate = formatter.date(from: end)
-            else {
-                return nil
-            }
-
-            return DateInterval(start: startDate, end: endDate)
-
+            guard let start = startDateInterval, let end = endDateInterval
+            else { return nil }
+            return DateInterval(start: start, end: end)
         } set {
-            guard let interval = newValue else { return }
-            let formatter = DateFormatter.format("yyyy-MM-dd")
-            defaults.set(formatter.string(from: interval.start), forKey: Keys.startInterval.rawValue)
-            defaults.set(formatter.string(from: interval.end), forKey: Keys.endInterval.rawValue)
+            startDateInterval = newValue?.start
+            endDateInterval = newValue?.end
         }
     }
+    
+    @UserDefault(key: .startInterval, defaultValue: nil)
+    private static var startDateInterval: Date?
 
-    static var currentDBVersion: Int {
-        get {
-            defaults.integer(forKey: Keys.currentDBVersion.rawValue)
-        } set {
-            defaults.set(newValue, forKey: Keys.currentDBVersion.rawValue)
-        }
-    }
+    @UserDefault(key: .endInterval, defaultValue: nil)
+    private static var endDateInterval: Date?
 }
