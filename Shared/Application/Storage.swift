@@ -19,6 +19,9 @@ extension Storage {
 enum Storage {
     static var isAuthorized: Bool { token != nil }
 
+    @UserDefault(key: .payInAvg, defaultValue: nil)
+    static var payInAvg: Double?
+
     @UserDefault(key: .currency, defaultValue: nil)
     static var currency: String?
 

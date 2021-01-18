@@ -9,11 +9,32 @@ import Combine
 import InvestModels
 import SwiftUI
 
+class TextLimiter: ObservableObject {
+    private let limit: Int
+
+    init(limit: Int) {
+        self.limit = limit
+    }
+
+    @Published var value = "" {
+        didSet {
+            if value.count > limit {
+                value = String(value.prefix(limit))
+                hasReachedLimit = true
+            } else {
+                hasReachedLimit = false
+            }
+        }
+    }
+
+    @Published var hasReachedLimit = false
+}
+
 class DetailCurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
     let currency: Currency
     let operations: [Operation]
 
-    @Published var averagePayIn: String = ""
+    @Published var averagePayIn = TextLimiter(limit: 3)
 
     // Total
 
@@ -64,24 +85,30 @@ class DetailCurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
         self.operations = operations
 
         super.init(env: env)
+
+        averagePayIn.value = Storage.payInAvg?.formattedCurrency() ?? ""
     }
 
     override func bindings() {
         super.bindings()
-//        $averagePayIn
+        averagePayIn.$value.map(Double.init).filter { $0 != nil }
+            .sink { value in
+                Storage.payInAvg = value
+            }.store(in: &cancellables)
     }
 
     // Total
 
     var avg: MoneyAmount {
         var avg = avgBuy.value
-        if let inAvg = Double(averagePayIn) {
+        if let inAvg = Double(averagePayIn.value) {
             let inSpent = payIn.value * inAvg
             let out = payOut.value * avgBuy.value
 
             avg = inSpent + abs(totalSellRUB.value) + out
+            avg /= total.value
         }
-        return MoneyAmount(currency: currency, value: avg / total.value)
+        return MoneyAmount(currency: currency, value: avg)
     }
 
     var total: MoneyAmount {
@@ -99,11 +126,12 @@ struct DetailCurrencyView: View {
                 HStack {
                     Text("Pay in")
                     Spacer()
-                    TextField("average", text: $viewModel.averagePayIn)
+                    TextField("average", text: $viewModel.averagePayIn.value)
                         .keyboardType(.decimalPad)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .multilineTextAlignment(.center)
                         .fixedSize()
+
                     CurrencyText(money: viewModel.payIn)
                 }
                 CurrencyRow(label: "Pay out", money: viewModel.payOut)
