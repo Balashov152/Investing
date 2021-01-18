@@ -122,6 +122,7 @@ struct DetailCurrencyView: View {
                 CurrencyRow(label: "Total", money: viewModel.total)
             }
         }
+
         .listStyle(GroupedListStyle())
         .navigationTitle(viewModel.currency.rawValue)
     }

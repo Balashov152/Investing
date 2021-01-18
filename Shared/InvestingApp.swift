@@ -16,6 +16,11 @@ struct InvestingApp: App {
     var body: some Scene {
         WindowGroup {
             ViewFactory.mainView()
+                .onAppear(perform: onAppearApp)
         }
+    }
+
+    func onAppearApp() {
+        UIScrollView.appearance().keyboardDismissMode = .onDrag
     }
 }
