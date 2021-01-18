@@ -11,6 +11,7 @@ extension UserDefault {
     enum ClearKeys: String {
         case token, currency
         case startInterval, endInterval
+        case payInAvg
     }
 
     enum StorageKeys: String {

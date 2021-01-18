@@ -16,18 +16,21 @@ extension Storage {
     }
 }
 
-struct Storage {
+enum Storage {
     static var isAuthorized: Bool { token != nil }
+
+    @UserDefault(key: .payInAvg, defaultValue: nil)
+    static var payInAvg: Double?
 
     @UserDefault(key: .currency, defaultValue: nil)
     static var currency: String?
 
     @UserDefault(key: .token, defaultValue: nil)
     static var token: String?
-    
+
     @UserDefault(key: .currentDBVersion, defaultValue: 0)
     static var currentDBVersion: Int
-    
+
     static var dateInterval: DateInterval? {
         get {
             guard let start = startDateInterval, let end = endDateInterval
@@ -38,7 +41,7 @@ struct Storage {
             endDateInterval = newValue?.end
         }
     }
-    
+
     @UserDefault(key: .startInterval, defaultValue: nil)
     private static var startDateInterval: Date?
 
