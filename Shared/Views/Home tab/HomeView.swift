@@ -13,7 +13,6 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @State var isShowingPopover = false
-
     @State var showingDetail = false
 
     var body: some View {
@@ -95,7 +94,6 @@ struct HomeView: View {
                                             NavigationLink(destination: Text("Somewhere")) {
                                                 EmptyView()
                                             }
-
                                             .hidden()
                                         )
 

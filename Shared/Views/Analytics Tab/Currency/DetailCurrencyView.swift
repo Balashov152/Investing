@@ -12,47 +12,39 @@ import SwiftUI
 class TextLimiter: ObservableObject {
     private let limit: Int
 
-    init(limit: Int) {
-        self.limit = limit
-    }
-
+    @Published var hasReachedLimit = false
     @Published var value = "" {
         didSet {
             if value.count > limit {
                 value = String(value.prefix(limit))
-                hasReachedLimit = true
-            } else {
-                hasReachedLimit = false
             }
+            hasReachedLimit = value.count > limit
         }
     }
 
-    @Published var hasReachedLimit = false
+    init(limit: Int) {
+        self.limit = limit
+    }
 }
 
 class DetailCurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
     let currency: Currency
     let operations: [Operation]
 
-    @Published var averagePayIn = TextLimiter(limit: 3)
+    @Published var averagePayIn = TextLimiter(limit: 5)
 
     // Total
-
     // In / Out
     var payIn: MoneyAmount {
         return MoneyAmount(currency: currency,
                            value: operations.filter { $0.operationType == .PayIn }
-                               .reduce(0) { result, operation in
-                                   result + operation.payment
-                               })
+                               .reduce(0) { $0 + $1.payment })
     }
 
     var payOut: MoneyAmount {
         return MoneyAmount(currency: currency,
                            value: operations.filter { $0.operationType == .PayOut }
-                               .reduce(0) { result, operation in
-                                   result + operation.payment
-                               })
+                               .reduce(0) { $0 + $1.payment })
     }
 
     // Buy
@@ -85,16 +77,18 @@ class DetailCurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
         self.operations = operations
 
         super.init(env: env)
-
-        averagePayIn.value = Storage.payInAvg?.formattedCurrency() ?? ""
     }
 
     override func bindings() {
         super.bindings()
-        averagePayIn.$value.map(Double.init).filter { $0 != nil }
-            .sink { value in
-                Storage.payInAvg = value
-            }.store(in: &cancellables)
+        if currency == .USD, let avg = Storage.payInAvg {
+            averagePayIn.value = String(avg)
+        }
+
+        averagePayIn.$value.dropFirst()
+            .map(Double.init)
+            .sink { Storage.payInAvg = $0 }
+            .store(in: &cancellables)
     }
 
     // Total
@@ -126,26 +120,32 @@ struct DetailCurrencyView: View {
                 HStack {
                     Text("Pay in")
                     Spacer()
-                    TextField("average", text: $viewModel.averagePayIn.value)
-                        .keyboardType(.decimalPad)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .multilineTextAlignment(.center)
-                        .fixedSize()
+                    if viewModel.currency != .RUB {
+                        TextField("average", text: $viewModel.averagePayIn.value)
+                            .keyboardType(.decimalPad)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .multilineTextAlignment(.center)
+                            .fixedSize()
+                    }
 
                     CurrencyText(money: viewModel.payIn)
                 }
                 CurrencyRow(label: "Pay out", money: viewModel.payOut)
             }
-            Section {
-                CurrencyRow(label: "Average buy", money: viewModel.avgBuy)
-                CurrencyRow(label: "Total buy", money: viewModel.totalBuy)
-                CurrencyRow(label: "Total spent", money: viewModel.totalSellRUB)
-                CurrencyRow(label: "Total comission", money: viewModel.totalCommision)
+            if viewModel.operations.contains { $0.operationType == .Buy } {
+                Section {
+                    CurrencyRow(label: "Average buy", money: viewModel.avgBuy)
+                    CurrencyRow(label: "Total buy", money: viewModel.totalBuy)
+                    CurrencyRow(label: "Total spent", money: viewModel.totalSellRUB)
+                    CurrencyRow(label: "Total comission", money: viewModel.totalCommision)
+                }
             }
 
             Section {
-                CurrencyRow(label: "Average", money: viewModel.avg)
-//                CurrencyRow(label: "Total buy", money: viewModel.totalBuy)
+                if viewModel.avg.value.isNormal {
+                    CurrencyRow(label: "Average", money: viewModel.avg)
+                }
+
 //                CurrencyRow(label: "Total spent", money: viewModel.totalSellRUB)
                 CurrencyRow(label: "Total", money: viewModel.total)
             }
@@ -165,6 +165,19 @@ struct CurrencyRow: View {
             Text(label)
             Spacer()
             CurrencyText(money: money)
+        }
+    }
+}
+
+struct MoneyRow: View {
+    let label: String
+    let money: MoneyAmount
+
+    var body: some View {
+        HStack {
+            Text(label)
+            Spacer()
+            MoneyText(money: money)
         }
     }
 }

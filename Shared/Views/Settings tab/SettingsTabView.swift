@@ -67,25 +67,19 @@ struct SettingsTabView: View {
     @State var token: String = Settings.shared.apiToken
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(viewModel.sections, id: \.type) { section in
-                    Section(header: Text(section.type.localized)) {
-                        switch section.type {
-                        case .token:
-                            tokenApi
-                        case .date:
-//                        VStack {
-                            startPicker
-                            endPicker
-//                        }
-                        }
+        List {
+            ForEach(viewModel.sections, id: \.type) { section in
+                Section(header: Text(section.type.localized)) {
+                    switch section.type {
+                    case .token:
+                        tokenApi
+                    case .date:
+                        startPicker
+                        endPicker
                     }
                 }
             }
-            .navigationTitle("Settings")
-//            .onAppear(perform: viewModel.loadPositions)
-        }
+        }.navigationTitle("Settings")
     }
 
     var startPicker: some View {

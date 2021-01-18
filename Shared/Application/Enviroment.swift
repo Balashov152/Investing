@@ -10,15 +10,11 @@ import InvestModels
 
 extension Environment {
     static let current = Environment(settings: { .shared },
-                                     operationCurrency: { .RUB },
                                      api: { .current })
 }
 
 struct Environment {
     var settings: () -> Settings
-
-    var operationCurrency: () -> Currency
-
     var api: () -> API
 
     var currencyPairService: CurrencyPairService { api().currencyPairService }

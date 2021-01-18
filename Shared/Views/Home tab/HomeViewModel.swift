@@ -107,9 +107,9 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     private func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: { [unowned self] _ in
-            loadPositions()
-        })
+//        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: { [unowned self] _ in
+//            loadPositions()
+//        })
     }
 
     private func map(positions: [Position], to currencyType: ConvertedType) -> [PositionView] {

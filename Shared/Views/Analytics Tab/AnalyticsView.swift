@@ -21,6 +21,8 @@ struct AnalyticsView: View {
                                destination: ViewFactory.currencyView())
                 NavigationLink("Tickers",
                                destination: ViewFactory.tickersView())
+                NavigationLink("Dividends",
+                               destination: ViewFactory.dividentsView())
             }.navigationTitle("Analytics")
         }
     }

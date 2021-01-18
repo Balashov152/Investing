@@ -28,7 +28,8 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     public func loadOperaions() {
-        env.operationsService.getOperations(request: .init(env: env))
+        env.api().operationsService
+            .getOperations(request: .init(env: env))
 
         env.api().positionService.getPositions()
             .replaceError(with: [])
@@ -37,7 +38,7 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     override func bindings() {
-        Publishers.CombineLatest(env.operationsService.$operations, $positions)
+        Publishers.CombineLatest(env.operationsService.$operations, $positions.dropFirst())
             .receive(on: DispatchQueue.global())
             .map { [unowned self] operations, positions in
                 mapToResults(operations: operations, positions: positions)

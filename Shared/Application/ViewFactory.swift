@@ -19,11 +19,15 @@ struct ViewFactory {
         .init(viewModel: .init())
     }
 
+    static func analyticsView() -> AnalyticsView {
+        .init(viewModel: .init())
+    }
+
     static func operationsView() -> OperationsView {
         .init(viewModel: .init())
     }
 
-    static func analyticsView() -> AnalyticsView {
+    static func settingsTabView() -> SettingsTabView {
         .init(viewModel: .init())
     }
 
@@ -33,6 +37,7 @@ struct ViewFactory {
         .init(viewModel: .init())
     }
 
+    // Currency
     static func currencyView() -> CurrencyView {
         .init(viewModel: .init())
     }
@@ -42,6 +47,10 @@ struct ViewFactory {
     }
 
     static func tickersView() -> TickersView {
+        .init(viewModel: .init())
+    }
+
+    static func dividentsView() -> DividentsView {
         .init(viewModel: .init())
     }
 }

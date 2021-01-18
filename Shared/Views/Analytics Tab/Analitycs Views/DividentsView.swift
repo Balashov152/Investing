@@ -9,71 +9,85 @@ import InvestModels
 import SwiftUI
 
 class DividentsViewModel: EnvironmentCancebleObject, ObservableObject {
-//    @Published var operations: [Operation] = []
-    @Published var rows: [Row] = []
-
-    let commissionTypes: [Operation.OperationTypeWithCommission] = [
-        .BrokerCommission, .ServiceCommission, .MarginCommission,
-        .ExchangeCommission, .OtherCommission,
-    ]
+    @Published var dividents: [Operation] = []
 
     public func loadOperaions() {
-        env.operationsService.getOperations(request: .init(env: env))
+        env.operationsService
+            .getOperations(request: .init(env: env))
     }
 
     override func bindings() {
         super.bindings()
         env.operationsService.$operations
-            .map { [unowned self] operations -> [Row] in
-                commissionTypes.compactMap { type -> Row? in
-                    switch type {
-                    case .BrokerCommission, .ServiceCommission, .MarginCommission:
-                        let sum = operations.filter { $0.operationType == .some(type) }.envSum(env: env)
-                        return Row(type: type, value: sum)
-
-                    case .ExchangeCommission, .OtherCommission:
-                        let sum = operations.sum
-//                            .filter { $0.operationType == .some(type) }
-//                            .compactMap {
-//                                $0.convert(money: $0.commission, to: env.currency())
-//                            }
-
-                        return Row(type: type, value: sum)
-                    default:
-                        return nil
-                    }
-                }
-            }
-            .assign(to: \.rows, on: self)
+            .receive(on: DispatchQueue.global())
+            .map { $0.filter(types: [.Dividend, .TaxDividend]) }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.dividents, on: self)
             .store(in: &cancellables)
     }
 }
 
-extension DividentsViewModel {
-    struct Row {
-        let type: Operation.OperationTypeWithCommission
-        let value: Double
-    }
-}
-
 struct DividentsView: View {
-    @ObservedObject var viewModel: ComissionViewModel
-    let commissionTypes = [Operation.OperationTypeWithCommission.BrokerCommission,
-                           .ExchangeCommission, .ServiceCommission, .MarginCommission, .OtherCommission]
+    @ObservedObject var viewModel: DividentsViewModel
+
+    var instruments: [Instrument] {
+        viewModel.dividents
+            .compactMap { $0.instrument }.unique
+            .sorted(by: { $0.name < $1.name })
+    }
 
     var body: some View {
-        List(viewModel.rows, id: \.type) { row in
-            commisionCell(label: row.type.rawValue,
-                          double: row.value)
-        }.navigationTitle("Commissions")
-            .onAppear(perform: viewModel.loadOperaions)
+        List {
+            Section {
+                MoneyRow(label: "Total Dividends",
+                         money: viewModel.dividents.filter(type: .Dividend)
+                             .currencySum(to: .RUB))
+
+                MoneyRow(label: "Total Tax",
+                         money: viewModel.dividents.filter(type: .TaxDividend)
+                             .currencySum(to: .RUB))
+            }
+
+            Section {
+                ForEach(instruments, id: \.self) { instrument in
+                    let operations = viewModel.dividents
+                        .filter { $0.instrument == instrument }
+                        .sorted(by: { $0.date < $1.date })
+
+                    DisclosureGroup(content: {
+                        ForEach(operations, id: \.self) { operation in
+                            Row(operation: operation)
+                        }
+                    }, label: {
+                        CurrencyRow(label: instrument.name,
+                                    money: operations.currencySum(to: instrument.currency))
+                    })
+                }
+            }
+        }
+        .listStyle(GroupedListStyle())
+        .navigationTitle("Dividends")
+        .onAppear(perform: viewModel.loadOperaions)
     }
 
-    func commisionCell(label: String, double: Double) -> some View {
-        HStack {
-            Text(label)
-            Spacer()
-            Text(double.string(f: ".2"))
+    struct Row: View {
+        let operation: Operation
+
+        var body: some View {
+            VStack(alignment: .leading) {
+                if operation.operationType == .some(.Dividend) {
+                    CurrencyRow(label: "Dividend",
+                                money: MoneyAmount(currency: operation.currency,
+                                                   value: operation.payment))
+                } else if operation.operationType == .some(.TaxDividend) {
+                    CurrencyRow(label: "Dividend tax",
+                                money: MoneyAmount(currency: operation.currency,
+                                                   value: operation.payment))
+                }
+                Text(DateFormatter.format("HH:mm dd MMMM yyyy").string(from: operation.date))
+                    .font(.system(size: 12, weight: .regular))
+                    .foregroundColor(Color.gray)
+            }.padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
         }
     }
 }

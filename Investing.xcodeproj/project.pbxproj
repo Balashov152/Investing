@@ -25,6 +25,7 @@
 		EF12821225B20FCC0018E5FC /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF12820C25B20FCC0018E5FC /* AsyncImage.swift */; };
 		EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
 		EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
+		EF4C35A925B5D43C00A3AB5D /* TaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C35A825B5D43C00A3AB5D /* TaxView.swift */; };
 		EF637FEE259362DA00D2C42D /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FED259362D900D2C42D /* DBManager.swift */; };
 		EF637FEF259362DA00D2C42D /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FED259362D900D2C42D /* DBManager.swift */; };
 		EF637FFC259364FF00D2C42D /* CurrencyPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */; };
@@ -224,6 +225,7 @@
 		EF12820B25B20FCC0018E5FC /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		EF12820C25B20FCC0018E5FC /* AsyncImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		EF27F73025B089FA00E83EE3 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
+		EF4C35A825B5D43C00A3AB5D /* TaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxView.swift; sourceTree = "<group>"; };
 		EF637FED259362D900D2C42D /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyPosition.swift; sourceTree = "<group>"; };
 		EF637FFB259364FF00D2C42D /* CurrenciesPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrenciesPayload.swift; sourceTree = "<group>"; };
@@ -417,6 +419,14 @@
 			path = Currency;
 			sourceTree = "<group>";
 		};
+		EF4C35A325B5D2DE00A3AB5D /* Tax */ = {
+			isa = PBXGroup;
+			children = (
+				EF4C35A825B5D43C00A3AB5D /* TaxView.swift */,
+			);
+			path = Tax;
+			sourceTree = "<group>";
+		};
 		EF637FF4259364DB00D2C42D /* Positions */ = {
 			isa = PBXGroup;
 			children = (
@@ -438,8 +448,9 @@
 		EF761AD72590E5B900320289 /* Analytics Tab */ = {
 			isa = PBXGroup;
 			children = (
-				EF12823D25B220700018E5FC /* Currency */,
+				EF4C35A325B5D2DE00A3AB5D /* Tax */,
 				EF761AD82590E5DD00320289 /* AnalyticsView.swift */,
+				EF12823D25B220700018E5FC /* Currency */,
 				EFF46B6E259C6B6200EFD02A /* Analitycs Views */,
 			);
 			path = "Analytics Tab";
@@ -1088,6 +1099,7 @@
 				EFC02B0825800BF6008AF0FF /* OperationsService.swift in Sources */,
 				EF12821125B20FCC0018E5FC /* AsyncImage.swift in Sources */,
 				EFB5354E2592209500C93C3C /* CurrencyPairService.swift in Sources */,
+				EF4C35A925B5D43C00A3AB5D /* TaxView.swift in Sources */,
 				EFB535D82592450200C93C3C /* Enviroment.swift in Sources */,
 				EF79B80525B1E064005C2EB8 /* LogoService.swift in Sources */,
 				EF1281E525B202D40018E5FC /* BackgroundButton.swift in Sources */,

@@ -19,7 +19,7 @@ struct BackgroundButton: View {
             Text(title)
                 .foregroundColor(isSelected ? Color.white : Color.accentColor)
                 .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
-                .background(isSelected ? Color.accentColor : Color(UIColor.litleGray))
+                .background(isSelected ? Color(UIColor.systemGray2) : Color.litleGray)
                 .cornerRadius(6)
                 .textCase(nil)
         }

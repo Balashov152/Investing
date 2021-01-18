@@ -24,6 +24,8 @@ struct UserDefault<Value> {
     private let key: String
     private let defaultValue: Value
 
+    private var storage: UserDefaults = .standard
+
     init(key: StorageKeys, defaultValue: Value) {
         self.key = key.rawValue
         self.defaultValue = defaultValue
@@ -37,11 +39,23 @@ struct UserDefault<Value> {
     var wrappedValue: Value {
         get {
             // Read value from UserDefaults
-            UserDefaults.standard.object(forKey: key) as? Value ?? defaultValue
+            storage.object(forKey: key) as? Value ?? defaultValue
         }
         set {
             // Set value to UserDefaults
-            UserDefaults.standard.set(newValue, forKey: key)
+            if let optional = newValue as? AnyOptional, optional.isNil {
+                storage.removeObject(forKey: key)
+            } else {
+                storage.setValue(newValue, forKey: key)
+            }
         }
     }
+}
+
+private protocol AnyOptional {
+    var isNil: Bool { get }
+}
+
+extension Optional: AnyOptional {
+    var isNil: Bool { self == nil }
 }

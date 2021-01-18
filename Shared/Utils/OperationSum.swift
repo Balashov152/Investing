@@ -9,20 +9,36 @@ import Foundation
 import InvestModels
 
 extension Collection where Element == Operation {
+    func filter(type: Operation.OperationTypeWithCommission) -> [Element] {
+        filter { $0.operationType == type }
+    }
+
+    func filter(types: Set<Operation.OperationTypeWithCommission>) -> [Element] {
+        filter { types.contains($0.operationType) }
+    }
+
+    func filter(types: Set<Operation.OperationTypeWithCommission>,
+                or condition: (Operation) -> (Bool)) -> [Element]
+    {
+        filter { types.contains($0.operationType) || condition($0) }
+    }
+
     var sum: Double {
         map { $0.payment }.reduce(0, +)
     }
 
-    func envSum(env: Environment) -> Double {
-        map { operation in
-            operation.convertPayment(to: env.operationCurrency())
+    func currencySum(to currency: Currency) -> MoneyAmount {
+        let value = map { operation in
+            operation.convertPayment(to: currency)
         }.map { $0.value }.reduce(0, +)
+
+        return MoneyAmount(currency: currency, value: value)
     }
 }
 
 extension Collection where Element == MoneyAmount {
     var sum: Double {
-        map { $0.value }.reduce(0, +)
+        map { $0.value }.sum
     }
 }
 
