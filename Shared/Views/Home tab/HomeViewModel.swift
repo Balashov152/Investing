@@ -84,7 +84,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
 //        startTimer()
 
-        $convertType.sink(receiveValue: { value in
+        $convertType.dropFirst().sink(receiveValue: { value in
             switch value {
             case .original:
                 Settings.shared.currency = nil

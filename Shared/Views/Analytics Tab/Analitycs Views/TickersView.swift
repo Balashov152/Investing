@@ -147,6 +147,6 @@ struct MoneyText: View {
 
     var body: some View {
         Text(money.value.formattedCurrency(locale: money.currency.locale))
-            .foregroundColor(Color.currency(value: money.value))
+            .foregroundColor(.currency(value: money.value))
     }
 }

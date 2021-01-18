@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import UIKit
+import InvestModels
 
 struct ViewFactory {
     // MAIN TABS
@@ -35,6 +35,10 @@ struct ViewFactory {
 
     static func currencyView() -> CurrencyView {
         .init(viewModel: .init())
+    }
+
+    static func detailCurrencyView(currency: Currency, operations: [Operation], env: Environment) -> DetailCurrencyView {
+        .init(viewModel: .init(currency: currency, operations: operations, env: env))
     }
 
     static func tickersView() -> TickersView {

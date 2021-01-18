@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import UIKit
 
 extension UIColor {
@@ -20,5 +21,13 @@ extension UIColor {
                 return UIColor(white: 0.93, alpha: 1)
             }
         }
+    }
+}
+
+extension Color {
+    static func currency(value: Double) -> Color {
+        if value == .zero { return .gray }
+
+        return value > 0 ? .green : .red
     }
 }

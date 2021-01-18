@@ -9,7 +9,7 @@ import Foundation
 import InvestModels
 
 struct LogoService {
-    static let base = "http://static.tinkoff.ru/brands/traiding/"
+    static let base = "https://static.tinkoff.ru/brands/traiding/"
     static func logoUrl(for isin: String) -> URL {
         URL(string: base + isin + "x160.png")!
     }

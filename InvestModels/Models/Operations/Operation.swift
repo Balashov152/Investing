@@ -42,7 +42,7 @@ public struct Operation: Decodable, CurrencyConvertModel {
     public let id: String?
 
     public let status: OperationStatus?
-    public let operationType: OperationTypeWithCommission?
+    public let operationType: OperationTypeWithCommission
     
     public let trades: [Trades]
     public let commission: MoneyAmount?
@@ -50,7 +50,7 @@ public struct Operation: Decodable, CurrencyConvertModel {
     public let currency: Currency
     public let payment: Double
 
-    public let price: Double?
+    public let price: Double
 
     public let quantity: Int
     public let quantityExecuted: Int
@@ -91,14 +91,14 @@ public struct Operation: Decodable, CurrencyConvertModel {
         commission = try values.decodeIfPresent(forKey: .commission)
         currency = try values.decodeIfPresent(forKey: .currency, default: .USD)
         payment = try values.decodeIfPresent(forKey: .payment, default: 0)
-        price = try values.decodeIfPresent(forKey: .price)
+        price = try values.decodeIfPresent(forKey: .price, default: 0)
         quantity = try values.decodeIfPresent(forKey: .quantity, default: 0)
         quantityExecuted = try values.decodeIfPresent(forKey: .quantityExecuted, default: 0)
         figi = try values.decodeIfPresent(forKey: .figi)
         instrumentType = try values.decodeIfPresent(forKey: .instrumentType)
         isMarginCall = try values.decodeIfPresent(forKey: .isMarginCall, default: false)
         date = try values.decodeIfPresent(forKey: .date, default: Date())
-        operationType = try values.decodeIfPresent(forKey: .operationType)
+        operationType = try values.decodeIfPresent(forKey: .operationType, default: .Buy)
     }
 
 }
