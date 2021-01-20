@@ -23,18 +23,28 @@ class MainViewModel: EnvironmentCancebleObject, ObservableObject {
 
     func loadData() {
         guard loadDB == .loading else { return }
-        dbManager.updateCurrency()
-            .sink(receiveValue: {}).store(in: &cancellables)
 
         dbManager.updateIfNeeded { [unowned self] in
             self.loadDB = .loaded(object: ())
         }
+
+        loadCurrency()
     }
 
     func loadCurrency() {
         dbManager.updateCurrency()
             .sink(receiveValue: {}).store(in: &cancellables)
     }
+}
+
+extension MainView {
+    static let settingsNavigationLink: some View = {
+        Button(action: {}) {
+            NavigationLink(destination: ViewFactory.settingsTabView) {
+                Image(systemName: "gearshape")
+            }
+        }
+    }()
 }
 
 struct MainView: View {
@@ -74,35 +84,32 @@ struct MainView: View {
     }
 
     var profileView: some View {
-        ViewFactory.homeView()
-            .tabItem {
-                VStack {
-                    Image(systemName: selection == 0 ? "dollarsign.circle.fill" : "dollarsign.circle")
-                    Text("Profile")
-                }.font(.system(size: 16, weight: selection == 0 ? .bold : .regular))
-            }.tag(0)
+        ViewFactory.homeView.tabItem {
+            VStack {
+                Image(systemName: selection == 0 ? "dollarsign.circle.fill" : "dollarsign.circle")
+                Text("Profile")
+            }.font(.system(size: 16, weight: selection == 0 ? .bold : .regular))
+        }.tag(0)
     }
 
     var analyticsView: some View {
-        ViewFactory.analyticsView()
-            .tabItem {
-                VStack {
-                    Image(systemName: selection == 1 ? "chart.bar.fill" : "chart.bar")
-                    Text("Analytics")
-                        .font(.system(size: 16, weight: selection == 1 ? .bold : .regular))
-                }
-            }.tag(1)
+        ViewFactory.analyticsView.tabItem {
+            VStack {
+                Image(systemName: selection == 1 ? "chart.bar.fill" : "chart.bar")
+                Text("Analytics")
+                    .font(.system(size: 16, weight: selection == 1 ? .bold : .regular))
+            }
+        }.tag(1)
     }
 
     var operationsView: some View {
-        ViewFactory.operationsView()
-            .tabItem {
-                VStack {
-                    Image(systemName: "list.bullet.rectangle")
-                        .resizable()
-                    Text("Operations")
-                }.font(.system(size: 16, weight: selection == 2 ? .bold : .regular))
-            }.tag(2)
+        ViewFactory.operationsView.tabItem {
+            VStack {
+                Image(systemName: "list.bullet.rectangle")
+                    .resizable()
+                Text("Operations")
+            }.font(.system(size: 16, weight: selection == 2 ? .bold : .regular))
+        }.tag(2)
     }
 }
 

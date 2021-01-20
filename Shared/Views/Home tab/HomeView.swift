@@ -21,9 +21,14 @@ struct HomeView: View {
                 convertView
                 list
             }
+            .navigationBarItems(trailing: MainView.settingsNavigationLink)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: viewModel.loadPositions)
         }
+    }
+
+    var currenciesInPositions: [Currency] {
+        viewModel.positions.map { $0.currency }.unique.sorted(by: >)
     }
 
     var totalTitleView: some View {
@@ -36,16 +41,19 @@ struct HomeView: View {
                 Button(action: {
                     self.showingDetail.toggle()
                 }) {
-                    Text("Show Detail")
+                    Text("Detail")
                 }.sheet(isPresented: $showingDetail) {
                     Text("Detail View")
                 }.buttonStyle(PlainButtonStyle())
             }
-            ForEach(viewModel.positions.map { $0.currency }.unique.sorted(by: >).enumeratedArray(), id: \.element) { index, currency in
-                if index != 0 {
-                    Divider()
-                }
+
+            ForEach(currenciesInPositions.indexed(), id: \.element) { index, currency in
+                if index != 0 { Divider() }
                 TotalView(currency: currency, positions: viewModel.positions)
+            }
+
+            if let total = viewModel.convertedTotal {
+                MoneyText(money: total)
             }
         }
     }
@@ -84,7 +92,7 @@ struct HomeView: View {
     var list: some View {
         List {
             totalTitleView
-            ForEach(viewModel.sections, id: \.self) { section in
+            ForEach(viewModel.sections) { section in
                 Section {
                     PlainSection(header: HeaderView(section: section)) {
                         ForEach(section.positions,

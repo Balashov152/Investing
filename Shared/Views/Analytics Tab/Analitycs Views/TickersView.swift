@@ -151,3 +151,11 @@ struct MoneyText: View {
             .foregroundColor(.currency(value: money.value))
     }
 }
+
+struct PercentText: View {
+    let percent: Double
+    var body: some View {
+        Text(percent.string(f: ".2") + "%")
+            .foregroundColor(.currency(value: percent))
+    }
+}

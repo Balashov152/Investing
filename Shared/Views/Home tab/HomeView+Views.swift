@@ -26,10 +26,15 @@ extension HomeView {
             MoneyAmount(currency: currency, value: filteredPositions.map { $0.expectedYield }.sum)
         }
 
+        var percent: Double {
+            (expectedProfile.value / totalInProfile.value) * 100
+        }
+
         var body: some View {
             HStack {
                 CurrencyText(money: totalInProfile)
                 MoneyText(money: expectedProfile)
+                PercentText(percent: percent)
             }.font(.system(size: 17, weight: .medium))
         }
     }

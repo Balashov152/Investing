@@ -11,46 +11,46 @@ import InvestModels
 
 struct ViewFactory {
     // MAIN TABS
-    static func mainView() -> MainView {
+    static let mainView: MainView = {
         .init(viewModel: .init())
-    }
+    }()
 
-    static func homeView() -> HomeView {
+    static let homeView: HomeView = {
         .init(viewModel: .init())
-    }
+    }()
 
-    static func analyticsView() -> AnalyticsView {
+    static let analyticsView: AnalyticsView = {
         .init(viewModel: .init())
-    }
+    }()
 
-    static func operationsView() -> OperationsView {
+    static let operationsView: OperationsView = {
         .init(viewModel: .init())
-    }
+    }()
 
-    static func settingsTabView() -> SettingsTabView {
+    static let settingsTabView: SettingsTabView = {
         .init(viewModel: .init())
-    }
+    }()
 
     // VIEWS
 
-    static func comissionView() -> ComissionView {
+    static let comissionView: ComissionView = {
         .init(viewModel: .init())
-    }
+    }()
 
     // Currency
-    static func currencyView() -> CurrencyView {
+    static let currencyView: CurrencyView = {
         .init(viewModel: .init())
-    }
+    }()
 
     static func detailCurrencyView(currency: Currency, operations: [Operation], env: Environment) -> DetailCurrencyView {
         .init(viewModel: .init(currency: currency, operations: operations, env: env))
     }
 
-    static func tickersView() -> TickersView {
+    static let tickersView: TickersView = {
         .init(viewModel: .init())
-    }
+    }()
 
-    static func dividentsView() -> DividentsView {
+    static let dividentsView: DividentsView = {
         .init(viewModel: .init())
-    }
+    }()
 }
