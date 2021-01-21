@@ -12,9 +12,3 @@ extension Array where Element: Hashable {
         Array(Set(self))
     }
 }
-
-extension Collection {
-    func enumeratedArray() -> [(offset: Int, element: Self.Element)] {
-        return Array(enumerated())
-    }
-}

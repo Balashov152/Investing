@@ -42,7 +42,7 @@ struct HomeView: View {
                     Text("Detail View")
                 }.buttonStyle(PlainButtonStyle())
             }
-            ForEach(viewModel.positions.map { $0.currency }.unique.sorted(by: >).enumeratedArray(), id: \.element) { index, currency in
+            ForEach(viewModel.positions.map { $0.currency }.unique.sorted(by: >).indexed(), id: \.element) { index, currency in
                 if index != 0 {
                     Divider()
                 }
