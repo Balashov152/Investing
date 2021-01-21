@@ -23,12 +23,12 @@ class MainViewModel: EnvironmentCancebleObject, ObservableObject {
 
     func loadData() {
         guard loadDB == .loading else { return }
-        dbManager.updateCurrency()
-            .sink(receiveValue: {}).store(in: &cancellables)
 
         dbManager.updateIfNeeded { [unowned self] in
             self.loadDB = .loaded(object: ())
         }
+
+        loadCurrency()
     }
 
     func loadCurrency() {
@@ -37,8 +37,20 @@ class MainViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 }
 
+extension MainView {
+    static let settingsNavigationLink: some View = {
+        Button(action: {}) {
+            NavigationLink(destination: ViewFactory.settingsTabView) {
+                Image(systemName: "gearshape")
+            }
+        }
+    }()
+}
+
 struct MainView: View {
     @ObservedObject var viewModel: MainViewModel
+
+    @State var selection = 0
 
     var body: some View {
         Group {
@@ -58,54 +70,46 @@ struct MainView: View {
         VStack(spacing: 8) {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
-            Text("Loading..")
+            Text("Loading...")
         }
     }
 
     var tabBarView: some View {
-        TabView {
+        TabView(selection: $selection) {
             profileView
             analyticsView
             operationsView
-            SettingsTabView(viewModel: .init())
-                .tabItem {
-                    VStack {
-                        Image(systemName: "gearshape")
-                        Text("Settings")
-                    }
-                }
         }
-        .accentColor(Color(UIColor.systemOrange))
+        .accentColor(Color.appBlack)
     }
 
     var profileView: some View {
-        ViewFactory.homeView()
-            .tabItem {
-                VStack {
-                    Image(systemName: "dollarsign.circle")
-                    Text("Profile")
-                }
-            }
+        ViewFactory.homeView.tabItem {
+            VStack {
+                Image(systemName: selection == 0 ? "dollarsign.circle.fill" : "dollarsign.circle")
+                Text("Profile")
+            }.font(.system(size: 16, weight: selection == 0 ? .bold : .regular))
+        }.tag(0)
     }
 
     var analyticsView: some View {
-        ViewFactory.analyticsView()
-            .tabItem {
-                VStack {
-                    Image(systemName: "chart.bar.xaxis")
-                    Text("Analytics")
-                }
+        ViewFactory.analyticsView.tabItem {
+            VStack {
+                Image(systemName: selection == 1 ? "chart.bar.fill" : "chart.bar")
+                Text("Analytics")
+                    .font(.system(size: 16, weight: selection == 1 ? .bold : .regular))
             }
+        }.tag(1)
     }
 
     var operationsView: some View {
-        ViewFactory.operationsView()
-            .tabItem {
-                VStack {
-                    Image(systemName: "list.bullet.rectangle")
-                    Text("Operations")
-                }
-            }
+        ViewFactory.operationsView.tabItem {
+            VStack {
+                Image(systemName: "list.bullet.rectangle")
+                    .resizable()
+                Text("Operations")
+            }.font(.system(size: 16, weight: selection == 2 ? .bold : .regular))
+        }.tag(2)
     }
 }
 

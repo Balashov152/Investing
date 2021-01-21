@@ -12,7 +12,9 @@ import SwiftUI
 class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
 //    @Published var operations: [Operation] = []
     @Published var rows: [Row] = []
-    @Published var total: Double = 0.0
+    @Published var total = MoneyAmount(currency: .RUB, value: 0)
+
+    static let currency = Currency.RUB
 
     let commissionTypes: [Operation.OperationTypeWithCommission] = [
         .BrokerCommission, .ServiceCommission, .MarginCommission,
@@ -30,22 +32,18 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
                 commissionTypes.compactMap { type -> Row? in
                     switch type {
                     case .BrokerCommission, .ServiceCommission, .MarginCommission:
-                        let sum = operations.filter { $0.operationType == .some(type) }.envSum(env: env)
-                        if sum != 0 {
+                        let sum = operations.filter { $0.operationType == .some(type) }
+                            .currencySum(to: ComissionViewModel.currency)
+                        if sum.value != 0 {
                             return Row(type: type, value: sum)
                         }
 
                     case .ExchangeCommission, .OtherCommission:
                         let sum = operations
                             .filter { $0.operationType == .some(type) }
-                            .compactMap { operation -> MoneyAmount? in
-                                if let commission = operation.commission {
-                                    return operation.convert(money: commission, to: env.operationCurrency())
-                                }
-                                return nil
-                            }.map { $0.value }.sum
+                            .currencySum(to: ComissionViewModel.currency)
 
-                        if sum != 0 {
+                        if sum.value != 0 {
                             return Row(type: type, value: sum)
                         }
                     default: break
@@ -57,7 +55,10 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
             .store(in: &cancellables)
 
         $rows
-            .map { $0.map { $0.value }.sum }
+            .map { [unowned self] in
+                MoneyAmount(currency: ComissionViewModel.currency,
+                            value: $0.map { $0.value }.sum)
+            }
             .assign(to: \.total, on: self)
             .store(in: &cancellables)
     }
@@ -66,7 +67,7 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
 extension ComissionViewModel {
     struct Row {
         let type: Operation.OperationTypeWithCommission
-        let value: Double
+        let value: MoneyAmount
     }
 }
 
@@ -76,10 +77,10 @@ struct ComissionView: View {
     var body: some View {
         List {
             ForEach(viewModel.rows, id: \.type) { row in
-                commisionCell(label: row.type.rawValue, double: row.value)
+                MoneyRow(label: row.type.rawValue, money: row.value)
             }
-            if viewModel.total != 0 {
-                commisionCell(label: "Total", double: viewModel.total)
+            if viewModel.total.value != 0 {
+                MoneyRow(label: "Total", money: viewModel.total)
             }
         }
         .navigationTitle("Commissions")

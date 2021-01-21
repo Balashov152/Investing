@@ -10,6 +10,22 @@ import Foundation
 import InvestModels
 
 extension HomeViewModel {
+    struct Section: Hashable, Identifiable {
+        var id: Int { hashValue }
+
+        let type: InstrumentType
+        let positions: [PositionView]
+
+        var currencies: [Currency] {
+            positions.map { $0.currency }.unique
+        }
+
+        func sum(currency: Currency) -> Double {
+            positions.filter { $0.currency == currency }
+                .reduce(0) { $0 + $1.totalInProfile.value - $1.totalBuyPayment.value }
+        }
+    }
+
     enum ConvertedType: Equatable {
         case original
         case currency(Currency)
@@ -26,25 +42,13 @@ extension HomeViewModel {
 }
 
 class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
-    struct Section: Hashable {
-        let type: InstrumentType
-        let positions: [PositionView]
-
-        var currencies: [Currency] {
-            positions.map { $0.currency }.unique
-        }
-
-        func sum(currency: Currency) -> Double {
-            positions.filter { $0.currency == currency }
-                .reduce(0) { $0 + $1.totalInProfile.value - $1.totalBuyPayment.value }
-        }
-    }
-
     let currencyPairServiceLatest: CurrencyPairServiceLatest
 
     @Published var convertType: ConvertedType
 
     @Published var sections: [Section] = []
+    @Published var convertedTotal: MoneyAmount?
+
     @Published var positions: [Position] = []
     @Published var currencies: [CurrencyPosition] = []
 
@@ -63,6 +67,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     var timer: Timer?
 
     override func bindings() {
+        super.bindings()
         Publishers.CombineLatest($positions.dropFirst(), $convertType.removeDuplicates())
             .receive(on: DispatchQueue.global())
             .map { [unowned self] positions, currencyType -> [PositionView] in
@@ -78,8 +83,28 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
                     }
                     return nil
                 }
-            }.receive(on: DispatchQueue.main)
+            }
+            .receive(on: DispatchQueue.main)
             .assign(to: \.sections, on: self)
+            .store(in: &cancellables)
+
+        Publishers.CombineLatest($positions.dropFirst(), $convertType.removeDuplicates())
+            .receive(on: DispatchQueue.global())
+            .map { positions, currencyType -> MoneyAmount? in
+                switch currencyType {
+                case let .currency(currency):
+                    let sum = positions.reduce(0) { [unowned self] (result, position) -> Double in
+                        result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+                                                                money: position.totalInProfile,
+                                                                to: currency).value
+                    }
+                    return MoneyAmount(currency: currency, value: sum)
+                case .original:
+                    return nil
+                }
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.convertedTotal, on: self)
             .store(in: &cancellables)
 
 //        startTimer()

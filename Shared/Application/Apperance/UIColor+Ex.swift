@@ -9,9 +9,22 @@ import Foundation
 import SwiftUI
 import UIKit
 
-extension UIColor {
-    static var litleGray: UIColor {
-        UIColor { (collection) -> UIColor in
+extension Color {
+    static var appBlack: Color {
+        Color(UIColor { (collection) -> UIColor in
+            switch collection.userInterfaceStyle {
+            case .light, .unspecified:
+                return UIColor(white: 0.13, alpha: 1)
+            case .dark:
+                return UIColor(white: 0.87, alpha: 1)
+            @unknown default:
+                return UIColor(white: 0.13, alpha: 1)
+            }
+        })
+    }
+
+    static var litleGray: Color {
+        Color(UIColor { (collection) -> UIColor in
             switch collection.userInterfaceStyle {
             case .light, .unspecified:
                 return UIColor(white: 0.93, alpha: 1)
@@ -20,7 +33,7 @@ extension UIColor {
             @unknown default:
                 return UIColor(white: 0.93, alpha: 1)
             }
-        }
+        })
     }
 }
 

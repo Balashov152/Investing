@@ -15,7 +15,12 @@ public typealias Operation = InvestModels.Operation
 struct InvestingApp: App {
     var body: some Scene {
         WindowGroup {
-            ViewFactory.mainView()
+            ViewFactory.mainView
+                .onAppear(perform: onAppearApp)
         }
+    }
+
+    func onAppearApp() {
+        UIScrollView.appearance().keyboardDismissMode = .onDrag
     }
 }

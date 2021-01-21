@@ -40,32 +40,38 @@ struct PositionView: Hashable {
     public let averagePositionPrice: MoneyAmount
 }
 
+extension PositionView: Identifiable {
+    var id: Int {
+        hashValue
+    }
+}
+
 extension PositionView {
-    public var currency: Currency {
+    var currency: Currency {
         averagePositionPrice.currency
     }
 
-    public var totalBuyPayment: MoneyAmount {
+    var totalBuyPayment: MoneyAmount {
         MoneyAmount(currency: currency,
                     value: averagePositionPrice.value * Double(lots))
     }
 
-    public var totalInProfile: MoneyAmount {
+    var totalInProfile: MoneyAmount {
         MoneyAmount(currency: currency,
                     value: totalBuyPayment.value + expectedYield.value)
     }
 
-    public var deltaAveragePositionPrice: MoneyAmount {
+    var deltaAveragePositionPrice: MoneyAmount {
         MoneyAmount(currency: expectedYield.currency,
                     value: expectedYield.value / Double(lots))
     }
 
-    public var averagePositionPriceNow: MoneyAmount {
+    var averagePositionPriceNow: MoneyAmount {
         MoneyAmount(currency: currency,
                     value: totalInProfile.value / Double(lots))
     }
 
-    public var expectedPercent: Double {
+    var expectedPercent: Double {
         (expectedYield.value / totalBuyPayment.value) * 100
     }
 }
@@ -155,8 +161,10 @@ struct PositionRowView: View {
 
     var percentStack: some View {
         HStack(spacing: 4) {
-            Image(systemName: position.expectedYield.value > 0 ? "arrow.up" : "arrow.down")
-                .foregroundColor(Color.currency(value: position.expectedYield.value))
+            if position.expectedYield.value != 0 {
+                Image(systemName: position.expectedYield.value > 0 ? "arrow.up" : "arrow.down")
+                    .foregroundColor(Color.currency(value: position.expectedYield.value))
+            }
 
             Text(position.expectedPercent.string(f: ".2") + "%")
                 .foregroundColor(Color.currency(value: position.expectedYield.value))
