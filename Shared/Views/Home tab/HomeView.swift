@@ -112,17 +112,7 @@ struct HomeView: View {
                 Section {
                     DisclosureGroup(isExpanded: isExpandedSection(type: section.type),
                                     content: {
-                                        ForEach(section.positions,
-                                                id: \.self, content: { position in
-                                                    PositionRowView(position: position)
-                                                        .background(
-                                                            NavigationLink(destination: Text("Somewhere")) {
-                                                                EmptyView()
-                                                            }
-                                                            .hidden()
-                                                        )
-
-                                                })
+                                        groupContent(section: section)
                                     },
                                     label: {
                                         HeaderView(section: section)
@@ -131,6 +121,21 @@ struct HomeView: View {
             }
         }
         .listStyle(GroupedListStyle())
+    }
+
+    func groupContent(section: HomeViewModel.Section) -> some View {
+        ForEach(section.positions,
+                id: \.self, content: { position in
+                    PositionRowView(position: position)
+                        .background(
+                            NavigationLink(destination: ViewFactory.positionDetailView(position: position,
+                                                                                       env: viewModel.env)) {
+                                EmptyView()
+                            }
+                            .hidden()
+                        )
+
+                })
     }
 
     var currencies: some View {

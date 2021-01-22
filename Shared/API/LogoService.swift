@@ -9,8 +9,8 @@ import Foundation
 import InvestModels
 
 struct InstrumentLogoService {
-    static func logoUrl(for type: InstrumentType?, isin: String?) -> URL? {
-        guard type == .Stock, let isin = isin else {
+    static func logoUrl(for _: InstrumentType?, isin: String?) -> URL? {
+        guard let isin = isin else { // type == .Stock,
             return nil
         }
 

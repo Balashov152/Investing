@@ -48,18 +48,19 @@ extension HomeView {
                     Text(section.type.rawValue + "s")
                         .font(.system(size: 18, weight: .medium))
                         .textCase(.uppercase)
-                    Spacer()
+                    Spacer(minLength: 16)
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack { ForEach(section.positions, id: \.self) { position in
-
-                            if let url = InstrumentLogoService.logoUrl(for: position.instrumentType, isin: position.isin) {
-                                URLImage(url: url) { image in
-                                    image
-                                        .frame(width: 20, height: 20, alignment: .center)
-                                        .cornerRadius(10)
+                        HStack {
+                            ForEach(section.positions, id: \.self) { position in
+                                if let url = InstrumentLogoService.logoUrl(for: position.instrumentType, isin: position.isin) {
+                                    URLImage(url: url) { image in
+                                        image
+                                            .frame(width: 20, height: 20, alignment: .center)
+                                            .cornerRadius(10)
+                                    }
                                 }
                             }
-                        }}
+                        }
                     }
                 }
 

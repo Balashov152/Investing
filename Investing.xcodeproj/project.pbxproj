@@ -74,6 +74,9 @@
 		EF79B80525B1E064005C2EB8 /* LogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B80425B1E064005C2EB8 /* LogoService.swift */; };
 		EF79B80625B1E064005C2EB8 /* LogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B80425B1E064005C2EB8 /* LogoService.swift */; };
 		EF8114B22596375700773236 /* SettingsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8114B12596375700773236 /* SettingsTabView.swift */; };
+		EF951DF325BB22EF0006FD97 /* PinnedInstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */; };
+		EF951DFF25BB24610006FD97 /* PositionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF925BB245E0006FD97 /* PositionDetailView.swift */; };
+		EF951E0025BB24610006FD97 /* PositionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF925BB245E0006FD97 /* PositionDetailView.swift */; };
 		EF95816B2590903000D559E7 /* InvestModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9581622590903000D559E7 /* InvestModels.framework */; };
 		EF9581722590903000D559E7 /* InvestModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9581712590903000D559E7 /* InvestModelsTests.swift */; };
 		EF9581742590903000D559E7 /* InvestModels.h in Headers */ = {isa = PBXBuildFile; fileRef = EF9581642590903000D559E7 /* InvestModels.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -271,6 +274,8 @@
 		EF79B7BC25B1CA9B005C2EB8 /* UIColor+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ex.swift"; sourceTree = "<group>"; };
 		EF79B80425B1E064005C2EB8 /* LogoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoService.swift; sourceTree = "<group>"; };
 		EF8114B12596375700773236 /* SettingsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabView.swift; sourceTree = "<group>"; };
+		EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedInstrumentR.swift; sourceTree = "<group>"; };
+		EF951DF925BB245E0006FD97 /* PositionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionDetailView.swift; sourceTree = "<group>"; };
 		EF9581622590903000D559E7 /* InvestModels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InvestModels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9581642590903000D559E7 /* InvestModels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InvestModels.h; sourceTree = "<group>"; };
 		EF9581652590903000D559E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -640,6 +645,14 @@
 			path = "Settings tab";
 			sourceTree = "<group>";
 		};
+		EF951DF825BB244A0006FD97 /* Position Detail */ = {
+			isa = PBXGroup;
+			children = (
+				EF951DF925BB245E0006FD97 /* PositionDetailView.swift */,
+			);
+			path = "Position Detail";
+			sourceTree = "<group>";
+		};
 		EF9581632590903000D559E7 /* InvestModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -664,6 +677,7 @@
 		EF9581BB25909ECA00D559E7 /* Home tab */ = {
 			isa = PBXGroup;
 			children = (
+				EF951DF825BB244A0006FD97 /* Position Detail */,
 				EF76A0D3257FAA5A00991AE3 /* HomeView.swift */,
 				EF79B76325B1B128005C2EB8 /* HomeViewModel.swift */,
 				EFC02AE425800086008AF0FF /* PositionRowView.swift */,
@@ -694,6 +708,7 @@
 			children = (
 				EFB534C42591E17300C93C3C /* CurrencyPairR.swift */,
 				EFDED5C92594D35A00618E14 /* InstrumentR.swift */,
+				EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -1148,6 +1163,7 @@
 				EFBA420F25821EDF00C2AFC8 /* Decoder+Ex.swift in Sources */,
 				EF76A100257FB4BE00991AE3 /* Storage.swift in Sources */,
 				EF637FEE259362DA00D2C42D /* DBManager.swift in Sources */,
+				EF951DFF25BB24610006FD97 /* PositionDetailView.swift in Sources */,
 				EF4C38D025B8468200A3AB5D /* IndexedCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1192,6 +1208,7 @@
 				EF79B7B225B1BE3A005C2EB8 /* PlainSection.swift in Sources */,
 				EF761AF22590FF6200320289 /* RealmManager.swift in Sources */,
 				EFF46B74259C6B6200EFD02A /* ComissionView.swift in Sources */,
+				EF951E0025BB24610006FD97 /* PositionDetailView.swift in Sources */,
 				EF647E6825AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF76A124257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
 				EF76A174257FCE2100991AE3 /* AccountService.swift in Sources */,
@@ -1237,6 +1254,7 @@
 				EF958193259093EF00D559E7 /* AccountsPayload.swift in Sources */,
 				EFC7F6882595F13A000A6A80 /* CurrencyPair.swift in Sources */,
 				EF958198259093EF00D559E7 /* APIBaseModel.swift in Sources */,
+				EF951DF325BB22EF0006FD97 /* PinnedInstrumentR.swift in Sources */,
 				EF9581EB2590A1C600D559E7 /* Decoder+Ex.swift in Sources */,
 				EF637FFD259364FF00D2C42D /* CurrenciesPayload.swift in Sources */,
 				EF958192259093EF00D559E7 /* Position.swift in Sources */,

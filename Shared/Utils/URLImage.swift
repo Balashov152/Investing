@@ -12,21 +12,30 @@ import SwiftUI
 struct URLImage<EndImage: View>: View {
     let url: URL
     let configure: (KFImage) -> EndImage
+
+    @State var fail: KingfisherError?
+
     init(url: URL, @ViewBuilder configure: @escaping (KFImage) -> EndImage) {
         self.url = url
         self.configure = configure
     }
 
     var body: some View {
-        configure(KFImage(url)
-            .resizable()
-            .cancelOnDisappear(true)
-            .placeholder {
-                ProgressView()
-            }
-            .onProgress { _, _ in }
-            .onSuccess { _ in }
-            .onFailure { _ in }
-        )
+        if fail != nil {
+            EmptyView()
+        } else {
+            configure(KFImage(url)
+                .resizable()
+                .cancelOnDisappear(true)
+                .placeholder {
+                    ProgressView()
+                }
+                .onProgress { _, _ in }
+                .onSuccess { _ in }
+                .onFailure { fail in
+                    self.fail = fail
+                }
+            )
+        }
     }
 }
