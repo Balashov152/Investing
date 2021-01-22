@@ -15,6 +15,22 @@ struct HomeView: View {
     @State var isShowingPopover = false
     @State var showingDetail = false
 
+    @State var expandedSections = Set<InstrumentType>()
+    func isExpandedSection(type: InstrumentType) -> Binding<Bool> {
+        .init { () -> Bool in
+            expandedSections.contains(type)
+        } set: { isExpand in
+            if isExpand {
+                expandedSections.insert(type)
+            } else {
+                expandedSections.remove(type)
+            }
+        }
+    }
+
+    @State var isExpandedBonds = false
+    @State var isExpandedEtfs = false
+
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
@@ -94,24 +110,23 @@ struct HomeView: View {
             totalTitleView
             ForEach(viewModel.sections) { section in
                 Section {
-                    DisclosureGroup(
-                        content: {
-                            ForEach(section.positions,
-                                    id: \.self, content: { position in
-                                        PositionRowView(position: position)
-                                            .background(
-                                                NavigationLink(destination: Text("Somewhere")) {
-                                                    EmptyView()
-                                                }
-                                                .hidden()
-                                            )
+                    DisclosureGroup(isExpanded: isExpandedSection(type: section.type),
+                                    content: {
+                                        ForEach(section.positions,
+                                                id: \.self, content: { position in
+                                                    PositionRowView(position: position)
+                                                        .background(
+                                                            NavigationLink(destination: Text("Somewhere")) {
+                                                                EmptyView()
+                                                            }
+                                                            .hidden()
+                                                        )
 
+                                                })
+                                    },
+                                    label: {
+                                        HeaderView(section: section)
                                     })
-                        },
-                        label: {
-                            HeaderView(section: section)
-                        }
-                    )
                 }
             }
         }
