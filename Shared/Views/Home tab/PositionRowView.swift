@@ -96,12 +96,8 @@ struct PositionRowView: View {
             if position.instrumentType == .Stock,
                let isin = position.isin
             {
-                AsyncImage(url: LogoService.logoUrl(for: isin)) {
-                    ProgressView()
-                        .frame(width: 50, height: 50)
-                } image: { image in
-                    Image(uiImage: image)
-                        .resizable()
+                URLImage(url: LogoService.logoUrl(for: isin)) { image in
+                    image
                         .scaledToFit()
                         .cornerRadius(25)
                         .frame(width: 50, height: 50)

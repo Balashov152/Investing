@@ -17,15 +17,11 @@
 		EF1281F825B2039A0018E5FC /* EdgeInsets+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1281F625B2039A0018E5FC /* EdgeInsets+Ex.swift */; };
 		EF1281FF25B203C20018E5FC /* Array+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1281FE25B203C20018E5FC /* Array+Ex.swift */; };
 		EF12820025B203C20018E5FC /* Array+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1281FE25B203C20018E5FC /* Array+Ex.swift */; };
-		EF12820D25B20FCC0018E5FC /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF12820A25B20FCC0018E5FC /* ImageCache.swift */; };
-		EF12820E25B20FCC0018E5FC /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF12820A25B20FCC0018E5FC /* ImageCache.swift */; };
-		EF12820F25B20FCC0018E5FC /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF12820B25B20FCC0018E5FC /* ImageLoader.swift */; };
-		EF12821025B20FCC0018E5FC /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF12820B25B20FCC0018E5FC /* ImageLoader.swift */; };
-		EF12821125B20FCC0018E5FC /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF12820C25B20FCC0018E5FC /* AsyncImage.swift */; };
-		EF12821225B20FCC0018E5FC /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF12820C25B20FCC0018E5FC /* AsyncImage.swift */; };
 		EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
 		EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
 		EF3ED22E25BABB9900B25464 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EF3ED22D25BABB9900B25464 /* Kingfisher */; };
+		EF3ED2C225BAD6CA00B25464 /* URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3ED2C125BAD6CA00B25464 /* URLImage.swift */; };
+		EF3ED2C325BAD6CA00B25464 /* URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3ED2C125BAD6CA00B25464 /* URLImage.swift */; };
 		EF4C35A925B5D43C00A3AB5D /* TaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C35A825B5D43C00A3AB5D /* TaxView.swift */; };
 		EF4C35B725B6D7AE00A3AB5D /* quest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EF4C35B525B6D7AE00A3AB5D /* quest.mp3 */; };
 		EF4C35B825B6D7AE00A3AB5D /* quest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EF4C35B525B6D7AE00A3AB5D /* quest.mp3 */; };
@@ -228,10 +224,8 @@
 		EF1281EF25B203440018E5FC /* HomeView+Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeView+Views.swift"; sourceTree = "<group>"; };
 		EF1281F625B2039A0018E5FC /* EdgeInsets+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EdgeInsets+Ex.swift"; sourceTree = "<group>"; };
 		EF1281FE25B203C20018E5FC /* Array+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ex.swift"; sourceTree = "<group>"; };
-		EF12820A25B20FCC0018E5FC /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
-		EF12820B25B20FCC0018E5FC /* ImageLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
-		EF12820C25B20FCC0018E5FC /* AsyncImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		EF27F73025B089FA00E83EE3 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
+		EF3ED2C125BAD6CA00B25464 /* URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImage.swift; sourceTree = "<group>"; };
 		EF4C35A825B5D43C00A3AB5D /* TaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxView.swift; sourceTree = "<group>"; };
 		EF4C35B525B6D7AE00A3AB5D /* quest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = quest.mp3; sourceTree = "<group>"; };
 		EF4C35B625B6D7AE00A3AB5D /* when.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = when.mp3; sourceTree = "<group>"; };
@@ -411,16 +405,6 @@
 				EF4C38CF25B8468200A3AB5D /* IndexedCollection.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		EF12820925B20FCC0018E5FC /* Image Loader */ = {
-			isa = PBXGroup;
-			children = (
-				EF12820A25B20FCC0018E5FC /* ImageCache.swift */,
-				EF12820B25B20FCC0018E5FC /* ImageLoader.swift */,
-				EF12820C25B20FCC0018E5FC /* AsyncImage.swift */,
-			);
-			path = "Image Loader";
 			sourceTree = "<group>";
 		};
 		EF12823D25B220700018E5FC /* Currency */ = {
@@ -737,7 +721,6 @@
 		EFBA420D25821ED100C2AFC8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				EF12820925B20FCC0018E5FC /* Image Loader */,
 				EF1281FD25B203B00018E5FC /* Extensions */,
 				EF9581B325909E5500D559E7 /* CommonViewModel.swift */,
 				EF9581BC25909F2900D559E7 /* StringConvertible.swift */,
@@ -747,6 +730,7 @@
 				EF647E5B25AF41BE00D20761 /* LoadingState.swift */,
 				EF647E6625AF41D100D20761 /* LoadingError.swift */,
 				EF27F73025B089FA00E83EE3 /* Date+Ex.swift */,
+				EF3ED2C125BAD6CA00B25464 /* URLImage.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1131,11 +1115,9 @@
 				EF1281F725B2039A0018E5FC /* EdgeInsets+Ex.swift in Sources */,
 				EF9581BD25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF9581B425909E5500D559E7 /* CommonViewModel.swift in Sources */,
-				EF12820D25B20FCC0018E5FC /* ImageCache.swift in Sources */,
 				EF76A0BB257FA80200991AE3 /* InvestingApp.swift in Sources */,
 				EF1281FF25B203C20018E5FC /* Array+Ex.swift in Sources */,
 				EFC02B0825800BF6008AF0FF /* OperationsService.swift in Sources */,
-				EF12821125B20FCC0018E5FC /* AsyncImage.swift in Sources */,
 				EFB5354E2592209500C93C3C /* CurrencyPairService.swift in Sources */,
 				EF4C35A925B5D43C00A3AB5D /* TaxView.swift in Sources */,
 				EFB535D82592450200C93C3C /* Enviroment.swift in Sources */,
@@ -1146,12 +1128,12 @@
 				EF76A0D4257FAA5A00991AE3 /* HomeView.swift in Sources */,
 				EFF78C5625933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
 				EF79B7B125B1BE3A005C2EB8 /* PlainSection.swift in Sources */,
+				EF3ED2C225BAD6CA00B25464 /* URLImage.swift in Sources */,
 				EFD60C3D25B42C2D003337C2 /* UserDefault.swift in Sources */,
 				EF79B76425B1B128005C2EB8 /* HomeViewModel.swift in Sources */,
 				EF76A0EF257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
 				EFF46B77259C6B6200EFD02A /* CurrencyView.swift in Sources */,
-				EF12820F25B20FCC0018E5FC /* ImageLoader.swift in Sources */,
 				EFF46B79259C6B6200EFD02A /* DividentsView.swift in Sources */,
 				EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EF79B7BD25B1CA9B005C2EB8 /* UIColor+Ex.swift in Sources */,
@@ -1175,7 +1157,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF76A17F257FCE6400991AE3 /* PositionsService.swift in Sources */,
-				EF12820E25B20FCC0018E5FC /* ImageCache.swift in Sources */,
 				EF79B76525B1B128005C2EB8 /* HomeViewModel.swift in Sources */,
 				EF79B7BE25B1CA9B005C2EB8 /* UIColor+Ex.swift in Sources */,
 				EFC02AFE25800BD3008AF0FF /* OperationsView.swift in Sources */,
@@ -1188,12 +1169,10 @@
 				EF9581BE25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF9581B525909E5500D559E7 /* CommonViewModel.swift in Sources */,
 				EF76A0BC257FA80200991AE3 /* InvestingApp.swift in Sources */,
-				EF12821025B20FCC0018E5FC /* ImageLoader.swift in Sources */,
 				EFC02B0925800BF6008AF0FF /* OperationsService.swift in Sources */,
 				EFB5354F2592209500C93C3C /* CurrencyPairService.swift in Sources */,
 				EFB535D92592450200C93C3C /* Enviroment.swift in Sources */,
 				EF647E5D25AF41BE00D20761 /* LoadingState.swift in Sources */,
-				EF12821225B20FCC0018E5FC /* AsyncImage.swift in Sources */,
 				EF9581CB25909FC800D559E7 /* OperationSum.swift in Sources */,
 				EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */,
 				EF76A0D5257FAA5A00991AE3 /* HomeView.swift in Sources */,
@@ -1220,6 +1199,7 @@
 				EFBA421025821EDF00C2AFC8 /* Decoder+Ex.swift in Sources */,
 				EF76A101257FB4BE00991AE3 /* Storage.swift in Sources */,
 				EF637FEF259362DA00D2C42D /* DBManager.swift in Sources */,
+				EF3ED2C325BAD6CA00B25464 /* URLImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
