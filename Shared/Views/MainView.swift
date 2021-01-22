@@ -78,7 +78,7 @@ struct MainView: View {
         TabView(selection: $selection) {
             profileView
             analyticsView
-            operationsView
+//            operationsView
         }
         .accentColor(Color.appBlack)
     }

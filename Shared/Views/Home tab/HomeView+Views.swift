@@ -43,21 +43,31 @@ extension HomeView {
         let section: HomeViewModel.Section
 
         var body: some View {
-            HStack {
-                Text(section.type.rawValue)
-                    .font(.system(size: 20, weight: .bold))
+            VStack(alignment: .leading, spacing: 16) {
+                Text(section.type.rawValue + "s")
+                    .font(.system(size: 18, weight: .medium))
                     .textCase(.uppercase)
-                Spacer()
+
                 HStack {
-                    ForEach(section.currencies, id: \.self) { currency in
-                        if section.sum(currency: currency) > 0 {
-                            MoneyText(money: MoneyAmount(currency: currency,
-                                                         value: section.sum(currency: currency)))
-                                .font(.system(size: 20, weight: .regular))
+                    ForEach(section.currencies.indexed(), id: \.element) { offset, currency in
+                        if offset != 0 {
+                            Divider()
+                        }
+                        if section.totalInProfile(currency: currency) > 0 {
+                            VStack(alignment: .leading) {
+                                CurrencyText(money: MoneyAmount(currency: currency,
+                                                                value: section.totalInProfile(currency: currency)))
+                                    .font(.system(size: 20, weight: .medium))
+
+                                MoneyText(money: MoneyAmount(currency: currency,
+                                                             value: section.totalChanged(currency: currency)))
+                                    .font(.system(size: 14, weight: .regular))
+                            }
                         }
                     }
                 }
-            }.padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+            }
+            .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
         }
     }
 }

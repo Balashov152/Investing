@@ -20,7 +20,12 @@ extension HomeViewModel {
             positions.map { $0.currency }.unique
         }
 
-        func sum(currency: Currency) -> Double {
+        func totalInProfile(currency: Currency) -> Double {
+            positions.filter { $0.currency == currency }
+                .reduce(0) { $0 + $1.totalInProfile.value }
+        }
+
+        func totalChanged(currency: Currency) -> Double {
             positions.filter { $0.currency == currency }
                 .reduce(0) { $0 + $1.totalInProfile.value - $1.totalBuyPayment.value }
         }

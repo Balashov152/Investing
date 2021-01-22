@@ -94,19 +94,24 @@ struct HomeView: View {
             totalTitleView
             ForEach(viewModel.sections) { section in
                 Section {
-                    PlainSection(header: HeaderView(section: section)) {
-                        ForEach(section.positions,
-                                id: \.self, content: { position in
-                                    PositionRowView(position: position)
-                                        .background(
-                                            NavigationLink(destination: Text("Somewhere")) {
-                                                EmptyView()
-                                            }
-                                            .hidden()
-                                        )
+                    DisclosureGroup(
+                        content: {
+                            ForEach(section.positions,
+                                    id: \.self, content: { position in
+                                        PositionRowView(position: position)
+                                            .background(
+                                                NavigationLink(destination: Text("Somewhere")) {
+                                                    EmptyView()
+                                                }
+                                                .hidden()
+                                            )
 
-                                })
-                    }
+                                    })
+                        },
+                        label: {
+                            HeaderView(section: section)
+                        }
+                    )
                 }
             }
         }

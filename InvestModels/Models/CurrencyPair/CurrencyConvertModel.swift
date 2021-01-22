@@ -17,6 +17,7 @@ public struct CurrencyConvertManager {
     public static func convert(currencyPair: CurrencyPair?,
                         money: MoneyAmount, to currency: Currency) -> MoneyAmount {
         guard let currencyPair = currencyPair else {
+            debugPrint("currencyPair is nil")
             return money
         }
         
