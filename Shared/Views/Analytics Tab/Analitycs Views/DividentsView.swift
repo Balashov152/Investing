@@ -59,8 +59,8 @@ struct DividentsView: View {
                             Row(operation: operation)
                         }
                     }, label: {
-                        CurrencyRow(label: instrument.name,
-                                    money: operations.currencySum(to: instrument.currency))
+                        MoneyRow(label: instrument.name,
+                                 money: operations.currencySum(to: instrument.currency))
                     })
                 }
             }

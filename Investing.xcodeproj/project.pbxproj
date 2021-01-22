@@ -25,6 +25,7 @@
 		EF12821225B20FCC0018E5FC /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF12820C25B20FCC0018E5FC /* AsyncImage.swift */; };
 		EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
 		EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
+		EF3ED22E25BABB9900B25464 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EF3ED22D25BABB9900B25464 /* Kingfisher */; };
 		EF4C35A925B5D43C00A3AB5D /* TaxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4C35A825B5D43C00A3AB5D /* TaxView.swift */; };
 		EF4C35B725B6D7AE00A3AB5D /* quest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EF4C35B525B6D7AE00A3AB5D /* quest.mp3 */; };
 		EF4C35B825B6D7AE00A3AB5D /* quest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = EF4C35B525B6D7AE00A3AB5D /* quest.mp3 */; };
@@ -325,6 +326,7 @@
 				EF76A0F7257FB23A00991AE3 /* Moya in Frameworks */,
 				76F60D7017DC2F69240FC3F1 /* Pods_Investing__iOS_.framework in Frameworks */,
 				EF9581772590903000D559E7 /* InvestModels.framework in Frameworks */,
+				EF3ED22E25BABB9900B25464 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -679,8 +681,8 @@
 			isa = PBXGroup;
 			children = (
 				EF76A0D3257FAA5A00991AE3 /* HomeView.swift */,
-				EFC02AE425800086008AF0FF /* PositionRowView.swift */,
 				EF79B76325B1B128005C2EB8 /* HomeViewModel.swift */,
+				EFC02AE425800086008AF0FF /* PositionRowView.swift */,
 				EF1281EF25B203440018E5FC /* HomeView+Views.swift */,
 			);
 			path = "Home tab";
@@ -830,6 +832,7 @@
 			packageProductDependencies = (
 				EF76A0F6257FB23A00991AE3 /* Moya */,
 				EF76A0F8257FB23A00991AE3 /* CombineMoya */,
+				EF3ED22D25BABB9900B25464 /* Kingfisher */,
 			);
 			productName = "Investing (iOS)";
 			productReference = EF76A099257FA80200991AE3 /* Investing.app */;
@@ -980,6 +983,7 @@
 			packageReferences = (
 				EF76A0F5257FB23A00991AE3 /* XCRemoteSwiftPackageReference "Moya" */,
 				EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+				EF3ED22C25BABB9900B25464 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = EF76A09A257FA80200991AE3 /* Products */;
 			projectDirPath = "";
@@ -1786,6 +1790,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		EF3ED22C25BABB9900B25464 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.1;
+			};
+		};
 		EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa.git";
@@ -1805,6 +1817,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		EF3ED22D25BABB9900B25464 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EF3ED22C25BABB9900B25464 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		EF76A0F6257FB23A00991AE3 /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = EF76A0F5257FB23A00991AE3 /* XCRemoteSwiftPackageReference "Moya" */;

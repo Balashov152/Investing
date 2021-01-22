@@ -107,7 +107,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             .assign(to: \.convertedTotal, on: self)
             .store(in: &cancellables)
 
-//        startTimer()
+        startTimer()
 
         $convertType.dropFirst().sink(receiveValue: { value in
             switch value {
