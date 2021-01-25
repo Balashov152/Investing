@@ -19,6 +19,10 @@ struct ViewFactory {
         .init(viewModel: .init())
     }()
 
+    static let totalDetailView: TotalDetailView = {
+        .init(viewModel: .init())
+    }()
+
     static func positionDetailView(position: PositionView, env: Environment) -> PositionDetailView {
         .init(viewModel: .init(position: position, env: env))
     }

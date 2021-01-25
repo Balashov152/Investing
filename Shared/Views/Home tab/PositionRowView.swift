@@ -9,7 +9,11 @@ import Foundation
 import InvestModels
 import SwiftUI
 
-struct PositionView: Hashable {
+extension Identifiable where Self: Hashable {
+    var id: Int { hashValue }
+}
+
+struct PositionView: Hashable, Identifiable {
     init(position: Position) {
         self.init(position: position,
                   expectedYield: position.expectedYield,
@@ -38,12 +42,6 @@ struct PositionView: Hashable {
 
     public let expectedYield: MoneyAmount
     public let averagePositionPrice: MoneyAmount
-}
-
-extension PositionView: Identifiable {
-    var id: Int {
-        hashValue
-    }
 }
 
 extension PositionView {

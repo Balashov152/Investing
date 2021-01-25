@@ -11,13 +11,13 @@ import Moya
 
 class CurrencyPairServiceLatest: EnvironmentCancebleObject, ObservableObject {
     static let shared = CurrencyPairServiceLatest()
-    override init(env: Environment = .current) {
-        super.init(env: env)
-    }
 
     @Published public var latest: CurrencyPair?
+    private var timer: Timer?
 
-    var timer: Timer?
+    override private init(env: Environment = .current) {
+        super.init(env: env)
+    }
 
     override func bindings() {
         super.bindings()

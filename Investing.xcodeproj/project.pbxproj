@@ -77,6 +77,8 @@
 		EF951DF325BB22EF0006FD97 /* PinnedInstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */; };
 		EF951DFF25BB24610006FD97 /* PositionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF925BB245E0006FD97 /* PositionDetailView.swift */; };
 		EF951E0025BB24610006FD97 /* PositionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF925BB245E0006FD97 /* PositionDetailView.swift */; };
+		EF95202325BEFA920006FD97 /* TotalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF95201D25BEFA8D0006FD97 /* TotalDetailView.swift */; };
+		EF95202425BEFA920006FD97 /* TotalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF95201D25BEFA8D0006FD97 /* TotalDetailView.swift */; };
 		EF95816B2590903000D559E7 /* InvestModels.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF9581622590903000D559E7 /* InvestModels.framework */; };
 		EF9581722590903000D559E7 /* InvestModelsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9581712590903000D559E7 /* InvestModelsTests.swift */; };
 		EF9581742590903000D559E7 /* InvestModels.h in Headers */ = {isa = PBXBuildFile; fileRef = EF9581642590903000D559E7 /* InvestModels.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -276,6 +278,7 @@
 		EF8114B12596375700773236 /* SettingsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabView.swift; sourceTree = "<group>"; };
 		EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedInstrumentR.swift; sourceTree = "<group>"; };
 		EF951DF925BB245E0006FD97 /* PositionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionDetailView.swift; sourceTree = "<group>"; };
+		EF95201D25BEFA8D0006FD97 /* TotalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalDetailView.swift; sourceTree = "<group>"; };
 		EF9581622590903000D559E7 /* InvestModels.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InvestModels.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF9581642590903000D559E7 /* InvestModels.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InvestModels.h; sourceTree = "<group>"; };
 		EF9581652590903000D559E7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -653,6 +656,14 @@
 			path = "Position Detail";
 			sourceTree = "<group>";
 		};
+		EF95201C25BEFA7A0006FD97 /* Total Detail */ = {
+			isa = PBXGroup;
+			children = (
+				EF95201D25BEFA8D0006FD97 /* TotalDetailView.swift */,
+			);
+			path = "Total Detail";
+			sourceTree = "<group>";
+		};
 		EF9581632590903000D559E7 /* InvestModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -677,6 +688,7 @@
 		EF9581BB25909ECA00D559E7 /* Home tab */ = {
 			isa = PBXGroup;
 			children = (
+				EF95201C25BEFA7A0006FD97 /* Total Detail */,
 				EF951DF825BB244A0006FD97 /* Position Detail */,
 				EF76A0D3257FAA5A00991AE3 /* HomeView.swift */,
 				EF79B76325B1B128005C2EB8 /* HomeViewModel.swift */,
@@ -1120,6 +1132,7 @@
 			files = (
 				EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */,
 				EF76A17E257FCE6400991AE3 /* PositionsService.swift in Sources */,
+				EF95202325BEFA920006FD97 /* TotalDetailView.swift in Sources */,
 				EFC02AFD25800BD3008AF0FF /* OperationsView.swift in Sources */,
 				EF1281F025B203440018E5FC /* HomeView+Views.swift in Sources */,
 				EF76A110257FB55000991AE3 /* Settings.swift in Sources */,
@@ -1212,6 +1225,7 @@
 				EF647E6825AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF76A124257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
 				EF76A174257FCE2100991AE3 /* AccountService.swift in Sources */,
+				EF95202425BEFA920006FD97 /* TotalDetailView.swift in Sources */,
 				EF9581D92590A10100D559E7 /* OperationRowView.swift in Sources */,
 				EFBA421025821EDF00C2AFC8 /* Decoder+Ex.swift in Sources */,
 				EF76A101257FB4BE00991AE3 /* Storage.swift in Sources */,

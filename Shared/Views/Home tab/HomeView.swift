@@ -12,10 +12,9 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
-    @State var isShowingPopover = false
     @State var showingDetail = false
 
-    @State var expandedSections = Set<InstrumentType>()
+    @State var expandedSections = Set<InstrumentType>([.Stock])
     func isExpandedSection(type: InstrumentType) -> Binding<Bool> {
         .init { () -> Bool in
             expandedSections.contains(type)
@@ -27,9 +26,6 @@ struct HomeView: View {
             }
         }
     }
-
-    @State var isExpandedBonds = false
-    @State var isExpandedEtfs = false
 
     var body: some View {
         NavigationView {
@@ -53,14 +49,15 @@ struct HomeView: View {
                 Text("Total profile")
                     .font(.largeTitle).bold()
                 Spacer()
-
-                Button(action: {
-                    self.showingDetail.toggle()
-                }) {
-                    Text("Detail")
-                }.sheet(isPresented: $showingDetail) {
-                    Text("Detail View")
-                }.buttonStyle(PlainButtonStyle())
+                if viewModel.convertType != .original {
+                    Button(action: {
+                        self.showingDetail.toggle()
+                    }) {
+                        Text("Full")
+                    }.sheet(isPresented: $showingDetail) {
+                        ViewFactory.totalDetailView
+                    }.buttonStyle(PlainButtonStyle())
+                }
             }
 
             ForEach(currenciesInPositions.indexed(), id: \.element) { index, currency in

@@ -15,25 +15,20 @@ extension Double {
     }
 }
 
-extension MoneyAmount {
-    static func + (lhs: MoneyAmount, rhs: MoneyAmount) -> MoneyAmount {
-        MoneyAmount(currency: lhs.currency, value: lhs.value + rhs.value)
+extension PositionDetailViewModel {
+    struct ChangeOperation {
+        let count: Int
+        let money: MoneyAmount
     }
 }
 
 class PositionDetailViewModel: EnvironmentCancebleObject, ObservableObject {
     let position: PositionView
 
-    struct ChangeOperation {
-        let count: Int
-        let money: MoneyAmount
-    }
-
     @Published var operations: [Operation] = []
 
     var total: MoneyAmount {
-        let value = position.totalInProfile.value + operations.currencySum(to: position.currency).value
-        return MoneyAmount(currency: position.currency, value: value)
+        position.totalInProfile + operations.currencySum(to: position.currency)
     }
 
     var buyCount: ChangeOperation {

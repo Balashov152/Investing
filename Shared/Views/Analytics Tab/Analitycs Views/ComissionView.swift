@@ -54,13 +54,12 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
             .assign(to: \.rows, on: self)
             .store(in: &cancellables)
 
-        $rows
-            .map { [unowned self] in
-                MoneyAmount(currency: ComissionViewModel.currency,
-                            value: $0.map { $0.value }.sum)
-            }
-            .assign(to: \.total, on: self)
-            .store(in: &cancellables)
+        $rows.map { [unowned self] in
+            MoneyAmount(currency: ComissionViewModel.currency,
+                        value: $0.map { $0.value }.sum)
+        }
+        .assign(to: \.total, on: self)
+        .store(in: &cancellables)
     }
 }
 

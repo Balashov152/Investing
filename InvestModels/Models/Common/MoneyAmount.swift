@@ -13,6 +13,16 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 import Foundation
 
+public extension MoneyAmount {
+    static func + (lhs: MoneyAmount, rhs: MoneyAmount) -> MoneyAmount {
+        MoneyAmount(currency: lhs.currency, value: lhs.value + rhs.value)
+    }
+
+    static func - (lhs: MoneyAmount, rhs: MoneyAmount) -> MoneyAmount {
+        MoneyAmount(currency: lhs.currency, value: lhs.value - rhs.value)
+    }
+}
+
 public struct MoneyAmount: Codable, Hashable {
     public let currency: Currency
     public let value: Double

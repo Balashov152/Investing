@@ -47,7 +47,7 @@ extension HomeViewModel {
 }
 
 class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
-    let currencyPairServiceLatest: CurrencyPairServiceLatest
+    var currencyPairServiceLatest: CurrencyPairServiceLatest { .shared }
 
     @Published var convertType: ConvertedType
 
@@ -58,8 +58,6 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var currencies: [CurrencyPosition] = []
 
     override init(env: Environment = .current) {
-        currencyPairServiceLatest = CurrencyPairServiceLatest(env: env)
-
         if let currency = env.settings().currency {
             convertType = .currency(currency)
         } else {
@@ -112,7 +110,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             .assign(to: \.convertedTotal, on: self)
             .store(in: &cancellables)
 
-        startTimer()
+//        startTimer()
 
         $convertType.dropFirst().sink(receiveValue: { value in
             switch value {
