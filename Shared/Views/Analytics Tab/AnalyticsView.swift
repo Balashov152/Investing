@@ -24,6 +24,8 @@ struct AnalyticsView: View {
                 NavigationLink("Dividends",
                                destination: ViewFactory.dividentsView)
             }
+            .listStyle(GroupedListStyle())
+            .navigationBarItems(trailing: MainView.settingsNavigationLink)
             .navigationTitle("Analytics")
         }
     }

@@ -94,6 +94,7 @@ struct PositionDetailView: View {
 
                 MoneyRow(label: "Average", money: viewModel.average)
             }
+
             Section {
                 DisclosureGroup(content: {
                     ForEach(viewModel.operations, id: \.self) {

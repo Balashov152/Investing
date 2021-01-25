@@ -13,14 +13,21 @@ public typealias Operation = InvestModels.Operation
 
 @main
 struct InvestingApp: App {
+    @State var isAuthorized = Storage.isAuthorized
+
     var body: some Scene {
         WindowGroup {
-            ViewFactory.mainView
-                .onAppear(perform: onAppearApp)
+            Group {
+                if isAuthorized {
+                    ViewFactory.mainView
+                } else {
+                    ViewFactory.authorizationView
+                }
+            }.onAppear(perform: onAppearApp)
         }
     }
 
     func onAppearApp() {
-        UIScrollView.appearance().keyboardDismissMode = .onDrag
+        //        UIScrollView.appearance().keyboardDismissMode = .onDrag
     }
 }

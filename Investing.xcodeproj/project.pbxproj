@@ -136,6 +136,11 @@
 		EFD60C3D25B42C2D003337C2 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD60C3C25B42C2D003337C2 /* UserDefault.swift */; };
 		EFD60C3E25B42C2D003337C2 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD60C3C25B42C2D003337C2 /* UserDefault.swift */; };
 		EFDED5CA2594D35A00618E14 /* InstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDED5C92594D35A00618E14 /* InstrumentR.swift */; };
+		EFEFDE4725BF3DB30013BB1B /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */; };
+		EFEFDE4825BF3DB30013BB1B /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */; };
+		EFEFDE5325BF43740013BB1B /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = EFEFDE5225BF43740013BB1B /* Introspect */; };
+		EFEFDE5A25BF4AA90013BB1B /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFDE5925BF4AA90013BB1B /* GridView.swift */; };
+		EFEFDE5B25BF4AA90013BB1B /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFDE5925BF4AA90013BB1B /* GridView.swift */; };
 		EFF46B73259C6B6200EFD02A /* ComissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B6F259C6B6200EFD02A /* ComissionView.swift */; };
 		EFF46B74259C6B6200EFD02A /* ComissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B6F259C6B6200EFD02A /* ComissionView.swift */; };
 		EFF46B75259C6B6200EFD02A /* TickersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B70259C6B6200EFD02A /* TickersView.swift */; };
@@ -312,6 +317,8 @@
 		EFC99747258115B000A722F7 /* InstrumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentsService.swift; sourceTree = "<group>"; };
 		EFD60C3C25B42C2D003337C2 /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
 		EFDED5C92594D35A00618E14 /* InstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentR.swift; sourceTree = "<group>"; };
+		EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
+		EFEFDE5925BF4AA90013BB1B /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
 		EFF46B6F259C6B6200EFD02A /* ComissionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComissionView.swift; sourceTree = "<group>"; };
 		EFF46B70259C6B6200EFD02A /* TickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickersView.swift; sourceTree = "<group>"; };
 		EFF46B71259C6B6200EFD02A /* CurrencyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyView.swift; sourceTree = "<group>"; };
@@ -325,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF76A0F9257FB23A00991AE3 /* CombineMoya in Frameworks */,
+				EFEFDE5325BF43740013BB1B /* Introspect in Frameworks */,
 				EF76A0F7257FB23A00991AE3 /* Moya in Frameworks */,
 				76F60D7017DC2F69240FC3F1 /* Pods_Investing__iOS_.framework in Frameworks */,
 				EF9581772590903000D559E7 /* InvestModels.framework in Frameworks */,
@@ -576,6 +584,8 @@
 		EF76A10A257FB4D100991AE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EFEFDE5825BF4A930013BB1B /* Graphics */,
+				EFEFDE4525BF3D0B0013BB1B /* Authorization */,
 				EF4C36C325B7327E00A3AB5D /* Binary Tree */,
 				EF1281E325B202C50018E5FC /* Common */,
 				EF76A093257FA7FE00991AE3 /* MainView.swift */,
@@ -790,6 +800,22 @@
 			path = Instruments;
 			sourceTree = "<group>";
 		};
+		EFEFDE4525BF3D0B0013BB1B /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */,
+			);
+			path = Authorization;
+			sourceTree = "<group>";
+		};
+		EFEFDE5825BF4A930013BB1B /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				EFEFDE5925BF4AA90013BB1B /* GridView.swift */,
+			);
+			path = Graphics;
+			sourceTree = "<group>";
+		};
 		EFF46B6E259C6B6200EFD02A /* Analitycs Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -844,6 +870,7 @@
 				EF76A0F6257FB23A00991AE3 /* Moya */,
 				EF76A0F8257FB23A00991AE3 /* CombineMoya */,
 				EF3ED22D25BABB9900B25464 /* Kingfisher */,
+				EFEFDE5225BF43740013BB1B /* Introspect */,
 			);
 			productName = "Investing (iOS)";
 			productReference = EF76A099257FA80200991AE3 /* Investing.app */;
@@ -995,6 +1022,7 @@
 				EF76A0F5257FB23A00991AE3 /* XCRemoteSwiftPackageReference "Moya" */,
 				EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
 				EF3ED22C25BABB9900B25464 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				EFEFDE5125BF43740013BB1B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
 			);
 			productRefGroup = EF76A09A257FA80200991AE3 /* Products */;
 			projectDirPath = "";
@@ -1163,6 +1191,7 @@
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
 				EFF46B77259C6B6200EFD02A /* CurrencyView.swift in Sources */,
 				EFF46B79259C6B6200EFD02A /* DividentsView.swift in Sources */,
+				EFEFDE4725BF3DB30013BB1B /* AuthorizationView.swift in Sources */,
 				EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EF79B7BD25B1CA9B005C2EB8 /* UIColor+Ex.swift in Sources */,
 				EF647E6725AF41D100D20761 /* LoadingError.swift in Sources */,
@@ -1177,6 +1206,7 @@
 				EF76A100257FB4BE00991AE3 /* Storage.swift in Sources */,
 				EF637FEE259362DA00D2C42D /* DBManager.swift in Sources */,
 				EF951DFF25BB24610006FD97 /* PositionDetailView.swift in Sources */,
+				EFEFDE5A25BF4AA90013BB1B /* GridView.swift in Sources */,
 				EF4C38D025B8468200A3AB5D /* IndexedCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1195,6 +1225,7 @@
 				EFC99749258115B000A722F7 /* InstrumentsService.swift in Sources */,
 				EF12820025B203C20018E5FC /* Array+Ex.swift in Sources */,
 				EF1281F825B2039A0018E5FC /* EdgeInsets+Ex.swift in Sources */,
+				EFEFDE5B25BF4AA90013BB1B /* GridView.swift in Sources */,
 				EF9581BE25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF9581B525909E5500D559E7 /* CommonViewModel.swift in Sources */,
 				EF76A0BC257FA80200991AE3 /* InvestingApp.swift in Sources */,
@@ -1224,6 +1255,7 @@
 				EF951E0025BB24610006FD97 /* PositionDetailView.swift in Sources */,
 				EF647E6825AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF76A124257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
+				EFEFDE4825BF3DB30013BB1B /* AuthorizationView.swift in Sources */,
 				EF76A174257FCE2100991AE3 /* AccountService.swift in Sources */,
 				EF95202425BEFA920006FD97 /* TotalDetailView.swift in Sources */,
 				EF9581D92590A10100D559E7 /* OperationRowView.swift in Sources */,
@@ -1826,6 +1858,14 @@
 				revision = e5a28fb62dd5ff4e17b7025643366550044a40b0;
 			};
 		};
+		EFEFDE5125BF43740013BB1B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1863,6 +1903,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = EF761AE72590FE3400320289 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
 			productName = RealmSwift;
+		};
+		EFEFDE5225BF43740013BB1B /* Introspect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = EFEFDE5125BF43740013BB1B /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */;
+			productName = Introspect;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

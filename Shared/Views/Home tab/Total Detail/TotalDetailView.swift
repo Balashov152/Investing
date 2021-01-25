@@ -91,6 +91,16 @@ struct TotalDetailView: View {
             }
 
             Section {
+                LazyVGrid(columns: [GridItem(GridItem.Size.adaptive(minimum: 10, maximum: 100))]) {
+                    ForEach(Currency.allCases, id: \.self) { _ in
+                        Rectangle()
+                            .inset(by: .random(in: 0 ... 10))
+                            .background(Color.red)
+                    }
+                }
+            }
+
+            Section {
                 DisclosureGroup(content: {
                     ForEach(viewModel.operations, id: \.self) {
                         OperationRowView(operation: $0)

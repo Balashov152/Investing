@@ -17,7 +17,7 @@ struct Settings {
     }
 
     var apiToken: String {
-        get { Storage.token ?? "t.ElO9J6o7HNsTSVH5LG6tRrMqG3bAKQFG3YehULcdPaYzhK0CXcyMVy4rhtbNUuOHwXo8VAs-QUgA-KbHNLg5yg" }
+        get { Storage.token.orEmpty }
         set { Storage.token = newValue }
     }
 

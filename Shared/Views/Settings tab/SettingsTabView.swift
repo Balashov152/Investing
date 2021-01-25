@@ -74,32 +74,29 @@ struct SettingsTabView: View {
                     case .token:
                         tokenApi
                     case .date:
-                        startPicker
-                        endPicker
+                        HStack {
+                            startPicker
+                            endPicker
+                        }
                     }
                 }
             }
+
         }.navigationTitle("Settings")
     }
 
     var startPicker: some View {
-        DatePicker(selection: $viewModel.startDate, in: ...viewModel.endDate, displayedComponents: .date) {
-            Text("Start interval")
-        }.datePickerStyle(DefaultDatePickerStyle())
+        DatePicker(selection: $viewModel.startDate, in: ...viewModel.endDate, displayedComponents: .date) { EmptyView() }
+            .datePickerStyle(DefaultDatePickerStyle())
     }
 
     var endPicker: some View {
-        DatePicker(selection: $viewModel.endDate, in: viewModel.startDate ... Date(), displayedComponents: .date) {
-            Text("End interval")
-        }.datePickerStyle(DefaultDatePickerStyle())
+        DatePicker(selection: $viewModel.endDate, in: viewModel.startDate ... Date(), displayedComponents: .date) { EmptyView() }
+            .datePickerStyle(DefaultDatePickerStyle())
     }
 
     var tokenApi: some View {
         VStack(alignment: .leading) {
-            Text("Enter token")
-                .font(.callout)
-                .bold()
-            Spacer()
             TextField("Enter token", text: $token, onCommit: {
                 print("onCommit", token)
             })
