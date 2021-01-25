@@ -181,3 +181,16 @@ struct MoneyRow: View {
         }
     }
 }
+
+struct InfoRow: View {
+    let label: String
+    let text: String
+
+    var body: some View {
+        HStack {
+            Text(label)
+            Spacer()
+            Text(text)
+        }
+    }
+}

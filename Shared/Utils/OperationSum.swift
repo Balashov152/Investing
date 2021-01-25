@@ -23,6 +23,7 @@ extension Collection where Element == Operation {
         filter { types.contains($0.operationType) || condition($0) }
     }
 
+    /// sum payment
     var sum: Double {
         map { $0.payment }.reduce(0, +)
     }
