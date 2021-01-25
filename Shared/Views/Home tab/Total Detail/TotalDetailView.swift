@@ -82,10 +82,14 @@ struct TotalDetailView: View {
                 MoneyRow(label: "Total all sell", money: viewModel.totalSell)
                 MoneyRow(label: "Total in instruments", money: viewModel.inWork)
 
-                MoneyRow(label: "Dividends", money: viewModel.dividends)
-
                 MoneyRow(label: "Total all time", money: viewModel.total)
             }
+
+            Section {
+                MoneyRow(label: "Dividends", money: viewModel.dividends)
+                MoneyRow(label: "Total with dividends", money: viewModel.total + viewModel.dividends)
+            }
+
             Section {
                 DisclosureGroup(content: {
                     ForEach(viewModel.operations, id: \.self) {

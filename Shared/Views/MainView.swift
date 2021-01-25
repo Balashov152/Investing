@@ -14,6 +14,7 @@ import SwiftUI
 class MainViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var loadDB: LoadingState<Void> = .loading
     var dbManager: DBManager
+    var latest: CurrencyPairServiceLatest { .shared }
 
     override init(env: Environment = .current) {
         dbManager = DBManager(env: env, realmManager: RealmManager())

@@ -7,17 +7,6 @@
 
 import SwiftUI
 
-struct NavigationLazyView<Content: View>: View {
-    let build: () -> Content
-    init(_ build: @autoclosure @escaping () -> Content) {
-        self.build = build
-    }
-
-    var body: Content {
-        build()
-    }
-}
-
 class AnalyticsViewModel: EnvironmentCancebleObject, ObservableObject {}
 
 struct AnalyticsView: View {
@@ -27,14 +16,15 @@ struct AnalyticsView: View {
         NavigationView {
             List {
                 NavigationLink("Comission",
-                               destination: NavigationLazyView(ViewFactory.comissionView))
+                               destination: ViewFactory.comissionView)
                 NavigationLink("Currency",
                                destination: ViewFactory.currencyView)
                 NavigationLink("Tickers",
                                destination: ViewFactory.tickersView)
                 NavigationLink("Dividends",
                                destination: ViewFactory.dividentsView)
-            }.navigationTitle("Analytics")
+            }
+            .navigationTitle("Analytics")
         }
     }
 }

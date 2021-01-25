@@ -31,11 +31,28 @@ struct HomeView: View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
                 convertView
+                convertedExchangeRates
                 list
             }
             .navigationBarItems(trailing: MainView.settingsNavigationLink)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: viewModel.loadPositions)
+        }
+    }
+
+    var convertedExchangeRates: some View {
+        Group {
+            if let latest = viewModel.currencyPairServiceLatest.latest {
+                HStack {
+                    Text("USD")
+                    Text((1 / latest.USD).formattedCurrency())
+
+                    Text("EUR")
+                    Text((1 / latest.EUR).formattedCurrency())
+                }.padding()
+            } else {
+                Text("not avalible")
+            }
         }
     }
 
@@ -60,15 +77,18 @@ struct HomeView: View {
                 }
             }
 
-            ForEach(currenciesInPositions.indexed(), id: \.element) { index, currency in
-                if index != 0 { Divider() }
-                TotalView(currency: currency, positions: viewModel.positions)
+            switch viewModel.convertType {
+            case .original:
+                ForEach(currenciesInPositions.indexed(), id: \.element) { index, currency in
+                    if index != 0 { Divider() }
+                    TotalView(currency: currency, positions: viewModel.positions)
+                }
+            case .currency:
+                if let convertedTotal = viewModel.convertedTotal {
+                    MoneyRow(label: "Total", money: convertedTotal)
+                }
             }
-
-            if let total = viewModel.convertedTotal {
-                MoneyText(money: total)
-            }
-        }
+        }.animation(.default)
     }
 
     var convertView: some View {
