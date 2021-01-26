@@ -31,7 +31,7 @@ struct HomeView: View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
                 convertView
-                convertedExchangeRates
+//                convertedExchangeRates
                 list
             }
             .navigationBarItems(trailing: MainView.settingsNavigationLink)
@@ -79,13 +79,17 @@ struct HomeView: View {
 
             switch viewModel.convertType {
             case .original:
-                ForEach(currenciesInPositions.indexed(), id: \.element) { index, currency in
-                    if index != 0 { Divider() }
-                    TotalView(currency: currency, positions: viewModel.positions)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack {
+                        ForEach(currenciesInPositions.indexed(), id: \.element) { index, currency in
+                            if index != 0 { Divider() }
+                            TotalView(model: TotalViewModel(currency: currency, positions: viewModel.positions))
+                        }
+                    }
                 }
             case .currency:
                 if let convertedTotal = viewModel.convertedTotal {
-                    MoneyRow(label: "Total", money: convertedTotal)
+                    TotalView(model: convertedTotal)
                 }
             }
         }.animation(.default)
@@ -95,7 +99,7 @@ struct HomeView: View {
         VStack(spacing: 0) {
             VStack(spacing: 8) {
                 HStack {
-                    Text("Convert positions")
+                    Text("Convert")
                         .font(.system(size: 20, weight: .medium))
                     Spacer(minLength: 16)
                     segment

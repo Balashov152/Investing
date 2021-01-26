@@ -9,12 +9,12 @@ import Foundation
 import InvestModels
 
 extension Environment {
-    static let current = Environment(settings: { .shared },
+    static let current = Environment(settings: .shared,
                                      api: { .current })
 }
 
 struct Environment {
-    var settings: () -> Settings
+    var settings: Settings
     var api: () -> API
 
     var currencyPairService: CurrencyPairService { api().currencyPairService }
@@ -37,7 +37,7 @@ struct API {
     var instrumentsService: InstrumentsService
 }
 
-struct DateInterval: Hashable {
+struct DateInterval: Hashable, Codable {
     static let lastYear = DateInterval(start: Calendar.current.date(byAdding: .year, value: -1, to: Date())!, end: Date())
 
     let start, end: Date

@@ -10,8 +10,8 @@ import Foundation
 extension UserDefault {
     enum ClearKeys: String {
         case token, currency
-        case startInterval, endInterval
-        case payInAvg, expanded
+        case dateInterval
+        case payInAvg, expandedHome
     }
 
     enum StorageKeys: String {
@@ -20,7 +20,7 @@ extension UserDefault {
 }
 
 @propertyWrapper
-struct UserDefault<Value> {
+struct UserDefault<Value: Codable> {
     private let key: String
     private let defaultValue: Value
 
@@ -39,15 +39,21 @@ struct UserDefault<Value> {
     var wrappedValue: Value {
         get {
             // Read value from UserDefaults
-            storage.object(forKey: key) as? Value ?? defaultValue
+            guard let data = UserDefaults.standard.object(forKey: key) as? Data else {
+                // Return defaultValue when no data in UserDefaults
+                return defaultValue
+            }
+
+            // Convert data to the desire data type
+            let value = try? JSONDecoder().decode(Value.self, from: data)
+            return value ?? defaultValue
         }
         set {
+            // Convert newValue to data
+            let data = try? JSONEncoder().encode(newValue)
+
             // Set value to UserDefaults
-            if let optional = newValue as? AnyOptional, optional.isNil {
-                storage.removeObject(forKey: key)
-            } else {
-                storage.setValue(newValue, forKey: key)
-            }
+            storage.set(data, forKey: key)
         }
     }
 }

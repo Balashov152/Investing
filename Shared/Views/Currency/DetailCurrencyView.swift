@@ -81,14 +81,15 @@ class DetailCurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         super.bindings()
-        if currency == .USD, let avg = Storage.payInAvg {
+        if currency == .USD, let avg = env.settings.payInAvg {
             averagePayIn.value = String(avg)
         }
 
         averagePayIn.$value.dropFirst()
             .map(Double.init)
-            .sink { Storage.payInAvg = $0 }
-            .store(in: &cancellables)
+            .sink { [unowned self] in
+                env.settings.payInAvg = $0
+            }.store(in: &cancellables)
     }
 
     // Total
@@ -153,44 +154,5 @@ struct DetailCurrencyView: View {
 
         .listStyle(GroupedListStyle())
         .navigationTitle(viewModel.currency.rawValue)
-    }
-}
-
-struct CurrencyRow: View {
-    let label: String
-    let money: MoneyAmount
-
-    var body: some View {
-        HStack {
-            Text(label)
-            Spacer()
-            CurrencyText(money: money)
-        }
-    }
-}
-
-struct MoneyRow: View {
-    let label: String
-    let money: MoneyAmount
-
-    var body: some View {
-        HStack {
-            Text(label)
-            Spacer()
-            MoneyText(money: money)
-        }
-    }
-}
-
-struct InfoRow: View {
-    let label: String
-    let text: String
-
-    var body: some View {
-        HStack {
-            Text(label)
-            Spacer()
-            Text(text)
-        }
     }
 }

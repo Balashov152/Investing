@@ -43,7 +43,7 @@ struct DBManager {
             }
 
         let saveCurrencyPairs = env.api().currencyPairService
-            .getCurrencyPairs(request: .init(dateInterval: env.settings().dateInterval))
+            .getCurrencyPairs(request: .init(dateInterval: env.settings.dateInterval))
             .replaceError(with: [])
             .map { $0.map { CurrencyPairR(currencyPair: $0) } }
             .receive(on: realmManager.syncQueue)

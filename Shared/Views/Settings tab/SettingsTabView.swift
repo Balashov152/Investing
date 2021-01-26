@@ -27,7 +27,7 @@ class SettingsTabViewModel: EnvironmentCancebleObject, ObservableObject {
         }
     }
 
-    @State var token: String = Settings.shared.apiToken
+    @State var token: String = Storage.token
 
     @Published var startDate: Date = Settings.shared.dateInterval.start
     @Published var endDate: Date = Settings.shared.dateInterval.end
@@ -43,28 +43,12 @@ class SettingsTabViewModel: EnvironmentCancebleObject, ObservableObject {
             }.sink(receiveValue: { dateInterval in
                 Settings.shared.dateInterval = dateInterval
             }).store(in: &cancellables)
-
-//        $token.publisher.print()
-//            .assign(to: \.operations, on: self)
-//            .store(in: &cancellables)
     }
-
-//    public func loadPositions() {
-//        realmManager.syncQueueBlock {
-//            let objects = realmManager.objects(CurrencyPairR.self,
-//                                               sorted: [NSSortDescriptor(key: "date", ascending: false)])
-//                .map { CurrencyPair(currencyPairR: $0) }
-//
-//            DispatchQueue.main.async {
-//                self.currencies = objects
-//            }
-//        }
-//    }
 }
 
 struct SettingsTabView: View {
     @ObservedObject var viewModel: SettingsTabViewModel
-    @State var token: String = Settings.shared.apiToken
+    @State var token: String = Storage.token
 
     var body: some View {
         List {

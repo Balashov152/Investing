@@ -29,6 +29,10 @@ extension HomeViewModel {
             positions.filter { $0.currency == currency }
                 .reduce(0) { $0 + $1.totalInProfile.value - $1.totalBuyPayment.value }
         }
+
+        func percentChanged(currency: Currency) -> Double {
+            (totalChanged(currency: currency) / totalInProfile(currency: currency)) * 100
+        }
     }
 
     enum ConvertedType: Equatable {
@@ -44,6 +48,15 @@ extension HomeViewModel {
             }
         }
     }
+
+    struct Total: TotalViewModeble {
+        let totalInProfile: MoneyAmount
+        let expectedProfile: MoneyAmount
+
+        var percent: Double {
+            (expectedProfile / totalInProfile).value * 100
+        }
+    }
 }
 
 class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
@@ -52,13 +65,13 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var convertType: ConvertedType
 
     @Published var sections: [Section] = []
-    @Published var convertedTotal: MoneyAmount?
+    @Published var convertedTotal: Total?
 
     @Published var positions: [Position] = []
     @Published var currencies: [CurrencyPosition] = []
 
     override init(env: Environment = .current) {
-        if let currency = env.settings().currency {
+        if let currency = env.settings.currency {
             convertType = .currency(currency)
         } else {
             convertType = .original
@@ -93,15 +106,23 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
         Publishers.CombineLatest($positions.dropFirst(), $convertType.removeDuplicates())
             .receive(on: DispatchQueue.global())
-            .map { positions, currencyType -> MoneyAmount? in
+            .map { positions, currencyType -> HomeViewModel.Total? in
                 switch currencyType {
                 case let .currency(currency):
-                    let sum = positions.reduce(0) { [unowned self] (result, position) -> Double in
+                    let totalInProfile = positions.reduce(0) { [unowned self] (result, position) -> Double in
                         result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
                                                                 money: position.totalInProfile,
                                                                 to: currency).value
                     }
-                    return MoneyAmount(currency: currency, value: sum)
+
+                    let expectedProfile = positions.reduce(0) { [unowned self] (result, position) -> Double in
+                        result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+                                                                money: position.expectedYield,
+                                                                to: currency).value
+                    }
+
+                    return Total(totalInProfile: totalInProfile.addCurrency(currency),
+                                 expectedProfile: expectedProfile.addCurrency(currency))
                 case .original:
                     return nil
                 }
@@ -110,7 +131,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             .assign(to: \.convertedTotal, on: self)
             .store(in: &cancellables)
 
-//        startTimer()
+        startTimer()
 
         $convertType.dropFirst().sink(receiveValue: { value in
             switch value {

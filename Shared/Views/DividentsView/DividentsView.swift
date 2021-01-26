@@ -8,33 +8,8 @@ import Combine
 import InvestModels
 import SwiftUI
 
-class DividentsViewModel: EnvironmentCancebleObject, ObservableObject {
-    @Published var dividents: [Operation] = []
-
-    public func loadOperaions() {
-        env.operationsService
-            .getOperations(request: .init(env: env))
-    }
-
-    override func bindings() {
-        super.bindings()
-        env.operationsService.$operations
-            .receive(on: DispatchQueue.global())
-            .map { $0.filter(types: [.Dividend, .TaxDividend]) }
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.dividents, on: self)
-            .store(in: &cancellables)
-    }
-}
-
 struct DividentsView: View {
     @ObservedObject var viewModel: DividentsViewModel
-
-    var instruments: [Instrument] {
-        viewModel.dividents
-            .compactMap { $0.instrument }.unique
-            .sorted(by: { $0.name < $1.name })
-    }
 
     var body: some View {
         List {
@@ -49,7 +24,7 @@ struct DividentsView: View {
             }
 
             Section {
-                ForEach(instruments, id: \.self) { instrument in
+                ForEach(viewModel.instruments, id: \.self) { instrument in
                     let operations = viewModel.dividents
                         .filter { $0.instrument == instrument }
                         .sorted(by: { $0.date < $1.date })

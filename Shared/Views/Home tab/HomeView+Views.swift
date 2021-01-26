@@ -9,33 +9,52 @@ import Foundation
 import InvestModels
 import SwiftUI
 
+protocol TotalViewModeble {
+    var totalInProfile: MoneyAmount { get }
+    var expectedProfile: MoneyAmount { get }
+    var percent: Double { get }
+}
+
+struct TotalViewModel: TotalViewModeble {
+    let currency: Currency
+    let positions: [Position]
+
+    var filteredPositions: [Position] {
+        positions.filter { $0.currency == currency }
+    }
+
+    var totalInProfile: MoneyAmount {
+        MoneyAmount(currency: currency, value: filteredPositions.map { $0.totalInProfile }.sum)
+    }
+
+    var expectedProfile: MoneyAmount {
+        MoneyAmount(currency: currency, value: filteredPositions.map { $0.expectedYield }.sum)
+    }
+
+    var percent: Double {
+        (expectedProfile.value / totalInProfile.value) * 100
+    }
+}
+
 extension HomeView {
     struct TotalView: View {
-        let currency: Currency
-        let positions: [Position]
-
-        var filteredPositions: [Position] {
-            positions.filter { $0.currency == currency }
-        }
-
-        var totalInProfile: MoneyAmount {
-            MoneyAmount(currency: currency, value: filteredPositions.map { $0.totalInProfile }.sum)
-        }
-
-        var expectedProfile: MoneyAmount {
-            MoneyAmount(currency: currency, value: filteredPositions.map { $0.expectedYield }.sum)
-        }
-
-        var percent: Double {
-            (expectedProfile.value / totalInProfile.value) * 100
-        }
+        let model: TotalViewModeble
 
         var body: some View {
             HStack {
-                CurrencyText(money: totalInProfile)
-                MoneyText(money: expectedProfile)
-                PercentText(percent: percent)
-            }.font(.system(size: 17, weight: .medium))
+                if model.totalInProfile.value > 0 {
+                    VStack(alignment: .leading) {
+                        CurrencyText(money: model.totalInProfile)
+                            .font(.system(size: 20, weight: .medium))
+
+                        HStack {
+                            MoneyText(money: model.expectedProfile)
+                            PercentText(percent: model.percent)
+                        }
+                        .font(.system(size: 14, weight: .regular))
+                    }
+                }
+            }
         }
     }
 
@@ -52,7 +71,7 @@ extension HomeView {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
                             ForEach(section.positions, id: \.self) { position in
-                                if let url = InstrumentLogoService.logoUrl(for: position.instrumentType, isin: position.isin) {
+                                if let url = InstrumentLogoService.logoUrl(for: position) {
                                     URLImage(url: url) { image in
                                         image
                                             .frame(width: 20, height: 20, alignment: .center)
@@ -66,18 +85,21 @@ extension HomeView {
 
                 HStack {
                     ForEach(section.currencies.indexed(), id: \.element) { offset, currency in
-                        if offset != 0 {
-                            Divider()
-                        }
+                        if offset != 0 { Divider() }
+//                        TotalView(model: TotalViewModel(currency: currency, positions: section.positions)) // mapping to Position
+
                         if section.totalInProfile(currency: currency) > 0 {
                             VStack(alignment: .leading) {
                                 CurrencyText(money: MoneyAmount(currency: currency,
                                                                 value: section.totalInProfile(currency: currency)))
                                     .font(.system(size: 20, weight: .medium))
 
-                                MoneyText(money: MoneyAmount(currency: currency,
-                                                             value: section.totalChanged(currency: currency)))
-                                    .font(.system(size: 14, weight: .regular))
+                                HStack {
+                                    MoneyText(money: MoneyAmount(currency: currency,
+                                                                 value: section.totalChanged(currency: currency)))
+                                    PercentText(percent: section.percentChanged(currency: currency))
+                                }
+                                .font(.system(size: 14, weight: .regular))
                             }
                         }
                     }

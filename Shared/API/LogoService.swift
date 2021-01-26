@@ -8,13 +8,37 @@
 import Foundation
 import InvestModels
 
-struct InstrumentLogoService {
-    static func logoUrl(for _: InstrumentType?, isin: String?) -> URL? {
-        guard let isin = isin else { // type == .Stock,
+protocol LogoPosition {
+    var instrumentType: InstrumentType? { get }
+    var ticker: String? { get }
+    var isin: String? { get }
+    var currency: Currency { get }
+}
+
+enum InstrumentLogoService {
+    static func logoUrl(for model: LogoPosition) -> URL? {
+        guard let type = model.instrumentType else {
             return nil
         }
 
-        return LogoService.logoUrl(for: isin)
+        switch type {
+        case .Stock, .Bond:
+            guard let isin = model.isin else {
+                return nil
+            }
+
+            return LogoService.logoUrl(for: isin)
+
+        case .Currency:
+            return LogoService.logoUrl(for: model.currency.rawValue)
+
+        case .Etf:
+            guard let ticker = model.ticker else {
+                return nil
+            }
+
+            return LogoService.logoUrl(for: ticker)
+        }
     }
 }
 

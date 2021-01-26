@@ -22,7 +22,7 @@ open class CancebleObject {
 }
 
 open class EnvironmentCancebleObject: CancebleObject {
-    internal let env: Environment
+    internal var env: Environment
 
     internal init(env: Environment = .current) {
         self.env = env

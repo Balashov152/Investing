@@ -28,6 +28,6 @@ struct InvestingApp: App {
     }
 
     func onAppearApp() {
-        //        UIScrollView.appearance().keyboardDismissMode = .onDrag
+        UIScrollView.appearance().keyboardDismissMode = .onDrag
     }
 }

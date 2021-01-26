@@ -1,8 +1,8 @@
 //
-//  ComissionView.swift
+//  ComissionViewModel.swift
 //  Investing
 //
-//  Created by Sergey Balashov on 10.12.2020.
+//  Created by Sergey Balashov on 26.01.2021.
 //
 
 import Combine
@@ -10,7 +10,6 @@ import InvestModels
 import SwiftUI
 
 class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
-//    @Published var operations: [Operation] = []
     @Published var rows: [Row] = []
     @Published var total = MoneyAmount(currency: .RUB, value: 0)
 
@@ -54,7 +53,7 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
             .assign(to: \.rows, on: self)
             .store(in: &cancellables)
 
-        $rows.map { [unowned self] in
+        $rows.map {
             MoneyAmount(currency: ComissionViewModel.currency,
                         value: $0.map { $0.value }.sum)
         }
@@ -67,31 +66,5 @@ extension ComissionViewModel {
     struct Row {
         let type: Operation.OperationTypeWithCommission
         let value: MoneyAmount
-    }
-}
-
-struct ComissionView: View {
-    @StateObject var viewModel: ComissionViewModel
-
-    var body: some View {
-        List {
-            ForEach(viewModel.rows, id: \.type) { row in
-                MoneyRow(label: row.type.rawValue, money: row.value)
-            }
-            if viewModel.total.value != 0 {
-                MoneyRow(label: "Total", money: viewModel.total)
-            }
-        }
-        .navigationTitle("Commissions")
-        .onAppear(perform: viewModel.loadOperaions)
-    }
-
-    func commisionCell(label: String, double: Double) -> some View {
-        HStack {
-            Text(label)
-            Spacer()
-            Text(double.formattedCurrency())
-                .foregroundColor(.currency(value: double))
-        }
     }
 }

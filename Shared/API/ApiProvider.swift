@@ -80,7 +80,7 @@ extension Response {
 struct BearerTokenPlugin: PluginType {
     public func prepare(_ request: URLRequest, target _: TargetType) -> URLRequest {
         var request = request
-        let authValue = AuthorizationType.bearer.value + " " + Settings.shared.apiToken
+        let authValue = AuthorizationType.bearer.value + " " + Storage.token
         request.addValue(authValue, forHTTPHeaderField: "Authorization")
         return request
     }
