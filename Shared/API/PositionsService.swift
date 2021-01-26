@@ -10,16 +10,25 @@ import Foundation
 import InvestModels
 import Moya
 
-struct PositionsService {
+class PositionsService: CancebleObject {
+    @Published public var positions: [Position] = []
+
     static let shared = PositionsService()
 
     let provider = ApiProvider<PositionAPI>()
 
-    func getPositions() -> AnyPublisher<[Position], MoyaError> {
+    override private init() {
+        super.init()
+        getPositions()
+    }
+
+    func getPositions() {
         provider.request(.getPositions)
             .map(APIBaseModel<PositionsPayload>.self)
             .map { $0.payload?.positions ?? [] }
-            .eraseToAnyPublisher()
+            .replaceError(with: [])
+            .assign(to: \.positions, on: self)
+            .store(in: &cancellables)
     }
 
     func getCurrences() -> AnyPublisher<[CurrencyPosition], MoyaError> {

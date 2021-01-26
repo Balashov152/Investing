@@ -11,8 +11,8 @@ import Moya
 
 class OperationsService: CancebleObject, ObservableObject {
     @Published public var operations: [Operation] = []
-    private var loadOperationForInterval: DateInterval?
 
+    private var loadOperationForInterval: DateInterval?
     private let provider = ApiProvider<OperationAPI>()
     private let realmManager: RealmManager
 
@@ -23,7 +23,7 @@ class OperationsService: CancebleObject, ObservableObject {
     }
 
     func getOperations(request: OperationsRequest) {
-        guard Settings.shared.dateInterval != loadOperationForInterval || operations.isEmpty else { return } // think about it
+        guard Settings.shared.dateInterval != loadOperationForInterval else { return } // think about it
 
         provider.request(.getOperations(request: request))
             .receive(on: DispatchQueue.global()).eraseToAnyPublisher()

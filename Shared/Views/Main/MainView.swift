@@ -6,9 +6,7 @@
 //
 
 import Combine
-import CombineMoya
 import InvestModels
-import Moya
 import SwiftUI
 
 class MainViewModel: EnvironmentCancebleObject, ObservableObject {
@@ -25,16 +23,12 @@ class MainViewModel: EnvironmentCancebleObject, ObservableObject {
     func loadData() {
         guard loadDB == .loading else { return }
 
-        dbManager.updateIfNeeded { [unowned self] in
-            self.loadDB = .loaded(object: ())
-        }
-
-        loadCurrency()
-    }
-
-    func loadCurrency() {
-        dbManager.updateCurrency()
-            .sink(receiveValue: {}).store(in: &cancellables)
+        Publishers.CombineLatest(dbManager.updateIfNeeded(), latest.$latest.dropFirst())
+            .eraseToAnyPublisher().mapToVoid()
+            .map { .loaded(object: $0) }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.loadDB, on: self)
+            .store(in: &cancellables)
     }
 }
 

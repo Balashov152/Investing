@@ -13,15 +13,7 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 import Foundation
 
-extension CurrencyPosition: Hashable {
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(currency)
-        hasher.combine(balance)
-        hasher.combine(blocked)
-    }
-}
-
-public struct CurrencyPosition : Codable {
+public struct CurrencyPosition : Codable, Hashable {
     public let currency : Currency
     
     public let balance : Double

@@ -13,6 +13,7 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @State var showingDetail = false
+    @State var showingRates = false
 
     @State var expandedSections = Set<InstrumentType>([.Stock])
     func isExpandedSection(type: InstrumentType) -> Binding<Bool> {
@@ -31,7 +32,6 @@ struct HomeView: View {
         NavigationView {
             VStack(alignment: .leading, spacing: 0) {
                 convertView
-//                convertedExchangeRates
                 list
             }
             .navigationBarItems(trailing: MainView.settingsNavigationLink)
@@ -40,59 +40,43 @@ struct HomeView: View {
         }
     }
 
-    var convertedExchangeRates: some View {
-        Group {
-            if let latest = viewModel.currencyPairServiceLatest.latest {
-                HStack {
-                    Text("USD")
-                    Text((1 / latest.USD).formattedCurrency())
-
-                    Text("EUR")
-                    Text((1 / latest.EUR).formattedCurrency())
-                }.padding()
-            } else {
-                Text("not avalible")
-            }
-        }
-    }
-
-    var currenciesInPositions: [Currency] {
-        viewModel.positions.map { $0.currency }.unique.sorted(by: >)
-    }
-
     var totalTitleView: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("Total profile")
+                Text("Total")
                     .font(.largeTitle).bold()
                 Spacer()
                 if viewModel.convertType != .original {
-                    Button(action: {
+                    Button("Detail", action: {
                         self.showingDetail.toggle()
-                    }) {
-                        Text("Full")
-                    }.sheet(isPresented: $showingDetail) {
+                    }).sheet(isPresented: $showingDetail) {
                         ViewFactory.totalDetailView
-                    }.buttonStyle(PlainButtonStyle())
+                    }
+                    .padding(4)
+                    .overlay(RoundedRectangle(cornerRadius: 5)
+                        .stroke(Color.gray, lineWidth: 1)
+                    )
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
-
-            switch viewModel.convertType {
-            case .original:
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        ForEach(currenciesInPositions.indexed(), id: \.element) { index, currency in
-                            if index != 0 { Divider() }
-                            TotalView(model: TotalViewModel(currency: currency, positions: viewModel.positions))
+            Group {
+                switch viewModel.convertType {
+                case .original:
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(viewModel.currenciesInPositions.indexed(), id: \.element) { index, currency in
+                                if index != 0 { Divider() }
+                                TotalView(model: TotalViewModel(currency: currency, positions: viewModel.positions))
+                            }
                         }
                     }
+                case .currency:
+                    if let convertedTotal = viewModel.convertedTotal {
+                        TotalView(model: convertedTotal)
+                    }
                 }
-            case .currency:
-                if let convertedTotal = viewModel.convertedTotal {
-                    TotalView(model: convertedTotal)
-                }
-            }
-        }.animation(.default)
+            }.animation(.default)
+        }
     }
 
     var convertView: some View {
@@ -103,6 +87,19 @@ struct HomeView: View {
                         .font(.system(size: 20, weight: .medium))
                     Spacer(minLength: 16)
                     segment
+
+                    Button(action: {
+                        self.showingRates.toggle()
+                    }, label: {
+                        Image(systemName: "arrow.left.arrow.right.circle")
+                            .resizable()
+                            .frame(width: 25, height: 25, alignment: .center)
+                    }).sheet(isPresented: $showingRates) {
+                        ViewFactory.ratesView
+                    }
+                    .font(.body)
+                    .padding(4)
+                    .buttonStyle(PlainButtonStyle())
                 }
             }.padding()
 
@@ -145,18 +142,17 @@ struct HomeView: View {
     }
 
     func groupContent(section: HomeViewModel.Section) -> some View {
-        ForEach(section.positions,
-                id: \.self, content: { position in
-                    PositionRowView(position: position)
-                        .background(
-                            NavigationLink(destination: ViewFactory.positionDetailView(position: position,
-                                                                                       env: viewModel.env)) {
-                                EmptyView()
-                            }
-                            .hidden()
-                        )
+        ForEach(section.positions, id: \.self, content: { position in
+            PositionRowView(position: position)
+                .background(
+                    NavigationLink(destination: NavigationLazyView(ViewFactory.positionDetailView(position: position,
+                                                                                                  env: viewModel.env))) {
+                        EmptyView()
+                    }
+                    .hidden()
+                )
 
-                })
+        })
     }
 
     var currencies: some View {

@@ -100,6 +100,14 @@
 		EF79B80525B1E064005C2EB8 /* LogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B80425B1E064005C2EB8 /* LogoService.swift */; };
 		EF79B80625B1E064005C2EB8 /* LogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF79B80425B1E064005C2EB8 /* LogoService.swift */; };
 		EF8114B22596375700773236 /* SettingsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8114B12596375700773236 /* SettingsTabView.swift */; };
+		EF84A96425C09CE70081F857 /* AnyPublisher+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A96325C09CE70081F857 /* AnyPublisher+Ex.swift */; };
+		EF84A96525C09CE70081F857 /* AnyPublisher+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A96325C09CE70081F857 /* AnyPublisher+Ex.swift */; };
+		EF84A96B25C09D780081F857 /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A96A25C09D780081F857 /* NavigationLazyView.swift */; };
+		EF84A96C25C09D780081F857 /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A96A25C09D780081F857 /* NavigationLazyView.swift */; };
+		EF84A97725C0AAAC0081F857 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A97625C0AAAC0081F857 /* RootView.swift */; };
+		EF84A97825C0AAAC0081F857 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A97625C0AAAC0081F857 /* RootView.swift */; };
+		EF84A97F25C0B2A50081F857 /* RatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A97E25C0B2A50081F857 /* RatesView.swift */; };
+		EF84A98025C0B2A50081F857 /* RatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A97E25C0B2A50081F857 /* RatesView.swift */; };
 		EF951DF325BB22EF0006FD97 /* PinnedInstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */; };
 		EF951DFF25BB24610006FD97 /* PositionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF925BB245E0006FD97 /* PositionDetailView.swift */; };
 		EF951E0025BB24610006FD97 /* PositionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF925BB245E0006FD97 /* PositionDetailView.swift */; };
@@ -326,6 +334,10 @@
 		EF79B7BC25B1CA9B005C2EB8 /* UIColor+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Ex.swift"; sourceTree = "<group>"; };
 		EF79B80425B1E064005C2EB8 /* LogoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoService.swift; sourceTree = "<group>"; };
 		EF8114B12596375700773236 /* SettingsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabView.swift; sourceTree = "<group>"; };
+		EF84A96325C09CE70081F857 /* AnyPublisher+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Ex.swift"; sourceTree = "<group>"; };
+		EF84A96A25C09D780081F857 /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
+		EF84A97625C0AAAC0081F857 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		EF84A97E25C0B2A50081F857 /* RatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesView.swift; sourceTree = "<group>"; };
 		EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedInstrumentR.swift; sourceTree = "<group>"; };
 		EF951DF925BB245E0006FD97 /* PositionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionDetailView.swift; sourceTree = "<group>"; };
 		EF95201D25BEFA8D0006FD97 /* TotalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalDetailView.swift; sourceTree = "<group>"; };
@@ -462,6 +474,7 @@
 				EF5416B425C06497007EA38D /* MoneyRow.swift */,
 				EF5416BB25C064A2007EA38D /* InfoRow.swift */,
 				EF5416C225C06502007EA38D /* PercentText.swift */,
+				EF84A96A25C09D780081F857 /* NavigationLazyView.swift */,
 			);
 			path = "Common Views";
 			sourceTree = "<group>";
@@ -475,6 +488,7 @@
 				EF54166F25C061FD007EA38D /* DateFormatter+Ex.swift */,
 				EF54168125C06288007EA38D /* Double+Ex.swift */,
 				EF54169B25C063E5007EA38D /* Identifiable+Ex.swift */,
+				EF84A96325C09CE70081F857 /* AnyPublisher+Ex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -657,11 +671,11 @@
 		EF76A091257FA7FE00991AE3 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				EF647E6D25AF420200D20761 /* README.md */,
+				EF76A092257FA7FE00991AE3 /* InvestingApp.swift */,
 				EF54168825C062CC007EA38D /* Experements */,
 				EF54166325C061A9007EA38D /* Model+Ex */,
 				EF54166225C0618B007EA38D /* Core */,
-				EF647E6D25AF420200D20761 /* README.md */,
-				EF76A092257FA7FE00991AE3 /* InvestingApp.swift */,
 				EF76A0FE257FB4AF00991AE3 /* Application */,
 				EF76A10A257FB4D100991AE3 /* Views */,
 				EF1281E325B202C50018E5FC /* Common Views */,
@@ -735,9 +749,10 @@
 		EF76A10A257FB4D100991AE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				EFEFDE4525BF3D0B0013BB1B /* Authorization */,
+				EF84A97525C0AA9E0081F857 /* RootView */,
 				EF54168D25C0633B007EA38D /* Main */,
 				EF9581BB25909ECA00D559E7 /* Home tab */,
+				EF95201C25BEFA7A0006FD97 /* Total Detail */,
 				EF12823D25B220700018E5FC /* Currency */,
 				EF761AD72590E5B900320289 /* Analytics Tab */,
 				EF5416C925C0657F007EA38D /* TickersView */,
@@ -811,6 +826,23 @@
 			path = "Settings tab";
 			sourceTree = "<group>";
 		};
+		EF84A97525C0AA9E0081F857 /* RootView */ = {
+			isa = PBXGroup;
+			children = (
+				EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */,
+				EF84A97625C0AAAC0081F857 /* RootView.swift */,
+			);
+			path = RootView;
+			sourceTree = "<group>";
+		};
+		EF84A97D25C0B2950081F857 /* RatesView */ = {
+			isa = PBXGroup;
+			children = (
+				EF84A97E25C0B2A50081F857 /* RatesView.swift */,
+			);
+			path = RatesView;
+			sourceTree = "<group>";
+		};
 		EF951DF825BB244A0006FD97 /* Position Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -854,11 +886,11 @@
 		EF9581BB25909ECA00D559E7 /* Home tab */ = {
 			isa = PBXGroup;
 			children = (
+				EF84A97D25C0B2950081F857 /* RatesView */,
 				EF54168F25C063B2007EA38D /* Model */,
 				EF76A0D3257FAA5A00991AE3 /* HomeView.swift */,
 				EF1281EF25B203440018E5FC /* HomeView+Views.swift */,
 				EF54168E25C06377007EA38D /* ViewModel */,
-				EF95201C25BEFA7A0006FD97 /* Total Detail */,
 				EF951DF825BB244A0006FD97 /* Position Detail */,
 				EFC02AE425800086008AF0FF /* PositionRowView.swift */,
 			);
@@ -952,14 +984,6 @@
 				EFC99736258114DC00A722F7 /* Instrument.swift */,
 			);
 			path = Instruments;
-			sourceTree = "<group>";
-		};
-		EFEFDE4525BF3D0B0013BB1B /* Authorization */ = {
-			isa = PBXGroup;
-			children = (
-				EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */,
-			);
-			path = Authorization;
 			sourceTree = "<group>";
 		};
 		EFEFDE5825BF4A930013BB1B /* Graphics */ = {
@@ -1304,6 +1328,7 @@
 			files = (
 				EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */,
 				EF76A17E257FCE6400991AE3 /* PositionsService.swift in Sources */,
+				EF84A96B25C09D780081F857 /* NavigationLazyView.swift in Sources */,
 				EF95202325BEFA920006FD97 /* TotalDetailView.swift in Sources */,
 				EFC02AFD25800BD3008AF0FF /* OperationsView.swift in Sources */,
 				EF1281F025B203440018E5FC /* HomeView+Views.swift in Sources */,
@@ -1345,11 +1370,14 @@
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
 				EFF46B77259C6B6200EFD02A /* CurrencyView.swift in Sources */,
 				EFF46B79259C6B6200EFD02A /* DividentsView.swift in Sources */,
+				EF84A97F25C0B2A50081F857 /* RatesView.swift in Sources */,
 				EFEFDE4725BF3DB30013BB1B /* AuthorizationView.swift in Sources */,
 				EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EF79B7BD25B1CA9B005C2EB8 /* UIColor+Ex.swift in Sources */,
+				EF84A97725C0AAAC0081F857 /* RootView.swift in Sources */,
 				EF647E6725AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF761AF12590FF6200320289 /* RealmManager.swift in Sources */,
+				EF84A96425C09CE70081F857 /* AnyPublisher+Ex.swift in Sources */,
 				EF5416CB25C06591007EA38D /* TickersViewModel.swift in Sources */,
 				EFF46B75259C6B6200EFD02A /* TickersView.swift in Sources */,
 				EF76A123257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
@@ -1407,11 +1435,13 @@
 				EFC02AE625800086008AF0FF /* PositionRowView.swift in Sources */,
 				EF1281F125B203440018E5FC /* HomeView+Views.swift in Sources */,
 				EF95208A25C00ED00006FD97 /* PositionDetailViewModel.swift in Sources */,
+				EF84A96525C09CE70081F857 /* AnyPublisher+Ex.swift in Sources */,
 				EF95209525C00F2B0006FD97 /* PosotionInfoRow.swift in Sources */,
 				EFF46B7A259C6B6200EFD02A /* DividentsView.swift in Sources */,
 				EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EFF46B78259C6B6200EFD02A /* CurrencyView.swift in Sources */,
 				EF5416AF25C0648B007EA38D /* CurrencyRow.swift in Sources */,
+				EF84A96C25C09D780081F857 /* NavigationLazyView.swift in Sources */,
 				EF1281E625B202D40018E5FC /* BackgroundButton.swift in Sources */,
 				EFD60C3E25B42C2D003337C2 /* UserDefault.swift in Sources */,
 				EF4C38D125B8468200A3AB5D /* IndexedCollection.swift in Sources */,
@@ -1429,6 +1459,7 @@
 				EF647E6825AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF5416CC25C06591007EA38D /* TickersViewModel.swift in Sources */,
 				EF76A124257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
+				EF84A98025C0B2A50081F857 /* RatesView.swift in Sources */,
 				EFEFDE4825BF3DB30013BB1B /* AuthorizationView.swift in Sources */,
 				EF76A174257FCE2100991AE3 /* AccountService.swift in Sources */,
 				EF95202425BEFA920006FD97 /* TotalDetailView.swift in Sources */,
@@ -1438,6 +1469,7 @@
 				EFBA421025821EDF00C2AFC8 /* Decoder+Ex.swift in Sources */,
 				EF76A101257FB4BE00991AE3 /* Storage.swift in Sources */,
 				EF637FEF259362DA00D2C42D /* DBManager.swift in Sources */,
+				EF84A97825C0AAAC0081F857 /* RootView.swift in Sources */,
 				EF3ED2C325BAD6CA00B25464 /* URLImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

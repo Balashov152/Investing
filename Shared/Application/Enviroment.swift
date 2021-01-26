@@ -26,7 +26,7 @@ struct Environment {
 struct API {
     static let current = API(currencyPairService: .init(),
                              accountService: .init(),
-                             positionService: .init(),
+                             positionService: .shared,
                              operationsService: .init(realmManager: RealmManager()),
                              instrumentsService: .init())
 

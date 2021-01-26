@@ -19,8 +19,6 @@ extension TickersViewModel {
 class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var results: [InstrumentResult] = []
 
-    @Published var positions: [Position] = []
-
     @Published var totalRUB: Double = 0
     @Published var totalUSD: Double = 0
 
@@ -30,17 +28,13 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     public func loadOperaions() {
-        env.api().operationsService
-            .getOperations(request: .init(env: env))
-
+        env.api().operationsService.getOperations(request: .init(env: env))
         env.api().positionService.getPositions()
-            .replaceError(with: [])
-            .assign(to: \.positions, on: self)
-            .store(in: &cancellables)
     }
 
     override func bindings() {
-        Publishers.CombineLatest(env.operationsService.$operations, $positions.dropFirst())
+        Publishers.CombineLatest(env.api().operationsService.$operations,
+                                 env.api().positionService.$positions.dropFirst())
             .receive(on: DispatchQueue.global())
             .map { [unowned self] operations, positions in
                 mapToResults(operations: operations, positions: positions)

@@ -13,17 +13,10 @@ public typealias Operation = InvestModels.Operation
 
 @main
 struct InvestingApp: App {
-    @State var isAuthorized = Storage.isAuthorized
-
     var body: some Scene {
         WindowGroup {
-            Group {
-                if isAuthorized {
-                    ViewFactory.mainView
-                } else {
-                    ViewFactory.authorizationView
-                }
-            }.onAppear(perform: onAppearApp)
+            RootView(viewModel: .init())
+                .onAppear(perform: onAppearApp)
         }
     }
 

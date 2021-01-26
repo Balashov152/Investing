@@ -67,8 +67,9 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var sections: [Section] = []
     @Published var convertedTotal: Total?
 
-    @Published var positions: [Position] = []
     @Published var currencies: [CurrencyPosition] = []
+
+    var positions: [Position] { env.api().positionService.positions }
 
     override init(env: Environment = .current) {
         if let currency = env.settings.currency {
@@ -82,10 +83,19 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
     var timer: Timer?
 
+    var currenciesInPositions: [Currency] {
+        positions.map { $0.currency }.unique.sorted(by: >)
+    }
+
     override func bindings() {
         super.bindings()
-        Publishers.CombineLatest($positions.dropFirst(), $convertType.removeDuplicates())
-            .receive(on: DispatchQueue.global())
+        let didChange = Publishers.CombineLatest(env.api().positionService.$positions.dropFirst(),
+                                                 $convertType.removeDuplicates().handleEvents(receiveOutput: { _ in
+                                                     // TODO: Add vibrate
+                                                 }))
+            .receive(on: DispatchQueue.global()).share()
+
+        didChange
             .map { [unowned self] positions, currencyType -> [PositionView] in
                 self.map(positions: positions, to: currencyType)
             }
@@ -104,8 +114,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             .assign(to: \.sections, on: self)
             .store(in: &cancellables)
 
-        Publishers.CombineLatest($positions.dropFirst(), $convertType.removeDuplicates())
-            .receive(on: DispatchQueue.global())
+        didChange
             .map { positions, currencyType -> HomeViewModel.Total? in
                 switch currencyType {
                 case let .currency(currency):
@@ -131,7 +140,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             .assign(to: \.convertedTotal, on: self)
             .store(in: &cancellables)
 
-        startTimer()
+//        startTimer()
 
         $convertType.dropFirst().sink(receiveValue: { value in
             switch value {
@@ -145,9 +154,6 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
     public func loadPositions() {
         env.api().positionService.getPositions()
-            .replaceError(with: [])
-            .assign(to: \.positions, on: self)
-            .store(in: &cancellables)
 
         env.api().positionService.getCurrences()
             .replaceError(with: [])

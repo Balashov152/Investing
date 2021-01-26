@@ -10,18 +10,16 @@ import Foundation
 import InvestModels
 
 struct ViewFactory {
-    // AUTH
-
-    static let authorizationView: AuthorizationView = {
-        .init(viewModel: .init())
-    }()
-
     // MAIN TABS
     static let mainView: MainView = {
         .init(viewModel: .init())
     }()
 
     static let homeView: HomeView = {
+        .init(viewModel: .init())
+    }()
+
+    static let ratesView: RatesView = {
         .init(viewModel: .init())
     }()
 

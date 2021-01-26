@@ -22,12 +22,11 @@ struct DBManager {
         self.realmManager = realmManager
     }
 
-    mutating func updateIfNeeded(didUpdate: @escaping () -> Void) {
+    mutating func updateIfNeeded() -> AnyPublisher<Void, Never> {
 //        guard realmManager.isEmptyDB() || Storage.currentDBVersion < DBManager.version else {
 //            didUpdate()
 //            return
 //        }
-//        realmManager.objectTypes.forEach(realmManager.deleteAllObjects)
 
         let saveInstruments = Publishers.CombineLatest4(env.api().instrumentsService.getBonds(),
                                                         env.api().instrumentsService.getStocks(),
@@ -52,12 +51,14 @@ struct DBManager {
                 return [()].publisher.eraseToAnyPublisher()
             }
 
-        Publishers.CombineLatest(saveInstruments, saveCurrencyPairs)
+        return Publishers.CombineLatest(saveInstruments, saveCurrencyPairs)
             .receive(on: DispatchQueue.main)
-            .sink { _ in
-                Storage.currentDBVersion = DBManager.version
-                didUpdate()
-            }.store(in: &cancellables)
+            .map { _ in () }.eraseToAnyPublisher()
+
+//            .sink { _ in
+//                Storage.currentDBVersion = DBManager.version
+//                didUpdate()
+//            }.store(in: &cancellables)
     }
 
     func updateCurrency() -> AnyPublisher<Void, Never> {

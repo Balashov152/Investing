@@ -11,8 +11,10 @@ import InvestModels
 import SwiftUI
 
 class TotalDetailViewModel: EnvironmentCancebleObject, ObservableObject {
-    @Published var operations: [Operation] = []
-    @Published var positions: [Position] = []
+    @Published var loading = LoadingState<([Operation], [Position])>.loading
+
+    var positions: [Position] { loading.object?.1 ?? [] }
+    var operations: [Operation] { loading.object?.0 ?? [] }
 
     var currencyPairServiceLatest: CurrencyPairServiceLatest { .shared }
     var currency: Currency {
@@ -51,23 +53,23 @@ class TotalDetailViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         super.bindings()
-        env.api().operationsService.$operations
+        Publishers.CombineLatest(env.api().operationsService.$operations.dropFirst(),
+                                 env.api().positionService.$positions.dropFirst())
             .receive(on: DispatchQueue.global())
-            .map { operations in
-                operations.filter(types: [.Sell, .Buy, .BuyCard, .Dividend])
+            .map { operations, positions in
+                let filtered = operations
+                    .filter(types: [.Sell, .Buy, .BuyCard, .Dividend])
                     .filter { $0.instrumentType != .some(.Currency) }
+
+                return .loaded(object: (filtered, positions))
             }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.operations, on: self)
+            .assign(to: \.loading, on: self)
             .store(in: &cancellables)
     }
 
     public func load() {
         env.api().operationsService.getOperations(request: .init(env: env))
-
         env.api().positionService.getPositions()
-            .replaceError(with: [])
-            .assign(to: \.positions, on: self)
-            .store(in: &cancellables)
     }
 }
