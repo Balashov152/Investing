@@ -17,6 +17,8 @@
 		EF1281F825B2039A0018E5FC /* EdgeInsets+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1281F625B2039A0018E5FC /* EdgeInsets+Ex.swift */; };
 		EF1281FF25B203C20018E5FC /* Array+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1281FE25B203C20018E5FC /* Array+Ex.swift */; };
 		EF12820025B203C20018E5FC /* Array+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1281FE25B203C20018E5FC /* Array+Ex.swift */; };
+		EF249EA425C35D210064C9C6 /* TargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF249EA325C35D210064C9C6 /* TargetsView.swift */; };
+		EF249EA525C35D210064C9C6 /* TargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF249EA325C35D210064C9C6 /* TargetsView.swift */; };
 		EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
 		EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
 		EF3ED22E25BABB9900B25464 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EF3ED22D25BABB9900B25464 /* Kingfisher */; };
@@ -274,6 +276,7 @@
 		EF1281EF25B203440018E5FC /* HomeView+Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HomeView+Views.swift"; sourceTree = "<group>"; };
 		EF1281F625B2039A0018E5FC /* EdgeInsets+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EdgeInsets+Ex.swift"; sourceTree = "<group>"; };
 		EF1281FE25B203C20018E5FC /* Array+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ex.swift"; sourceTree = "<group>"; };
+		EF249EA325C35D210064C9C6 /* TargetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetsView.swift; sourceTree = "<group>"; };
 		EF27F73025B089FA00E83EE3 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		EF3ED2C125BAD6CA00B25464 /* URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImage.swift; sourceTree = "<group>"; };
 		EF4C35A825B5D43C00A3AB5D /* TaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxView.swift; sourceTree = "<group>"; };
@@ -500,6 +503,14 @@
 				EF9CD34F25B232430043E9E1 /* DetailCurrencyView.swift */,
 			);
 			path = Currency;
+			sourceTree = "<group>";
+		};
+		EF249EA225C35CFC0064C9C6 /* TargetsView */ = {
+			isa = PBXGroup;
+			children = (
+				EF249EA325C35D210064C9C6 /* TargetsView.swift */,
+			);
+			path = TargetsView;
 			sourceTree = "<group>";
 		};
 		EF4C35A325B5D2DE00A3AB5D /* Tax */ = {
@@ -749,6 +760,7 @@
 		EF76A10A257FB4D100991AE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EF249EA225C35CFC0064C9C6 /* TargetsView */,
 				EF84A97525C0AA9E0081F857 /* RootView */,
 				EF54168D25C0633B007EA38D /* Main */,
 				EF9581BB25909ECA00D559E7 /* Home tab */,
@@ -1375,6 +1387,7 @@
 				EF95821E2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
 				EF79B7BD25B1CA9B005C2EB8 /* UIColor+Ex.swift in Sources */,
 				EF84A97725C0AAAC0081F857 /* RootView.swift in Sources */,
+				EF249EA425C35D210064C9C6 /* TargetsView.swift in Sources */,
 				EF647E6725AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF761AF12590FF6200320289 /* RealmManager.swift in Sources */,
 				EF84A96425C09CE70081F857 /* AnyPublisher+Ex.swift in Sources */,
@@ -1445,6 +1458,7 @@
 				EF1281E625B202D40018E5FC /* BackgroundButton.swift in Sources */,
 				EFD60C3E25B42C2D003337C2 /* UserDefault.swift in Sources */,
 				EF4C38D125B8468200A3AB5D /* IndexedCollection.swift in Sources */,
+				EF249EA525C35D210064C9C6 /* TargetsView.swift in Sources */,
 				EF54167825C06254007EA38D /* FormattedCurrency.swift in Sources */,
 				EF5416DD25C0676E007EA38D /* DividentsViewModel.swift in Sources */,
 				EF9CD35125B232430043E9E1 /* DetailCurrencyView.swift in Sources */,

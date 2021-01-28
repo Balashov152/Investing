@@ -90,10 +90,10 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     override func bindings() {
         super.bindings()
         let didChange = Publishers.CombineLatest3(env.api().positionService.$positions.dropFirst(),
-                                                 env.api().positionService.$currencies.dropFirst(),
-                                                 $convertType.removeDuplicates().handleEvents(receiveOutput: { _ in
-                                                     // TODO: Add vibrate
-                                                 }))
+                                                  env.api().positionService.$currencies.dropFirst(),
+                                                  $convertType.removeDuplicates().handleEvents(receiveOutput: { _ in
+                                                      // TODO: Add vibrate
+                                                  }))
             .receive(on: DispatchQueue.global()).share()
 
         didChange
@@ -104,10 +104,11 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
                         let filtered = map(positions: positions, to: currencyType)
                             .filter { $0.instrumentType == .some(type) }
                             .sorted { $0.name.orEmpty < $1.name.orEmpty }
-                        
+
                         if !filtered.isEmpty {
                             return Section(type: type, positions: filtered)
                         }
+                        return nil
                     case .Currency:
                         let positions = currencies.map { currencyPos -> PositionView in
                             PositionView(currency: currencyPos)
@@ -121,7 +122,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             .store(in: &cancellables)
 
         didChange
-            .map { positions, currencies, currencyType -> HomeViewModel.Total? in
+            .map { positions, _, currencyType -> HomeViewModel.Total? in
                 switch currencyType {
                 case let .currency(currency):
                     let totalInProfile = positions.reduce(0) { [unowned self] (result, position) -> Double in
