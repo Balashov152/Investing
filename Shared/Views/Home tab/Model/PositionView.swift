@@ -17,6 +17,17 @@ struct PositionView: Hashable, Identifiable {
                   expectedYield: position.expectedYield,
                   averagePositionPrice: position.averagePositionPrice)
     }
+    
+    init(currency: CurrencyPosition) {
+        self.name = currency.currency.rawValue
+        self.ticker = currency.currency.rawValue
+        self.instrumentType = .Currency
+        self.blocked = currency.blocked
+        self.lots = 0 // currency.balance
+        self.isin = currency.currency.rawValue
+        self.expectedYield = MoneyAmount(currency: currency.currency, value: currency.balance)
+        self.averagePositionPrice = MoneyAmount(currency: currency.currency, value: currency.balance)
+    }
 
     init(position: Position, expectedYield: MoneyAmount, averagePositionPrice: MoneyAmount) {
         name = position.name

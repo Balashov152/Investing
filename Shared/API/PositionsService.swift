@@ -12,6 +12,7 @@ import Moya
 
 class PositionsService: CancebleObject {
     @Published public var positions: [Position] = []
+    @Published public var currencies: [CurrencyPosition] = []
 
     static let shared = PositionsService()
 
@@ -31,11 +32,13 @@ class PositionsService: CancebleObject {
             .store(in: &cancellables)
     }
 
-    func getCurrences() -> AnyPublisher<[CurrencyPosition], MoyaError> {
+    func getCurrences() {
         provider.request(.getCurrences)
             .map(APIBaseModel<CurrenciesPayload>.self)
             .map { $0.payload?.currencies ?? [] }
-            .eraseToAnyPublisher()
+            .replaceError(with: [])
+            .assign(to: \.currencies, on: self)
+            .store(in: &cancellables)
     }
 }
 

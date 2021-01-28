@@ -89,25 +89,31 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         super.bindings()
-        let didChange = Publishers.CombineLatest(env.api().positionService.$positions.dropFirst(),
+        let didChange = Publishers.CombineLatest3(env.api().positionService.$positions.dropFirst(),
+                                                 env.api().positionService.$currencies.dropFirst(),
                                                  $convertType.removeDuplicates().handleEvents(receiveOutput: { _ in
                                                      // TODO: Add vibrate
                                                  }))
             .receive(on: DispatchQueue.global()).share()
 
         didChange
-            .map { [unowned self] positions, currencyType -> [PositionView] in
-                self.map(positions: positions, to: currencyType)
-            }
-            .map { positions -> [Section] in
-                [InstrumentType.Stock, .Bond, .Etf].compactMap { type -> Section? in
-                    let filtered = positions
-                        .filter { $0.instrumentType == .some(type) }
-                        .sorted { $0.name.orEmpty < $1.name.orEmpty }
-                    if !filtered.isEmpty {
-                        return Section(type: type, positions: filtered)
+            .map { [unowned self] positions, currencies, currencyType -> [Section] in
+                InstrumentType.allCases.compactMap { type -> HomeViewModel.Section? in
+                    switch type {
+                    case .Stock, .Bond, .Etf:
+                        let filtered = map(positions: positions, to: currencyType)
+                            .filter { $0.instrumentType == .some(type) }
+                            .sorted { $0.name.orEmpty < $1.name.orEmpty }
+                        
+                        if !filtered.isEmpty {
+                            return Section(type: type, positions: filtered)
+                        }
+                    case .Currency:
+                        let positions = currencies.map { currencyPos -> PositionView in
+                            PositionView(currency: currencyPos)
+                        }
+                        return Section(type: type, positions: positions)
                     }
-                    return nil
                 }
             }
             .receive(on: DispatchQueue.main)
@@ -115,7 +121,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             .store(in: &cancellables)
 
         didChange
-            .map { positions, currencyType -> HomeViewModel.Total? in
+            .map { positions, currencies, currencyType -> HomeViewModel.Total? in
                 switch currencyType {
                 case let .currency(currency):
                     let totalInProfile = positions.reduce(0) { [unowned self] (result, position) -> Double in
@@ -154,11 +160,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
     public func loadPositions() {
         env.api().positionService.getPositions()
-
         env.api().positionService.getCurrences()
-            .replaceError(with: [])
-            .assign(to: \.currencies, on: self)
-            .store(in: &cancellables)
     }
 
     private func startTimer() {
