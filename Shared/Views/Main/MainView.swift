@@ -73,9 +73,18 @@ struct MainView: View {
         TabView(selection: $selection) {
             profileView
             analyticsView
-//            operationsView
+            targetsView
         }
         .accentColor(Color.appBlack)
+    }
+
+    var targetsView: some View {
+        ViewFactory.targetsView.tabItem {
+            VStack {
+                Image(systemName: "target")
+                Text("Target")
+            }.font(.system(size: 16, weight: selection == 0 ? .bold : .regular))
+        }.tag(1)
     }
 
     var profileView: some View {
@@ -94,7 +103,7 @@ struct MainView: View {
                 Text("Analytics")
                     .font(.system(size: 16, weight: selection == 1 ? .bold : .regular))
             }
-        }.tag(1)
+        }.tag(2)
     }
 
     var operationsView: some View {

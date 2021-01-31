@@ -43,6 +43,11 @@ struct ViewFactory {
         .init(viewModel: .init())
     }()
 
+    // Target
+    static let targetsView: TargetsView = {
+        .init(viewModel: .init())
+    }()
+
     // VIEWS
 
     static let comissionView: ComissionView = {

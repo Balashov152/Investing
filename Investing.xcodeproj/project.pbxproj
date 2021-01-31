@@ -175,8 +175,8 @@
 		EFC7F6972595F17B000A6A80 /* CurrencyConvertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7F6962595F17B000A6A80 /* CurrencyConvertModel.swift */; };
 		EFC99748258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
 		EFC99749258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
-		EFD60C3D25B42C2D003337C2 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD60C3C25B42C2D003337C2 /* UserDefault.swift */; };
-		EFD60C3E25B42C2D003337C2 /* UserDefault.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD60C3C25B42C2D003337C2 /* UserDefault.swift */; };
+		EFD60C3D25B42C2D003337C2 /* UserDefaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD60C3C25B42C2D003337C2 /* UserDefaultWrapper.swift */; };
+		EFD60C3E25B42C2D003337C2 /* UserDefaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD60C3C25B42C2D003337C2 /* UserDefaultWrapper.swift */; };
 		EFDED5CA2594D35A00618E14 /* InstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDED5C92594D35A00618E14 /* InstrumentR.swift */; };
 		EFEFDE4725BF3DB30013BB1B /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */; };
 		EFEFDE4825BF3DB30013BB1B /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */; };
@@ -378,7 +378,7 @@
 		EFC99735258114DC00A722F7 /* InstrumentsPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentsPayload.swift; sourceTree = "<group>"; };
 		EFC99736258114DC00A722F7 /* Instrument.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Instrument.swift; sourceTree = "<group>"; };
 		EFC99747258115B000A722F7 /* InstrumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentsService.swift; sourceTree = "<group>"; };
-		EFD60C3C25B42C2D003337C2 /* UserDefault.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefault.swift; sourceTree = "<group>"; };
+		EFD60C3C25B42C2D003337C2 /* UserDefaultWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultWrapper.swift; sourceTree = "<group>"; };
 		EFDED5C92594D35A00618E14 /* InstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentR.swift; sourceTree = "<group>"; };
 		EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
 		EFEFDE5925BF4AA90013BB1B /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
@@ -552,7 +552,7 @@
 			children = (
 				EF76A10F257FB55000991AE3 /* Settings.swift */,
 				EF76A0FF257FB4BE00991AE3 /* Storage.swift */,
-				EFD60C3C25B42C2D003337C2 /* UserDefault.swift */,
+				EFD60C3C25B42C2D003337C2 /* UserDefaultWrapper.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -1376,7 +1376,7 @@
 				EF79B7B125B1BE3A005C2EB8 /* PlainSection.swift in Sources */,
 				EF5416C325C06502007EA38D /* PercentText.swift in Sources */,
 				EF3ED2C225BAD6CA00B25464 /* URLImage.swift in Sources */,
-				EFD60C3D25B42C2D003337C2 /* UserDefault.swift in Sources */,
+				EFD60C3D25B42C2D003337C2 /* UserDefaultWrapper.swift in Sources */,
 				EF79B76425B1B128005C2EB8 /* HomeViewModel.swift in Sources */,
 				EF76A0EF257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
@@ -1456,7 +1456,7 @@
 				EF5416AF25C0648B007EA38D /* CurrencyRow.swift in Sources */,
 				EF84A96C25C09D780081F857 /* NavigationLazyView.swift in Sources */,
 				EF1281E625B202D40018E5FC /* BackgroundButton.swift in Sources */,
-				EFD60C3E25B42C2D003337C2 /* UserDefault.swift in Sources */,
+				EFD60C3E25B42C2D003337C2 /* UserDefaultWrapper.swift in Sources */,
 				EF4C38D125B8468200A3AB5D /* IndexedCollection.swift in Sources */,
 				EF249EA525C35D210064C9C6 /* TargetsView.swift in Sources */,
 				EF54167825C06254007EA38D /* FormattedCurrency.swift in Sources */,

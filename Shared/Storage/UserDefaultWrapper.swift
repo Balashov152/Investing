@@ -1,5 +1,5 @@
 //
-//  UserDefault.swift
+//  UserDefaultWrapper.swift
 //  Investing
 //
 //  Created by Sergey Balashov on 17.01.2021.
