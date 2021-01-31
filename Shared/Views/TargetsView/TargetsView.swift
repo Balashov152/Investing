@@ -9,6 +9,7 @@ import Combine
 import InvestModels
 import Moya
 import SwiftUI
+import UIKit
 
 extension TargetsViewModel {
     struct Column: Hashable, Identifiable {
@@ -88,29 +89,24 @@ struct TargetsView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                Section {
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(alignment: .bottom) {
-                            ForEach(viewModel.columns) { column in
-                                ColumnView(column: column, height: height * multiplicator)
-                            }
+            VStack {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .bottom) {
+                        ForEach(viewModel.columns) { column in
+                            ColumnView(column: column, height: height * multiplicator, changeTarget: $sliderValue)
                         }
-                    }.frame(height: height, alignment: .bottom)
-                }
-
-                Section {
-                    Slider(value: $sliderValue, in: 0 ... 1) {
-                        Text("Value")
                     }
-                    .introspectSlider { slider in
-//                        slider
-                    }
-                }
+                }.frame(height: height, alignment: .bottom)
+                    .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
 
-                PlainSection(header: Text("Positions").bold().font(.title).padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))) {
-                    ForEach(viewModel.columns) {
-                        InfoRow(label: $0.position.name.orEmpty, text: $0.percentVisible.string(f: ".5"))
+                List {
+//                Section {
+//                }
+
+                    PlainSection(header: Text("Positions").bold().font(.title).padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))) {
+                        ForEach(viewModel.columns) {
+                            InfoRow(label: $0.position.name.orEmpty, text: $0.percentVisible.string(f: ".5"))
+                        }
                     }
                 }
             }
@@ -123,6 +119,7 @@ struct TargetsView: View {
     struct ColumnView: View {
         let column: TargetsViewModel.Column
         let height: CGFloat
+        let changeTarget: Binding<Double>
 
         var body: some View {
             VStack {
@@ -139,6 +136,17 @@ struct TargetsView: View {
                     .frame(width: 15,
                            height: height * CGFloat(column.percent), alignment: .bottom)
                     .cornerRadius(3)
+
+                Slider(value: changeTarget, in: 0 ... 1)
+                    .frame(width: height, height: 10)
+                    .rotationEffect(Angle(degrees: -90), anchor: .topLeading)
+                    .offset(y: height)
+                    .zIndex(1.0)
+                    .introspectSlider { slider in
+                        slider.setThumbImage(UIImage(systemName: "poweron"), for: .normal)
+                    }
+                    .background(Color.red)
+
                 Text(column.percentVisible.string(f: ".2") + "%")
                     .font(.system(size: 8, weight: .light))
             }
