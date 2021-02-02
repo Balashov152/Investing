@@ -23,9 +23,9 @@ struct PositionView: Hashable, Identifiable {
         ticker = currency.currency.rawValue
         instrumentType = .Currency
         blocked = currency.blocked
-        lots = 0 // currency.balance
+        lots = 1 // currency.balance
         isin = currency.currency.rawValue
-        expectedYield = MoneyAmount(currency: currency.currency, value: currency.balance)
+        expectedYield = MoneyAmount(currency: currency.currency, value: 0)
         averagePositionPrice = MoneyAmount(currency: currency.currency, value: currency.balance)
     }
 
@@ -44,7 +44,7 @@ struct PositionView: Hashable, Identifiable {
     public let ticker: String?
 
     public let isin: String?
-    public let instrumentType: InstrumentType?
+    public let instrumentType: InstrumentType
 
     public let blocked: Double?
     public let lots: Int

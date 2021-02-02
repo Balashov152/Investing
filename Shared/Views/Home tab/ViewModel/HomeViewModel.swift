@@ -11,10 +11,17 @@ import InvestModels
 
 extension HomeViewModel {
     struct Section: Hashable, Identifiable {
-        var id: Int { hashValue }
-
         let type: InstrumentType
         let positions: [PositionView]
+
+        var sectionHeader: String {
+            switch type {
+            case .Bond, .Stock, .Etf:
+                return type.rawValue + "s"
+            case .Currency:
+                return "Currencies"
+            }
+        }
 
         var currencies: [Currency] {
             positions.map { $0.currency }.unique

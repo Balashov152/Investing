@@ -15,7 +15,18 @@ struct HomeView: View {
     @State var showingDetail = false
     @State var showingRates = false
 
-    @State var expandedSections = Set<InstrumentType>([.Stock])
+    @State var expandedSections: Set<InstrumentType> {
+        willSet {
+            viewModel.env.settings.expandedHome = newValue
+        }
+    }
+
+    init(viewModel: HomeViewModel) {
+        _expandedSections = .init(initialValue: viewModel.env.settings.expandedHome)
+
+        self.viewModel = viewModel
+    }
+
     func isExpandedSection(type: InstrumentType) -> Binding<Bool> {
         .init { () -> Bool in
             expandedSections.contains(type)
@@ -143,15 +154,19 @@ struct HomeView: View {
 
     func groupContent(section: HomeViewModel.Section) -> some View {
         ForEach(section.positions, id: \.self, content: { position in
-            PositionRowView(position: position)
-                .background(
-                    NavigationLink(destination: NavigationLazyView(ViewFactory.positionDetailView(position: position,
-                                                                                                  env: viewModel.env))) {
-                        EmptyView()
-                    }
-                    .hidden()
-                )
-
+            switch position.instrumentType {
+            case .Stock, .Bond, .Etf:
+                PositionRowView(position: position)
+                    .background(
+                        NavigationLink(destination: NavigationLazyView(ViewFactory.positionDetailView(position: position,
+                                                                                                      env: viewModel.env))) {
+                            EmptyView()
+                        }
+                        .hidden()
+                    )
+            case .Currency:
+                CurrencyPositionRowView(position: position)
+            }
         })
     }
 

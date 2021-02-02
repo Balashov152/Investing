@@ -9,7 +9,7 @@ import Foundation
 import InvestModels
 
 protocol LogoPosition {
-    var instrumentType: InstrumentType? { get }
+    var instrumentType: InstrumentType { get }
     var ticker: String? { get }
     var isin: String? { get }
     var currency: Currency { get }
@@ -17,11 +17,7 @@ protocol LogoPosition {
 
 enum InstrumentLogoService {
     static func logoUrl(for model: LogoPosition) -> URL? {
-        guard let type = model.instrumentType else {
-            return nil
-        }
-
-        switch type {
+        switch model.instrumentType {
         case .Stock, .Bond:
             guard let isin = model.isin else {
                 return nil

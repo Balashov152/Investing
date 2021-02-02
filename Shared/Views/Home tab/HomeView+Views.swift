@@ -64,7 +64,7 @@ extension HomeView {
         var body: some View {
             VStack(alignment: .leading, spacing: 16) {
                 HStack {
-                    Text(section.type.rawValue + "s")
+                    Text(section.sectionHeader)
                         .font(.system(size: 18, weight: .medium))
                         .textCase(.uppercase)
                     Spacer(minLength: 16)
@@ -93,13 +93,14 @@ extension HomeView {
                                 CurrencyText(money: MoneyAmount(currency: currency,
                                                                 value: section.totalInProfile(currency: currency)))
                                     .font(.system(size: 20, weight: .medium))
-
-                                HStack {
-                                    MoneyText(money: MoneyAmount(currency: currency,
-                                                                 value: section.totalChanged(currency: currency)))
-                                    PercentText(percent: section.percentChanged(currency: currency))
+                                if section.totalChanged(currency: currency) > 0 {
+                                    HStack {
+                                        MoneyText(money: MoneyAmount(currency: currency,
+                                                                     value: section.totalChanged(currency: currency)))
+                                        PercentText(percent: section.percentChanged(currency: currency))
+                                    }
+                                    .font(.system(size: 14, weight: .regular))
                                 }
-                                .font(.system(size: 14, weight: .regular))
                             }
                         }
                     }

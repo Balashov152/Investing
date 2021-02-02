@@ -26,9 +26,7 @@ struct PositionRowView: View {
 
     var topNameStack: some View {
         HStack {
-            if position.instrumentType == .Stock,
-               let isin = position.isin
-            {
+            if let isin = position.isin {
                 URLImage(url: LogoService.logoUrl(for: isin)) { image in
                     image
                         .scaledToFit()
