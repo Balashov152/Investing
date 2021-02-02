@@ -39,7 +39,7 @@ public struct Position: Decodable {
     public let ticker: String?
 
     public let isin: String?
-    public let instrumentType: InstrumentType?
+    public let instrumentType: InstrumentType
 
     public let balance: Double?
     public let blocked: Double?
@@ -55,7 +55,7 @@ public struct Position: Decodable {
 		figi = try values.decodeIfPresent(forKey: .figi)
 		ticker = try values.decodeIfPresent(forKey: .ticker)
 		isin = try values.decodeIfPresent(forKey: .isin)
-		instrumentType = try values.decodeIfPresent(forKey: .instrumentType)
+        instrumentType = try values.decodeIfPresent(forKey: .instrumentType, default: .Stock)
 		balance = try values.decodeIfPresent(forKey: .balance)
 		blocked = try values.decodeIfPresent(forKey: .blocked)
         lots = try values.decodeIfPresent(forKey: .lots, default: 0)

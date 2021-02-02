@@ -21,6 +21,8 @@
 		EF249EA525C35D210064C9C6 /* TargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF249EA325C35D210064C9C6 /* TargetsView.swift */; };
 		EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
 		EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
+		EF3EBBD825C955DC002F5469 /* CurrencyPositionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3EBBD725C955DC002F5469 /* CurrencyPositionRowView.swift */; };
+		EF3EBBD925C955DC002F5469 /* CurrencyPositionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3EBBD725C955DC002F5469 /* CurrencyPositionRowView.swift */; };
 		EF3ED22E25BABB9900B25464 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = EF3ED22D25BABB9900B25464 /* Kingfisher */; };
 		EF3ED2C225BAD6CA00B25464 /* URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3ED2C125BAD6CA00B25464 /* URLImage.swift */; };
 		EF3ED2C325BAD6CA00B25464 /* URLImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3ED2C125BAD6CA00B25464 /* URLImage.swift */; };
@@ -278,6 +280,7 @@
 		EF1281FE25B203C20018E5FC /* Array+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ex.swift"; sourceTree = "<group>"; };
 		EF249EA325C35D210064C9C6 /* TargetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetsView.swift; sourceTree = "<group>"; };
 		EF27F73025B089FA00E83EE3 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
+		EF3EBBD725C955DC002F5469 /* CurrencyPositionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPositionRowView.swift; sourceTree = "<group>"; };
 		EF3ED2C125BAD6CA00B25464 /* URLImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLImage.swift; sourceTree = "<group>"; };
 		EF4C35A825B5D43C00A3AB5D /* TaxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxView.swift; sourceTree = "<group>"; };
 		EF4C35B525B6D7AE00A3AB5D /* quest.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = quest.mp3; sourceTree = "<group>"; };
@@ -905,6 +908,7 @@
 				EF54168E25C06377007EA38D /* ViewModel */,
 				EF951DF825BB244A0006FD97 /* Position Detail */,
 				EFC02AE425800086008AF0FF /* PositionRowView.swift */,
+				EF3EBBD725C955DC002F5469 /* CurrencyPositionRowView.swift */,
 			);
 			path = "Home tab";
 			sourceTree = "<group>";
@@ -1397,6 +1401,7 @@
 				EF54167725C06254007EA38D /* FormattedCurrency.swift in Sources */,
 				EFF46B73259C6B6200EFD02A /* ComissionView.swift in Sources */,
 				EF54166925C061CF007EA38D /* MoneyAmount+Ex.swift in Sources */,
+				EF3EBBD825C955DC002F5469 /* CurrencyPositionRowView.swift in Sources */,
 				EF76A173257FCE2100991AE3 /* AccountService.swift in Sources */,
 				EF8114B22596375700773236 /* SettingsTabView.swift in Sources */,
 				EF5416BC25C064A2007EA38D /* InfoRow.swift in Sources */,
@@ -1479,6 +1484,7 @@
 				EF95202425BEFA920006FD97 /* TotalDetailView.swift in Sources */,
 				EF54167125C061FD007EA38D /* DateFormatter+Ex.swift in Sources */,
 				EF95209D25C00F490006FD97 /* TotalDetailViewModel.swift in Sources */,
+				EF3EBBD925C955DC002F5469 /* CurrencyPositionRowView.swift in Sources */,
 				EF9581D92590A10100D559E7 /* OperationRowView.swift in Sources */,
 				EFBA421025821EDF00C2AFC8 /* Decoder+Ex.swift in Sources */,
 				EF76A101257FB4BE00991AE3 /* Storage.swift in Sources */,
