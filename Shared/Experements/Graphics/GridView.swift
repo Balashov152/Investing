@@ -78,12 +78,11 @@ struct ContentView: View {
 
 struct ContentViewPreview: PreviewProvider {
     static var previews: some View {
-        Slider(value: .constant(.random(in: 0.2...0.8)), in: 0 ... 1)
+        Slider(value: .constant(.random(in: 0.2 ... 0.8)), in: 0 ... 1)
 //            .fixedSize(horizontal: true, vertical: false)
 //            .frame(width: 100, height: 100)
 //            .rotationEffect(Angle(degrees: -90))
-            
-            
+
 //            .background(Color.red)
     }
 }

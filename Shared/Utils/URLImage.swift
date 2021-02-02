@@ -22,7 +22,7 @@ struct URLImage<EndImage: View>: View {
 
     var body: some View {
         if fail != nil {
-            EmptyView()
+            configure(KFImage(nil))
         } else {
             configure(KFImage(url)
                 .resizable()
