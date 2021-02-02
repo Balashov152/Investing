@@ -12,6 +12,10 @@ import SwiftUI
 class PositionDetailViewModel: EnvironmentCancebleObject, ObservableObject {
     let position: PositionView
 
+    var convertCurrency: Currency {
+        position.currency
+    }
+
     @Published var operations: [Operation] = []
 
     var total: MoneyAmount {
@@ -22,14 +26,14 @@ class PositionDetailViewModel: EnvironmentCancebleObject, ObservableObject {
         let filtered = operations.filter(types: [.Buy, .BuyCard])
         let count = filtered.reduce(0) { $0 + $1.quantityExecuted }
         return ChangeOperation(count: count,
-                               money: abs(filtered.sum).addCurrency(position.currency))
+                               money: abs(filtered.currencySum(to: convertCurrency).value).addCurrency(convertCurrency))
     }
 
     var sellCount: ChangeOperation {
         let filtered = operations.filter(types: [.Sell])
         let count = filtered.reduce(0) { $0 + $1.quantityExecuted }
         return ChangeOperation(count: count,
-                               money: filtered.sum.addCurrency(position.currency))
+                               money: filtered.currencySum(to: convertCurrency))
     }
 
     var inProfile: ChangeOperation {

@@ -105,7 +105,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
         didChange
             .map { [unowned self] positions, currencies, currencyType -> [Section] in
-                InstrumentType.allCases.compactMap { type -> HomeViewModel.Section? in
+                [InstrumentType.Stock, .Bond, .Etf, .Currency].compactMap { type -> HomeViewModel.Section? in
                     switch type {
                     case .Stock, .Bond, .Etf:
                         let filtered = map(positions: positions, to: currencyType)
@@ -129,12 +129,16 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             .store(in: &cancellables)
 
         didChange
-            .map { positions, _, currencyType -> HomeViewModel.Total? in
+            .map { positions, currencies, currencyType -> HomeViewModel.Total? in
                 switch currencyType {
                 case let .currency(currency):
                     let totalInProfile = positions.reduce(0) { [unowned self] (result, position) -> Double in
                         result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
                                                                 money: position.totalInProfile,
+                                                                to: currency).value
+                    } + currencies.reduce(0) { [unowned self] (result, currencyPosition) -> Double in
+                        result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+                                                                money: currencyPosition.money,
                                                                 to: currency).value
                     }
 

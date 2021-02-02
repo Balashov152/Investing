@@ -137,15 +137,15 @@ struct TargetsView: View {
                            height: height * CGFloat(column.percent), alignment: .bottom)
                     .cornerRadius(3)
 
-                Slider(value: changeTarget, in: 0 ... 1)
-                    .frame(width: height, height: 10)
-                    .rotationEffect(Angle(degrees: -90), anchor: .topLeading)
-                    .offset(y: height)
-                    .zIndex(1.0)
-                    .introspectSlider { slider in
-                        slider.setThumbImage(UIImage(systemName: "poweron"), for: .normal)
-                    }
-                    .background(Color.red)
+//                Slider(value: changeTarget, in: 0 ... 1)
+//                    .frame(width: height, height: 10)
+//                    .rotationEffect(Angle(degrees: -90), anchor: .topLeading)
+//                    .offset(y: height)
+//                    .zIndex(1.0)
+//                    .introspectSlider { slider in
+//                        slider.setThumbImage(UIImage(systemName: "poweron"), for: .normal)
+//                    }
+//                    .background(Color.red)
 
                 Text(column.percentVisible.string(f: ".2") + "%")
                     .font(.system(size: 8, weight: .light))
