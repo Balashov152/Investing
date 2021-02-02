@@ -99,7 +99,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
         let didChange = Publishers.CombineLatest3(env.api().positionService.$positions.dropFirst(),
                                                   env.api().positionService.$currencies.dropFirst(),
                                                   $convertType.removeDuplicates().handleEvents(receiveOutput: { _ in
-                                                      // TODO: Add vibrate
+                                                      Vibration.selection.vibrate()
                                                   }))
             .receive(on: DispatchQueue.global()).share()
 
