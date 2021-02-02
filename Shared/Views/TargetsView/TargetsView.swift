@@ -9,7 +9,6 @@ import Combine
 import InvestModels
 import Moya
 import SwiftUI
-import UIKit
 
 extension TargetsViewModel {
     struct Column: Hashable, Identifiable {
@@ -93,11 +92,14 @@ struct TargetsView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .bottom) {
                         ForEach(viewModel.columns) { column in
-                            ColumnView(column: column, height: height * multiplicator, changeTarget: $sliderValue)
+                            ColumnView(column: column,
+                                       size: CGSize(width: 20, height: height * multiplicator),
+                                       changeTarget: $sliderValue)
                         }
                     }
-                }.frame(height: height, alignment: .bottom)
-                    .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+                }
+                .frame(height: height, alignment: .bottom)
+                .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
 
                 List {
 //                Section {
@@ -118,38 +120,81 @@ struct TargetsView: View {
 
     struct ColumnView: View {
         let column: TargetsViewModel.Column
-        let height: CGFloat
+        let size: CGSize
         let changeTarget: Binding<Double>
+
+        @State var offset: CGFloat = .zero
+        @State var isDragging: Bool = false
 
         var body: some View {
             VStack {
                 Spacer()
-                if let isin = column.position.isin {
-                    URLImage(url: LogoService.logoUrl(for: isin)) { image in
-                        image
-                            .frame(width: 15, height: 15)
-                            .cornerRadius(7.5)
-                    }
-                }
-                Rectangle()
-                    .foregroundColor(Color(UIColor.systemBlue))
-                    .frame(width: 15,
-                           height: height * CGFloat(column.percent), alignment: .bottom)
-                    .cornerRadius(3)
-
-//                Slider(value: changeTarget, in: 0 ... 1)
-//                    .frame(width: height, height: 10)
-//                    .rotationEffect(Angle(degrees: -90), anchor: .topLeading)
-//                    .offset(y: height)
-//                    .zIndex(1.0)
-//                    .introspectSlider { slider in
-//                        slider.setThumbImage(UIImage(systemName: "poweron"), for: .normal)
-//                    }
-//                    .background(Color.red)
 
                 Text(column.percentVisible.string(f: ".2") + "%")
                     .font(.system(size: 8, weight: .light))
+
+                ZStack(alignment: Alignment(horizontal: .center, vertical: .top)) {
+                    Rectangle()
+                        .foregroundColor(Color(UIColor.systemBlue))
+                        .frame(width: size.width,
+                               height: size.height * CGFloat(column.percent), alignment: .bottom)
+                        .cornerRadius(3)
+                    targetView
+                }
+//                Text(column.position.ticker.orEmpty)
+//                if let isin = column.position.isin {
+//                    URLImage(url: LogoService.logoUrl(for: isin)) { image in
+//                        image
+//                            .frame(width: size.width, height: size.width)
+//                            .cornerRadius(size.width / 2)
+//                    }
+//                }
             }
         }
+
+        var targetView: some View {
+            let size = CGSize(width: 20, height: 2)
+
+            let dragGesture = DragGesture()
+                .onChanged { value in
+                    debugPrint("value.translation", value.translation)
+                    self.offset = range(min: 0,
+                                        element: value.translation.height,
+                                        max: self.size.height * CGFloat(column.percent) - size.height)
+                }
+                .onEnded { _ in
+//                    withAnimation {
+                    self.isDragging = false
+//                    }
+                }
+
+            // a long press gesture that enables isDragging
+            let pressGesture = LongPressGesture(minimumDuration: 0.1)
+                .onEnded { _ in
+//                    withAnimation {
+                    Vibration.selection.vibrate()
+                    self.isDragging = true
+//                    }
+                }
+
+            // a combined gesture that forces the user to long press then drag
+            let combined = pressGesture.sequenced(before: dragGesture)
+
+            return VStack {
+//                Spacer()
+                Rectangle()
+                    .fill(Color.green)
+                    .frame(width: size.width, height: size.height)
+//                Spacer()
+            }
+            .frame(width: 20, height: 20)
+            .scaleEffect(CGSize(width: isDragging ? 1.5 : 1, height: 1.0))
+            .offset(x: 0, y: offset)
+            .gesture(combined)
+        }
     }
+}
+
+public func range<E: Comparable>(min: E, element: E, max: E) -> E {
+    return Swift.min(Swift.max(min, element), max)
 }
