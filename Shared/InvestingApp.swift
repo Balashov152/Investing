@@ -14,8 +14,11 @@ public typealias Operation = InvestModels.Operation
 @main
 struct InvestingApp: App {
     var body: some Scene {
+        let session = UserSession()
+
         WindowGroup {
-            RootView(viewModel: .init())
+            RootView()
+                .environmentObject(session)
                 .onAppear(perform: onAppearApp)
         }
     }

@@ -5,41 +5,37 @@
 //  Created by Sergey Balashov on 26.01.2021.
 //
 
+import Combine
+import Moya
 import SwiftUI
 
-class RootViewModel: EnvironmentCancebleObject, ObservableObject {
+class UserSession: EnvironmentCancebleObject, ObservableObject {
     @Published var isAuthorized = Storage.isAuthorized
 
-    @Published var apiToken: String = ""
-    lazy var checkToken: () -> Void = { [unowned self] in
-        self.isAuthorized = true // TODO: Add check token
-    }
+    func checkToken(token: String) -> MoyaError? {
+        Storage.token = token
+        env.api().accountService.getAccounts()
+            .replaceError(with: [])
+            .sink { accounts in
+                if accounts.isEmpty {
+                    Storage.token = ""
+                } else {
+                    self.isAuthorized = true
+                }
+            }.store(in: &cancellables)
 
-    override init(env: Environment = .current) {
-        super.init(env: env)
-        #if DEBUG
-            apiToken = "t.ElO9J6o7HNsTSVH5LG6tRrMqG3bAKQFG3YehULcdPaYzhK0CXcyMVy4rhtbNUuOHwXo8VAs-QUgA-KbHNLg5yg"
-        #endif
-    }
-
-    override func bindings() {
-        super.bindings()
-        $apiToken.sink { token in
-            Storage.token = token
-        }.store(in: &cancellables)
+        return nil
     }
 }
 
 struct RootView: View {
-    @ObservedObject var viewModel: RootViewModel
+    @EnvironmentObject var session: UserSession
 
     var body: some View {
-        if viewModel.isAuthorized {
+        if session.isAuthorized {
             ViewFactory.mainView
         } else {
-            AuthorizationView(apiToken: $viewModel.apiToken, doneButton: {
-                viewModel.checkToken()
-            })
+            AuthorizationView(viewModel: .init(checkToken: session.checkToken))
         }
     }
 }
