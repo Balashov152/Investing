@@ -33,7 +33,21 @@ extension Position: Hashable {
     }
 }
 
-public struct Position: Decodable {    
+public struct Position: Decodable {
+    public init(name: String?, figi: String?, ticker: String?, isin: String?, instrumentType: InstrumentType, balance: Double?, blocked: Double?, lots: Int, expectedYield: MoneyAmount, averagePositionPrice: MoneyAmount, averagePositionPriceNoNkd: MoneyAmount?) {
+        self.name = name
+        self.figi = figi
+        self.ticker = ticker
+        self.isin = isin
+        self.instrumentType = instrumentType
+        self.balance = balance
+        self.blocked = blocked
+        self.lots = lots
+        self.expectedYield = expectedYield
+        self.averagePositionPrice = averagePositionPrice
+        self.averagePositionPriceNoNkd = averagePositionPriceNoNkd
+    }
+    
     public let name: String?
     public let figi: String?
     public let ticker: String?
