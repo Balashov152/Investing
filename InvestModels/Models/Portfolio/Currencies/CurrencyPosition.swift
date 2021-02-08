@@ -13,6 +13,12 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 import Foundation
 
+public extension CurrencyPosition {
+    var money: MoneyAmount {
+        .init(currency: currency, value: balance)
+    }
+}
+
 public struct CurrencyPosition : Codable, Hashable {
     public let currency : Currency
     
