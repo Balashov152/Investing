@@ -15,13 +15,15 @@ class SettingsTabViewModel: EnvironmentCancebleObject, ObservableObject {
         let type: TypeSection
 
         enum TypeSection: Hashable {
-            case token, date
+            case token, date, exit
             var localized: String {
                 switch self {
                 case .token:
                     return "API Token"
                 case .date:
                     return "Date interval"
+                case .exit:
+                    return "Logout"
                 }
             }
         }
@@ -32,7 +34,7 @@ class SettingsTabViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var startDate: Date = Settings.shared.dateInterval.start
     @Published var endDate: Date = Settings.shared.dateInterval.end
 
-    @Published var sections: [Section] = [Section(type: .token), Section(type: .date)]
+    @Published var sections: [Section] = [Section(type: .token), Section(type: .date), Section(type: .exit)]
 
     override func bindings() {
         super.bindings()
@@ -47,6 +49,7 @@ class SettingsTabViewModel: EnvironmentCancebleObject, ObservableObject {
 }
 
 struct SettingsTabView: View {
+    @EnvironmentObject var userSession: UserSession
     @ObservedObject var viewModel: SettingsTabViewModel
     @State var token: String = Storage.token
 
@@ -62,6 +65,8 @@ struct SettingsTabView: View {
                             startPicker
                             endPicker
                         }
+                    case .exit:
+                        exitButton
                     }
                 }
             }
@@ -81,10 +86,17 @@ struct SettingsTabView: View {
 
     var tokenApi: some View {
         VStack(alignment: .leading) {
-            TextField("Enter token", text: $token, onCommit: {
-                print("onCommit", token)
-            })
+            Text(Storage.token)
         }
+    }
+    
+    var exitButton: some View {
+        Button(action: {
+            Storage.token = ""
+            userSession.isAuthorized = false
+        }, label: {
+            Text("Quit")
+        })
     }
 }
 

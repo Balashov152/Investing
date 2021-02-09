@@ -72,16 +72,15 @@ struct ColumnView: View {
                 .multilineTextAlignment(.center)
 
             if let isin = column.position.isin {
-                Circle()
-                    .fill(Color.red)
-                    .frame(width: mainSize.width, height: mainSize.width)
-                    .cornerRadius(mainSize.width / 2)
-//                    URLImage(url: LogoService.logoUrl(for: isin)) { image in
-//                        image
+//                Circle()
+//                    .fill(Color.red)
 //                    .frame(width: mainSize.width, height: mainSize.width)
 //                    .cornerRadius(mainSize.width / 2)
-//
-//                    }
+                URLImage(url: LogoService.logoUrl(for: isin)) { image in
+                    image
+                        .frame(width: mainSize.width, height: mainSize.width)
+                        .cornerRadius(mainSize.width / 2)
+                }
             }
         }
     }
