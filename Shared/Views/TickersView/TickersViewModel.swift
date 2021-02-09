@@ -39,8 +39,8 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         Publishers.CombineLatest3(env.api().operationsService.$operations,
-                                 env.api().positionService.$positions.dropFirst(),
-                                 $sortType)
+                                  env.api().positionService.$positions.dropFirst(),
+                                  $sortType.print("sortType"))
             .receive(on: DispatchQueue.global())
             .map { [unowned self] operations, positions, sortType in
                 mapToResults(operations: operations, positions: positions, sortType: sortType)
@@ -81,7 +81,7 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
             case .name:
                 return $0.instrument.name < $1.instrument.name
             case .inProfile:
-                return $0.inProfile.hashValue > $1.inProfile.hashValue
+                return $0.inProfile.hashValue < $1.inProfile.hashValue
             case .profite:
                 return $0.result.value > $1.result.value
             }

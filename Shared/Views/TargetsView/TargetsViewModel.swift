@@ -59,7 +59,7 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
                                                                  money: position.totalInProfile,
                                                                  to: curency).value
                     return Column(percent: convert / total,
-                                  target: 0.8,
+                                  target: convert / total,
                                   position: position)
                 }.sorted(by: { $0.percent > $1.percent })
             }

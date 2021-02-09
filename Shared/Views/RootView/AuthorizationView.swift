@@ -13,7 +13,12 @@ import SwiftUI
 import UIKit
 
 class AuthorizationViewModel: EnvironmentCancebleObject, ObservableObject {
-    @State var apiToken: String = ""
+    @State var apiToken: String = "" {
+        didSet {
+            debugPrint("apiToken", apiToken)
+        }
+    }
+
     @State var error: String?
 
     lazy var doneButton: () -> Void = { [unowned self] in
@@ -24,9 +29,11 @@ class AuthorizationViewModel: EnvironmentCancebleObject, ObservableObject {
 
     init(checkToken: @escaping (String) -> MoyaError?) {
         self.checkToken = checkToken
-        #if DEBUG
-            _apiToken = .init(initialValue: "t.ElO9J6o7HNsTSVH5LG6tRrMqG3bAKQFG3YehULcdPaYzhK0CXcyMVy4rhtbNUuOHwXo8VAs-QUgA-KbHNLg5yg")
-        #endif
+//        if !isMe {
+//            _apiToken = .init(initialValue: "t.ElO9J6o7HNsTSVH5LG6tRrMqG3bAKQFG3YehULcdPaYzhK0CXcyMVy4rhtbNUuOHwXo8VAs-QUgA-KbHNLg5yg")
+//        } else {
+//            _apiToken = .init(wrappedValue: "")
+//        }
     }
 
     override func bindings() {
@@ -43,7 +50,7 @@ struct AuthorizationView: View {
                 VStack {
                     Text("Что бы пользоваться приложением, необходимо ввести токен Тинькофф инвестиций. Его можно взять в настройках, в веб версии")
                     VStack(alignment: .leading) {
-                        Text("Enter token")
+                        Text("Enter token \(viewModel.apiToken)")
                         TextField("api token", text: $viewModel.apiToken)
                             .textFieldStyle(PlainTextFieldStyle())
                             .introspectTextField(customize: { textField in

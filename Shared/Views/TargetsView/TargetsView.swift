@@ -26,36 +26,38 @@ struct TargetsView: View {
         }
     }
 
-    let height: CGFloat = UIScreen.main.bounds.height * 0.2
+    let height: CGFloat = UIScreen.main.bounds.height * 0.3
     var multiplicator: CGFloat {
         (viewModel.columns.map { $0.percent }.max() ?? 0) > 0.5 ? 1 : 2
     }
 
     var body: some View {
         NavigationView {
-            VStack {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(alignment: .bottom) {
-                        ForEach(viewModel.columns) { column in
-                            ColumnView(column: column,
-                                       mainSize: CGSize(width: 20, height: height * multiplicator),
-                                       changeTarget: targetChange(coloumn: column))
-                        }
-                    }
-                }
-                .frame(height: height, alignment: .bottom)
-                .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-
-                List {
-                    PlainSection(header: Text("Positions").bold().font(.title).padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))) {
-                        ForEach(viewModel.columns) {
-                            InfoRow(label: $0.position.name.orEmpty, text: $0.percentVisible.string(f: ".5"))
-                        }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .bottom) {
+                    ForEach(viewModel.columns) { column in
+                        ColumnView(column: column,
+                                   mainSize: CGSize(width: 20, height: height),
+                                   changeTarget: targetChange(coloumn: column))
                     }
                 }
             }
+            .frame(height: height, alignment: .bottom)
+//
+//            VStack {
+//
+            // .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
+//
+//                List {
+//                    PlainSection(header: Text("Positions").bold().font(.title).padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))) {
+//                        ForEach(viewModel.columns) {
+//                            InfoRow(label: $0.position.name.orEmpty, text: $0.percentVisible.string(f: ".5"))
+//                        }
+//                    }
+//                }
+//            }
             .navigationTitle("Targets")
-//            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: viewModel.load)
         }
     }

@@ -42,7 +42,8 @@ class SettingsTabViewModel: EnvironmentCancebleObject, ObservableObject {
             .dropFirst()
             .map { startDate, endDate in
                 DateInterval(start: startDate, end: endDate)
-            }.sink(receiveValue: { dateInterval in
+            }
+            .sink(receiveValue: { dateInterval in
                 Settings.shared.dateInterval = dateInterval
             }).store(in: &cancellables)
     }
@@ -53,6 +54,25 @@ struct SettingsTabView: View {
     @ObservedObject var viewModel: SettingsTabViewModel
     @State var token: String = Storage.token
 
+    let currentYear = Date().year
+    let formatter = DateFormatter.format("yyyy")
+
+    var startRange: [Date] {
+        let range = currentYear - 5 ... viewModel.endDate.year
+
+        return range.compactMap { year -> Date? in
+            formatter.date(from: year.string)
+        }
+    }
+
+    var endRange: [Date] {
+        let range = viewModel.startDate.year ... currentYear
+
+        return range.compactMap { year -> Date? in
+            formatter.date(from: year.string)
+        }
+    }
+
     var body: some View {
         List {
             ForEach(viewModel.sections, id: \.type) { section in
@@ -61,7 +81,7 @@ struct SettingsTabView: View {
                     case .token:
                         tokenApi
                     case .date:
-                        HStack {
+                        VStack {
                             startPicker
                             endPicker
                         }
@@ -75,13 +95,27 @@ struct SettingsTabView: View {
     }
 
     var startPicker: some View {
-        DatePicker(selection: $viewModel.startDate, in: ...viewModel.endDate, displayedComponents: .date) { EmptyView() }
-            .datePickerStyle(DefaultDatePickerStyle())
+        VStack(alignment: .leading) {
+            Text("start period")
+                .font(.system(size: 10))
+            Picker("", selection: $viewModel.startDate) {
+                ForEach(startRange, id: \.self) {
+                    Text(formatter.string(from: $0))
+                }
+            }.pickerStyle(SegmentedPickerStyle())
+        }
     }
 
     var endPicker: some View {
-        DatePicker(selection: $viewModel.endDate, in: viewModel.startDate ... Date(), displayedComponents: .date) { EmptyView() }
-            .datePickerStyle(DefaultDatePickerStyle())
+        VStack(alignment: .leading) {
+            Text("end period")
+                .font(.system(size: 10))
+            Picker("", selection: $viewModel.endDate) {
+                ForEach(endRange, id: \.self) { date -> Text in
+                    Text(formatter.string(from: date))
+                }
+            }.pickerStyle(SegmentedPickerStyle())
+        }
     }
 
     var tokenApi: some View {
@@ -89,14 +123,14 @@ struct SettingsTabView: View {
             Text(Storage.token)
         }
     }
-    
+
     var exitButton: some View {
-        Button(action: {
+        Button("Quit", action: {
             Storage.token = ""
             userSession.isAuthorized = false
-        }, label: {
-            Text("Quit")
         })
+            .multilineTextAlignment(.center)
+            .buttonStyle(PlainButtonStyle())
     }
 }
 
@@ -116,6 +150,29 @@ struct YearDatePickerView: View {
             }.datePickerStyle(DefaultDatePickerStyle())
 
 //            Text("Date is \(birthDate, formatter: dateFormatter)")
+        }
+    }
+}
+
+extension Date {
+    var year: Int {
+        Calendar.current.component(.year, from: self)
+    }
+}
+
+extension DateFormatter {
+    func years(_ value: Int) -> [Date] {
+        setLocalizedDateFormatFromTemplate("yyyy")
+        let currentYear = Calendar.current.component(.year, from: Date())
+        let range: ClosedRange<Int>
+        if value > 0 {
+            range = currentYear ... currentYear + value
+        } else {
+            range = currentYear + value ... currentYear
+        }
+
+        return range.compactMap { year -> Date? in
+            date(from: year.string)
         }
     }
 }

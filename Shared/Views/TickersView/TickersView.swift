@@ -32,7 +32,7 @@ struct TickersView: View {
             }
         }
         .navigationTitle("Tickers")
-        .navigationBarItems(trailing: SortView(sortType: viewModel.sortType))
+        .navigationBarItems(trailing: sortView)
         .onAppear(perform: viewModel.loadOperaions)
     }
 
@@ -60,12 +60,9 @@ struct TickersView: View {
         }
     }
 
-    struct SortView: View {
-        @State var sortType: TickersViewModel.SortType
-        var body: some View {
-            Button(sortType.localize) {
-                self.sortType = TickersViewModel.SortType(rawValue: sortType.rawValue + 1) ?? .name
-            }
+    var sortView: some View {
+        Button(viewModel.sortType.localize) {
+            viewModel.sortType = TickersViewModel.SortType(rawValue: viewModel.sortType.rawValue + 1) ?? .name
         }
     }
 }

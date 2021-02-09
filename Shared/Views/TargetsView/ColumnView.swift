@@ -53,8 +53,7 @@ struct ColumnView: View {
                 ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
                     RoundedRectangle(cornerRadius: 3)
                         .stroke(Color.black.opacity(0.8), lineWidth: 1)
-                        .frame(width: mainSize.width,
-                               height: mainSize.height)
+                        .frame(width: mainSize.width, height: mainSize.height)
 
                     VStack {
                         Rectangle()
@@ -72,10 +71,6 @@ struct ColumnView: View {
                 .multilineTextAlignment(.center)
 
             if let isin = column.position.isin {
-//                Circle()
-//                    .fill(Color.red)
-//                    .frame(width: mainSize.width, height: mainSize.width)
-//                    .cornerRadius(mainSize.width / 2)
                 URLImage(url: LogoService.logoUrl(for: isin)) { image in
                     image
                         .frame(width: mainSize.width, height: mainSize.width)
