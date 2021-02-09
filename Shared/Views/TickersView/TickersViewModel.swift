@@ -23,7 +23,7 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var totalRUB: Double = 0
     @Published var totalUSD: Double = 0
 
-    @State var sortType: SortType = .name
+    @Published var sortType: SortType = .name
 
     enum SortType: Int {
         case name, inProfile, profite
@@ -38,11 +38,12 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     override func bindings() {
-        Publishers.CombineLatest(env.api().operationsService.$operations,
-                                 env.api().positionService.$positions.dropFirst())
+        Publishers.CombineLatest3(env.api().operationsService.$operations,
+                                 env.api().positionService.$positions.dropFirst(),
+                                 $sortType)
             .receive(on: DispatchQueue.global())
-            .map { [unowned self] operations, positions in
-                mapToResults(operations: operations, positions: positions)
+            .map { [unowned self] operations, positions, sortType in
+                mapToResults(operations: operations, positions: positions, sortType: sortType)
             }
             .receive(on: DispatchQueue.main)
             .assign(to: \.results, on: self)
@@ -66,7 +67,7 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
             .store(in: &cancellables)
     }
 
-    private func mapToResults(operations: [Operation], positions: [Position]) -> [InstrumentResult] {
+    private func mapToResults(operations: [Operation], positions: [Position], sortType: SortType) -> [InstrumentResult] {
         let uniqTickers = Array(Set(operations.compactMap { $0.instrument }.filter { $0.type != .Currency }))
         return uniqTickers.map { ticker -> InstrumentResult in
             let nowInProfile: Double = positions.first(where: { $0.figi == ticker.figi })?.totalInProfile.value ?? 0
@@ -75,7 +76,7 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
             return InstrumentResult(instrument: ticker,
                                     result: MoneyAmount(currency: allOperationsForTicker.first?.currency ?? .USD, value: sumOperation),
                                     inProfile: nowInProfile > 0)
-        }.sorted(by: { [unowned self] in
+        }.sorted(by: {
             switch sortType {
             case .name:
                 return $0.instrument.name < $1.instrument.name
