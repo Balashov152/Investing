@@ -13,6 +13,7 @@ extension TickersViewModel {
     struct InstrumentResult: Hashable, Identifiable {
         let instrument: Instrument
         let result: MoneyAmount
+        let inProfile: Bool
     }
 }
 
@@ -22,9 +23,13 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var totalRUB: Double = 0
     @Published var totalUSD: Double = 0
 
-    override init(env: Environment = .current) {
-        super.init(env: env)
-        bindings()
+    @State var sortType: SortType = .name
+
+    enum SortType: Int {
+        case name, inProfile, profite
+        var localize: String {
+            return "\(self)"
+        }
     }
 
     public func loadOperaions() {
@@ -68,7 +73,17 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
             let allOperationsForTicker = operations.filter { $0.instrument?.figi == ticker.figi }
             let sumOperation = allOperationsForTicker.sum + nowInProfile
             return InstrumentResult(instrument: ticker,
-                                    result: MoneyAmount(currency: allOperationsForTicker.first?.currency ?? .USD, value: sumOperation))
-        }.sorted(by: { $0.instrument.name < $1.instrument.name })
+                                    result: MoneyAmount(currency: allOperationsForTicker.first?.currency ?? .USD, value: sumOperation),
+                                    inProfile: nowInProfile > 0)
+        }.sorted(by: { [unowned self] in
+            switch sortType {
+            case .name:
+                return $0.instrument.name < $1.instrument.name
+            case .inProfile:
+                return $0.inProfile.hashValue > $1.inProfile.hashValue
+            case .profite:
+                return $0.result.value > $1.result.value
+            }
+        })
     }
 }

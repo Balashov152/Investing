@@ -32,6 +32,7 @@ struct TickersView: View {
             }
         }
         .navigationTitle("Tickers")
+        .navigationBarItems(trailing: SortView(sortType: viewModel.sortType))
         .onAppear(perform: viewModel.loadOperaions)
     }
 
@@ -56,6 +57,15 @@ struct TickersView: View {
             }
             Spacer()
             MoneyText(money: currency)
+        }
+    }
+
+    struct SortView: View {
+        @State var sortType: TickersViewModel.SortType
+        var body: some View {
+            Button(sortType.localize) {
+                self.sortType = TickersViewModel.SortType(rawValue: sortType.rawValue + 1) ?? .name
+            }
         }
     }
 }

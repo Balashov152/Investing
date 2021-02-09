@@ -78,15 +78,6 @@ struct MainView: View {
         .accentColor(Color.appBlack)
     }
 
-    var targetsView: some View {
-        ViewFactory.targetsView.tabItem {
-            VStack {
-                Image(systemName: "target")
-                Text("Target")
-            }.font(.system(size: 16, weight: selection == 0 ? .bold : .regular))
-        }.tag(1)
-    }
-
     var profileView: some View {
         ViewFactory.homeView.tabItem {
             VStack {
@@ -103,6 +94,15 @@ struct MainView: View {
                 Text("Analytics")
                     .font(.system(size: 16, weight: selection == 1 ? .bold : .regular))
             }
+        }.tag(1)
+    }
+
+    var targetsView: some View {
+        ViewFactory.targetsView.tabItem {
+            VStack {
+                Image(systemName: "target")
+                Text("Target")
+            }.font(.system(size: 16, weight: selection == 0 ? .bold : .regular))
         }.tag(2)
     }
 
