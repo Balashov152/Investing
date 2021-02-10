@@ -51,11 +51,32 @@ class OperationsService: CancebleObject, ObservableObject {
             operation.instrument = Instrument(instrument: instrumentR)
         }
 
-        if let pair = realmManager.object(CurrencyPairR.self,
-                                          for: CurrencyPair.dateFormatter.string(from: operation.date))
+        let date = operation.date.previusDateNoWeeked
+
+        if Calendar.current.isDateInYesterday(date) {
+            operation.currencyPair = CurrencyPairServiceLatest.shared.latest
+        } else if let pair = realmManager.object(CurrencyPairR.self,
+                                                 for: CurrencyPair.dateFormatter.string(from: date))
         {
             operation.currencyPair = CurrencyPair(currencyPairR: pair)
+        } else {
+            debugPrint("pair is nil for date", date.description)
         }
+    }
+}
+
+extension Date {
+    var previusDateNoWeeked: Date {
+        getPreviusDateNonWeekend(date: self)
+    }
+
+    func getPreviusDateNonWeekend(date: Date) -> Date {
+        if !Calendar.current.isDateInWeekend(date) {
+            return date
+        }
+        debugPrint("isDateIsWeekend", date.description)
+        let previus = Calendar.current.date(byAdding: .day, value: -1, to: date) ?? Date()
+        return getPreviusDateNonWeekend(date: previus)
     }
 }
 

@@ -9,32 +9,6 @@ import Combine
 import InvestModels
 import Moya
 
-class CurrencyPairServiceLatest: EnvironmentCancebleObject, ObservableObject {
-    static let shared = CurrencyPairServiceLatest()
-
-    @Published public var latest: CurrencyPair?
-    private var timer: Timer?
-
-    override private init(env: Environment = .current) {
-        super.init(env: env)
-    }
-
-    override func bindings() {
-        super.bindings()
-        update()
-//        timer = .scheduledTimer(withTimeInterval: 10, repeats: true) { [unowned self] _ in
-//            update()
-//        }
-    }
-
-    func update() {
-        env.api().currencyPairService.getLatest()
-            .replaceError(with: nil)
-            .assign(to: \.latest, on: self)
-            .store(in: &cancellables)
-    }
-}
-
 struct CurrencyPairService {
     let provider = ApiProvider<CurrencyPairAPI>()
 
@@ -66,8 +40,8 @@ extension CurrencyPairService {
             try container.encode(base, forKey: .base)
             try container.encode(symbols.map { $0.rawValue }.joined(separator: ","), forKey: .symbols)
 
-            try container.encode(dateInterval.start.startOfDay, forKey: .start)
-            try container.encode(dateInterval.end.endOfDay, forKey: .end)
+            try container.encode(dateInterval.start.startOfYear, forKey: .start)
+            try container.encode(dateInterval.end.endOfYear, forKey: .end)
         }
 
         enum CodingKeys: String, CodingKey {

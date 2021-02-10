@@ -102,6 +102,8 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
                                                       Vibration.selection.vibrate()
                                                   }))
             .receive(on: DispatchQueue.global()).share()
+        print("isDateInWeekend", Calendar.current
+            .isDateInWeekend(DateFormatter.format("yyyy-MM-dd").date(from: "2020-12-06")!))
 
         didChange
             .map { [unowned self] positions, currencies, currencyType -> [Section] in

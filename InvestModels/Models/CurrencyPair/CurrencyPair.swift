@@ -10,7 +10,7 @@ public extension CurrencyPair {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        formatter.timeZone = TimeZone(identifier: "UTC")
+//        formatter.timeZone = TimeZone(identifier: "UTC")
         return formatter
     }()
 }

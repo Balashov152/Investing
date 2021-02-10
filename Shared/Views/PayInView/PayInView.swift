@@ -15,12 +15,7 @@ extension Operation {
     }
 }
 
-class PayInViewModel: EnvironmentCancebleObject, ObservableObject {
-    struct Row: Hashable, Identifiable {
-        let date: Date
-        let money: MoneyAmount
-    }
-
+extension PayInViewModel {
     struct Section: Hashable, Identifiable {
         let row: [Row]
 
@@ -30,9 +25,26 @@ class PayInViewModel: EnvironmentCancebleObject, ObservableObject {
             }
             return "no rows"
         }
+
+        var result: MoneyAmount? {
+            row.map { $0.money }.moneySum
+        }
     }
 
+    struct Row: Hashable, Identifiable {
+        let date: Date
+        let money: MoneyAmount
+    }
+}
+
+class PayInViewModel: EnvironmentCancebleObject, ObservableObject {
+    var latest: CurrencyPairServiceLatest { .shared }
+
     @Published var sections: [Section] = []
+
+    var convertCurrency: Currency {
+        env.settings.currency ?? .RUB
+    }
 
     override func bindings() {
         super.bindings()
@@ -46,7 +58,10 @@ class PayInViewModel: EnvironmentCancebleObject, ObservableObject {
                 }
                 return grouped.keys.sorted(by: >).compactMap { (date) -> Section? in
                     guard let values = grouped[date] else { return nil }
-                    return Section(row: values.map { Row(date: $0.date, money: $0.money) })
+                    return Section(row: values.map { [unowned self] value in
+                        Row(date: value.date,
+                            money: value.convertPayment(to: convertCurrency))
+                    })
                 }
             }
             .receive(on: DispatchQueue.main)
@@ -65,7 +80,7 @@ struct PayInView: View {
     var body: some View {
         List {
             ForEach(viewModel.sections) { section in
-                Section(header: Text(section.header)) {
+                DisclosureGroup(content: {
                     ForEach(section.row) { row in
                         HStack {
                             Text(row.date.description)
@@ -73,11 +88,22 @@ struct PayInView: View {
                             MoneyText(money: row.money)
                         }
                     }
-                }
+                }, label: {
+                    HeaderView(section: section)
+                })
             }
         }
         .listStyle(GroupedListStyle())
-        .navigationTitle("Payble")
+        .navigationTitle("Payble \(viewModel.convertCurrency.rawValue)")
         .onAppear(perform: viewModel.load)
+    }
+
+    struct HeaderView: View {
+        let section: PayInViewModel.Section
+        var body: some View {
+            if let result = section.result {
+                MoneyRow(label: section.header, money: result)
+            }
+        }
     }
 }
