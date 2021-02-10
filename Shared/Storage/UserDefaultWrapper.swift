@@ -12,6 +12,7 @@ extension UserDefault {
         case token, currency
         case dateInterval
         case payInAvg, expandedHome
+        case adjustedAverage
     }
 
     enum StorageKeys: String {

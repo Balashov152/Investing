@@ -10,31 +10,31 @@ import InvestModels
 import Moya
 import SwiftUI
 
-class SettingsTabViewModel: EnvironmentCancebleObject, ObservableObject {
+extension SettingsTabViewModel {
     struct Section: Hashable {
         let type: TypeSection
 
-        enum TypeSection: Hashable {
-            case token, date, exit
+        enum TypeSection: Hashable, CaseIterable {
+            case analytics, session
             var localized: String {
                 switch self {
-                case .token:
-                    return "API Token"
-                case .date:
-                    return "Date interval"
-                case .exit:
-                    return "Logout"
+                case .session:
+                    return "Session"
+                case .analytics:
+                    return "Analytics"
                 }
             }
         }
     }
+}
 
-    @State var token: String = Storage.token
-
+class SettingsTabViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var startDate: Date = Settings.shared.dateInterval.start
     @Published var endDate: Date = Settings.shared.dateInterval.end
 
-    @Published var sections: [Section] = [Section(type: .token), Section(type: .date), Section(type: .exit)]
+    @Published var adjustedAverage: Bool = Settings.shared.adjustedAverage
+
+    @Published var sections: [Section] = Section.TypeSection.allCases.map(Section.init)
 
     override func bindings() {
         super.bindings()
@@ -46,6 +46,10 @@ class SettingsTabViewModel: EnvironmentCancebleObject, ObservableObject {
             .sink(receiveValue: { dateInterval in
                 Settings.shared.dateInterval = dateInterval
             }).store(in: &cancellables)
+
+        $adjustedAverage.sink(receiveValue: { adjustedAverage in
+            Settings.shared.adjustedAverage = adjustedAverage
+        }).store(in: &cancellables)
     }
 }
 
@@ -78,26 +82,31 @@ struct SettingsTabView: View {
             ForEach(viewModel.sections, id: \.type) { section in
                 Section(header: Text(section.type.localized)) {
                     switch section.type {
-                    case .token:
-                        tokenApi
-                    case .date:
+                    case .session:
                         VStack {
+                            tokenApi
+                            Divider()
+                            exitButton
+                        }
+                    case .analytics:
+                        VStack {
+                            adjustedAverage
+                            Divider()
                             startPicker
                             endPicker
-                        }
-                    case .exit:
-                        exitButton
+                        }.padding([.top, .bottom], 8)
                     }
                 }
             }
-
-        }.navigationTitle("Settings")
+        }
+        .listStyle(GroupedListStyle())
+        .navigationTitle("Settings")
     }
 
     var startPicker: some View {
         VStack(alignment: .leading) {
             Text("start period")
-                .font(.system(size: 10))
+                .font(.system(size: 12))
             Picker("", selection: $viewModel.startDate) {
                 ForEach(startRange, id: \.self) {
                     Text(formatter.string(from: $0))
@@ -109,9 +118,9 @@ struct SettingsTabView: View {
     var endPicker: some View {
         VStack(alignment: .leading) {
             Text("end period")
-                .font(.system(size: 10))
+                .font(.system(size: 12))
             Picker("", selection: $viewModel.endDate) {
-                ForEach(endRange, id: \.self) { date -> Text in
+                ForEach(endRange, id: \.self) { date in
                     Text(formatter.string(from: date))
                 }
             }.pickerStyle(SegmentedPickerStyle())
@@ -119,18 +128,23 @@ struct SettingsTabView: View {
     }
 
     var tokenApi: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Current token").bold()
             Text(Storage.token)
         }
     }
 
     var exitButton: some View {
-        Button("Quit", action: {
+        ActionButton(title: "Quit") {
             Storage.token = ""
             userSession.isAuthorized = false
-        })
-            .multilineTextAlignment(.center)
-            .buttonStyle(PlainButtonStyle())
+        }
+        .padding([.top, .bottom], 8)
+    }
+
+    var adjustedAverage: some View {
+        Toggle("Adjusted average price", isOn: $viewModel.adjustedAverage)
+            .disabled(!isMe)
     }
 }
 

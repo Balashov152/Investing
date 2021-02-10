@@ -17,29 +17,31 @@ extension Operation {
 
 extension PayInViewModel {
     struct Section: Hashable, Identifiable {
-        let row: [Row]
+        let rows: [Row]
 
         var header: String {
-            if let row = row.first?.date {
+            if let row = rows.first?.date {
                 return DateFormatter.format("MM yyyy").string(from: row)
             }
             return "no rows"
         }
 
         var result: MoneyAmount? {
-            row.map { $0.money }.moneySum
+            rows.map { $0.money }.moneySum
         }
     }
 
     struct Row: Hashable, Identifiable {
         let date: Date
         let money: MoneyAmount
+
+        var localizedDate: String {
+            DateFormatter.format("dd MMMM").string(from: date)
+        }
     }
 }
 
 class PayInViewModel: EnvironmentCancebleObject, ObservableObject {
-    var latest: CurrencyPairServiceLatest { .shared }
-
     @Published var sections: [Section] = []
 
     var convertCurrency: Currency {
@@ -58,7 +60,7 @@ class PayInViewModel: EnvironmentCancebleObject, ObservableObject {
                 }
                 return grouped.keys.sorted(by: >).compactMap { (date) -> Section? in
                     guard let values = grouped[date] else { return nil }
-                    return Section(row: values.map { [unowned self] value in
+                    return Section(rows: values.map { [unowned self] value in
                         Row(date: value.date,
                             money: value.convertPayment(to: convertCurrency))
                     })
@@ -81,11 +83,9 @@ struct PayInView: View {
         List {
             ForEach(viewModel.sections) { section in
                 DisclosureGroup(content: {
-                    ForEach(section.row) { row in
+                    ForEach(section.rows) { row in
                         HStack {
-                            Text(row.date.description)
-                            Spacer()
-                            MoneyText(money: row.money)
+                            MoneyRow(label: row.localizedDate, money: row.money)
                         }
                     }
                 }, label: {

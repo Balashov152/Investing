@@ -76,7 +76,13 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
     @Published var currencies: [CurrencyPosition] = []
 
+    var timer: Timer?
+
     var positions: [Position] { env.api().positionService.positions }
+
+    var currenciesInPositions: [Currency] {
+        positions.map { $0.currency }.unique.sorted(by: >)
+    }
 
     override init(env: Environment = .current) {
         if let currency = env.settings.currency {
@@ -88,12 +94,6 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
         super.init(env: env)
     }
 
-    var timer: Timer?
-
-    var currenciesInPositions: [Currency] {
-        positions.map { $0.currency }.unique.sorted(by: >)
-    }
-
     override func bindings() {
         super.bindings()
         let didChange = Publishers.CombineLatest3(env.api().positionService.$positions.dropFirst(),
@@ -102,8 +102,6 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
                                                       Vibration.selection.vibrate()
                                                   }))
             .receive(on: DispatchQueue.global()).share()
-        print("isDateInWeekend", Calendar.current
-            .isDateInWeekend(DateFormatter.format("yyyy-MM-dd").date(from: "2020-12-06")!))
 
         didChange
             .map { [unowned self] positions, currencies, currencyType -> [Section] in
@@ -188,12 +186,14 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
         case let .currency(currency):
             return positions.map { position -> PositionView in
                 PositionView(position: position,
-                             expectedYield: CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                                           money: position.expectedYield,
-                                                                           to: currency),
-                             averagePositionPrice: CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                                                  money: position.averagePositionPrice,
-                                                                                  to: currency))
+                             expectedYield: CurrencyConvertManager
+                                 .convert(currencyPair: currencyPairServiceLatest.latest,
+                                          money: position.expectedYield,
+                                          to: currency),
+                             averagePositionPrice: CurrencyConvertManager
+                                 .convert(currencyPair: currencyPairServiceLatest.latest,
+                                          money: position.averagePositionPrice,
+                                          to: currency))
             }
         case .original:
             return positions.map { position -> PositionView in

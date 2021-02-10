@@ -22,4 +22,7 @@ struct Settings {
 
     @UserDefault(key: .dateInterval, defaultValue: .lastYear)
     var dateInterval: DateInterval
+
+    @UserDefault(key: .adjustedAverage, defaultValue: false)
+    var adjustedAverage: Bool
 }

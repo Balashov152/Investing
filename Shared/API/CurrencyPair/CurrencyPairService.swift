@@ -76,7 +76,7 @@ extension CurrencyPairAPI: TargetType {
         switch self {
         case let .getPairs(request), let .getLatest(request):
             let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .formatted(.format("yyyy-MM-dd"))
+            encoder.dateEncodingStrategy = .formatted(CurrencyPair.dateFormatter)
             return .requestCustomParametersEncodable(request, encoder: encoder)
         }
     }

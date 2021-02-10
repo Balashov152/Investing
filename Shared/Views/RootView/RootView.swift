@@ -11,21 +11,6 @@ import SwiftUI
 
 class UserSession: EnvironmentCancebleObject, ObservableObject {
     @Published var isAuthorized = Storage.isAuthorized
-
-    func checkToken(token: String) -> MoyaError? {
-        Storage.token = token
-        env.api().accountService.getAccounts()
-            .replaceError(with: [])
-            .sink { accounts in
-                if accounts.isEmpty {
-                    Storage.token = ""
-                } else {
-                    self.isAuthorized = true
-                }
-            }.store(in: &cancellables)
-
-        return nil
-    }
 }
 
 struct RootView: View {
@@ -35,7 +20,7 @@ struct RootView: View {
         if session.isAuthorized {
             ViewFactory.mainView
         } else {
-            AuthorizationView(viewModel: .init(checkToken: session.checkToken))
+            AuthorizationView(viewModel: .init(session: session))
         }
     }
 }

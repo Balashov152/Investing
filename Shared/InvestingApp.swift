@@ -11,7 +11,20 @@ import UIKit
 
 public typealias Operation = InvestModels.Operation
 public var isMe: Bool {
-    UIDevice.current.identifierForVendor?.uuidString == "E0531109-4C21-43CA-ACF4-ECD1C4AB3818"
+    UIDevice.isSimulator ||
+        UIDevice.current.identifierForVendor?.uuidString == "E0531109-4C21-43CA-ACF4-ECD1C4AB3818"
+}
+
+extension UIDevice {
+    static var isSimulator: Bool {
+        #if targetEnvironment(simulator)
+            // We're on the simulator
+            return true
+        #else
+            // We're on a device
+            return false
+        #endif
+    }
 }
 
 @main

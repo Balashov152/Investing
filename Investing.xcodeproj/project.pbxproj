@@ -113,6 +113,8 @@
 		EF8104D225D3D1EC00B73406 /* PayInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8104D025D3D1EC00B73406 /* PayInView.swift */; };
 		EF8104DC25D3E8EE00B73406 /* CurrencyPairServiceLatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8104DB25D3E8ED00B73406 /* CurrencyPairServiceLatest.swift */; };
 		EF8104DD25D3E8EE00B73406 /* CurrencyPairServiceLatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8104DB25D3E8ED00B73406 /* CurrencyPairServiceLatest.swift */; };
+		EF8104EB25D40B4E00B73406 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8104EA25D40B4D00B73406 /* ActionButton.swift */; };
+		EF8104EC25D40B4E00B73406 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8104EA25D40B4D00B73406 /* ActionButton.swift */; };
 		EF8114B22596375700773236 /* SettingsTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8114B12596375700773236 /* SettingsTabView.swift */; };
 		EF84A96425C09CE70081F857 /* AnyPublisher+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A96325C09CE70081F857 /* AnyPublisher+Ex.swift */; };
 		EF84A96525C09CE70081F857 /* AnyPublisher+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A96325C09CE70081F857 /* AnyPublisher+Ex.swift */; };
@@ -354,6 +356,7 @@
 		EF79B80425B1E064005C2EB8 /* LogoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoService.swift; sourceTree = "<group>"; };
 		EF8104D025D3D1EC00B73406 /* PayInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInView.swift; sourceTree = "<group>"; };
 		EF8104DB25D3E8ED00B73406 /* CurrencyPairServiceLatest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairServiceLatest.swift; sourceTree = "<group>"; };
+		EF8104EA25D40B4D00B73406 /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		EF8114B12596375700773236 /* SettingsTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTabView.swift; sourceTree = "<group>"; };
 		EF84A96325C09CE70081F857 /* AnyPublisher+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Ex.swift"; sourceTree = "<group>"; };
 		EF84A96A25C09D780081F857 /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
@@ -496,6 +499,7 @@
 				EF5416BB25C064A2007EA38D /* InfoRow.swift */,
 				EF5416C225C06502007EA38D /* PercentText.swift */,
 				EF84A96A25C09D780081F857 /* NavigationLazyView.swift */,
+				EF8104EA25D40B4D00B73406 /* ActionButton.swift */,
 			);
 			path = "Common Views";
 			sourceTree = "<group>";
@@ -1411,6 +1415,7 @@
 				EF5416C325C06502007EA38D /* PercentText.swift in Sources */,
 				EF4C4FA525C87BF1002006F7 /* Vibrate.swift in Sources */,
 				EF3ED2C225BAD6CA00B25464 /* URLImage.swift in Sources */,
+				EF8104EB25D40B4E00B73406 /* ActionButton.swift in Sources */,
 				EFD60C3D25B42C2D003337C2 /* UserDefaultWrapper.swift in Sources */,
 				EF8104DC25D3E8EE00B73406 /* CurrencyPairServiceLatest.swift in Sources */,
 				EF79B76425B1B128005C2EB8 /* HomeViewModel.swift in Sources */,
@@ -1521,6 +1526,7 @@
 				EF95202425BEFA920006FD97 /* TotalDetailView.swift in Sources */,
 				EF4C4FA625C87BF1002006F7 /* Vibrate.swift in Sources */,
 				EF54167125C061FD007EA38D /* DateFormatter+Ex.swift in Sources */,
+				EF8104EC25D40B4E00B73406 /* ActionButton.swift in Sources */,
 				EF95209D25C00F490006FD97 /* TotalDetailViewModel.swift in Sources */,
 				EF3EBBD925C955DC002F5469 /* CurrencyPositionRowView.swift in Sources */,
 				EF9581D92590A10100D559E7 /* OperationRowView.swift in Sources */,
