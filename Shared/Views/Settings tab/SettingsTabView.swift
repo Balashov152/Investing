@@ -58,7 +58,7 @@ struct SettingsTabView: View {
     let formatter = DateFormatter.format("yyyy")
 
     var startRange: [Date] {
-        let range = currentYear - 5 ... viewModel.endDate.year
+        let range = 2018 ... viewModel.endDate.year
 
         return range.compactMap { year -> Date? in
             formatter.date(from: year.string)
@@ -150,29 +150,6 @@ struct YearDatePickerView: View {
             }.datePickerStyle(DefaultDatePickerStyle())
 
 //            Text("Date is \(birthDate, formatter: dateFormatter)")
-        }
-    }
-}
-
-extension Date {
-    var year: Int {
-        Calendar.current.component(.year, from: self)
-    }
-}
-
-extension DateFormatter {
-    func years(_ value: Int) -> [Date] {
-        setLocalizedDateFormatFromTemplate("yyyy")
-        let currentYear = Calendar.current.component(.year, from: Date())
-        let range: ClosedRange<Int>
-        if value > 0 {
-            range = currentYear ... currentYear + value
-        } else {
-            range = currentYear + value ... currentYear
-        }
-
-        return range.compactMap { year -> Date? in
-            date(from: year.string)
         }
     }
 }

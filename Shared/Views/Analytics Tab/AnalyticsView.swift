@@ -23,6 +23,8 @@ struct AnalyticsView: View {
                                destination: ViewFactory.tickersView)
                 NavigationLink("Dividends",
                                destination: ViewFactory.dividentsView)
+                NavigationLink("PayInView",
+                               destination: ViewFactory.payInView)
             }
             .listStyle(GroupedListStyle())
             .navigationBarItems(trailing: MainView.settingsNavigationLink)
