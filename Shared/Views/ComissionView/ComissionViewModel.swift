@@ -13,7 +13,7 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var rows: [Row] = []
     @Published var total = MoneyAmount(currency: .RUB, value: 0)
 
-    static let currency = Currency.RUB
+    var currency: Currency { env.settings.currency ?? .RUB }
 
     let commissionTypes: [Operation.OperationTypeWithCommission] = [
         .BrokerCommission, .ServiceCommission, .MarginCommission,
@@ -27,12 +27,13 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
     override func bindings() {
         super.bindings()
         env.operationsService.$operations
+            .receive(on: DispatchQueue.global())
             .map { [unowned self] operations -> [Row] in
-                commissionTypes.compactMap { type -> Row? in
+                commissionTypes.compactMap { [unowned self] type -> Row? in
                     switch type {
                     case .BrokerCommission, .ServiceCommission, .MarginCommission:
                         let sum = operations.filter { $0.operationType == .some(type) }
-                            .currencySum(to: ComissionViewModel.currency)
+                            .currencySum(to: currency)
                         if sum.value != 0 {
                             return Row(type: type, value: sum)
                         }
@@ -40,7 +41,7 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
                     case .ExchangeCommission, .OtherCommission:
                         let sum = operations
                             .filter { $0.operationType == .some(type) }
-                            .currencySum(to: ComissionViewModel.currency)
+                            .currencySum(to: currency)
 
                         if sum.value != 0 {
                             return Row(type: type, value: sum)
@@ -50,12 +51,12 @@ class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
                     return nil
                 }
             }
+            .receive(on: DispatchQueue.main)
             .assign(to: \.rows, on: self)
             .store(in: &cancellables)
 
-        $rows.map {
-            MoneyAmount(currency: ComissionViewModel.currency,
-                        value: $0.map { $0.value }.sum)
+        $rows.map { [unowned self] in
+            MoneyAmount(currency: currency, value: $0.map { $0.value }.sum)
         }
         .assign(to: \.total, on: self)
         .store(in: &cancellables)

@@ -10,6 +10,12 @@ import SwiftUI
 import UIKit
 
 extension Color {
+    static func currency(value: Double) -> Color {
+        if value == .zero { return .gray }
+
+        return value > 0 ? .green : .red
+    }
+    
     static var appBlack: Color {
         Color(UIColor { (collection) -> UIColor in
             switch collection.userInterfaceStyle {
@@ -34,13 +40,5 @@ extension Color {
                 return UIColor(white: 0.93, alpha: 1)
             }
         })
-    }
-}
-
-extension Color {
-    static func currency(value: Double) -> Color {
-        if value == .zero { return .gray }
-
-        return value > 0 ? .green : .red
     }
 }

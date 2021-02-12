@@ -9,16 +9,7 @@ import Foundation
 import InvestModels
 import SwiftUI
 
-extension Position {
-    var averagePositionPriceNow: MoneyAmount {
-        MoneyAmount(currency: currency,
-                    value: totalInProfile.value / Double(lots))
-    }
-}
-
-extension PositionView: LogoPosition {}
-
-struct PositionView: Hashable, Identifiable {
+struct PositionView: Hashable, Identifiable, LogoPosition {
     init(position: Position) {
         self.init(position: position,
                   expectedYield: position.expectedYield,
@@ -63,8 +54,8 @@ struct PositionView: Hashable, Identifiable {
     public let blocked: Double?
 
     public let lots: Double
-    public let expectedYield: MoneyAmount
 
+    public let expectedYield: MoneyAmount
     public let averagePositionPrice: MoneyAmount
     public let averagePositionPriceNow: MoneyAmount
 }

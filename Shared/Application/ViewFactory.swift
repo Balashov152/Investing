@@ -10,10 +10,17 @@ import Foundation
 import InvestModels
 
 struct ViewFactory {
-    // MAIN TABS
+    // MARK: Main
+
     static let mainView: MainView = {
         .init(viewModel: .init())
     }()
+
+    static let SettingsView: SettingsView = {
+        .init(viewModel: .init())
+    }()
+
+    // MARK: Home views
 
     static let homeView: HomeView = {
         .init(viewModel: .init())
@@ -31,24 +38,12 @@ struct ViewFactory {
         .init(viewModel: .init(position: position, env: env))
     }
 
+    // MARK: Analytics
+
     static let analyticsView: AnalyticsView = {
         .init(viewModel: .init())
     }()
 
-    static let operationsView: OperationsView = {
-        .init(viewModel: .init())
-    }()
-
-    static let settingsTabView: SettingsTabView = {
-        .init(viewModel: .init())
-    }()
-
-    // Target
-    static let targetsView: TargetsView = {
-        .init(viewModel: .init())
-    }()
-
-    // Target
     static let payInView: PayInView = {
         .init(viewModel: .init())
     }()
@@ -73,6 +68,16 @@ struct ViewFactory {
     }()
 
     static let dividentsView: DividentsView = {
+        .init(viewModel: .init())
+    }()
+
+    // MARK: Need will be
+
+    static let operationsView: OperationsView = {
+        .init(viewModel: .init())
+    }()
+
+    static let targetsView: TargetsView = {
         .init(viewModel: .init())
     }()
 }

@@ -10,7 +10,7 @@ import InvestModels
 import SwiftUI
 
 struct TickersView: View {
-    @StateObject var viewModel: TickersViewModel
+    @ObservedObject var viewModel: TickersViewModel
 
     var body: some View {
         List {
@@ -25,7 +25,7 @@ struct TickersView: View {
                 ForEach([InstrumentType.Stock, .Bond, .Etf], id: \.self) { type in
                     Section(header: Text(type.rawValue)) {
                         ForEach(viewModel.results.filter { $0.instrument.type == type }) {
-                            commisionCell(insturment: $0.instrument, currency: $0.result)
+                            cell(insturment: $0.instrument, currency: $0.result)
                         }
                     }
                 }
@@ -36,7 +36,7 @@ struct TickersView: View {
         .onAppear(perform: viewModel.loadOperaions)
     }
 
-    func commisionCell(insturment: Instrument, currency: MoneyAmount) -> some View {
+    func cell(insturment: Instrument, currency: MoneyAmount) -> some View {
         HStack {
             VStack(alignment: .leading) {
                 HStack {

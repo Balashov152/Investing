@@ -77,13 +77,13 @@ struct HomeView: View {
                         HStack {
                             ForEach(viewModel.currenciesInPositions.indexed(), id: \.element) { index, currency in
                                 if index != 0 { Divider() }
-                                TotalView(model: TotalViewModel(currency: currency, positions: viewModel.positions))
+                                HomeTotalView(model: TotalViewModel(currency: currency, positions: viewModel.positions))
                             }
                         }
                     }
                 case .currency:
                     if let convertedTotal = viewModel.convertedTotal {
-                        TotalView(model: convertedTotal)
+                        HomeTotalView(model: convertedTotal)
                     }
                 }
             }.animation(.default)
@@ -144,7 +144,7 @@ struct HomeView: View {
                                         groupContent(section: section)
                                     },
                                     label: {
-                                        HeaderView(section: section)
+                                        HomeHeaderView(section: section)
                                     })
                 }
             }
@@ -172,7 +172,7 @@ struct HomeView: View {
 
     var currencies: some View {
         Section {
-            PlainSection(header: HeaderView(section: .init(type: .Currency, positions: []))) {
+            PlainSection(header: HomeHeaderView(section: .init(type: .Currency, positions: []))) {
                 ForEach(viewModel.currencies, id: \.self) { currency in
                     HStack {
                         Text(currency.currency.rawValue)

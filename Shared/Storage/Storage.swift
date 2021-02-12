@@ -9,10 +9,7 @@ import Combine
 import Foundation
 
 enum Storage {
-    static var isAuthorized: Bool {
-        debugPrint("token", token)
-        return !token.isEmpty
-    }
+    static var isAuthorized: Bool { !token.isEmpty }
 
     @UserDefault(key: .token, defaultValue: "")
     static var token: String

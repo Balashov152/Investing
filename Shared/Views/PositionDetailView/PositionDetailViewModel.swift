@@ -11,13 +11,34 @@ import SwiftUI
 
 class PositionDetailViewModel: EnvironmentCancebleObject, ObservableObject {
     let position: PositionView
-
-    var convertCurrency: Currency {
-        position.currency
-    }
+    var convertCurrency: Currency { position.currency }
 
     @Published var operations: [Operation] = []
 
+    init(position: PositionView, env: Environment) {
+        self.position = position
+
+        super.init(env: env)
+    }
+
+    override func bindings() {
+        super.bindings()
+        env.api().operationsService.$operations
+            .receive(on: DispatchQueue.global())
+            .map { [unowned self] operations in
+                operations.filter { $0.instrument?.ticker == position.ticker }
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.operations, on: self)
+            .store(in: &cancellables)
+    }
+
+    public func load() {
+        env.api().operationsService.getOperations(request: .init(env: env))
+    }
+}
+
+extension PositionDetailViewModel {
     var total: MoneyAmount {
         position.totalInProfile + operations.currencySum(to: position.currency)
     }
@@ -44,28 +65,6 @@ class PositionDetailViewModel: EnvironmentCancebleObject, ObservableObject {
     var average: MoneyAmount {
         MoneyAmount(currency: position.currency,
                     value: inProfile.money.value / Double(inProfile.count))
-    }
-
-    init(position: PositionView, env: Environment) {
-        self.position = position
-
-        super.init(env: env)
-    }
-
-    override func bindings() {
-        super.bindings()
-        env.api().operationsService.$operations
-            .receive(on: DispatchQueue.global())
-            .map { [unowned self] operations in
-                operations.filter { $0.instrument?.ticker == position.ticker }
-            }
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.operations, on: self)
-            .store(in: &cancellables)
-    }
-
-    public func load() {
-        env.api().operationsService.getOperations(request: .init(env: env))
     }
 }
 

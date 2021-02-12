@@ -10,7 +10,7 @@ import InvestModels
 import SwiftUI
 
 struct ComissionView: View {
-    @StateObject var viewModel: ComissionViewModel
+    @ObservedObject var viewModel: ComissionViewModel
 
     var body: some View {
         List {

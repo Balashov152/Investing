@@ -6,29 +6,8 @@
 //
 
 import Combine
-import Foundation
 import InvestModels
-import Moya
 import SwiftUI
-
-class OperationsViewModel: EnvironmentCancebleObject, ObservableObject {
-    @Published var selectedType = Operation.OperationTypeWithCommission.Buy
-
-    var operations: [Operation] {
-        env.api().operationsService.operations
-    }
-
-    public func loadOperaions() {
-        env.operationsService.getOperations(request: .init(env: env))
-    }
-
-    override func bindings() {
-        super.bindings()
-        env.operationsService.$operations.sink(receiveValue: { _ in
-            self.objectWillChange.send()
-        }).store(in: &cancellables)
-    }
-}
 
 struct OperationsView: View {
     @ObservedObject var viewModel: OperationsViewModel

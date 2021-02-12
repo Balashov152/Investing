@@ -9,7 +9,7 @@ import Combine
 import InvestModels
 import SwiftUI
 
-extension Operation {
+private extension Operation {
     var opCurrency: Currency {
         guard let ticker = instrument?.ticker else {
             return currency

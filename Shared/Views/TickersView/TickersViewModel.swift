@@ -9,14 +9,6 @@ import Combine
 import InvestModels
 import SwiftUI
 
-extension TickersViewModel {
-    struct InstrumentResult: Hashable, Identifiable {
-        let instrument: Instrument
-        let result: MoneyAmount
-        let inProfile: Bool
-    }
-}
-
 class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var results: [InstrumentResult] = []
 
@@ -24,13 +16,6 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var totalUSD: Double = 0
 
     @Published var sortType: SortType = .name
-
-    enum SortType: Int {
-        case name, inProfile, profite
-        var localize: String {
-            return "\(self)"
-        }
-    }
 
     public func loadOperaions() {
         env.api().operationsService.getOperations(request: .init(env: env))
@@ -82,9 +67,24 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
                 return $0.instrument.name < $1.instrument.name
             case .inProfile:
                 return $0.inProfile.hashValue < $1.inProfile.hashValue
-            case .profite:
+            case .profit:
                 return $0.result.value > $1.result.value
             }
         })
+    }
+}
+
+extension TickersViewModel {
+    struct InstrumentResult: Hashable, Identifiable {
+        let instrument: Instrument
+        let result: MoneyAmount
+        let inProfile: Bool
+    }
+    
+    enum SortType: Int {
+        case name, inProfile, profit
+        var localize: String {
+            return "\(self)"
+        }
     }
 }

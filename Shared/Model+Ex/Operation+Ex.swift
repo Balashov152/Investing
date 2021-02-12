@@ -8,6 +8,12 @@
 import Foundation
 import InvestModels
 
+extension Operation {
+    var money: MoneyAmount {
+        MoneyAmount(currency: currency, value: payment)
+    }
+}
+
 extension Collection where Element == Operation {
     func filter(type: Operation.OperationTypeWithCommission) -> [Element] {
         filter { $0.operationType == type }

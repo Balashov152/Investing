@@ -1,5 +1,5 @@
 //
-//  CurrencyTabView.swift
+//  SettingsView.swift
 //  Investing (iOS)
 //
 //  Created by Sergey Balashov on 25.12.2020.
@@ -7,55 +7,11 @@
 
 import Combine
 import InvestModels
-import Moya
 import SwiftUI
 
-extension SettingsTabViewModel {
-    struct Section: Hashable {
-        let type: TypeSection
-
-        enum TypeSection: Hashable, CaseIterable {
-            case analytics, session
-            var localized: String {
-                switch self {
-                case .session:
-                    return "Session"
-                case .analytics:
-                    return "Analytics"
-                }
-            }
-        }
-    }
-}
-
-class SettingsTabViewModel: EnvironmentCancebleObject, ObservableObject {
-    @Published var startDate: Date = Settings.shared.dateInterval.start
-    @Published var endDate: Date = Settings.shared.dateInterval.end
-
-    @Published var adjustedAverage: Bool = Settings.shared.adjustedAverage
-
-    @Published var sections: [Section] = Section.TypeSection.allCases.map(Section.init)
-
-    override func bindings() {
-        super.bindings()
-        Publishers.CombineLatest($startDate, $endDate)
-            .dropFirst()
-            .map { startDate, endDate in
-                DateInterval(start: startDate, end: endDate)
-            }
-            .sink(receiveValue: { dateInterval in
-                Settings.shared.dateInterval = dateInterval
-            }).store(in: &cancellables)
-
-        $adjustedAverage.sink(receiveValue: { adjustedAverage in
-            Settings.shared.adjustedAverage = adjustedAverage
-        }).store(in: &cancellables)
-    }
-}
-
-struct SettingsTabView: View {
+struct SettingsView: View {
     @EnvironmentObject var userSession: UserSession
-    @ObservedObject var viewModel: SettingsTabViewModel
+    @ObservedObject var viewModel: SettingsViewModel
     @State var token: String = Storage.token
 
     let currentYear = Date().year

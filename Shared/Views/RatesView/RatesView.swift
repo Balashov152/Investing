@@ -9,23 +9,6 @@ import Combine
 import InvestModels
 import SwiftUI
 
-extension CurrencyPair {
-    func localized(currency: Currency) -> String {
-        switch currency {
-        case .USD:
-            return (1 / USD).formattedCurrency()
-        case .EUR:
-            return (1 / EUR).formattedCurrency()
-        default:
-            return ""
-        }
-    }
-}
-
-class RatesViewModel: EnvironmentCancebleObject, ObservableObject {
-    var latestService: CurrencyPairServiceLatest { .shared }
-}
-
 struct RatesView: View {
     @ObservedObject var viewModel: RatesViewModel
 
