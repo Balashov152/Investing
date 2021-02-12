@@ -19,6 +19,5 @@ struct ActionButton: View {
                 .background(Color.litleGray)
                 .cornerRadius(5)
         })
-            .buttonStyle(DefaultButtonStyle())
     }
 }
