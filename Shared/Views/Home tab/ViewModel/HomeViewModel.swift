@@ -130,7 +130,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             .store(in: &cancellables)
 
         didChange
-            .map { positions, currencies, operations, currencyType -> HomeViewModel.Total? in
+            .map { positions, currencies, _, currencyType -> HomeViewModel.Total? in
                 switch currencyType {
                 case let .currency(currency):
                     let totalInProfile = positions.reduce(0) { [unowned self] (result, position) -> Double in
@@ -184,23 +184,59 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     private func map(operations: [Operation], positions: [Position], to currencyType: ConvertedType) -> [PositionView] {
-        switch currencyType {
-        case let .currency(currency):
-            return positions.map { position -> PositionView in
-                PositionView(position: position,
-                             expectedYield: CurrencyConvertManager
-                                 .convert(currencyPair: currencyPairServiceLatest.latest,
-                                          money: position.expectedYield,
-                                          to: currency),
-                             averagePositionPrice: CurrencyConvertManager
-                                 .convert(currencyPair: currencyPairServiceLatest.latest,
-                                          money: position.averagePositionPrice,
-                                          to: currency))
+        positions.map { position -> PositionView in
+            let expectedYield: MoneyAmount
+            let averagePositionPrice: MoneyAmount
+
+            if env.settings.adjustedAverage {
+                let paymentTotal = operations.paymentTotal(position: position)
+                expectedYield = paymentTotal + position.totalInProfile
+
+                let avg = (position.totalInProfile - expectedYield).value / Double(position.lots)
+                averagePositionPrice = MoneyAmount(currency: position.currency, value: avg)
+
+            } else {
+                expectedYield = position.expectedYield
+                averagePositionPrice = position.averagePositionPrice
             }
-        case .original:
-            return positions.map { position -> PositionView in
-                PositionView(position: position)
+
+            switch currencyType {
+            case let .currency(currency):
+                return PositionView(position: position,
+                                    expectedYield: convert(money: expectedYield,
+                                                           to: currency),
+                                    averagePositionPrice: convert(money: averagePositionPrice,
+                                                                  to: currency),
+                                    averagePositionPriceNow: convert(money: position.averagePositionPriceNow,
+                                                                     to: currency))
+
+            case .original:
+                return PositionView(position: position,
+                                    expectedYield: expectedYield,
+                                    averagePositionPrice: averagePositionPrice,
+                                    averagePositionPriceNow: position.averagePositionPriceNow)
             }
         }
+    }
+
+    private func convert(money: MoneyAmount, to currency: Currency) -> MoneyAmount {
+        money.convert(to: currency, pair: currencyPairServiceLatest.latest)
+    }
+}
+
+extension MoneyAmount {
+    func convert(to currency: Currency, pair: CurrencyPair?) -> MoneyAmount {
+        guard let pair = pair else { return self }
+        return CurrencyConvertManager.convert(currencyPair: pair, money: self, to: currency)
+    }
+}
+
+extension Collection where Element == Operation {
+    func operations(position: Position) -> [Operation] {
+        filter { $0.figi == position.figi }
+    }
+
+    func paymentTotal(position: Position, currency: Currency? = nil) -> MoneyAmount {
+        operations(position: position).currencySum(to: currency ?? position.currency)
     }
 }

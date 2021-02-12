@@ -41,7 +41,7 @@ struct PositionRowView: View {
                 Text("$\(position.ticker.orEmpty)")
                     .font(.system(size: 14, weight: .bold))
                     .foregroundColor(Color.gray)
-                Text(position.lots.string + " pcs")
+                Text(position.lots.string(f: ".0") + " pcs")
                     .font(.system(size: 12, weight: .bold))
                     .foregroundColor(Color.gray)
             }

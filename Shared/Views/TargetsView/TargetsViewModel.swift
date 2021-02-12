@@ -69,7 +69,8 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
             .store(in: &cancellables)
 
         $columns.filter { !$0.isEmpty }
-            .collect(1).print("set targets")
+            .collect(1)
+//            .print("set targets")
             .replaceError(with: [])
             .eraseToAnyPublisher()
             .map { columns -> Set<TargetsViewModel.TargetPair> in

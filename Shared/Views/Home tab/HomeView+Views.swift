@@ -86,14 +86,13 @@ extension HomeView {
                 HStack {
                     ForEach(section.currencies.indexed(), id: \.element) { offset, currency in
                         if offset != 0 { Divider() }
-//                        TotalView(model: TotalViewModel(currency: currency, positions: section.positions)) // mapping to Position
 
                         if section.totalInProfile(currency: currency) > 0 {
                             VStack(alignment: .leading) {
                                 CurrencyText(money: MoneyAmount(currency: currency,
                                                                 value: section.totalInProfile(currency: currency)))
                                     .font(.system(size: 20, weight: .medium))
-                                if section.totalChanged(currency: currency) > 0 {
+                                if section.totalChanged(currency: currency) != 0 {
                                     HStack {
                                         MoneyText(money: MoneyAmount(currency: currency,
                                                                      value: section.totalChanged(currency: currency)))

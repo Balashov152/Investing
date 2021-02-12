@@ -73,7 +73,9 @@ struct MainView: View {
         TabView(selection: $selection) {
             profileView
             analyticsView
-//            targetsView
+            if isMe {
+                targetsView
+            }
         }
         .accentColor(Color.appBlack)
     }

@@ -9,13 +9,21 @@ import Foundation
 import InvestModels
 import SwiftUI
 
+extension Position {
+    var averagePositionPriceNow: MoneyAmount {
+        MoneyAmount(currency: currency,
+                    value: totalInProfile.value / Double(lots))
+    }
+}
+
 extension PositionView: LogoPosition {}
 
 struct PositionView: Hashable, Identifiable {
     init(position: Position) {
         self.init(position: position,
                   expectedYield: position.expectedYield,
-                  averagePositionPrice: position.averagePositionPrice)
+                  averagePositionPrice: position.averagePositionPrice,
+                  averagePositionPriceNow: position.averagePositionPriceNow)
     }
 
     init(currency: CurrencyPosition) {
@@ -27,17 +35,23 @@ struct PositionView: Hashable, Identifiable {
         isin = currency.currency.rawValue
         expectedYield = MoneyAmount(currency: currency.currency, value: 0)
         averagePositionPrice = MoneyAmount(currency: currency.currency, value: currency.balance)
+        averagePositionPriceNow = MoneyAmount(currency: currency.currency, value: currency.balance)
     }
 
-    init(position: Position, expectedYield: MoneyAmount, averagePositionPrice: MoneyAmount) {
+    init(position: Position, expectedYield: MoneyAmount,
+         averagePositionPrice: MoneyAmount, averagePositionPriceNow: MoneyAmount)
+    {
         name = position.name
         ticker = position.ticker
         instrumentType = position.instrumentType
         blocked = position.blocked
-        lots = position.lots
         isin = position.isin
+
+        lots = Double(position.lots)
+
         self.expectedYield = expectedYield
         self.averagePositionPrice = averagePositionPrice
+        self.averagePositionPriceNow = averagePositionPriceNow
     }
 
     public let name: String?
@@ -47,10 +61,12 @@ struct PositionView: Hashable, Identifiable {
     public let instrumentType: InstrumentType
 
     public let blocked: Double?
-    public let lots: Int
 
+    public let lots: Double
     public let expectedYield: MoneyAmount
+
     public let averagePositionPrice: MoneyAmount
+    public let averagePositionPriceNow: MoneyAmount
 }
 
 extension PositionView {
@@ -60,7 +76,7 @@ extension PositionView {
 
     var totalBuyPayment: MoneyAmount {
         MoneyAmount(currency: currency,
-                    value: averagePositionPrice.value * Double(lots))
+                    value: averagePositionPrice.value * lots)
     }
 
     var totalInProfile: MoneyAmount {
@@ -69,13 +85,8 @@ extension PositionView {
     }
 
     var deltaAveragePositionPrice: MoneyAmount {
-        MoneyAmount(currency: expectedYield.currency,
-                    value: expectedYield.value / Double(lots))
-    }
-
-    var averagePositionPriceNow: MoneyAmount {
         MoneyAmount(currency: currency,
-                    value: totalInProfile.value / Double(lots))
+                    value: expectedYield.value / lots)
     }
 
     var expectedPercent: Double {
