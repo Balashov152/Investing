@@ -140,7 +140,7 @@ struct SettingsTabView: View {
             userSession.isAuthorized = false
         }
         .buttonStyle(PlainButtonStyle())
-            .padding([.top, .bottom], 8)
+        .padding([.top, .bottom], 8)
     }
 
     var adjustedAverage: some View {
