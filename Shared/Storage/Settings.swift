@@ -17,12 +17,12 @@ struct Settings {
     @UserDefault(key: .currency, defaultValue: nil)
     var currency: Currency?
 
-    @UserDefault(key: .payInAvg, defaultValue: nil)
-    var payInAvg: Double?
-
     @UserDefault(key: .dateInterval, defaultValue: .lastYear)
     var dateInterval: DateInterval
 
     @UserDefault(key: .adjustedAverage, defaultValue: false)
     var adjustedAverage: Bool
+
+    @UserDefault(key: .averageCurrency, defaultValue: [:])
+    var averageCurrency: [Currency: Double]
 }

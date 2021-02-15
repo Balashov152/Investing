@@ -23,7 +23,7 @@ private extension Operation {
 
 class CurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var rows: [Row] = []
-    
+
     override func bindings() {
         super.bindings()
         env.operationsService.$operations

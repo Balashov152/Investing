@@ -80,7 +80,7 @@ extension TickersViewModel {
         let result: MoneyAmount
         let inProfile: Bool
     }
-    
+
     enum SortType: Int {
         case name, inProfile, profit
         var localize: String {

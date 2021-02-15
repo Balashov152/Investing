@@ -86,7 +86,9 @@ struct HomeView: View {
                         HomeTotalView(model: convertedTotal)
                     }
                 }
-            }.animation(.default)
+            }
+            .frame(height: 44)
+            .animation(.easeInOut)
         }
     }
 

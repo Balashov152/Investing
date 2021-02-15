@@ -15,7 +15,7 @@ extension Color {
 
         return value > 0 ? .green : .red
     }
-    
+
     static var appBlack: Color {
         Color(UIColor { (collection) -> UIColor in
             switch collection.userInterfaceStyle {

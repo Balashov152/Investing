@@ -5,8 +5,8 @@
 //  Created by Sergey Balashov on 12.02.2021.
 //
 
-import Foundation
 import Combine
+import Foundation
 import SwiftUI
 
 class TextLimiter: ObservableObject {
