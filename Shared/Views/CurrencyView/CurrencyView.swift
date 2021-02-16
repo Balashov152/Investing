@@ -28,19 +28,6 @@ struct CurrencyView: View {
         .listStyle(GroupedListStyle())
         .navigationTitle("Currency")
         .onAppear(perform: viewModel.loadOperaions)
-
-        //            Section(header: Text("Buy currency").font(.title)) {
-        //                commisionCell(label: "Sell RUB", money: viewModel.sellRUB)
-        //                commisionCell(label: "Buy USD", money: viewModel.buyUSD)
-        //            }
-        //
-        //            ForEach(viewModel.sections, id: \.self) { section in
-        //                Section(header: Text(section.currency.rawValue).font(.title)) {
-        //                    ForEach(section.rows, id: \.self) { currency in
-        //                        commisionCell(label: currency.title.name, money: currency.value)
-        //                    }
-        //                }
-        //            }
     }
 
     struct RowView: View {

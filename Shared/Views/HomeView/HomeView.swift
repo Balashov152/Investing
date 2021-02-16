@@ -45,10 +45,22 @@ struct HomeView: View {
                 convertView
                 list
             }
-            .navigationBarItems(trailing: MainView.settingsNavigationLink)
+            .navigationBarItems(trailing: HStack {
+                sortedView
+                MainView.settingsNavigationLink
+            })
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: viewModel.loadPositions)
         }
+    }
+
+    var sortedView: some View {
+        Button(action: {
+            viewModel.sortType = HomeViewModel.SortType(rawValue: viewModel.sortType.rawValue + 1) ?? .name
+        }, label: {
+            Text(viewModel.sortType.text)
+                .font(.system(size: 14))
+        })
     }
 
     var totalTitleView: some View {
@@ -86,7 +98,9 @@ struct HomeView: View {
                         HomeTotalView(model: convertedTotal)
                     }
                 }
-            }.animation(.default)
+            }
+            .frame(height: 44)
+            .animation(.easeInOut)
         }
     }
 

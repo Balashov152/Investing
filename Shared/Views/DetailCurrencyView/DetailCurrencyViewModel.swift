@@ -63,14 +63,20 @@ class DetailCurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         super.bindings()
-        if currency == .USD, let avg = env.settings.payInAvg {
+        if currency != .RUB,
+           let avg = env.settings.averageCurrency[currency]
+        {
             averagePayIn.value = String(avg)
         }
 
         averagePayIn.$value.dropFirst()
             .map(Double.init)
-            .sink { [unowned self] in
-                env.settings.payInAvg = $0
+            .sink { [unowned self] avg in
+                if let avg = avg {
+                    env.settings.averageCurrency.updateValue(avg, forKey: currency)
+                } else {
+                    env.settings.averageCurrency.removeValue(forKey: currency)
+                }
             }.store(in: &cancellables)
     }
 

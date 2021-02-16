@@ -64,11 +64,20 @@ extension HomeViewModel {
             (expectedProfile / totalInProfile).value * 100
         }
     }
+
+    enum SortType: Int {
+        case name, price, total, profit
+
+        var text: String {
+            "\(self)"
+        }
+    }
 }
 
 class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     var currencyPairServiceLatest: CurrencyPairServiceLatest { .shared }
 
+    @Published var sortType: SortType = .name
     @Published var convertType: ConvertedType
 
     @Published var sections: [Section] = []
@@ -96,22 +105,36 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         super.bindings()
+        let changeSort = Publishers.CombineLatest($convertType.removeDuplicates(),
+                                                  $sortType.removeDuplicates()).handleEvents(receiveOutput: { _ in
+            Vibration.selection.vibrate()
+        })
+
         let didChange = Publishers.CombineLatest4(env.api().positionService.$positions.dropFirst(),
                                                   env.api().positionService.$currencies.dropFirst(),
                                                   env.api().operationsService.$operations.dropFirst(),
-                                                  $convertType.removeDuplicates().handleEvents(receiveOutput: { _ in
-                                                      Vibration.selection.vibrate()
-                                                  }))
+                                                  changeSort)
             .receive(on: DispatchQueue.global()).share()
 
         didChange
-            .map { [unowned self] positions, currencies, operations, currencyType -> [Section] in
+            .map { [unowned self] positions, currencies, operations, tuple -> [Section] in
                 [InstrumentType.Stock, .Bond, .Etf, .Currency].compactMap { type -> HomeViewModel.Section? in
                     switch type {
                     case .Stock, .Bond, .Etf:
-                        let filtered = map(operations: operations, positions: positions, to: currencyType)
+                        let filtered = map(operations: operations, positions: positions, to: tuple.0)
                             .filter { $0.instrumentType == .some(type) }
-                            .sorted { $0.name.orEmpty < $1.name.orEmpty }
+                            .sorted {
+                                switch tuple.1 {
+                                case .name:
+                                    return $0.name.orEmpty < $1.name.orEmpty
+                                case .price:
+                                    return $0.averagePositionPriceNow.value > $1.averagePositionPriceNow.value
+                                case .profit:
+                                    return $0.expectedYield.value > $1.expectedYield.value
+                                case .total:
+                                    return $0.totalInProfile.value > $1.totalInProfile.value
+                                }
+                            }
 
                         if !filtered.isEmpty {
                             return Section(type: type, positions: filtered)
@@ -131,7 +154,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
         didChange
             .map { positions, currencies, _, currencyType -> HomeViewModel.Total? in
-                switch currencyType {
+                switch currencyType.0 {
                 case let .currency(currency):
                     let totalInProfile = positions.reduce(0) { [unowned self] (result, position) -> Double in
                         result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
