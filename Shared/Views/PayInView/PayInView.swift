@@ -15,15 +15,15 @@ struct PayInView: View {
     var body: some View {
         List {
             ForEach(viewModel.sections) { section in
-                    DisclosureGroup(content: {
-                        ForEach(section.rows) { row in
-                            HStack {
-                                MoneyRow(label: row.localizedDate, money: row.money)
-                            }
+                DisclosureGroup(content: {
+                    ForEach(section.rows) { row in
+                        HStack {
+                            MoneyRow(label: row.localizedDate, money: row.money)
                         }
-                    }, label: {
-                        HomeHeaderView(section: section)
-                    })
+                    }
+                }, label: {
+                    HomeHeaderView(section: section)
+                })
             }
         }
         .listStyle(GroupedListStyle())
