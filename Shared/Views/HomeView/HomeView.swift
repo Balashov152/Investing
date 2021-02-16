@@ -45,10 +45,8 @@ struct HomeView: View {
                 convertView
                 list
             }
-            .navigationBarItems(trailing: HStack {
-                sortedView
-                MainView.settingsNavigationLink
-            })
+
+            .navigationBarItems(leading: sortedView, trailing: MainView.settingsNavigationLink)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: viewModel.loadPositions)
         }
