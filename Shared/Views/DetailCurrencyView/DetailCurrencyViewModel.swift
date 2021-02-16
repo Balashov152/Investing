@@ -93,4 +93,3 @@ class DetailCurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
         return MoneyAmount(currency: currency, value: avg)
     }
 }
-
