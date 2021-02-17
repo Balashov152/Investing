@@ -14,6 +14,7 @@ extension UserDefault {
         case payInAvg, expandedHome
         case adjustedAverage
         case averageCurrency
+        case homeSortType
     }
 
     enum StorageKeys: String {

@@ -10,26 +10,28 @@ import InvestModels
 import SwiftUI
 
 struct PositionView: Hashable, Identifiable, LogoPosition {
-    init(position: Position) {
+    init(position: Position, percentInProfile: Double) {
         self.init(position: position,
+                  percentInProfile: percentInProfile,
                   expectedYield: position.expectedYield,
                   averagePositionPrice: position.averagePositionPrice,
                   averagePositionPriceNow: position.averagePositionPriceNow)
     }
 
-    init(currency: CurrencyPosition) {
+    init(currency: CurrencyPosition, percentInProfile: Double) {
         name = currency.currency.rawValue
         ticker = currency.currency.rawValue
         instrumentType = .Currency
         blocked = currency.blocked
         lots = 1 // currency.balance
         isin = currency.currency.rawValue
+        self.percentInProfile = percentInProfile
         expectedYield = MoneyAmount(currency: currency.currency, value: 0)
         averagePositionPrice = MoneyAmount(currency: currency.currency, value: currency.balance)
         averagePositionPriceNow = MoneyAmount(currency: currency.currency, value: currency.balance)
     }
 
-    init(position: Position, expectedYield: MoneyAmount,
+    init(position: Position, percentInProfile: Double, expectedYield: MoneyAmount,
          averagePositionPrice: MoneyAmount, averagePositionPriceNow: MoneyAmount)
     {
         name = position.name
@@ -40,6 +42,7 @@ struct PositionView: Hashable, Identifiable, LogoPosition {
 
         lots = Double(position.lots)
 
+        self.percentInProfile = percentInProfile
         self.expectedYield = expectedYield
         self.averagePositionPrice = averagePositionPrice
         self.averagePositionPriceNow = averagePositionPriceNow
@@ -55,6 +58,7 @@ struct PositionView: Hashable, Identifiable, LogoPosition {
 
     public let lots: Double
 
+    public let percentInProfile: Double
     public let expectedYield: MoneyAmount
     public let averagePositionPrice: MoneyAmount
     public let averagePositionPriceNow: MoneyAmount

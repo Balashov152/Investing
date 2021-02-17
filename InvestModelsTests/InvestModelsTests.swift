@@ -22,11 +22,27 @@ class InvestModelsTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
+    
+    lazy var sorted: [Int] = {
+        var array: [Int] = []
+        for i in 0...1_000_000 {
+            array.append(i)
+        }
+        return array
+    }()
+    
+    lazy var nonsorted: [Int] = {
+        var array: [Int] = []
+        for i in 0...1_000_000 {
+            array.append(Int.random(in: 0...1_000_000))
+        }
+        return array
+    }()
 
     func testPerformanceExample() throws {
-        // This is an example of a performance test case.
+        let sorted = nonsorted
         self.measure {
-            // Put the code you want to measure the time of here.
+            let sort = sorted.sorted()
         }
     }
 

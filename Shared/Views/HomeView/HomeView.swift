@@ -15,6 +15,8 @@ struct HomeView: View {
     @State var showingDetail = false
     @State var showingRates = false
 
+    @State var isRefreshing = true
+
     @State var expandedSections: Set<InstrumentType> {
         willSet {
             viewModel.env.settings.expandedHome = newValue
@@ -175,7 +177,7 @@ struct HomeView: View {
                             EmptyView()
                         }
                         .hidden()
-                    )
+                    ).padding(.leading, -10)
             case .Currency:
                 CurrencyPositionRowView(position: position)
             }

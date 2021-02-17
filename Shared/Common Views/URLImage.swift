@@ -15,6 +15,11 @@ struct URLImage<EndImage: View>: View {
 
     @State var fail: KingfisherError?
 
+    init(position: LogoPosition, @ViewBuilder configure: @escaping (KFImage) -> EndImage) {
+        url = InstrumentLogoService.logoUrl(for: position)!
+        self.configure = configure
+    }
+
     init(url: URL, @ViewBuilder configure: @escaping (KFImage) -> EndImage) {
         self.url = url
         self.configure = configure

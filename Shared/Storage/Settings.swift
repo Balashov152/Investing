@@ -25,4 +25,7 @@ struct Settings {
 
     @UserDefault(key: .averageCurrency, defaultValue: [:])
     var averageCurrency: [Currency: Double]
+
+    @UserDefault(key: .averageCurrency, defaultValue: .profit)
+    var homeSortType: HomeViewModel.SortType
 }

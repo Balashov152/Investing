@@ -41,4 +41,30 @@ extension Color {
             }
         })
     }
+
+    static var gray27: Color {
+        Color(UIColor { (collection) -> UIColor in
+            switch collection.userInterfaceStyle {
+            case .light, .unspecified:
+                return UIColor(white: 0.27, alpha: 1)
+            case .dark:
+                return UIColor(white: 0.73, alpha: 1)
+            @unknown default:
+                return UIColor(white: 0.73, alpha: 1)
+            }
+        })
+    }
+
+    static var gray34: Color {
+        Color(UIColor { (collection) -> UIColor in
+            switch collection.userInterfaceStyle {
+            case .light, .unspecified:
+                return UIColor(white: 0.34, alpha: 1)
+            case .dark:
+                return UIColor(white: 0.66, alpha: 1)
+            @unknown default:
+                return UIColor(white: 0.66, alpha: 1)
+            }
+        })
+    }
 }

@@ -65,7 +65,7 @@ extension HomeViewModel {
         }
     }
 
-    enum SortType: Int {
+    enum SortType: Int, Codable {
         case name, price, total, profit
 
         var text: String {
@@ -77,7 +77,12 @@ extension HomeViewModel {
 class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     var currencyPairServiceLatest: CurrencyPairServiceLatest { .shared }
 
-    @Published var sortType: SortType = .name
+    @Published var sortType: SortType {
+        willSet {
+            env.settings.homeSortType = newValue
+        }
+    }
+
     @Published var convertType: ConvertedType
 
     @Published var sections: [Section] = []
@@ -100,6 +105,8 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             convertType = .original
         }
 
+        sortType = env.settings.homeSortType
+
         super.init(env: env)
     }
 
@@ -115,42 +122,6 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
                                                   env.api().operationsService.$operations.dropFirst(),
                                                   changeSort)
             .receive(on: DispatchQueue.global()).share()
-
-        didChange
-            .map { [unowned self] positions, currencies, operations, tuple -> [Section] in
-                [InstrumentType.Stock, .Bond, .Etf, .Currency].compactMap { type -> HomeViewModel.Section? in
-                    switch type {
-                    case .Stock, .Bond, .Etf:
-                        let filtered = map(operations: operations, positions: positions, to: tuple.0)
-                            .filter { $0.instrumentType == .some(type) }
-                            .sorted {
-                                switch tuple.1 {
-                                case .name:
-                                    return $0.name.orEmpty < $1.name.orEmpty
-                                case .price:
-                                    return $0.averagePositionPriceNow.value > $1.averagePositionPriceNow.value
-                                case .profit:
-                                    return $0.expectedYield.value > $1.expectedYield.value
-                                case .total:
-                                    return $0.totalInProfile.value > $1.totalInProfile.value
-                                }
-                            }
-
-                        if !filtered.isEmpty {
-                            return Section(type: type, positions: filtered)
-                        }
-                        return nil
-                    case .Currency:
-                        let positions = currencies.map { currencyPos -> PositionView in
-                            PositionView(currency: currencyPos)
-                        }
-                        return Section(type: type, positions: positions)
-                    }
-                }
-            }
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.sections, on: self)
-            .store(in: &cancellables)
 
         didChange
             .map { positions, currencies, _, currencyType -> HomeViewModel.Total? in
@@ -180,6 +151,43 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             }
             .receive(on: DispatchQueue.main)
             .assign(to: \.convertedTotal, on: self)
+            .store(in: &cancellables)
+
+        didChange
+            .map { [unowned self] positions, currencies, operations, tuple -> [Section] in
+                [InstrumentType.Stock, .Bond, .Etf, .Currency].compactMap { type -> HomeViewModel.Section? in
+                    switch type {
+                    case .Stock, .Bond, .Etf:
+                        let filtered = map(operations: operations, positions: positions, to: tuple.0)
+                            .filter { $0.instrumentType == .some(type) }
+                            .sorted {
+                                switch tuple.1 {
+                                case .name:
+                                    return $0.name.orEmpty < $1.name.orEmpty
+                                case .price:
+                                    return $0.averagePositionPriceNow.value > $1.averagePositionPriceNow.value
+                                case .profit:
+                                    return $0.expectedYield.value > $1.expectedYield.value
+                                case .total:
+                                    return $0.totalInProfile.value > $1.totalInProfile.value
+                                }
+                            }
+
+                        if !filtered.isEmpty {
+                            return Section(type: type, positions: filtered)
+                        }
+                        return nil
+                    case .Currency:
+                        let positions = currencies.map { currencyPos -> PositionView in
+                            PositionView(currency: currencyPos,
+                                         percentInProfile: percentInProfile(total: currencyPos.balance))
+                        }
+                        return Section(type: type, positions: positions)
+                    }
+                }
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.sections, on: self)
             .store(in: &cancellables)
 
 //        startTimer()
@@ -225,21 +233,28 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
             switch currencyType {
             case let .currency(currency):
+                let avgNow = convert(money: position.averagePositionPriceNow, to: currency)
+                let totalInProfile = (avgNow.value * Double(position.lots)).addCurrency(currency)
+
                 return PositionView(position: position,
-                                    expectedYield: convert(money: expectedYield,
-                                                           to: currency),
-                                    averagePositionPrice: convert(money: averagePositionPrice,
-                                                                  to: currency),
-                                    averagePositionPriceNow: convert(money: position.averagePositionPriceNow,
-                                                                     to: currency))
+                                    percentInProfile: percentInProfile(total: totalInProfile.value),
+                                    expectedYield: convert(money: expectedYield, to: currency),
+                                    averagePositionPrice: convert(money: averagePositionPrice, to: currency),
+                                    averagePositionPriceNow: avgNow)
 
             case .original:
                 return PositionView(position: position,
+                                    percentInProfile: percentInProfile(total: position.totalInProfile.value),
                                     expectedYield: expectedYield,
                                     averagePositionPrice: averagePositionPrice,
                                     averagePositionPriceNow: position.averagePositionPriceNow)
             }
         }
+    }
+
+    private func percentInProfile(total: Double) -> Double {
+        guard let convertedTotal = convertedTotal else { return 0 }
+        return (total / convertedTotal.totalInProfile.value) * 100
     }
 
     private func convert(money: MoneyAmount, to currency: Currency) -> MoneyAmount {
