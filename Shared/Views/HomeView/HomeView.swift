@@ -59,7 +59,7 @@ struct HomeView: View {
             viewModel.sortType = HomeViewModel.SortType(rawValue: viewModel.sortType.rawValue + 1) ?? .name
         }, label: {
             Text(viewModel.sortType.text)
-                .font(.system(size: 14))
+//                .font(.system(size: 14))
         })
     }
 

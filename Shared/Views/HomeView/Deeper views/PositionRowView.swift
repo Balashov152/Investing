@@ -94,7 +94,7 @@ struct PositionRowView: View {
             }
         }
         .font(.system(size: 14, weight: .semibold))
-        .foregroundColor(Color.white)
+//        .foregroundColor(Color.white)
     }
 
     var rightStack: some View {
