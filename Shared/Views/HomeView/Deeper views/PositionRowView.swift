@@ -21,7 +21,7 @@ struct PositionRowView: View {
     }
 
     var top: some View {
-        HStack {
+        HStack(alignment: .top) {
             topNameStack
             Spacer()
             VStack(alignment: .trailing) {
@@ -84,17 +84,17 @@ struct PositionRowView: View {
 
     var leftStack: some View {
         VStack(alignment: .leading, spacing: 8.0) {
-            VStack(alignment: .leading, spacing: 2.0) {
+            VStack(alignment: .leading, spacing: 0) {
                 Text("average")
                 HStack(spacing: 4.0) {
                     CurrencyText(money: position.averagePositionPrice)
                     Text("|")
                     CurrencyText(money: position.totalBuyPayment)
-                }
+                }.lineLimit(1)
             }
         }
-        .font(.system(size: 12, weight: .semibold))
-        .foregroundColor(Color.gray27)
+        .font(.system(size: 14, weight: .semibold))
+        .foregroundColor(Color.white)
     }
 
     var rightStack: some View {
