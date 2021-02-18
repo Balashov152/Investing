@@ -70,13 +70,10 @@ struct ColumnView: View {
                 .font(.system(size: mainSize.width / 2, weight: .light))
                 .multilineTextAlignment(.center)
 
-            if let isin = column.position.isin {
-                URLImage(url: LogoService.logoUrl(for: isin)) { image in
-                    image
-                        .frame(width: mainSize.width, height: mainSize.width)
-                        .cornerRadius(mainSize.width / 2)
-                }
-            }
+            URLImage(position: column.position)
+                .frame(width: mainSize.width, height: mainSize.width)
+                .background(Color.litleGray)
+                .cornerRadius(mainSize.width / 2)
         }
     }
 

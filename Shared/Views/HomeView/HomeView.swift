@@ -12,9 +12,6 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
-
-    @State var isRefreshing = true
-
     @State var expandedSections: Set<InstrumentType> {
         willSet {
             viewModel.env.settings.expandedHome = newValue
@@ -28,7 +25,7 @@ struct HomeView: View {
     }
 
     func isExpandedSection(type: InstrumentType) -> Binding<Bool> {
-        .init { () -> Bool in
+        .init {
             expandedSections.contains(type)
         } set: { isExpand in
             if isExpand {
@@ -42,19 +39,10 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             list
-                .navigationBarItems(leading: sortedView, trailing: MainView.settingsNavigationLink)
+                .navigationBarItems(trailing: MainView.settingsNavigationLink)
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear(perform: viewModel.loadPositions)
         }
-    }
-
-    var sortedView: some View {
-        Button(action: {
-            viewModel.sortType = HomeViewModel.SortType(rawValue: viewModel.sortType.rawValue + 1) ?? .name
-        }, label: {
-            Text(viewModel.sortType.text)
-//                .font(.system(size: 14))
-        })
     }
 
     // MARK: Positions View

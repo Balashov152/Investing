@@ -6,30 +6,26 @@
 //
 
 import Foundation
+import InvestModels
 import Kingfisher
 import SwiftUI
 
-struct URLImage<EndImage: View>: View {
-    let url: URL
-    let configure: (KFImage) -> EndImage
+extension Position: LogoPosition {}
 
-    @State var fail: KingfisherError?
+struct URLImage: View {
+    let position: LogoPosition
 
-    init(position: LogoPosition, @ViewBuilder configure: @escaping (KFImage) -> EndImage) {
-        url = InstrumentLogoService.logoUrl(for: position)!
-        self.configure = configure
-    }
+    @State var text: String?
 
-    init(url: URL, @ViewBuilder configure: @escaping (KFImage) -> EndImage) {
-        self.url = url
-        self.configure = configure
+    init(position: LogoPosition) {
+        self.position = position
     }
 
     var body: some View {
-        if fail != nil {
-            configure(KFImage(nil))
-        } else {
-            configure(KFImage(url)
+        if let text = text {
+            Text(text)
+        } else if let url = InstrumentLogoService.logoUrl(for: position) {
+            KFImage(url)
                 .resizable()
                 .cancelOnDisappear(true)
                 .placeholder {
@@ -37,10 +33,13 @@ struct URLImage<EndImage: View>: View {
                 }
                 .onProgress { _, _ in }
                 .onSuccess { _ in }
-                .onFailure { fail in
-                    self.fail = fail
+                .onFailure { _ in
+                    let first = position.ticker ?? position.instrumentType.rawValue
+                    self.text = String(first.first!)
                 }
-            )
+        } else {
+            Text("E")
+                .background(Color.litleGray)
         }
     }
 }

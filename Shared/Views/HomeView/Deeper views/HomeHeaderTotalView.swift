@@ -76,9 +76,25 @@ struct HomeHeaderTotalView: View {
 
     var actionButtonsView: some View {
         HStack {
+            sortedButton
             allTimeButton
             ratesButton
         }
+    }
+
+    var sortedButton: some View {
+        Button(action: {
+            viewModel.sortType = HomeViewModel.SortType(rawValue: viewModel.sortType.rawValue + 1) ?? .name
+        }, label: {
+            VStack {
+                Text("sort on")
+                Text(viewModel.sortType.text)
+            }
+            .frame(maxWidth: .infinity, minHeight: 50)
+            .overlay(RoundedRectangle(cornerRadius: 5)
+                .stroke(Color.gray, lineWidth: 1)
+            )
+        })
     }
 
     var allTimeButton: some View {
@@ -88,7 +104,6 @@ struct HomeHeaderTotalView: View {
         .sheet(isPresented: $showingDetail) {
             ViewFactory.totalDetailView
         }
-        .padding(4)
         .overlay(RoundedRectangle(cornerRadius: 5)
             .stroke(Color.gray, lineWidth: 1)
         )
@@ -107,6 +122,9 @@ struct HomeHeaderTotalView: View {
             }
             .font(.body)
             .padding(4)
-            .buttonStyle(PlainButtonStyle())
+            .frame(maxWidth: .infinity, minHeight: 50)
+            .overlay(RoundedRectangle(cornerRadius: 5)
+                .stroke(Color.gray, lineWidth: 1)
+            )
     }
 }

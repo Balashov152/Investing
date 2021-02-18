@@ -52,14 +52,10 @@ struct PositionRowView: View {
     var topNameStack: some View {
         VStack(alignment: .leading) {
             HStack {
-                if let isin = position.isin {
-                    URLImage(url: LogoService.logoUrl(for: isin)) { image in
-                        image
-                            .scaledToFit()
-                            .cornerRadius(25)
-                            .frame(width: 50, height: 50)
-                    }
-                }
+                URLImage(position: position)
+                    .frame(width: 50, height: 50)
+                    .background(Color.litleGray)
+                    .cornerRadius(25)
 
                 VStack(alignment: .leading, spacing: 4.0) {
                     VStack(alignment: .leading, spacing: 0) {

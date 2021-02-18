@@ -22,13 +22,10 @@ struct HomeHeaderView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(section.positions, id: \.self) { position in
-                            if let url = InstrumentLogoService.logoUrl(for: position) {
-                                URLImage(url: url) { image in
-                                    image
-                                        .frame(width: 20, height: 20, alignment: .center)
-                                        .cornerRadius(10)
-                                }
-                            }
+                            URLImage(position: position)
+                                .frame(width: 20, height: 20, alignment: .center)
+                                .background(Color.litleGray)
+                                .cornerRadius(10)
                         }
                     }
                 }

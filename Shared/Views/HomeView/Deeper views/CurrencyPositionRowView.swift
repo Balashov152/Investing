@@ -14,14 +14,10 @@ struct CurrencyPositionRowView: View {
 
     var body: some View {
         HStack {
-            if let url = InstrumentLogoService.logoUrl(for: position) {
-                URLImage(url: url) { image in
-                    image
-                        .scaledToFit()
-                        .cornerRadius(25)
-                        .frame(width: 30, height: 30)
-                }
-            }
+            URLImage(position: position)
+                .frame(width: 30, height: 30)
+                .background(Color.litleGray)
+                .cornerRadius(15)
 
             Text(position.currency.rawValue).lineLimit(1)
                 .font(.system(size: 17, weight: .bold))
