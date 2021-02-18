@@ -34,7 +34,7 @@ struct HomeHeaderTotalView: View {
 
     var convertView: some View {
         HStack {
-            Text("You portfolio in")
+            Text("You portfolio in".localized)
                 .font(.system(size: 20, weight: .medium))
 
             ScrollView(.horizontal, showsIndicators: false) {
@@ -83,48 +83,67 @@ struct HomeHeaderTotalView: View {
     }
 
     var sortedButton: some View {
-        Button(action: {
+        BorderActionButton(action: {
             viewModel.sortType = HomeViewModel.SortType(rawValue: viewModel.sortType.rawValue + 1) ?? .name
-        }, label: {
-            VStack {
-                Text("sort on")
+        }, content: {
+            HStack {
+                Image(systemName: viewModel.sortType.systemImageName)
+                    .resizable()
+                    .frame(width: 15, height: 15, alignment: .center)
                 Text(viewModel.sortType.text)
             }
-            .frame(maxWidth: .infinity, minHeight: 50)
-            .overlay(RoundedRectangle(cornerRadius: 5)
-                .stroke(Color.gray, lineWidth: 1)
-            )
         })
     }
 
     var allTimeButton: some View {
-        ActionButton(title: "Detail") {
+        BorderActionButton(action: {
             self.showingDetail.toggle()
-        }
-        .sheet(isPresented: $showingDetail) {
-            ViewFactory.totalDetailView
-        }
-        .overlay(RoundedRectangle(cornerRadius: 5)
-            .stroke(Color.gray, lineWidth: 1)
-        )
+        }, content: {
+            HStack {
+                Image(systemName: "list.bullet")
+                    .resizable()
+                    .frame(width: 15, height: 15, alignment: .center)
+                Text("Total".localized)
+            }
+        })
+            .sheet(isPresented: $showingDetail) {
+                ViewFactory.totalDetailView
+            }
     }
 
     var ratesButton: some View {
-        Button(action: {
+        BorderActionButton(action: {
             self.showingRates.toggle()
-        }, label: {
-            Image(systemName: "arrow.left.arrow.right.circle")
-                .resizable()
-                .frame(width: 25, height: 25, alignment: .center)
+        }, content: {
+            HStack {
+                Image(systemName: "arrow.left.arrow.right.circle")
+                    .resizable()
+                    .frame(width: 20, height: 20, alignment: .center)
+                Text("Rates")
+            }
+
         })
             .sheet(isPresented: $showingRates) {
                 ViewFactory.ratesView
             }
-            .font(.body)
-            .padding(4)
-            .frame(maxWidth: .infinity, minHeight: 50)
-            .overlay(RoundedRectangle(cornerRadius: 5)
-                .stroke(Color.gray, lineWidth: 1)
-            )
+    }
+}
+
+struct BorderActionButton<Content: View>: View {
+    let action: () -> Void
+    let content: () -> (Content)
+
+    var body: some View {
+        Button(action: action, label: {
+            content()
+//            .font(.body)
+                .padding(4)
+                .cornerRadius(5)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: .infinity, minHeight: 50)
+                .overlay(RoundedRectangle(cornerRadius: 5)
+                    .stroke(Color.gray, lineWidth: 1)
+                )
+        })
     }
 }

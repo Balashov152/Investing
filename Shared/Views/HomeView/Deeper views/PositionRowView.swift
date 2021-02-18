@@ -34,7 +34,7 @@ struct PositionRowView: View {
 //                .cornerRadius(5)
 
                 if position.percentInProfile > 0 {
-                    Text("weight " + position.percentInProfile.string(f: ".2") + "%")
+                    Text("weight".localized + " " + position.percentInProfile.string(f: ".2") + "%")
                         .font(.system(size: 12, weight: .regular))
                 }
             }

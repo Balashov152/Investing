@@ -69,7 +69,16 @@ extension HomeViewModel {
         case name, price, total, profit
 
         var text: String {
-            "\(self)"
+            "\(self)".capitalized
+        }
+
+        var systemImageName: String {
+            switch self {
+            case .profit, .price, .total:
+                return "arrow.up"
+            case .name:
+                return "arrow.down"
+            }
         }
     }
 }

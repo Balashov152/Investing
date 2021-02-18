@@ -1,0 +1,13 @@
+/* 
+  localize.strings
+  Investing
+
+  Created by Sergey Balashov on 18.02.2021.
+  
+*/
+
+"You portfolio in" = "Ваш портфель в";
+"Total" = "Итоги";
+
+"sort on" = "сортировать";
+"weight" = "вес";
