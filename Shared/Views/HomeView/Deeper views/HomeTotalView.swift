@@ -12,18 +12,15 @@ struct HomeTotalView: View {
     let model: TotalViewModeble
 
     var body: some View {
-        HStack {
-            if model.totalInProfile.value > 0 {
-                VStack(alignment: .leading) {
-                    CurrencyText(money: model.totalInProfile)
-                        .font(.system(size: 20, weight: .medium))
+        VStack(alignment: .leading) {
+            CurrencyText(money: model.totalInProfile)
+                .font(.system(size: 30, weight: .bold))
 
-                    HStack {
-                        MoneyText(money: model.expectedProfile)
-                        PercentText(percent: model.percent)
-                    }
+            HStack(spacing: 4.0) {
+                MoneyText(money: model.expectedProfile)
+                    .font(.system(size: 16, weight: .medium))
+                PercentText(percent: model.percent)
                     .font(.system(size: 14, weight: .regular))
-                }
             }
         }
     }

@@ -12,8 +12,6 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
-    @State var showingDetail = false
-    @State var showingRates = false
 
     @State var isRefreshing = true
 
@@ -43,14 +41,10 @@ struct HomeView: View {
 
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading, spacing: 0) {
-                convertView
-                list
-            }
-
-            .navigationBarItems(leading: sortedView, trailing: MainView.settingsNavigationLink)
-            .navigationBarTitleDisplayMode(.inline)
-            .onAppear(perform: viewModel.loadPositions)
+            list
+                .navigationBarItems(leading: sortedView, trailing: MainView.settingsNavigationLink)
+                .navigationBarTitleDisplayMode(.inline)
+                .onAppear(perform: viewModel.loadPositions)
         }
     }
 
@@ -63,111 +57,29 @@ struct HomeView: View {
         })
     }
 
-    var totalTitleView: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text("Total")
-                    .font(.largeTitle).bold()
-                Spacer()
-                if viewModel.convertType != .original {
-                    Button("Detail", action: {
-                        self.showingDetail.toggle()
-                    }).sheet(isPresented: $showingDetail) {
-                        ViewFactory.totalDetailView
-                    }
-                    .padding(4)
-                    .overlay(RoundedRectangle(cornerRadius: 5)
-                        .stroke(Color.gray, lineWidth: 1)
-                    )
-                    .buttonStyle(PlainButtonStyle())
-                }
-            }
-            Group {
-                switch viewModel.convertType {
-                case .original:
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(viewModel.currenciesInPositions.indexed(), id: \.element) { index, currency in
-                                if index != 0 { Divider() }
-                                HomeTotalView(model: TotalViewModel(currency: currency, positions: viewModel.positions))
-                            }
-                        }
-                    }
-                case .currency:
-                    if let convertedTotal = viewModel.convertedTotal {
-                        HomeTotalView(model: convertedTotal)
-                    }
-                }
-            }
-            .frame(height: 44)
-            .animation(.easeInOut)
-        }
-    }
-
-    var convertView: some View {
-        VStack(spacing: 0) {
-            VStack(spacing: 8) {
-                HStack {
-                    Text("Convert")
-                        .font(.system(size: 20, weight: .medium))
-                    Spacer(minLength: 16)
-                    segment
-
-                    Button(action: {
-                        self.showingRates.toggle()
-                    }, label: {
-                        Image(systemName: "arrow.left.arrow.right.circle")
-                            .resizable()
-                            .frame(width: 25, height: 25, alignment: .center)
-                    }).sheet(isPresented: $showingRates) {
-                        ViewFactory.ratesView
-                    }
-                    .font(.body)
-                    .padding(4)
-                    .buttonStyle(PlainButtonStyle())
-                }
-            }.padding()
-
-            Divider()
-        }
-    }
-
-    var segment: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack {
-                ForEach(viewModel.positions.map { $0.currency }.unique.sorted(by: >), id: \.self) { currency in
-                    BackgroundButton(title: currency.rawValue, isSelected: viewModel.convertType == .currency(currency)) {
-                        if viewModel.convertType == .currency(currency) {
-                            viewModel.convertType = .original
-                        } else {
-                            viewModel.convertType = .currency(currency)
-                        }
-                    }
-                }
-            }.font(.system(size: 17, weight: .semibold))
-        }
-    }
+    // MARK: Positions View
 
     var list: some View {
-        List {
-            totalTitleView
+        ScrollView {
+            HomeHeaderTotalView(viewModel: viewModel)
             ForEach(viewModel.sections) { section in
-                Section {
-                    DisclosureGroup(isExpanded: isExpandedSection(type: section.type),
-                                    content: {
-                                        groupContent(section: section)
-                                    },
-                                    label: {
-                                        HomeHeaderView(section: section)
-                                    })
-                }
+                DisclosureGroup(isExpanded: isExpandedSection(type: section.type),
+                                content: {
+                                    groupContent(section: section)
+                                },
+                                label: {
+                                    HomeHeaderView(section: section)
+                                })
+                Divider()
             }
+            .padding([.leading, .trailing], 16)
         }
-        .listStyle(GroupedListStyle())
     }
 
     func groupContent(section: HomeViewModel.Section) -> some View {
         ForEach(section.positions, id: \.self, content: { position in
+            Divider()
+
             switch position.instrumentType {
             case .Stock, .Bond, .Etf:
                 PositionRowView(position: position)
@@ -177,7 +89,8 @@ struct HomeView: View {
                             EmptyView()
                         }
                         .hidden()
-                    ).padding(.leading, -10)
+                    )
+                    .padding(.leading, 10)
             case .Currency:
                 CurrencyPositionRowView(position: position)
             }

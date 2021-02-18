@@ -201,6 +201,8 @@
 		EF9CD35125B232430043E9E1 /* DetailCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9CD34F25B232430043E9E1 /* DetailCurrencyView.swift */; };
 		EFA92D4A25DD5F70008DD8D0 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92D4925DD5F70008DD8D0 /* PullToRefresh.swift */; };
 		EFA92D4B25DD5F70008DD8D0 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92D4925DD5F70008DD8D0 /* PullToRefresh.swift */; };
+		EFA92DE725DE9B2D008DD8D0 /* HomeHeaderTotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92DE625DE9B2C008DD8D0 /* HomeHeaderTotalView.swift */; };
+		EFA92DE825DE9B2D008DD8D0 /* HomeHeaderTotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92DE625DE9B2C008DD8D0 /* HomeHeaderTotalView.swift */; };
 		EFB534C52591E17300C93C3C /* CurrencyPairR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB534C42591E17300C93C3C /* CurrencyPairR.swift */; };
 		EFB534CF2591E18200C93C3C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534CE2591E18200C93C3C /* Realm */; };
 		EFB534D12591E18200C93C3C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534D02591E18200C93C3C /* RealmSwift */; };
@@ -425,6 +427,7 @@
 		EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoyaTask+Ex.swift"; sourceTree = "<group>"; };
 		EF9CD34F25B232430043E9E1 /* DetailCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCurrencyView.swift; sourceTree = "<group>"; };
 		EFA92D4925DD5F70008DD8D0 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
+		EFA92DE625DE9B2C008DD8D0 /* HomeHeaderTotalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderTotalView.swift; sourceTree = "<group>"; };
 		EFB534C42591E17300C93C3C /* CurrencyPairR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairR.swift; sourceTree = "<group>"; };
 		EFB5354D2592209500C93C3C /* CurrencyPairService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairService.swift; sourceTree = "<group>"; };
 		EFB535D72592450200C93C3C /* Enviroment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enviroment.swift; sourceTree = "<group>"; };
@@ -712,6 +715,7 @@
 				EF3EBBD725C955DC002F5469 /* CurrencyPositionRowView.swift */,
 				EF66854A25D70B270090FAA1 /* HomeHeaderView.swift */,
 				EF66855125D70B4A0090FAA1 /* HomeTotalView.swift */,
+				EFA92DE625DE9B2C008DD8D0 /* HomeHeaderTotalView.swift */,
 			);
 			path = "Deeper views";
 			sourceTree = "<group>";
@@ -1443,6 +1447,7 @@
 				EF54169C25C063E5007EA38D /* Identifiable+Ex.swift in Sources */,
 				EF66851625D708810090FAA1 /* MainViewModel.swift in Sources */,
 				EF95209425C00F2B0006FD97 /* PosotionInfoRow.swift in Sources */,
+				EFA92DE725DE9B2D008DD8D0 /* HomeHeaderTotalView.swift in Sources */,
 				EF6684BE25D1761D0090FAA1 /* TargetsViewModel.swift in Sources */,
 				EF6685AA25D70EBF0090FAA1 /* SettingsViewModel.swift in Sources */,
 				EF9581BD25909F2A00D559E7 /* StringConvertible.swift in Sources */,
@@ -1573,6 +1578,7 @@
 				EF66855325D70B4A0090FAA1 /* HomeTotalView.swift in Sources */,
 				EF84A96C25C09D780081F857 /* NavigationLazyView.swift in Sources */,
 				EF1281E625B202D40018E5FC /* BackgroundButton.swift in Sources */,
+				EFA92DE825DE9B2D008DD8D0 /* HomeHeaderTotalView.swift in Sources */,
 				EFD60C3E25B42C2D003337C2 /* UserDefaultWrapper.swift in Sources */,
 				EF4C38D125B8468200A3AB5D /* IndexedCollection.swift in Sources */,
 				EF66851025D707EF0090FAA1 /* PayInViewModel.swift in Sources */,
