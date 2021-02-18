@@ -14,11 +14,11 @@ struct HomeHeaderView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            HStack {
+            HStack(spacing: 16) {
                 Text(section.sectionHeader)
-                    .font(.system(size: 18, weight: .medium))
+                    .font(.system(size: 20, weight: .semibold))
                     .textCase(.uppercase)
-                Spacer(minLength: 16)
+
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {
                         ForEach(section.positions, id: \.self) { position in
