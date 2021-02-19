@@ -13,6 +13,7 @@ extension UserDefault {
         case dateInterval
         case payInAvg, expandedHome
         case adjustedAverage
+        case adjustedTotal
         case averageCurrency
         case homeSortType
     }

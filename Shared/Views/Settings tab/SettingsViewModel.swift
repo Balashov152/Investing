@@ -28,12 +28,32 @@ extension SettingsViewModel {
 }
 
 class SettingsViewModel: EnvironmentCancebleObject, ObservableObject {
-    @Published var startDate: Date = Settings.shared.dateInterval.start
-    @Published var endDate: Date = Settings.shared.dateInterval.end
+    @Published var startDate: Date
+    @Published var endDate: Date
 
-    @Published var adjustedAverage: Bool = Settings.shared.adjustedAverage
+    @Published var adjustedAverage: Bool {
+        willSet {
+            env.settings.adjustedAverage = newValue
+        }
+    }
+
+    @Published var adjustedTotal: Bool {
+        willSet {
+            env.settings.adjustedTotal = newValue
+        }
+    }
 
     @Published var sections: [Section] = Section.TypeSection.allCases.map(Section.init)
+
+    override init(env: Environment = .current) {
+        startDate = env.settings.dateInterval.start
+        endDate = env.settings.dateInterval.end
+
+        adjustedAverage = env.settings.adjustedAverage
+        adjustedTotal = env.settings.adjustedTotal
+
+        super.init(env: env)
+    }
 
     override func bindings() {
         super.bindings()
@@ -45,9 +65,5 @@ class SettingsViewModel: EnvironmentCancebleObject, ObservableObject {
             .sink(receiveValue: { dateInterval in
                 Settings.shared.dateInterval = dateInterval
             }).store(in: &cancellables)
-
-        $adjustedAverage.sink(receiveValue: { adjustedAverage in
-            Settings.shared.adjustedAverage = adjustedAverage
-        }).store(in: &cancellables)
     }
 }

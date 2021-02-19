@@ -11,8 +11,7 @@ import InvestModels
 struct Settings {
     static var shared = Settings()
 
-    @UserDefault(key: .expandedHome, defaultValue: [])
-    var expandedHome: Set<InstrumentType>
+    // MARK: Settings
 
     @UserDefault(key: .currency, defaultValue: nil)
     var currency: Currency?
@@ -23,9 +22,19 @@ struct Settings {
     @UserDefault(key: .adjustedAverage, defaultValue: false)
     var adjustedAverage: Bool
 
+    @UserDefault(key: .adjustedTotal, defaultValue: false)
+    var adjustedTotal: Bool
+
+    // MARK: Home
+
+    @UserDefault(key: .expandedHome, defaultValue: [])
+    var expandedHome: Set<InstrumentType>
+
+    @UserDefault(key: .homeSortType, defaultValue: .profit)
+    var homeSortType: HomeViewModel.SortType
+
+    // MARK: Currency
+
     @UserDefault(key: .averageCurrency, defaultValue: [:])
     var averageCurrency: [Currency: Double]
-
-    @UserDefault(key: .averageCurrency, defaultValue: .profit)
-    var homeSortType: HomeViewModel.SortType
 }

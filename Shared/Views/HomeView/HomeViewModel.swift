@@ -46,6 +46,13 @@ extension HomeViewModel {
         case original
         case currency(Currency)
 
+        var currencyValue: Currency? {
+            if case let .currency(currency) = self {
+                return currency
+            }
+            return nil
+        }
+
         var localize: String {
             switch self {
             case let .currency(currency):
@@ -81,10 +88,22 @@ extension HomeViewModel {
             }
         }
     }
+
+    struct ConvertSortModel {
+        let convert: ConvertedType
+        let sort: SortType
+    }
+
+    struct Sources {
+        let positions: [Position]
+        let currencies: [CurrencyPosition]
+        let operations: [Operation]
+    }
 }
 
 class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     var currencyPairServiceLatest: CurrencyPairServiceLatest { .shared }
+    // Input
 
     @Published var sortType: SortType {
         willSet {
@@ -92,16 +111,27 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
         }
     }
 
-    @Published var convertType: ConvertedType
+    @Published var convertType: ConvertedType {
+        willSet {
+            switch newValue {
+            case .original:
+                env.settings.currency = nil
+            case let .currency(currency):
+                env.settings.currency = currency
+            }
+        }
+    }
 
+    // Output
     @Published var sections: [Section] = []
-    @Published var convertedTotal: Total?
-
     @Published var currencies: [CurrencyPosition] = []
 
     var timer: Timer?
+    var convertedTotal: Total?
 
-    var positions: [Position] { env.api().positionService.positions }
+    var positions: [Position] {
+        env.api().positionService.positions
+    }
 
     var currenciesInPositions: [Currency] {
         positions.map { $0.currency }.unique.sorted(by: >)
@@ -121,94 +151,28 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         super.bindings()
-        let changeSort = Publishers.CombineLatest($convertType.removeDuplicates(),
-                                                  $sortType.removeDuplicates()).handleEvents(receiveOutput: { _ in
-            Vibration.selection.vibrate()
-        })
+        let changeConvertSort = Publishers.CombineLatest($convertType.removeDuplicates(),
+                                                         $sortType.removeDuplicates())
+            .map { ConvertSortModel(convert: $0, sort: $1) }
 
-        let didChange = Publishers.CombineLatest4(env.api().positionService.$positions.dropFirst(),
-                                                  env.api().positionService.$currencies.dropFirst(),
-                                                  env.api().operationsService.$operations.dropFirst(),
-                                                  changeSort)
+        let changeSourses = Publishers.CombineLatest3(env.api().positionService.$positions.dropFirst(),
+                                                      env.api().positionService.$currencies.dropFirst(),
+                                                      env.api().operationsService.$operations.dropFirst())
+            .map { Sources(positions: $0, currencies: $1, operations: $2) }
+
+        let didChangeView = Publishers
+            .CombineLatest(changeConvertSort, changeSourses)
             .receive(on: DispatchQueue.global()).share()
 
-        didChange
-            .map { positions, currencies, _, currencyType -> HomeViewModel.Total? in
-                switch currencyType.0 {
-                case let .currency(currency):
-                    let totalInProfile = positions.reduce(0) { [unowned self] (result, position) -> Double in
-                        result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                                money: position.totalInProfile,
-                                                                to: currency).value
-                    } + currencies.reduce(0) { [unowned self] (result, currencyPosition) -> Double in
-                        result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                                money: currencyPosition.money,
-                                                                to: currency).value
-                    }
+        changeConvertSort.dropFirst().sink(receiveValue: { _ in
+            Vibration.selection.vibrate()
+        }).store(in: &cancellables)
 
-                    let expectedProfile = positions.reduce(0) { [unowned self] (result, position) -> Double in
-                        result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                                money: position.expectedYield,
-                                                                to: currency).value
-                    }
-
-                    return Total(totalInProfile: totalInProfile.addCurrency(currency),
-                                 expectedProfile: expectedProfile.addCurrency(currency))
-                case .original:
-                    return nil
-                }
-            }
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.convertedTotal, on: self)
-            .store(in: &cancellables)
-
-        didChange
-            .map { [unowned self] positions, currencies, operations, tuple -> [Section] in
-                [InstrumentType.Stock, .Bond, .Etf, .Currency].compactMap { type -> HomeViewModel.Section? in
-                    switch type {
-                    case .Stock, .Bond, .Etf:
-                        let filtered = map(operations: operations, positions: positions, to: tuple.0)
-                            .filter { $0.instrumentType == .some(type) }
-                            .sorted {
-                                switch tuple.1 {
-                                case .name:
-                                    return $0.name.orEmpty < $1.name.orEmpty
-                                case .price:
-                                    return $0.averagePositionPriceNow.value > $1.averagePositionPriceNow.value
-                                case .profit:
-                                    return $0.expectedYield.value > $1.expectedYield.value
-                                case .total:
-                                    return $0.totalInProfile.value > $1.totalInProfile.value
-                                }
-                            }
-
-                        if !filtered.isEmpty {
-                            return Section(type: type, positions: filtered)
-                        }
-                        return nil
-                    case .Currency:
-                        let positions = currencies.map { currencyPos -> PositionView in
-                            PositionView(currency: currencyPos,
-                                         percentInProfile: percentInProfile(total: currencyPos.balance))
-                        }
-                        return Section(type: type, positions: positions)
-                    }
-                }
-            }
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.sections, on: self)
-            .store(in: &cancellables)
+        didChangeView.sink(receiveValue: { [unowned self] convertSortModel, sourses in
+            changeView(convertSortModel: convertSortModel, sources: sourses)
+        }).store(in: &cancellables)
 
 //        startTimer()
-
-        $convertType.dropFirst().sink(receiveValue: { value in
-            switch value {
-            case .original:
-                Settings.shared.currency = nil
-            case let .currency(currency):
-                Settings.shared.currency = currency
-            }
-        }).store(in: &cancellables)
     }
 
     public func loadPositions() {
@@ -217,14 +181,98 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
         env.api().operationsService.getOperations(request: .init(env: env))
     }
 
+    private func changeView(convertSortModel: ConvertSortModel, sources: Sources) {
+        let total = convertTotal(sources: sources, currency: convertSortModel.convert.currencyValue ?? .USD)
+//        DispatchQueue.main.async {
+        convertedTotal = total
+//        }
+
+        let sections = setupSections(convertSortModel: convertSortModel, sources: sources)
+        DispatchQueue.main.async {
+            self.sections = sections
+        }
+    }
+
+    private func convertTotal(sources: Sources, currency: Currency) -> Total {
+        let positions = sources.positions
+        let currencies = sources.currencies
+
+        let totalInProfile = positions.reduce(0) { (result, position) -> Double in
+            result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+                                                    money: position.totalInProfile,
+                                                    to: currency).value
+        }.addCurrency(currency)
+
+        let currenciesInProfile = currencies.reduce(0) { (result, currencyPosition) -> Double in
+            result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+                                                    money: currencyPosition.money,
+                                                    to: currency).value
+        }.addCurrency(currency)
+
+        var expectedProfile: MoneyAmount
+
+        if env.settings.adjustedTotal {
+            let operations = sources.operations.filter { $0.instrumentType != .some(.Currency) }
+            let sell = operations.totalSell(to: currency)
+            let buy = operations.totalBuy(to: currency)
+//            debugPrint("sell", sell.value, "buy", buy.value)
+            expectedProfile = sell + buy + totalInProfile
+
+        } else {
+            expectedProfile = positions.reduce(0) { (result, position) -> Double in
+                result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+                                                        money: position.expectedYield,
+                                                        to: currency).value
+            }.addCurrency(currency)
+        }
+
+        return Total(totalInProfile: totalInProfile + currenciesInProfile,
+                     expectedProfile: expectedProfile)
+    }
+
+    private func setupSections(convertSortModel: ConvertSortModel, sources: Sources) -> [Section] {
+        [InstrumentType.Stock, .Bond, .Etf, .Currency].compactMap { type -> HomeViewModel.Section? in
+            let positions = sources.positions.filter { $0.instrumentType == type }
+
+            switch type {
+            case .Stock, .Bond, .Etf:
+                let filtered = map(operations: sources.operations, positions: positions,
+                                   to: convertSortModel.convert).sorted {
+                    switch sortType {
+                    case .name:
+                        return $0.name.orEmpty < $1.name.orEmpty
+                    case .price:
+                        return $0.averagePositionPriceNow.value > $1.averagePositionPriceNow.value
+                    case .profit:
+                        return $0.expectedYield.value > $1.expectedYield.value
+                    case .total:
+                        return $0.totalInProfile.value > $1.totalInProfile.value
+                    }
+                }
+
+                if !filtered.isEmpty {
+                    return Section(type: type, positions: filtered)
+                }
+                return nil
+            case .Currency:
+                let positions = sources.currencies.map { currencyPos -> PositionView in
+                    PositionView(currency: currencyPos,
+                                 percentInProfile: percentInProfile(total: currencyPos.balance))
+                }
+                return Section(type: type, positions: positions)
+            }
+        }
+    }
+
     private func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: { [unowned self] _ in
             loadPositions()
         })
     }
 
-    private func map(operations: [Operation], positions: [Position], to currencyType: ConvertedType) -> [PositionView] {
-        positions.map { position -> PositionView in
+    private func map(operations: [Operation], positions: [Position], to currencyType: ConvertedType) -> [PositionView]
+    {
+        return positions.map { position -> PositionView in
             let expectedYield: MoneyAmount
             let averagePositionPrice: MoneyAmount
 

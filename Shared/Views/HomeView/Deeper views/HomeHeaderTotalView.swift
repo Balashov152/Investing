@@ -76,9 +76,9 @@ struct HomeHeaderTotalView: View {
 
     var actionButtonsView: some View {
         HStack {
-            sortedButton
-            allTimeButton
             ratesButton
+            allTimeButton
+            sortedButton
         }
     }
 
@@ -119,7 +119,7 @@ struct HomeHeaderTotalView: View {
                 Image(systemName: "arrow.left.arrow.right.circle")
                     .resizable()
                     .frame(width: 20, height: 20, alignment: .center)
-                Text("Rates")
+                Text("Rates".localized)
             }
 
         })

@@ -614,7 +614,6 @@
 		EF54166125C06156007EA38D /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				EF76A10F257FB55000991AE3 /* Settings.swift */,
 				EF76A0FF257FB4BE00991AE3 /* Storage.swift */,
 				EFD60C3C25B42C2D003337C2 /* UserDefaultWrapper.swift */,
 			);
@@ -629,6 +628,7 @@
 				EFB535D72592450200C93C3C /* Enviroment.swift */,
 				EF6684F325D706CB0090FAA1 /* DateInterval.swift */,
 				EF6684FA25D706E20090FAA1 /* API.swift */,
+				EF76A10F257FB55000991AE3 /* Settings.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
