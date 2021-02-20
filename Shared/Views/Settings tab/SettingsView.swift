@@ -47,6 +47,7 @@ struct SettingsView: View {
                     case .analytics:
                         VStack {
                             adjustedAverage
+                            Divider()
                             adjustedTotal
                             Divider()
                             startPicker
@@ -102,10 +103,12 @@ struct SettingsView: View {
 
     var adjustedAverage: some View {
         Toggle("Adjusted average price", isOn: $viewModel.adjustedAverage)
+            .font(.system(size: 15))
     }
 
     var adjustedTotal: some View {
         Toggle("Adjusted total portfolio", isOn: $viewModel.adjustedTotal)
+            .font(.system(size: 15))
     }
 }
 

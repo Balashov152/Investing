@@ -65,7 +65,9 @@ struct HomeHeaderTotalView: View {
                     }
                 }
             case .currency:
-                if let convertedTotal = viewModel.convertedTotal {
+                if let convertedTotal = viewModel.convertedTotal,
+                   convertedTotal.currency == viewModel.convertType.currencyValue
+                {
                     HomeTotalView(model: convertedTotal)
                 } else {
                     ProgressView()

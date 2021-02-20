@@ -11,7 +11,7 @@ import InvestModels
 import Moya
 
 struct AccountService {
-    let provider = ApiProvider<ProfileAPI>()
+    let provider: ApiProvider<ProfileAPI>
 
     func getAccounts() -> AnyPublisher<[Account], MoyaError> {
         provider.request(.getProfile)

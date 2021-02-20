@@ -13,7 +13,11 @@ import Moya
 import UIKit
 
 class ApiProvider<Target>: MoyaProvider<Target> where Target: TargetType {
-    init() {
+    let isSandbox: Bool
+
+    init(isSandbox: Bool) {
+        self.isSandbox = isSandbox
+
         var plugins: [PluginType] = []
         plugins.append(BearerTokenPlugin())
 
@@ -45,11 +49,14 @@ class ApiProvider<Target>: MoyaProvider<Target> where Target: TargetType {
 
 extension TargetType {
     var baseURL: URL {
-        URL(string: "https://api-invest.tinkoff.ru/openapi")!
+        if Settings.shared.isSandbox {
+            return URL(string: "https://api-invest.tinkoff.ru/openapi/sandbox")!
+        } else {
+            return URL(string: "https://api-invest.tinkoff.ru/openapi")!
+        }
     }
 
     var headers: [String: String]? { nil }
-
     var sampleData: Data { Data() }
 }
 
@@ -78,6 +85,21 @@ extension Response {
 }
 
 struct BearerTokenPlugin: PluginType {
+    public func prepare(_ request: URLRequest, target _: TargetType) -> URLRequest {
+        var request = request
+        let authValue = AuthorizationType.bearer.value + " " + Storage.token
+        request.addValue(authValue, forHTTPHeaderField: "Authorization")
+        return request
+    }
+}
+
+struct SandboxPlugin: PluginType {
+    let isSandbox: Bool
+
+    internal init(isSandbox: Bool) {
+        self.isSandbox = isSandbox
+    }
+
     public func prepare(_ request: URLRequest, target _: TargetType) -> URLRequest {
         var request = request
         let authValue = AuthorizationType.bearer.value + " " + Storage.token

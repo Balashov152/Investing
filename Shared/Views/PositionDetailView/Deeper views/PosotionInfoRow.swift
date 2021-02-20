@@ -14,10 +14,15 @@ struct PosotionInfoRow: View {
 
     var body: some View {
         HStack {
-            Text(label)
+            VStack(alignment: .leading) {
+                Text(label)
+                    .font(.system(size: 15))
+                Text(changes.count.string + "pcs")
+                    .font(.system(size: 13))
+                    .foregroundColor(.gray)
+            }
             Spacer()
             CurrencyText(money: changes.money)
-            Text(changes.count.string)
         }
     }
 }

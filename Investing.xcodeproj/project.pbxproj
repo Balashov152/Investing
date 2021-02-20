@@ -15,6 +15,12 @@
 		EF1281F825B2039A0018E5FC /* EdgeInsets+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1281F625B2039A0018E5FC /* EdgeInsets+Ex.swift */; };
 		EF1281FF25B203C20018E5FC /* Array+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1281FE25B203C20018E5FC /* Array+Ex.swift */; };
 		EF12820025B203C20018E5FC /* Array+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1281FE25B203C20018E5FC /* Array+Ex.swift */; };
+		EF15F25A25E1341E00F281F8 /* BlockedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F25925E1341E00F281F8 /* BlockedText.swift */; };
+		EF15F25B25E1341E00F281F8 /* BlockedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F25925E1341E00F281F8 /* BlockedText.swift */; };
+		EF15F26225E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F26125E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift */; };
+		EF15F26325E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F26125E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift */; };
+		EF15F26D25E151D600F281F8 /* Currency+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F26C25E151D600F281F8 /* Currency+Ex.swift */; };
+		EF15F26E25E151D600F281F8 /* Currency+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F26C25E151D600F281F8 /* Currency+Ex.swift */; };
 		EF249EA425C35D210064C9C6 /* TargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF249EA325C35D210064C9C6 /* TargetsView.swift */; };
 		EF249EA525C35D210064C9C6 /* TargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF249EA325C35D210064C9C6 /* TargetsView.swift */; };
 		EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
@@ -324,6 +330,9 @@
 		EF1281E425B202D40018E5FC /* BackgroundButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundButton.swift; sourceTree = "<group>"; };
 		EF1281F625B2039A0018E5FC /* EdgeInsets+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EdgeInsets+Ex.swift"; sourceTree = "<group>"; };
 		EF1281FE25B203C20018E5FC /* Array+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ex.swift"; sourceTree = "<group>"; };
+		EF15F25925E1341E00F281F8 /* BlockedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedText.swift; sourceTree = "<group>"; };
+		EF15F26125E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalNumberOnlyViewModifier.swift; sourceTree = "<group>"; };
+		EF15F26C25E151D600F281F8 /* Currency+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency+Ex.swift"; sourceTree = "<group>"; };
 		EF249EA325C35D210064C9C6 /* TargetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetsView.swift; sourceTree = "<group>"; };
 		EF27F73025B089FA00E83EE3 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		EF3EBBD725C955DC002F5469 /* CurrencyPositionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPositionRowView.swift; sourceTree = "<group>"; };
@@ -544,6 +553,7 @@
 		EF1281E325B202C50018E5FC /* Common Views */ = {
 			isa = PBXGroup;
 			children = (
+				EF15F26025E150A600F281F8 /* View Modifiers */,
 				EF79B7B025B1BE3A005C2EB8 /* PlainSection.swift */,
 				EF1281E425B202D40018E5FC /* BackgroundButton.swift */,
 				EF5416AD25C0648B007EA38D /* CurrencyRow.swift */,
@@ -553,6 +563,7 @@
 				EF84A96A25C09D780081F857 /* NavigationLazyView.swift */,
 				EF8104EA25D40B4D00B73406 /* ActionButton.swift */,
 				EF3ED2C125BAD6CA00B25464 /* URLImage.swift */,
+				EF15F25925E1341E00F281F8 /* BlockedText.swift */,
 			);
 			path = "Common Views";
 			sourceTree = "<group>";
@@ -580,6 +591,14 @@
 				EF66857625D70C470090FAA1 /* CurrencyViewModel.swift */,
 			);
 			path = CurrencyView;
+			sourceTree = "<group>";
+		};
+		EF15F26025E150A600F281F8 /* View Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				EF15F26125E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift */,
+			);
+			path = "View Modifiers";
 			sourceTree = "<group>";
 		};
 		EF249EA225C35CFC0064C9C6 /* TargetsView */ = {
@@ -641,6 +660,7 @@
 				EF54167625C06254007EA38D /* FormattedCurrency.swift */,
 				EF66852725D708D20090FAA1 /* CurrencyPair+Ex.swift */,
 				EF66852E25D709140090FAA1 /* Position+Ex.swift */,
+				EF15F26C25E151D600F281F8 /* Currency+Ex.swift */,
 			);
 			path = "Model+Ex";
 			sourceTree = "<group>";
@@ -688,6 +708,14 @@
 				EF5416DB25C0676E007EA38D /* DividentsViewModel.swift */,
 			);
 			path = DividentsView;
+			sourceTree = "<group>";
+		};
+		EF61AD9F25E11C020069DE7A /* Deeper views */ = {
+			isa = PBXGroup;
+			children = (
+				EF95209325C00F2B0006FD97 /* PosotionInfoRow.swift */,
+			);
+			path = "Deeper views";
 			sourceTree = "<group>";
 		};
 		EF637FF4259364DB00D2C42D /* Positions */ = {
@@ -855,8 +883,8 @@
 				EF8104CF25D3D1D500B73406 /* PayInView */,
 				EF249EA225C35CFC0064C9C6 /* TargetsView */,
 				EF84A97D25C0B2950081F857 /* RatesView */,
-				EF951DF825BB244A0006FD97 /* PositionDetailView */,
 				EF9581BB25909ECA00D559E7 /* HomeView */,
+				EF951DF825BB244A0006FD97 /* PositionDetailView */,
 				EF95201C25BEFA7A0006FD97 /* Total Detail */,
 				EF12823D25B220700018E5FC /* CurrencyView */,
 				EF66857D25D70C920090FAA1 /* DetailCurrencyView */,
@@ -962,9 +990,9 @@
 		EF951DF825BB244A0006FD97 /* PositionDetailView */ = {
 			isa = PBXGroup;
 			children = (
-				EF95208825C00ED00006FD97 /* PositionDetailViewModel.swift */,
 				EF951DF925BB245E0006FD97 /* PositionDetailView.swift */,
-				EF95209325C00F2B0006FD97 /* PosotionInfoRow.swift */,
+				EF95208825C00ED00006FD97 /* PositionDetailViewModel.swift */,
+				EF61AD9F25E11C020069DE7A /* Deeper views */,
 			);
 			path = PositionDetailView;
 			sourceTree = "<group>";
@@ -1480,6 +1508,7 @@
 				EF5416A325C06466007EA38D /* ComissionViewModel.swift in Sources */,
 				EFB535D82592450200C93C3C /* Enviroment.swift in Sources */,
 				EF79B80525B1E064005C2EB8 /* LogoService.swift in Sources */,
+				EF15F25A25E1341E00F281F8 /* BlockedText.swift in Sources */,
 				EF1281E525B202D40018E5FC /* BackgroundButton.swift in Sources */,
 				EF54168225C06288007EA38D /* Double+Ex.swift in Sources */,
 				EF66852825D708D20090FAA1 /* CurrencyPair+Ex.swift in Sources */,
@@ -1501,6 +1530,7 @@
 				EF8104DC25D3E8EE00B73406 /* CurrencyPairServiceLatest.swift in Sources */,
 				EF66850F25D707EF0090FAA1 /* PayInViewModel.swift in Sources */,
 				EF79B76425B1B128005C2EB8 /* HomeViewModel.swift in Sources */,
+				EF15F26D25E151D600F281F8 /* Currency+Ex.swift in Sources */,
 				EF76A0EF257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
 				EFF46B77259C6B6200EFD02A /* CurrencyView.swift in Sources */,
@@ -1526,6 +1556,7 @@
 				EF5416BC25C064A2007EA38D /* InfoRow.swift in Sources */,
 				EFA92E7E25DEB7BB008DD8D0 /* String+Localize.swift in Sources */,
 				EF66843925CC1CBF0090FAA1 /* ColumnView.swift in Sources */,
+				EF15F26225E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift in Sources */,
 				EF6684FB25D706E20090FAA1 /* API.swift in Sources */,
 				EF66852125D708B30090FAA1 /* RatesViewModel.swift in Sources */,
 				EF5416B525C06497007EA38D /* MoneyRow.swift in Sources */,
@@ -1595,6 +1626,7 @@
 				EF95209525C00F2B0006FD97 /* PosotionInfoRow.swift in Sources */,
 				EFF46B7A259C6B6200EFD02A /* DividentsView.swift in Sources */,
 				EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */,
+				EF15F25B25E1341E00F281F8 /* BlockedText.swift in Sources */,
 				EFF46B78259C6B6200EFD02A /* CurrencyView.swift in Sources */,
 				EF5416AF25C0648B007EA38D /* CurrencyRow.swift in Sources */,
 				EF66855325D70B4A0090FAA1 /* HomeTotalView.swift in Sources */,
@@ -1627,6 +1659,7 @@
 				EFEFDE4825BF3DB30013BB1B /* AuthorizationView.swift in Sources */,
 				EF76A174257FCE2100991AE3 /* AccountService.swift in Sources */,
 				EF95202425BEFA920006FD97 /* TotalDetailView.swift in Sources */,
+				EF15F26325E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift in Sources */,
 				EF4C4FA625C87BF1002006F7 /* Vibrate.swift in Sources */,
 				EF54167125C061FD007EA38D /* DateFormatter+Ex.swift in Sources */,
 				EF8104EC25D40B4E00B73406 /* ActionButton.swift in Sources */,
@@ -1639,6 +1672,7 @@
 				EF84A97825C0AAAC0081F857 /* RootView.swift in Sources */,
 				EF66853025D709140090FAA1 /* Position+Ex.swift in Sources */,
 				EF3ED2C325BAD6CA00B25464 /* URLImage.swift in Sources */,
+				EF15F26E25E151D600F281F8 /* Currency+Ex.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

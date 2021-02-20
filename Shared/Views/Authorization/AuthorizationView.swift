@@ -15,6 +15,12 @@ import UIKit
 class AuthorizationViewModel: EnvironmentCancebleObject, ObservableObject {
     let session: UserSession
 
+    @Published var isSandbox: Bool {
+        willSet {
+            env.settings.isSandbox = newValue
+        }
+    }
+
     @Published var error: String?
     @Published var apiToken: String = "" {
         willSet {
@@ -41,12 +47,23 @@ class AuthorizationViewModel: EnvironmentCancebleObject, ObservableObject {
 
     init(session: UserSession, env: Environment = .current) {
         self.session = session
+        isSandbox = env.settings.isSandbox
 
         super.init(env: env)
 
-        if isMe {
-            apiToken = "t.ElO9J6o7HNsTSVH5LG6tRrMqG3bAKQFG3YehULcdPaYzhK0CXcyMVy4rhtbNUuOHwXo8VAs-QUgA-KbHNLg5yg"
-        }
+//        if isMe {
+//            apiToken = "t.ElO9J6o7HNsTSVH5LG6tRrMqG3bAKQFG3YehULcdPaYzhK0CXcyMVy4rhtbNUuOHwXo8VAs-QUgA-KbHNLg5yg"
+//            t.uiTdZcEiqAB16-psL3iRgZFOQdQwGhiPwrkQeVKycl4LcFYieNhy8oYvgdBovWyL3TvJ7ra5ISVB4KE8x96cng
+//        }
+    }
+
+    override func bindings() {
+        super.bindings()
+        guard isMe else { return }
+
+        $isSandbox.map {
+            $0 ? "t.uiTdZcEiqAB16-psL3iRgZFOQdQwGhiPwrkQeVKycl4LcFYieNhy8oYvgdBovWyL3TvJ7ra5ISVB4KE8x96cng" : "t.ElO9J6o7HNsTSVH5LG6tRrMqG3bAKQFG3YehULcdPaYzhK0CXcyMVy4rhtbNUuOHwXo8VAs-QUgA-KbHNLg5yg"
+        }.assign(to: \.apiToken, on: self).store(in: &cancellables)
     }
 }
 
@@ -84,6 +101,7 @@ struct AuthorizationView: View {
             }
             .accentColor(.appBlack)
             .navigationTitle("Autorization")
+            .navigationBarItems(trailing: Toggle("sandbox", isOn: $viewModel.isSandbox))
         }
     }
 }

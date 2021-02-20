@@ -65,7 +65,12 @@ extension HomeViewModel {
 
     struct Total: TotalViewModeble {
         let totalInProfile: MoneyAmount
+        let blocked: MoneyAmount?
         let expectedProfile: MoneyAmount
+
+        var currency: Currency {
+            expectedProfile.currency
+        }
 
         var percent: Double {
             (expectedProfile / totalInProfile).value * 100
@@ -73,7 +78,7 @@ extension HomeViewModel {
     }
 
     enum SortType: Int, Codable {
-        case name, price, total, profit
+        case name, price, position, profit
 
         var text: String {
             "\(self)".capitalized
@@ -81,7 +86,7 @@ extension HomeViewModel {
 
         var systemImageName: String {
             switch self {
-            case .profit, .price, .total:
+            case .profit, .price, .position:
                 return "arrow.up"
             case .name:
                 return "arrow.down"
@@ -98,6 +103,12 @@ extension HomeViewModel {
         let positions: [Position]
         let currencies: [CurrencyPosition]
         let operations: [Operation]
+    }
+}
+
+extension Position {
+    func blocked(settings: Settings) -> MoneyAmount? {
+        settings.blockedPosition[ticker]
     }
 }
 
@@ -226,8 +237,17 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             }.addCurrency(currency)
         }
 
+        let blocked = positions.reduce(nil) { (result, position) -> Double? in
+            if let blocked = position.blocked(settings: env.settings) {
+                return (result ?? 0) + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+                                                                      money: blocked,
+                                                                      to: currency).value
+            }
+            return result
+        }?.addCurrency(currency)
+
         return Total(totalInProfile: totalInProfile + currenciesInProfile,
-                     expectedProfile: expectedProfile)
+                     blocked: blocked, expectedProfile: expectedProfile)
     }
 
     private func setupSections(convertSortModel: ConvertSortModel, sources: Sources) -> [Section] {
@@ -245,7 +265,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
                         return $0.averagePositionPriceNow.value > $1.averagePositionPriceNow.value
                     case .profit:
                         return $0.expectedYield.value > $1.expectedYield.value
-                    case .total:
+                    case .position:
                         return $0.totalInProfile.value > $1.totalInProfile.value
                     }
                 }
@@ -293,8 +313,14 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
                 let avgNow = convert(money: position.averagePositionPriceNow, to: currency)
                 let totalInProfile = (avgNow.value * Double(position.lots)).addCurrency(currency)
 
+                var blocked: MoneyAmount?
+                if let saveBlocked = env.settings.blockedPosition[position.ticker] {
+                    blocked = convert(money: saveBlocked, to: currency)
+                }
+
                 return PositionView(position: position,
                                     percentInProfile: percentInProfile(total: totalInProfile.value),
+                                    blocked: blocked,
                                     expectedYield: convert(money: expectedYield, to: currency),
                                     averagePositionPrice: convert(money: averagePositionPrice, to: currency),
                                     averagePositionPriceNow: avgNow)
@@ -302,6 +328,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             case .original:
                 return PositionView(position: position,
                                     percentInProfile: percentInProfile(total: position.totalInProfile.value),
+                                    blocked: env.settings.blockedPosition[position.ticker],
                                     expectedYield: expectedYield,
                                     averagePositionPrice: averagePositionPrice,
                                     averagePositionPriceNow: position.averagePositionPriceNow)
@@ -316,13 +343,6 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
     private func convert(money: MoneyAmount, to currency: Currency) -> MoneyAmount {
         money.convert(to: currency, pair: currencyPairServiceLatest.latest)
-    }
-}
-
-extension MoneyAmount {
-    func convert(to currency: Currency, pair: CurrencyPair?) -> MoneyAmount {
-        guard let pair = pair else { return self }
-        return CurrencyConvertManager.convert(currencyPair: pair, money: self, to: currency)
     }
 }
 

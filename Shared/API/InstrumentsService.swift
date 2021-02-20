@@ -11,7 +11,7 @@ import InvestModels
 import Moya
 
 struct InstrumentsService {
-    let provider = ApiProvider<InstrumentsAPI>()
+    let provider: ApiProvider<InstrumentsAPI>
 
     func getStocks() -> AnyPublisher<[Instrument], MoyaError> {
         provider.request(.getStocks)

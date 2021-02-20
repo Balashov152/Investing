@@ -14,12 +14,16 @@ class PositionsService: CancebleObject {
     @Published public var positions: [Position] = []
     @Published public var currencies: [CurrencyPosition] = []
 
-    static let shared = PositionsService()
+    static func shared(isSandbox: Bool) -> PositionsService {
+        PositionsService(provider: .init(isSandbox: isSandbox))
+    }
 
-    let provider = ApiProvider<PositionAPI>()
+    let provider: ApiProvider<PositionAPI>
 
-    override private init() {
+    internal init(provider: ApiProvider<PositionAPI>) {
+        self.provider = provider
         super.init()
+
         getPositions()
     }
 

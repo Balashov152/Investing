@@ -15,14 +15,23 @@ struct PositionDetailView: View {
     var body: some View {
         List {
             Section {
-                MoneyRow(label: "Total all time", money: viewModel.total)
-                PosotionInfoRow(label: "Total buy", changes: viewModel.buyCount)
-                PosotionInfoRow(label: "Total sell", changes: viewModel.sellCount)
+                PosotionInfoRow(label: "Total of purchased", changes: viewModel.buyCount)
+                PosotionInfoRow(label: "Total of sold", changes: viewModel.sellCount)
 
-                PosotionInfoRow(label: "In profile", changes: viewModel.inProfile)
-                MoneyRow(label: "In profile tinkoff", money: viewModel.position.totalBuyPayment)
+                PosotionInfoRow(label: "Now in portfolio", changes: viewModel.inProfile)
+            }
 
-                MoneyRow(label: "Average", money: viewModel.average)
+            Section {
+                CurrencyRow(label: "Average", money: viewModel.average)
+                MoneyRow(label: "Result operations", money: viewModel.total)
+                if viewModel.dividends.value > 0 {
+                    MoneyRow(label: "Dividends", money: viewModel.dividends)
+                    MoneyRow(label: "Result operations with dividends", money: viewModel.total + viewModel.dividends)
+                }
+            }
+
+            Section {
+                blockedView
             }
 
             Section {
@@ -32,12 +41,26 @@ struct PositionDetailView: View {
                     }
                 }, label: {
                     Text("All operations \(viewModel.operations.count)")
-
                 })
             }
         }
         .onAppear(perform: viewModel.load)
         .listStyle(GroupedListStyle())
         .navigationTitle(viewModel.position.name.orEmpty)
+    }
+
+    var blockedView: some View {
+        HStack(spacing: 8.0) {
+            Text("Blocked")
+            Spacer(minLength: 40)
+            TextField("value", text: $viewModel.blocked)
+                .keyboardType(.decimalPad)
+                .multilineTextAlignment(.trailing)
+                .modifier(DecimalNumberOnlyViewModifier(text: $viewModel.blocked))
+
+            if !viewModel.blocked.isEmpty {
+                Text(viewModel.currency.symbol).bold()
+            }
+        }
     }
 }

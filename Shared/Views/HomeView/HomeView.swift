@@ -65,20 +65,20 @@ struct HomeView: View {
     }
 
     func groupContent(section: HomeViewModel.Section) -> some View {
-        ForEach(section.positions, id: \.self, content: { position in
-            Divider()
+        ForEach(section.positions.indexed(), id: \.element, content: { index, position in
+            if index == 0 {
+                Divider()
+            } else {
+                Divider().padding(.leading, 10)
+            }
 
             switch position.instrumentType {
             case .Stock, .Bond, .Etf:
-                PositionRowView(position: position)
-                    .background(
-                        NavigationLink(destination: NavigationLazyView(ViewFactory.positionDetailView(position: position,
-                                                                                                      env: viewModel.env))) {
-                            EmptyView()
-                        }
-                        .hidden()
-                    )
-                    .padding(.leading, 10)
+                NavigationLink(destination: NavigationLazyView(ViewFactory.positionDetailView(position: position,
+                                                                                              env: viewModel.env))) {
+                    PositionRowView(position: position)
+                        .padding(.leading, 10)
+                }
             case .Currency:
                 CurrencyPositionRowView(position: position)
             }

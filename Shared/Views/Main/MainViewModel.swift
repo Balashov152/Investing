@@ -14,7 +14,7 @@ class MainViewModel: EnvironmentCancebleObject, ObservableObject {
     var latest: CurrencyPairServiceLatest { .shared }
 
     override init(env: Environment = .current) {
-        dbManager = DBManager(env: env, realmManager: RealmManager())
+        dbManager = DBManager(env: env, realmManager: .shared)
 
         super.init(env: env)
     }

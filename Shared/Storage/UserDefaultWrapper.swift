@@ -16,10 +16,12 @@ extension UserDefault {
         case adjustedTotal
         case averageCurrency
         case homeSortType
+        case blockedPosition
     }
 
     enum StorageKeys: String {
         case currentDBVersion
+        case isSandbox
     }
 }
 

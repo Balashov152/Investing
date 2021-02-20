@@ -25,8 +25,14 @@ struct PositionRowView: View {
             topNameStack
             Spacer()
             VStack(alignment: .trailing) {
-                CurrencyText(money: position.totalInProfile)
-                    .font(.system(size: 17, weight: .medium))
+                VStack(alignment: .trailing, spacing: 0, content: {
+                    CurrencyText(money: position.totalInProfile)
+                        .font(.system(size: 17, weight: .medium))
+
+                    if let blocked = position.blocked {
+                        BlockedText(value: blocked)
+                    }
+                })
 
 //                .padding(.all, 3)
 //                .foregroundColor(.black)
@@ -59,7 +65,7 @@ struct PositionRowView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         Text(position.name.orEmpty).lineLimit(1)
                             .font(.system(size: 17, weight: .bold))
-                        Text("$\(position.ticker.orEmpty)")
+                        Text("$" + position.ticker)
                             .font(.system(size: 12, weight: .regular))
                             .foregroundColor(Color.gray)
                     }

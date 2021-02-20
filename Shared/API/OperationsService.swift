@@ -13,10 +13,11 @@ class OperationsService: CancebleObject, ObservableObject {
     @Published public var operations: [Operation] = []
 
     private var loadOperationForInterval: DateInterval?
-    private let provider = ApiProvider<OperationAPI>()
+    private let provider: ApiProvider<OperationAPI>
     private let realmManager: RealmManager
 
-    init(realmManager: RealmManager) {
+    init(provider: ApiProvider<OperationAPI>, realmManager: RealmManager) {
+        self.provider = provider
         self.realmManager = realmManager
 
         super.init()

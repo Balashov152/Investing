@@ -14,6 +14,9 @@ class RealmManager {
     let specificKey = DispatchSpecificKey<String>()
     let specificValue = "RealmManager.queue"
 
+    static let shared = RealmManager()
+    private init() {}
+
     lazy var syncQueue: DispatchQueue = {
         let queue = DispatchQueue(label: "RealmManager.queue", qos: .userInitiated)
         queue.setSpecific(key: specificKey, value: specificValue)

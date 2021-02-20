@@ -10,9 +10,10 @@ import InvestModels
 import SwiftUI
 
 struct PositionView: Hashable, Identifiable, LogoPosition {
-    init(position: Position, percentInProfile: Double) {
+    init(position: Position, percentInProfile: Double, blocked: MoneyAmount?) {
         self.init(position: position,
                   percentInProfile: percentInProfile,
+                  blocked: blocked,
                   expectedYield: position.expectedYield,
                   averagePositionPrice: position.averagePositionPrice,
                   averagePositionPriceNow: position.averagePositionPriceNow)
@@ -22,7 +23,7 @@ struct PositionView: Hashable, Identifiable, LogoPosition {
         name = currency.currency.rawValue
         ticker = currency.currency.rawValue
         instrumentType = .Currency
-        blocked = currency.blocked
+        blocked = currency.blocked.addCurrency(currency.currency)
         lots = 1 // currency.balance
         isin = currency.currency.rawValue
         self.percentInProfile = percentInProfile
@@ -31,30 +32,31 @@ struct PositionView: Hashable, Identifiable, LogoPosition {
         averagePositionPriceNow = MoneyAmount(currency: currency.currency, value: currency.balance)
     }
 
-    init(position: Position, percentInProfile: Double, expectedYield: MoneyAmount,
+    init(position: Position, percentInProfile: Double, blocked: MoneyAmount?,
+         expectedYield: MoneyAmount,
          averagePositionPrice: MoneyAmount, averagePositionPriceNow: MoneyAmount)
     {
         name = position.name
         ticker = position.ticker
         instrumentType = position.instrumentType
-        blocked = position.blocked
         isin = position.isin
-
         lots = Double(position.lots)
 
         self.percentInProfile = percentInProfile
+        self.blocked = blocked
+
         self.expectedYield = expectedYield
         self.averagePositionPrice = averagePositionPrice
         self.averagePositionPriceNow = averagePositionPriceNow
     }
 
     public let name: String?
-    public let ticker: String?
+    public let ticker: String
 
     public let isin: String?
     public let instrumentType: InstrumentType
 
-    public let blocked: Double?
+    public let blocked: MoneyAmount?
 
     public let lots: Double
 

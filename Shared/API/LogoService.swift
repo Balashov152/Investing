@@ -10,7 +10,7 @@ import InvestModels
 
 protocol LogoPosition {
     var instrumentType: InstrumentType { get }
-    var ticker: String? { get }
+    var ticker: String { get }
     var isin: String? { get }
     var currency: Currency { get }
 }
@@ -29,11 +29,7 @@ enum InstrumentLogoService {
             return LogoService.logoUrl(for: model.currency.rawValue)
 
         case .Etf:
-            guard let ticker = model.ticker else {
-                return nil
-            }
-
-            return LogoService.logoUrl(for: ticker)
+            return LogoService.logoUrl(for: model.ticker)
         }
     }
 }

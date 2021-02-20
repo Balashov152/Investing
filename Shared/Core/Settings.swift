@@ -11,6 +11,9 @@ import InvestModels
 struct Settings {
     static var shared = Settings()
 
+    @UserDefault(key: .isSandbox, defaultValue: false)
+    var isSandbox: Bool
+
     // MARK: Settings
 
     @UserDefault(key: .currency, defaultValue: nil)
@@ -37,4 +40,9 @@ struct Settings {
 
     @UserDefault(key: .averageCurrency, defaultValue: [:])
     var averageCurrency: [Currency: Double]
+
+    // MARK: Blocked
+
+    @UserDefault(key: .blockedPosition, defaultValue: [:])
+    var blockedPosition: [String: MoneyAmount]
 }

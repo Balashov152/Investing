@@ -10,7 +10,7 @@ import InvestModels
 import Moya
 
 struct CurrencyPairService {
-    let provider = ApiProvider<CurrencyPairAPI>()
+    let provider: ApiProvider<CurrencyPairAPI>
 
     func getLatest() -> AnyPublisher<CurrencyPair?, MoyaError> {
         let req = CurrencyRequest(dateInterval: DateInterval(start: Date(), end: Date()))

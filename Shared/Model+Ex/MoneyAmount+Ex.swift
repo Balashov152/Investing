@@ -8,6 +8,13 @@
 import Foundation
 import InvestModels
 
+extension MoneyAmount {
+    func convert(to currency: Currency, pair: CurrencyPair?) -> MoneyAmount {
+        guard let pair = pair else { return self }
+        return CurrencyConvertManager.convert(currencyPair: pair, money: self, to: currency)
+    }
+}
+
 extension Collection where Element == MoneyAmount {
     var sum: Double {
         map { $0.value }.sum

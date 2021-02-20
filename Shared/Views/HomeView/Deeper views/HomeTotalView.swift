@@ -15,12 +15,16 @@ struct HomeTotalView: View {
         VStack(alignment: .leading) {
             CurrencyText(money: model.totalInProfile)
                 .font(.system(size: 30, weight: .bold))
-
-            HStack(spacing: 4.0) {
-                MoneyText(money: model.expectedProfile)
-                    .font(.system(size: 16, weight: .medium))
-                PercentText(percent: model.percent)
-                    .font(.system(size: 14, weight: .regular))
+            HStack(spacing: 8.0) {
+                if let blocked = model.blocked {
+                    BlockedText(value: blocked)
+                }
+                HStack(spacing: 4.0) {
+                    MoneyText(money: model.expectedProfile)
+                        .font(.system(size: 16, weight: .medium))
+                    PercentText(percent: model.percent)
+                        .font(.system(size: 14, weight: .regular))
+                }
             }
         }
     }

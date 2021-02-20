@@ -9,14 +9,40 @@ import Combine
 import InvestModels
 import SwiftUI
 
+protocol PositionDetailModel {
+    var currency: Currency { get }
+    var totalCount: PositionDetailViewModel.ChangeOperation { get }
+    var name: String? { get }
+    var ticker: String { get }
+}
+
+extension PositionView: PositionDetailModel {
+    var totalCount: PositionDetailViewModel.ChangeOperation {
+        .init(count: Int(lots), money: totalInProfile)
+    }
+}
+
 class PositionDetailViewModel: EnvironmentCancebleObject, ObservableObject {
-    let position: PositionView
-    var convertCurrency: Currency { position.currency }
+    let position: PositionDetailModel
+    var currency: Currency { position.currency }
+
+    @Published var blocked: String {
+        willSet {
+            env.settings.blockedPosition[position.ticker] = Double(newValue)?.addCurrency(currency)
+        }
+    }
 
     @Published var operations: [Operation] = []
 
-    init(position: PositionView, env: Environment) {
+    init(position: PositionDetailModel, env: Environment) {
         self.position = position
+
+        if let savedBlocked = env.settings.blockedPosition[position.ticker] {
+            blocked = savedBlocked.convert(to: position.currency,
+                                           pair: CurrencyPairServiceLatest.shared.latest).value.string(f: ".2")
+        } else {
+            blocked = ""
+        }
 
         super.init(env: env)
     }
@@ -34,37 +60,43 @@ class PositionDetailViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     public func load() {
-        env.api().operationsService.getOperations(request: .init(env: env))
+//        env.api().operationsService.getOperations(request: .init(env: env))
     }
 }
 
 extension PositionDetailViewModel {
+    var dividends: MoneyAmount {
+        operations.filter(types: [.Dividend]).currencySum(to: currency)
+    }
+
     var total: MoneyAmount {
-        position.totalInProfile + operations.currencySum(to: position.currency)
+        position.totalCount.money + operations.currencySum(to: position.currency)
     }
 
     var buyCount: ChangeOperation {
         let filtered = operations.filter(types: [.Buy, .BuyCard])
         let count = filtered.reduce(0) { $0 + $1.quantityExecuted }
         return ChangeOperation(count: count,
-                               money: abs(filtered.currencySum(to: convertCurrency).value).addCurrency(convertCurrency))
+                               money: abs(filtered.currencySum(to: currency).value).addCurrency(currency))
     }
 
     var sellCount: ChangeOperation {
         let filtered = operations.filter(types: [.Sell])
         let count = filtered.reduce(0) { $0 + $1.quantityExecuted }
         return ChangeOperation(count: count,
-                               money: filtered.currencySum(to: convertCurrency))
+                               money: filtered.currencySum(to: currency))
     }
 
-    var inProfile: ChangeOperation {
+    var inProfile: ChangeOperation { position.totalCount }
+
+    var totalBuy: ChangeOperation {
         ChangeOperation(count: buyCount.count - sellCount.count,
                         money: buyCount.money - sellCount.money)
     }
 
     var average: MoneyAmount {
         MoneyAmount(currency: position.currency,
-                    value: inProfile.money.value / Double(inProfile.count))
+                    value: totalBuy.money.value / Double(inProfile.count))
     }
 }
 

@@ -34,7 +34,7 @@ extension Position: Hashable {
 }
 
 public struct Position: Decodable {
-    public init(name: String?, figi: String?, ticker: String?, isin: String?, instrumentType: InstrumentType, balance: Double?, blocked: Double?, lots: Int, expectedYield: MoneyAmount, averagePositionPrice: MoneyAmount, averagePositionPriceNoNkd: MoneyAmount?) {
+    public init(name: String?, figi: String?, ticker: String, isin: String?, instrumentType: InstrumentType, balance: Double?, blocked: Double?, lots: Int, expectedYield: MoneyAmount, averagePositionPrice: MoneyAmount, averagePositionPriceNoNkd: MoneyAmount?) {
         self.name = name
         self.figi = figi
         self.ticker = ticker
@@ -50,7 +50,7 @@ public struct Position: Decodable {
     
     public let name: String?
     public let figi: String?
-    public let ticker: String?
+    public let ticker: String
 
     public let isin: String?
     public let instrumentType: InstrumentType
@@ -67,7 +67,7 @@ public struct Position: Decodable {
     public init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		figi = try values.decodeIfPresent(forKey: .figi)
-		ticker = try values.decodeIfPresent(forKey: .ticker)
+		ticker = try values.decodeIfPresent(forKey: .ticker, default: "")
 		isin = try values.decodeIfPresent(forKey: .isin)
         instrumentType = try values.decodeIfPresent(forKey: .instrumentType, default: .Stock)
 		balance = try values.decodeIfPresent(forKey: .balance)

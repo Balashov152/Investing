@@ -34,8 +34,7 @@ struct URLImage: View {
                 .onProgress { _, _ in }
                 .onSuccess { _ in }
                 .onFailure { _ in
-                    let first = position.ticker ?? position.instrumentType.rawValue
-                    self.text = String(first.first!)
+                    self.text = String(position.ticker.first ?? Character(""))
                 }
         } else {
             Text("E")

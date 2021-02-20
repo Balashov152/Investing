@@ -11,6 +11,7 @@ import SwiftUI
 
 protocol TotalViewModeble {
     var totalInProfile: MoneyAmount { get }
+    var blocked: MoneyAmount? { get }
     var expectedProfile: MoneyAmount { get }
     var percent: Double { get }
 }
@@ -29,6 +30,15 @@ struct TotalViewModel: TotalViewModeble {
 
     var expectedProfile: MoneyAmount {
         MoneyAmount(currency: currency, value: filteredPositions.map { $0.expectedYield }.sum)
+    }
+
+    var blocked: MoneyAmount? {
+        let sum = filteredPositions.compactMap { $0.blocked }.sum
+        if sum > 0 {
+            return MoneyAmount(currency: currency, value: sum)
+        }
+
+        return nil
     }
 
     var percent: Double {

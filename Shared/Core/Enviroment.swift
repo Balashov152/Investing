@@ -9,13 +9,15 @@ import Foundation
 import InvestModels
 
 extension Environment {
-    static let current = Environment(settings: .shared, api: { .current })
+    static var settings: Settings { .shared }
+    static let current = Environment(settings: settings, api: { settings.isSandbox ? .sandbox : .current })
 }
 
 struct Environment {
     var settings: Settings
     var api: () -> API
 
+    // helpers
     var currencyPairService: CurrencyPairService { api().currencyPairService }
     var accountService: AccountService { api().accountService }
     var positionService: PositionsService { api().positionService }
