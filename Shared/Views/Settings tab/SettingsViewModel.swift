@@ -32,25 +32,26 @@ class SettingsViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var endDate: Date
 
     @Published var adjustedAverage: Bool {
-        willSet {
-            env.settings.adjustedAverage = newValue
-        }
+        willSet { env.settings.adjustedAverage = newValue }
     }
 
     @Published var adjustedTotal: Bool {
-        willSet {
-            env.settings.adjustedTotal = newValue
-        }
+        willSet { env.settings.adjustedTotal = newValue }
+    }
+
+    @Published var deleteOther: Bool {
+        willSet { env.settings.deleteOther = newValue }
     }
 
     @Published var sections: [Section] = Section.TypeSection.allCases.map(Section.init)
 
     override init(env: Environment = .current) {
-        startDate = env.settings.dateInterval.start
-        endDate = env.settings.dateInterval.end
+        _startDate = .init(initialValue: env.settings.dateInterval.start)
+        _endDate = .init(initialValue: env.settings.dateInterval.end)
 
-        adjustedAverage = env.settings.adjustedAverage
-        adjustedTotal = env.settings.adjustedTotal
+        _adjustedAverage = .init(initialValue: env.settings.adjustedAverage)
+        _adjustedTotal = .init(initialValue: env.settings.adjustedTotal)
+        _deleteOther = .init(initialValue: env.settings.deleteOther)
 
         super.init(env: env)
     }

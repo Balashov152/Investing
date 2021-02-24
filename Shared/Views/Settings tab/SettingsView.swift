@@ -12,9 +12,8 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject var userSession: UserSession
     @ObservedObject var viewModel: SettingsViewModel
-    @State var token: String = Storage.token
 
-    let currentYear = Date().year
+    let currentYear = Date().endOfYear.year
     let formatter = DateFormatter.format("yyyy")
 
     var startRange: [Date] {
@@ -46,9 +45,7 @@ struct SettingsView: View {
                         }
                     case .analytics:
                         VStack {
-                            adjustedAverage
-                            Divider()
-                            adjustedTotal
+                            togglesView
                             Divider()
                             startPicker
                             endPicker
@@ -94,11 +91,21 @@ struct SettingsView: View {
 
     var exitButton: some View {
         ActionButton(title: "Quit") {
-            Storage.token = ""
+            Storage.clear()
             userSession.isAuthorized = false
         }
         .buttonStyle(PlainButtonStyle())
         .padding([.top, .bottom], 8)
+    }
+
+    var togglesView: some View {
+        VStack {
+            adjustedAverage
+            Divider()
+            adjustedTotal
+            Divider()
+            deleteOther
+        }
     }
 
     var adjustedAverage: some View {
@@ -110,24 +117,9 @@ struct SettingsView: View {
         Toggle("Adjusted total portfolio", isOn: $viewModel.adjustedTotal)
             .font(.system(size: 15))
     }
-}
 
-struct YearDatePickerView: View {
-    var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        return formatter
-    }
-
-    @State private var birthDate = Date()
-
-    var body: some View {
-        VStack {
-            DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {
-                Text("Select a date")
-            }.datePickerStyle(DefaultDatePickerStyle())
-
-//            Text("Date is \(birthDate, formatter: dateFormatter)")
-        }
+    var deleteOther: some View {
+        Toggle("Delete other from total portfolio", isOn: $viewModel.deleteOther)
+            .font(.system(size: 15))
     }
 }

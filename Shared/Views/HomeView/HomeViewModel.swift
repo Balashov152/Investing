@@ -246,7 +246,12 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             return result
         }?.addCurrency(currency)
 
-        return Total(totalInProfile: totalInProfile + currenciesInProfile,
+        var total = totalInProfile + currenciesInProfile
+        if env.settings.deleteOther, let blocked = blocked {
+            total = total - blocked
+        }
+
+        return Total(totalInProfile: total,
                      blocked: blocked, expectedProfile: expectedProfile)
     }
 

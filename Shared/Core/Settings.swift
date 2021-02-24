@@ -22,11 +22,14 @@ struct Settings {
     @UserDefault(key: .dateInterval, defaultValue: .lastYear)
     var dateInterval: DateInterval
 
-    @UserDefault(key: .adjustedAverage, defaultValue: false)
+    @UserDefault(key: .adjustedAverage, defaultValue: true)
     var adjustedAverage: Bool
 
     @UserDefault(key: .adjustedTotal, defaultValue: false)
     var adjustedTotal: Bool
+
+    @UserDefault(key: .deleteOther, defaultValue: false)
+    var deleteOther: Bool
 
     // MARK: Home
 

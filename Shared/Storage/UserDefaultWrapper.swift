@@ -8,13 +8,14 @@
 import Foundation
 
 extension UserDefault {
-    enum ClearKeys: String {
+    enum ClearKeys: String, CaseIterable {
         case token, currency
         case dateInterval
         case payInAvg, expandedHome
         case adjustedAverage
         case adjustedTotal
         case averageCurrency
+        case deleteOther
         case homeSortType
         case blockedPosition
     }
@@ -30,7 +31,7 @@ struct UserDefault<Value: Codable> {
     private let key: String
     private let defaultValue: Value
 
-    private var storage: UserDefaults = .standard
+    public var storage: UserDefaults = .standard
 
     init(key: StorageKeys, defaultValue: Value) {
         self.key = key.rawValue

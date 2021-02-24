@@ -646,8 +646,8 @@
 				EF6684E825D7066B0090FAA1 /* CancebleObject.swift */,
 				EFB535D72592450200C93C3C /* Enviroment.swift */,
 				EF6684F325D706CB0090FAA1 /* DateInterval.swift */,
-				EF6684FA25D706E20090FAA1 /* API.swift */,
 				EF76A10F257FB55000991AE3 /* Settings.swift */,
+				EF6684FA25D706E20090FAA1 /* API.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";

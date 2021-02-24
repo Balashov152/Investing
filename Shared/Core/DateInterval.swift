@@ -8,7 +8,8 @@
 import Foundation
 
 struct DateInterval: Hashable, Codable {
-    static let lastYear = DateInterval(start: Calendar.current.date(byAdding: .year, value: -1, to: Date())!, end: Date())
+    static let lastYear = DateInterval(start: DateFormatter.format("yyyy").date(from: "2018")!.startOfYear,
+                                       end: Date().endOfYear)
 
     let start, end: Date
 }
