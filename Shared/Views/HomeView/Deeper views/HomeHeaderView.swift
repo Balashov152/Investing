@@ -32,7 +32,7 @@ struct HomeHeaderView: View {
             }
 
             HStack {
-                ForEach(section.currencies.indexed(), id: \.element) { offset, currency in
+                ForEach(section.currencies.sorted(by: >).indexed(), id: \.element) { offset, currency in
                     if offset != 0 { Divider() }
 
                     if section.totalInProfile(currency: currency) > 0 {

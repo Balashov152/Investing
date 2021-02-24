@@ -12,6 +12,8 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
+    @State var isRefresh: Bool = false
+
     @State var expandedSections: Set<InstrumentType> {
         willSet {
             viewModel.env.settings.expandedHome = newValue

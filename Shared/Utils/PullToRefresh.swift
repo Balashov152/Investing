@@ -5,7 +5,6 @@
 //  Created by Sergey Balashov on 17.02.2021.
 //
 
-import Foundation
 import Introspect
 import SwiftUI
 

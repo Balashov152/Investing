@@ -10,11 +10,10 @@ import InvestModels
 import SwiftUI
 
 struct TargetPositionView: View {
-    
     internal init(column: TargetsViewModel.Column,
                   mainSize: CGSize,
-                  changeTarget: Binding<Double>) {
-        
+                  changeTarget: Binding<Double>)
+    {
         let startedOffset = CGFloat(abs(1 - column.target)) * mainSize.height - mainSize.height / 2
         _offset = .init(initialValue: startedOffset)
         self.column = column
@@ -26,7 +25,7 @@ struct TargetPositionView: View {
     let mainSize: CGSize
     let changeTarget: Binding<Double>
 
-    private let thumbSize = CGSize(width: 20, height: 3)
+    private let thumbSize = CGSize(width: 3, height: 20)
     private let targetValueViewSize = CGSize(width: 20, height: 20)
 
     @State var offset: CGFloat = .zero
@@ -38,8 +37,8 @@ struct TargetPositionView: View {
     }
 
     var targetViewOffset: CGSize {
-        CGSize(width: targetValueViewSize.width / 1.5,
-               height: offset)
+        CGSize(width: offset,
+               height: 0) // targetValueViewSize.height * 0.4
     }
 
     var targetPercent: Double {
@@ -51,39 +50,37 @@ struct TargetPositionView: View {
     var body: some View {
         VStack(alignment: .center) {
             ZStack {
-                ZStack(alignment: Alignment(horizontal: .center, vertical: .bottom)) {
+                ZStack(alignment: Alignment(horizontal: .leading, vertical: .bottom)) {
                     RoundedRectangle(cornerRadius: 3)
                         .stroke(Color.black.opacity(0.8), lineWidth: 1)
                         .frame(width: mainSize.width, height: mainSize.height)
 
-                    VStack {
-                        Rectangle()
-                            .foregroundColor(Color(UIColor.systemBlue))
-                            .frame(width: mainSize.height * CGFloat(column.percent),
-                                   height: mainSize.width, alignment: .leading)
-                            .cornerRadius(3)
-                    }
+                    Rectangle()
+                        .foregroundColor(Color(UIColor.systemBlue))
+                        .frame(width: mainSize.width * CGFloat(min(column.percent, 1)),
+                               height: mainSize.height, alignment: .leading)
+                        .cornerRadius(3)
                 }
                 targetView
             }
 
             Text(column.percentVisible.string(f: ".2") + "%")
-                .font(.system(size: mainSize.width / 2, weight: .light))
+                .font(.system(size: mainSize.height / 2, weight: .light))
                 .multilineTextAlignment(.center)
 
 //            URLImage(position: column.position)
 //                .frame(width: mainSize.width, height: mainSize.width)
 //                .background(Color.litleGray)
 //                .cornerRadius(mainSize.width / 2)
-        }
+        }.padding(16)
     }
 
     var targetView: some View {
         let dragGesture = DragGesture()
             .onChanged { value in
                 debugPrint("value.translation", value.translation)
-                let newOffset = value.startLocation.y + value.translation.height
-                let amplutude = mainSize.height / 2
+                let newOffset = value.startLocation.x + value.translation.width
+                let amplutude = mainSize.width / 2
                 self.offset = range(min: -amplutude, element: newOffset, max: amplutude)
             }
             .onEnded { _ in
@@ -100,17 +97,31 @@ struct TargetPositionView: View {
         // a combined gesture that forces the user to long press then drag
         let combined = pressGesture.sequenced(before: dragGesture)
 
-        return VStack {
+        return // HStack {
             RoundedRectangle(cornerRadius: 3)
-                .fill(Color.black) // (red: 29 / 255, green: 255 / 255, blue: 190 / 255)
-                .scaleEffect(CGSize(width: isDragging ? 1.5 : 1, height: 1.0))
-                .frame(width: thumbSize.width, height: thumbSize.height)
-
-            Text(targetPercent.string(f: ".0") + "%")
-                .font(.system(size: 8))
-        }
-        .frame(height: targetValueViewSize.height)
-        .offset(targetViewOffset)
-        .gesture(combined)
+            .fill(Color.black) // (red: 29 / 255, green: 255 / 255, blue: 190 / 255)
+            .scaleEffect(CGSize(width: 1, height: isDragging ? 1.5 : 1))
+            .frame(width: thumbSize.width, height: thumbSize.height)
+            .padding(4)
+            .background(Color.secondary.opacity(0.3))
+            .offset(targetViewOffset)
+            .gesture(combined)
+//            Text(targetPercent.string(f: ".0") + "%")
+//                .font(.system(size: 8))
+//        }
+//        .frame(height: targetValueViewSize.height)
+//        .offset(targetViewOffset)
+//        .gesture(combined)
     }
+}
+
+struct Preview: PreviewProvider {
+    static var previews: some View {
+        TargetPositionView(column: TargetsViewModel.Column(percent: 0.30, target: 0.70, position: .tsla), mainSize: CGSize(width: UIScreen.main.bounds.width, height: 20), changeTarget: .constant(71))
+            .padding()
+    }
+}
+
+extension Position {
+    static let tsla = Position(name: "Tesla", figi: "fasfa", ticker: "TSLA", isin: nil, instrumentType: .Stock, balance: 5600, blocked: nil, lots: 40, expectedYield: .init(currency: .USD, value: 400), averagePositionPrice: .init(currency: .USD, value: 300), averagePositionPriceNoNkd: nil)
 }
