@@ -148,6 +148,13 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
         positions.map { $0.currency }.unique.sorted(by: >)
     }
 
+    func currencyOperation(currency: Currency) -> [Operation] {
+        env.operationsService.operations
+            .filter(types: [.PayIn, .PayOut],
+                    or: { $0.instrumentType == .some(.Currency) })
+            .filter { $0.opCurrency == currency }
+    }
+
     override init(env: Environment = .current) {
         if let currency = env.settings.currency {
             convertType = .currency(currency)
@@ -247,7 +254,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
         }?.addCurrency(currency)
 
         var total = totalInProfile + currenciesInProfile
-        if env.settings.deleteOther, let blocked = blocked {
+        if env.settings.minusDebt, let blocked = blocked {
             total = total - blocked
         }
 

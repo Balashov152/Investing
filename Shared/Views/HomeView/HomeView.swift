@@ -80,7 +80,12 @@ struct HomeView: View {
                         .padding(.leading, 10)
                 }
             case .Currency:
-                CurrencyPositionRowView(position: position)
+                NavigationLink(destination: NavigationLazyView(ViewFactory.detailCurrencyView(currency: position.currency,
+                                                                                              operations: viewModel.currencyOperation(currency: position.currency),
+                                                                                              env: viewModel.env))) {
+                    CurrencyPositionRowView(position: position)
+                        .padding(.leading, 10)
+                }
             }
         })
     }

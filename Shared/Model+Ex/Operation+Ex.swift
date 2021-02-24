@@ -12,6 +12,16 @@ extension Operation {
     var money: MoneyAmount {
         MoneyAmount(currency: currency, value: payment)
     }
+
+    var opCurrency: Currency {
+        guard let ticker = instrument?.ticker else {
+            return currency
+        }
+
+        return Currency.allCases.first(where: {
+            ticker.starts(with: $0.rawValue)
+        }) ?? currency
+    }
 }
 
 extension Collection where Element == Operation {

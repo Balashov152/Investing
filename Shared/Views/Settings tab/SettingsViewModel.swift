@@ -39,8 +39,8 @@ class SettingsViewModel: EnvironmentCancebleObject, ObservableObject {
         willSet { env.settings.adjustedTotal = newValue }
     }
 
-    @Published var deleteOther: Bool {
-        willSet { env.settings.deleteOther = newValue }
+    @Published var minusDebt: Bool {
+        willSet { env.settings.minusDebt = newValue }
     }
 
     @Published var sections: [Section] = Section.TypeSection.allCases.map(Section.init)
@@ -51,7 +51,7 @@ class SettingsViewModel: EnvironmentCancebleObject, ObservableObject {
 
         _adjustedAverage = .init(initialValue: env.settings.adjustedAverage)
         _adjustedTotal = .init(initialValue: env.settings.adjustedTotal)
-        _deleteOther = .init(initialValue: env.settings.deleteOther)
+        _minusDebt = .init(initialValue: env.settings.minusDebt)
 
         super.init(env: env)
     }
@@ -66,5 +66,13 @@ class SettingsViewModel: EnvironmentCancebleObject, ObservableObject {
             .sink(receiveValue: { dateInterval in
                 Settings.shared.dateInterval = dateInterval
             }).store(in: &cancellables)
+    }
+
+    public func load() {
+        if !env.settings.blockedPosition.isEmpty {
+            minusDebt = env.settings.minusDebt
+        } else {
+            minusDebt = false
+        }
     }
 }

@@ -69,8 +69,7 @@ class DetailCurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
             averagePayIn.value = String(avg)
         }
 
-        averagePayIn.$value.dropFirst()
-            .map(Double.init)
+        averagePayIn.$value.dropFirst().map(Double.init)
             .sink { [unowned self] avg in
                 if let avg = avg {
                     env.settings.averageCurrency.updateValue(avg, forKey: currency)

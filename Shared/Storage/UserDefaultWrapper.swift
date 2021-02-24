@@ -15,7 +15,7 @@ extension UserDefault {
         case adjustedAverage
         case adjustedTotal
         case averageCurrency
-        case deleteOther
+        case minusDebt
         case homeSortType
         case blockedPosition
     }

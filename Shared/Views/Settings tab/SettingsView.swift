@@ -54,6 +54,7 @@ struct SettingsView: View {
                 }
             }
         }
+        .onAppear(perform: viewModel.load)
         .listStyle(GroupedListStyle())
         .navigationTitle("Settings")
     }
@@ -119,7 +120,8 @@ struct SettingsView: View {
     }
 
     var deleteOther: some View {
-        Toggle("Delete other from total portfolio", isOn: $viewModel.deleteOther)
+        Toggle("Minus debt from total portfolio", isOn: $viewModel.minusDebt)
             .font(.system(size: 15))
+            .disabled(viewModel.env.settings.blockedPosition.isEmpty)
     }
 }

@@ -9,18 +9,6 @@ import Combine
 import InvestModels
 import SwiftUI
 
-private extension Operation {
-    var opCurrency: Currency {
-        guard let ticker = instrument?.ticker else {
-            return currency
-        }
-
-        return Currency.allCases.first(where: {
-            ticker.starts(with: $0.rawValue)
-        }) ?? currency
-    }
-}
-
 class CurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var rows: [Row] = []
 

@@ -28,8 +28,8 @@ struct Settings {
     @UserDefault(key: .adjustedTotal, defaultValue: false)
     var adjustedTotal: Bool
 
-    @UserDefault(key: .deleteOther, defaultValue: false)
-    var deleteOther: Bool
+    @UserDefault(key: .minusDebt, defaultValue: false)
+    var minusDebt: Bool
 
     // MARK: Home
 
