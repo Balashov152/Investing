@@ -21,6 +21,8 @@
 		EF15F26325E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F26125E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift */; };
 		EF15F26D25E151D600F281F8 /* Currency+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F26C25E151D600F281F8 /* Currency+Ex.swift */; };
 		EF15F26E25E151D600F281F8 /* Currency+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F26C25E151D600F281F8 /* Currency+Ex.swift */; };
+		EF15F2A525E6AEA200F281F8 /* TargetPositionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F2A425E6AEA200F281F8 /* TargetPositionView.swift */; };
+		EF15F2A625E6AEA200F281F8 /* TargetPositionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F2A425E6AEA200F281F8 /* TargetPositionView.swift */; };
 		EF249EA425C35D210064C9C6 /* TargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF249EA325C35D210064C9C6 /* TargetsView.swift */; };
 		EF249EA525C35D210064C9C6 /* TargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF249EA325C35D210064C9C6 /* TargetsView.swift */; };
 		EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
@@ -333,6 +335,7 @@
 		EF15F25925E1341E00F281F8 /* BlockedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedText.swift; sourceTree = "<group>"; };
 		EF15F26125E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalNumberOnlyViewModifier.swift; sourceTree = "<group>"; };
 		EF15F26C25E151D600F281F8 /* Currency+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency+Ex.swift"; sourceTree = "<group>"; };
+		EF15F2A425E6AEA200F281F8 /* TargetPositionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetPositionView.swift; sourceTree = "<group>"; };
 		EF249EA325C35D210064C9C6 /* TargetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetsView.swift; sourceTree = "<group>"; };
 		EF27F73025B089FA00E83EE3 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		EF3EBBD725C955DC002F5469 /* CurrencyPositionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPositionRowView.swift; sourceTree = "<group>"; };
@@ -607,6 +610,7 @@
 				EF249EA325C35D210064C9C6 /* TargetsView.swift */,
 				EF6684BD25D1761D0090FAA1 /* TargetsViewModel.swift */,
 				EF66843825CC1CBF0090FAA1 /* ColumnView.swift */,
+				EF15F2A425E6AEA200F281F8 /* TargetPositionView.swift */,
 			);
 			path = TargetsView;
 			sourceTree = "<group>";
@@ -1495,6 +1499,7 @@
 				EF54169C25C063E5007EA38D /* Identifiable+Ex.swift in Sources */,
 				EF66851625D708810090FAA1 /* MainViewModel.swift in Sources */,
 				EF95209425C00F2B0006FD97 /* PosotionInfoRow.swift in Sources */,
+				EF15F2A525E6AEA200F281F8 /* TargetPositionView.swift in Sources */,
 				EFA92DE725DE9B2D008DD8D0 /* HomeHeaderTotalView.swift in Sources */,
 				EF6684BE25D1761D0090FAA1 /* TargetsViewModel.swift in Sources */,
 				EF6685AA25D70EBF0090FAA1 /* SettingsViewModel.swift in Sources */,
@@ -1613,6 +1618,7 @@
 				EF6685AB25D70EBF0090FAA1 /* SettingsViewModel.swift in Sources */,
 				EF66852925D708D20090FAA1 /* CurrencyPair+Ex.swift in Sources */,
 				EF76A0D5257FAA5A00991AE3 /* HomeView.swift in Sources */,
+				EF15F2A625E6AEA200F281F8 /* TargetPositionView.swift in Sources */,
 				EF6684EA25D7066B0090FAA1 /* CancebleObject.swift in Sources */,
 				EF79B80625B1E064005C2EB8 /* LogoService.swift in Sources */,
 				EF5416B625C06497007EA38D /* MoneyRow.swift in Sources */,
