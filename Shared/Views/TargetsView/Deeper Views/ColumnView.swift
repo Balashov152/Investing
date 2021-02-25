@@ -112,4 +112,67 @@ struct ColumnView: View {
         .offset(targetViewOffset)
         .gesture(combined)
     }
+
+    var gesture: some Gesture {
+        let dragGesture = DragGesture()
+            .onChanged { value in
+                debugPrint("value.translation", value.translation)
+                let newOffset = value.startLocation.y + value.translation.height
+                let amplutude = mainSize.height / 2
+                self.offset = range(min: -amplutude, element: newOffset, max: amplutude)
+            }
+            .onEnded { _ in
+                self.isDragging = false
+            }
+
+        let pressGesture = LongPressGesture(minimumDuration: 0.1)
+            .onEnded { _ in
+                Vibration.selection.vibrate()
+                self.isDragging = true
+            }
+
+        return pressGesture.sequenced(before: dragGesture)
+    }
+}
+
+struct ContentView: View {
+    @State var pos = CGSize.zero
+    @State var acc = CGSize.zero
+    @State var value = 0.0
+
+    @ObservedObject var model = Model()
+
+    var body: some View {
+        let drag = DragGesture()
+            .onChanged { value in
+                self.pos = CGSize(width: value.translation.width + self.acc.width, height: value.translation.height + self.acc.height)
+            }
+            .onEnded { value in
+                self.pos = CGSize(width: value.translation.width + self.acc.width, height: value.translation.height + self.acc.height)
+                self.acc = self.pos
+            }
+
+        return VStack {
+            Slider(value: $value, in: 0 ... 100, step: 1) { _ in
+                self.model.flag = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.model.flag = true
+                }
+            }
+        }
+        .frame(width: 250, height: 40, alignment: .center)
+        .overlay(RoundedRectangle(cornerRadius: 25).stroke(lineWidth: 2).foregroundColor(Color.black))
+        .offset(x: self.pos.width, y: self.pos.height)
+        .gesture(model.flag == true ? drag : nil)
+    }
+}
+
+class Model: ObservableObject {
+    @Published var flag = false
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }

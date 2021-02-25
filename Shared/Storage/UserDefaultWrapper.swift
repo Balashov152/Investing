@@ -18,6 +18,7 @@ extension UserDefault {
         case minusDebt
         case homeSortType
         case blockedPosition
+        case targetPositions
     }
 
     enum StorageKeys: String {

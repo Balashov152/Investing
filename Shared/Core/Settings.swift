@@ -48,4 +48,9 @@ struct Settings {
 
     @UserDefault(key: .blockedPosition, defaultValue: [:])
     var blockedPosition: [String: MoneyAmount]
+
+    // MARK: Target
+
+    @UserDefault(key: .targetPositions, defaultValue: [:])
+    var targetPositions: [String: Double]
 }

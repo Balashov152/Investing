@@ -19,22 +19,31 @@ extension Position: Hashable {
     }
     
     public var currency: Currency {
-        averagePositionPrice.currency
+        switch instrumentType {
+        case .Bond, .Etf, .Stock:
+        return averagePositionPrice.currency
+        case .Currency:
+            return Currency(rawValue: String(ticker.prefix(3))) ?? averagePositionPrice.currency
+        }
     }
     
     public var totalBuyPayment: MoneyAmount {
-        MoneyAmount(currency: currency,
+        switch instrumentType {
+        case .Bond, .Etf, .Stock:
+        return MoneyAmount(currency: currency,
                     value: averagePositionPrice.value * Double(lots))
+        case .Currency:
+            return MoneyAmount(currency: currency, value: balance)
+        }
     }
     
     public var totalInProfile: MoneyAmount {
-        MoneyAmount(currency: currency,
-                    value: totalBuyPayment.value + expectedYield.value)
+        totalBuyPayment + expectedYield
     }
 }
 
 public struct Position: Decodable {
-    public init(name: String?, figi: String?, ticker: String, isin: String?, instrumentType: InstrumentType, balance: Double?, blocked: Double?, lots: Int, expectedYield: MoneyAmount, averagePositionPrice: MoneyAmount, averagePositionPriceNoNkd: MoneyAmount?) {
+    public init(name: String?, figi: String?, ticker: String, isin: String?, instrumentType: InstrumentType, balance: Double, blocked: Double?, lots: Int, expectedYield: MoneyAmount, averagePositionPrice: MoneyAmount, averagePositionPriceNoNkd: MoneyAmount?) {
         self.name = name
         self.figi = figi
         self.ticker = ticker
@@ -55,7 +64,7 @@ public struct Position: Decodable {
     public let isin: String?
     public let instrumentType: InstrumentType
 
-    public let balance: Double?
+    public let balance: Double
     public let blocked: Double?
 
     public let lots: Int
@@ -70,7 +79,7 @@ public struct Position: Decodable {
 		ticker = try values.decodeIfPresent(forKey: .ticker, default: "")
 		isin = try values.decodeIfPresent(forKey: .isin)
         instrumentType = try values.decodeIfPresent(forKey: .instrumentType, default: .Stock)
-		balance = try values.decodeIfPresent(forKey: .balance)
+		balance = try values.decodeIfPresent(forKey: .balance, default: 0)
 		blocked = try values.decodeIfPresent(forKey: .blocked)
         lots = try values.decodeIfPresent(forKey: .lots, default: 0)
         

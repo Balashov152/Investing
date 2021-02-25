@@ -201,9 +201,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
     private func changeView(convertSortModel: ConvertSortModel, sources: Sources) {
         let total = convertTotal(sources: sources, currency: convertSortModel.convert.currencyValue ?? .USD)
-//        DispatchQueue.main.async {
         convertedTotal = total
-//        }
 
         let sections = setupSections(convertSortModel: convertSortModel, sources: sources)
         DispatchQueue.main.async {
@@ -212,7 +210,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     private func convertTotal(sources: Sources, currency: Currency) -> Total {
-        let positions = sources.positions
+        let positions = sources.positions.filter { $0.instrumentType != .Currency }
         let currencies = sources.currencies
 
         let totalInProfile = positions.reduce(0) { (result, position) -> Double in

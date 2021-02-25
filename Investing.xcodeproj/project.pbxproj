@@ -23,6 +23,8 @@
 		EF15F26E25E151D600F281F8 /* Currency+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F26C25E151D600F281F8 /* Currency+Ex.swift */; };
 		EF15F2A525E6AEA200F281F8 /* RectanglePercentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F2A425E6AEA200F281F8 /* RectanglePercentView.swift */; };
 		EF15F2A625E6AEA200F281F8 /* RectanglePercentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F2A425E6AEA200F281F8 /* RectanglePercentView.swift */; };
+		EF15F2C125E7EAC400F281F8 /* SimplePosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F2C025E7EAC400F281F8 /* SimplePosition.swift */; };
+		EF15F2C225E7EAC400F281F8 /* SimplePosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF15F2C025E7EAC400F281F8 /* SimplePosition.swift */; };
 		EF249EA425C35D210064C9C6 /* TargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF249EA325C35D210064C9C6 /* TargetsView.swift */; };
 		EF249EA525C35D210064C9C6 /* TargetsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF249EA325C35D210064C9C6 /* TargetsView.swift */; };
 		EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF27F73025B089FA00E83EE3 /* Date+Ex.swift */; };
@@ -336,6 +338,7 @@
 		EF15F26125E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalNumberOnlyViewModifier.swift; sourceTree = "<group>"; };
 		EF15F26C25E151D600F281F8 /* Currency+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Currency+Ex.swift"; sourceTree = "<group>"; };
 		EF15F2A425E6AEA200F281F8 /* RectanglePercentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RectanglePercentView.swift; sourceTree = "<group>"; };
+		EF15F2C025E7EAC400F281F8 /* SimplePosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePosition.swift; sourceTree = "<group>"; };
 		EF249EA325C35D210064C9C6 /* TargetsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetsView.swift; sourceTree = "<group>"; };
 		EF27F73025B089FA00E83EE3 /* Date+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ex.swift"; sourceTree = "<group>"; };
 		EF3EBBD725C955DC002F5469 /* CurrencyPositionRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPositionRowView.swift; sourceTree = "<group>"; };
@@ -604,13 +607,29 @@
 			path = "View Modifiers";
 			sourceTree = "<group>";
 		};
+		EF15F2BF25E7EAB000F281F8 /* Common View Models */ = {
+			isa = PBXGroup;
+			children = (
+				EF15F2C025E7EAC400F281F8 /* SimplePosition.swift */,
+			);
+			path = "Common View Models";
+			sourceTree = "<group>";
+		};
+		EF15F2CF25E7EB3600F281F8 /* Deeper Views */ = {
+			isa = PBXGroup;
+			children = (
+				EF15F2A425E6AEA200F281F8 /* RectanglePercentView.swift */,
+				EF66843825CC1CBF0090FAA1 /* ColumnView.swift */,
+			);
+			path = "Deeper Views";
+			sourceTree = "<group>";
+		};
 		EF249EA225C35CFC0064C9C6 /* TargetsView */ = {
 			isa = PBXGroup;
 			children = (
+				EF15F2CF25E7EB3600F281F8 /* Deeper Views */,
 				EF249EA325C35D210064C9C6 /* TargetsView.swift */,
 				EF6684BD25D1761D0090FAA1 /* TargetsViewModel.swift */,
-				EF66843825CC1CBF0090FAA1 /* ColumnView.swift */,
-				EF15F2A425E6AEA200F281F8 /* RectanglePercentView.swift */,
 			);
 			path = TargetsView;
 			sourceTree = "<group>";
@@ -810,6 +829,7 @@
 				EF54166225C0618B007EA38D /* Core */,
 				EF76A10A257FB4D100991AE3 /* Views */,
 				EF1281E325B202C50018E5FC /* Common Views */,
+				EF15F2BF25E7EAB000F281F8 /* Common View Models */,
 				EFBA420D25821ED100C2AFC8 /* Utils */,
 				EF54166325C061A9007EA38D /* Model+Ex */,
 				EFB535402592207A00C93C3C /* Data Base */,
@@ -1502,6 +1522,7 @@
 				EF15F2A525E6AEA200F281F8 /* RectanglePercentView.swift in Sources */,
 				EFA92DE725DE9B2D008DD8D0 /* HomeHeaderTotalView.swift in Sources */,
 				EF6684BE25D1761D0090FAA1 /* TargetsViewModel.swift in Sources */,
+				EF15F2C125E7EAC400F281F8 /* SimplePosition.swift in Sources */,
 				EF6685AA25D70EBF0090FAA1 /* SettingsViewModel.swift in Sources */,
 				EF9581BD25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF9581B425909E5500D559E7 /* EnvironmentCancebleObject.swift in Sources */,
@@ -1660,6 +1681,7 @@
 				EF647E6825AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF5416CC25C06591007EA38D /* TickersViewModel.swift in Sources */,
 				EF76A124257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
+				EF15F2C225E7EAC400F281F8 /* SimplePosition.swift in Sources */,
 				EF84A98025C0B2A50081F857 /* RatesView.swift in Sources */,
 				EF6684F525D706CB0090FAA1 /* DateInterval.swift in Sources */,
 				EFEFDE4825BF3DB30013BB1B /* AuthorizationView.swift in Sources */,

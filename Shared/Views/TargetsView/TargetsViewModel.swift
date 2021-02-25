@@ -15,12 +15,7 @@ extension TargetsViewModel {
         let percent: Double
         var percentVisible: Double { percent * 100 }
         var target: Double
-        let position: Position
-    }
-
-    struct TargetPair: Hashable {
-        let positionId: String
-        var target: Double
+        let position: SimplePosition
     }
 }
 
@@ -28,7 +23,18 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
     var currencyPairServiceLatest: CurrencyPairServiceLatest { .shared }
 
     @Published var columns: [Column] = []
-    @State var targets: Set<TargetPair> = []
+
+    @Published var targets: [String: Double] {
+        willSet {
+            env.settings.targetPositions = newValue
+        }
+    }
+
+    override init(env: Environment = .current) {
+        _targets = .init(initialValue: env.settings.targetPositions)
+
+        super.init(env: env)
+    }
 
     var curency: Currency {
         env.settings.currency ?? .RUB
@@ -59,29 +65,13 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
                                                                  money: position.totalInProfile,
                                                                  to: curency).value
                     return Column(percent: convert / total,
-                                  target: convert / total,
-                                  position: position)
-                }.sorted(by: { $0.percent > $1.percent })
+                                  target: targets[position.ticker] ?? convert / total,
+                                  position: .init(position: position))
+                }
+                .sorted(by: { $0.percent > $1.percent })
             }
-//            .print("targets")
             .receive(on: DispatchQueue.main)
             .assign(to: \.columns, on: self)
-            .store(in: &cancellables)
-
-        $columns.filter { !$0.isEmpty }
-            .collect(1)
-//            .print("set targets")
-            .replaceError(with: [])
-            .eraseToAnyPublisher()
-            .map { columns -> Set<TargetsViewModel.TargetPair> in
-                let arr = columns.flatMap {
-                    $0.map { column -> TargetPair in
-                        TargetPair(positionId: column.position.figi.orEmpty, target: column.target)
-                    }
-                }
-                return Set(arr)
-            }
-            .assign(to: \.targets, on: self)
             .store(in: &cancellables)
     }
 

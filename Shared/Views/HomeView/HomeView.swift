@@ -85,7 +85,7 @@ struct HomeView: View {
                 NavigationLink(destination: NavigationLazyView(ViewFactory.detailCurrencyView(currency: position.currency,
                                                                                               operations: viewModel.currencyOperation(currency: position.currency),
                                                                                               env: viewModel.env))) {
-                    CurrencyPositionRowView(position: position)
+                    PositionRowView(position: position)
                         .padding(.leading, 10)
                 }
             }
