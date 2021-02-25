@@ -33,29 +33,13 @@ struct TargetsView: View {
 
     var body: some View {
         NavigationView {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .bottom) {
-                    ForEach(viewModel.columns) { column in
-                        ColumnView(column: column,
-                                   mainSize: CGSize(width: 20, height: height),
-                                   changeTarget: targetChange(coloumn: column))
-                    }
+            ScrollView(.vertical, showsIndicators: false) {
+                ForEach(viewModel.columns) { column in
+                    Divider()
+                    TargetOneView(column: column)
+                        .padding([.all], 8)
                 }
             }
-            .frame(height: height, alignment: .bottom)
-//
-//            VStack {
-//
-            // .padding(EdgeInsets(top: 0, leading: 16, bottom: 0, trailing: 16))
-//
-//                List {
-//                    PlainSection(header: Text("Positions").bold().font(.title).padding(EdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0))) {
-//                        ForEach(viewModel.columns) {
-//                            InfoRow(label: $0.position.name.orEmpty, text: $0.percentVisible.string(f: ".5"))
-//                        }
-//                    }
-//                }
-//            }
             .navigationTitle("Targets")
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: viewModel.load)
@@ -65,4 +49,44 @@ struct TargetsView: View {
 
 public func range<E: Comparable>(min: E, element: E, max: E) -> E {
     return Swift.min(Swift.max(min, element), max)
+}
+
+struct TargetOneView: View {
+    let column: TargetsViewModel.Column
+
+    @State var target: CGFloat = 50
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack(spacing: 8.0) {
+                GeometryReader { _ in
+                    Text(column.position.name.orEmpty)
+                        .font(.system(size: 14, weight: .bold))
+                        .multilineTextAlignment(.leading)
+                        .lineLimit(1)
+//                        .frame(width: geometry.size.width * 0.5)
+                }
+                Spacer()
+                GeometryReader { _ in
+                    RectanglePercentView(column: column)
+//                        .frame(width: geometry.size.width * 0.5, height: 10)
+                }
+
+//                Spacer()
+                Text(column.percentVisible.string(f: ".2") + "%")
+                    .font(.system(size: 16, weight: .bold))
+            }
+
+            HStack {
+                Stepper(value: $target, in: 0 ... 100) {
+                    EmptyView()
+                }
+//                .scaleEffect(0.8)
+                Text(target.description + "%")
+                    .font(.system(size: 16, weight: .medium))
+            }
+
+            HStack {}
+        }
+    }
 }
