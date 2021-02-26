@@ -36,7 +36,7 @@ class AuthorizationViewModel: EnvironmentCancebleObject, ObservableObject {
                 switch error {
                 case let .failure(error):
                     Storage.token = ""
-                    self.error = "Token is invalid" // error.localizedDescription
+                    self.error = "Token is invalid".localized
                 case .finished:
                     break
                 }
@@ -81,11 +81,11 @@ struct AuthorizationView: View {
                                 Text(error)
                                     .foregroundColor(.red)
                             } else {
-                                Text("Enter token")
+                                Text("Enter token".localized)
                             }
                         }.lineLimit(1)
 
-                        TextField("api token", text: $viewModel.apiToken)
+                        TextField("api token".localized, text: $viewModel.apiToken)
                             .textFieldStyle(PlainTextFieldStyle())
                             .introspectTextField(customize: { textField in
                                 textField.becomeFirstResponder()
@@ -96,11 +96,11 @@ struct AuthorizationView: View {
                     .padding(.top, 50)
                     .padding(.bottom, 50)
 
-                    ActionButton(title: "Check token", action: viewModel.actionButton)
+                    ActionButton(title: "Check".localized, action: viewModel.actionButton)
                 }.padding()
             }
             .accentColor(.appBlack)
-            .navigationTitle("Autorization")
+            .navigationTitle("Autorization".localized)
             .navigationBarItems(trailing: Toggle("sandbox", isOn: $viewModel.isSandbox))
         }
     }

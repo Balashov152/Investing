@@ -37,7 +37,7 @@ struct TargetsView: View {
                     Divider()
                 }
             }
-            .navigationTitle("Targets")
+            .navigationTitle("Targets".localized)
             .navigationBarItems(trailing: MainView.settingsNavigationLink)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: viewModel.load)

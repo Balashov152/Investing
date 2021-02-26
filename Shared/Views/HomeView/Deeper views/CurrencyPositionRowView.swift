@@ -30,7 +30,7 @@ struct CurrencyPositionRowView: View {
 
     var rightStack: some View {
         HStack(spacing: 4) {
-            Text("Total:")
+            Text("Total".localized + ":")
             MoneyText(money: position.totalInProfile)
         }.font(.system(size: 14, weight: .semibold))
     }

@@ -2,6 +2,58 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>All operations</key>
+	<string></string>
+	<key>Result of operations with dividends</key>
+	<string></string>
+	<key>Dividends</key>
+	<string></string>
+	<key>Result of operations</key>
+	<string></string>
+	<key>Now in portfolio</key>
+	<string></string>
+	<key>Total of sold</key>
+	<string></string>
+	<key>Total purchases</key>
+	<string></string>
+	<key>Average</key>
+	<string></string>
+	<key>Profit</key>
+	<string></string>
+	<key>Position</key>
+	<string></string>
+	<key>Price</key>
+	<string></string>
+	<key>Name</key>
+	<string></string>
+	<key>Etfs</key>
+	<string></string>
+	<key>Stocks</key>
+	<string></string>
+	<key>Bonds</key>
+	<string></string>
+	<key>Currencies</key>
+	<string></string>
+	<key>Payable</key>
+	<string></string>
+	<key>Targets</key>
+	<string></string>
+	<key>Analytics</key>
+	<string></string>
+	<key>Portfolio</key>
+	<string></string>
+	<key>Loading...</key>
+	<string></string>
+	<key>Autorization</key>
+	<string></string>
+	<key>Check</key>
+	<string></string>
+	<key>api token</key>
+	<string></string>
+	<key>Enter token</key>
+	<string></string>
+	<key>Token is invalid</key>
+	<string></string>
 	<key>weight</key>
 	<string></string>
 	<key>sort on</key>

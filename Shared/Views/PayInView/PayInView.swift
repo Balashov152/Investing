@@ -27,7 +27,7 @@ struct PayInView: View {
             }
         }
         .listStyle(GroupedListStyle())
-        .navigationTitle("Payble \(viewModel.convertCurrency.rawValue)")
+        .navigationTitle("Payable".localized + viewModel.convertCurrency.rawValue)
         .onAppear(perform: viewModel.load)
     }
 

@@ -17,7 +17,7 @@ extension HomeViewModel {
         var sectionHeader: String {
             switch type {
             case .Bond, .Stock, .Etf:
-                return type.rawValue + "s"
+                return (type.rawValue + "s").localized
             case .Currency:
                 return "Currencies"
             }
@@ -81,7 +81,7 @@ extension HomeViewModel {
         case name, price, position, profit
 
         var text: String {
-            "\(self)".capitalized
+            "\(self)".capitalized.localized
         }
 
         var systemImageName: String {

@@ -85,7 +85,7 @@ struct PositionRowView: View {
     var leftStack: some View {
         VStack(alignment: .leading, spacing: 8.0) {
             VStack(alignment: .leading, spacing: 0) {
-                Text("average")
+                Text("average".localized)
                 HStack(spacing: 4.0) {
                     CurrencyText(money: position.averagePositionPrice)
                     Text("|")

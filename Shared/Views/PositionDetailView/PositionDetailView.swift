@@ -15,18 +15,18 @@ struct PositionDetailView: View {
     var body: some View {
         List {
             Section {
-                PosotionInfoRow(label: "Total of purchased", changes: viewModel.buyCount)
-                PosotionInfoRow(label: "Total of sold", changes: viewModel.sellCount)
+                PosotionInfoRow(label: "Total purchases".localized, changes: viewModel.buyCount)
+                PosotionInfoRow(label: "Total of sold".localized, changes: viewModel.sellCount)
 
-                PosotionInfoRow(label: "Now in portfolio", changes: viewModel.inProfile)
+                PosotionInfoRow(label: "Now in portfolio".localized, changes: viewModel.inProfile)
             }
 
             Section {
-                CurrencyRow(label: "Average", money: viewModel.average)
-                MoneyRow(label: "Result operations", money: viewModel.total)
+                CurrencyRow(label: "Average".localized, money: viewModel.average)
+                MoneyRow(label: "Result of operations".localized, money: viewModel.total)
                 if viewModel.dividends.value > 0 {
                     MoneyRow(label: "Dividends", money: viewModel.dividends)
-                    MoneyRow(label: "Result operations with dividends", money: viewModel.total + viewModel.dividends)
+                    MoneyRow(label: "Result of operations with dividends".localized, money: viewModel.total + viewModel.dividends)
                 }
             }
 
@@ -40,7 +40,7 @@ struct PositionDetailView: View {
                         OperationRowView(operation: $0)
                     }
                 }, label: {
-                    Text("All operations \(viewModel.operations.count)")
+                    Text("All operations".localized + viewModel.operations.count.string)
                 })
             }
         }

@@ -42,7 +42,7 @@ struct MainView: View {
         VStack(spacing: 8) {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
-            Text("Loading...")
+            Text("Loading...".localized)
         }
     }
 
@@ -61,7 +61,7 @@ struct MainView: View {
         ViewFactory.homeView.tabItem {
             VStack {
                 Image(systemName: selection == 0 ? "dollarsign.circle.fill" : "dollarsign.circle")
-                Text("Profile")
+                Text("Portfolio".localized)
             }.font(.system(size: 16, weight: selection == 0 ? .bold : .regular))
         }.tag(0)
     }
@@ -70,7 +70,7 @@ struct MainView: View {
         ViewFactory.analyticsView.tabItem {
             VStack {
                 Image(systemName: selection == 1 ? "chart.bar.fill" : "chart.bar")
-                Text("Analytics")
+                Text("Analytics".localized)
                     .font(.system(size: 16, weight: selection == 1 ? .bold : .regular))
             }
         }.tag(1)
@@ -80,7 +80,7 @@ struct MainView: View {
         ViewFactory.targetsView.tabItem {
             VStack {
                 Image(systemName: "target")
-                Text("Target")
+                Text("Targets".localized)
             }.font(.system(size: 16, weight: selection == 0 ? .bold : .regular))
         }.tag(2)
     }
