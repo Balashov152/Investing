@@ -13,10 +13,21 @@ struct RectanglePercentView: View {
     let column: TargetsViewModel.Column
     @Binding var target: Double
 
-    @State var rect: CGRect = .zero
-    @State var isDragging: Bool = false
+    internal init(column: TargetsViewModel.Column, target: Binding<Double>) {
+        self.column = column
+        _target = target
+    }
 
-    let padding: CGFloat = 16
+    // private
+    @State private var rect: CGRect = .zero
+    @State private var isDragging: Bool = false
+
+    @State private var offset: CGFloat = 40
+    @State private var ancor: CGFloat = 40
+
+    var thumbSize: CGSize {
+        CGSize(width: 3, height: rect.size.height)
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -27,17 +38,22 @@ struct RectanglePercentView: View {
     var targetView: some View {
         let dragGesture = DragGesture()
             .onChanged { value in
-                debugPrint("value.translation", value.translation, "value.startLocation", value.startLocation)
-                let newOffset = value.translation.width // value.startLocation.x +
-                debugPrint("newOffset", newOffset)
-                self.target = Double(range(min: 0, element: newOffset, max: 100))
+                let newOffset = range(min: 0, element: value.translation.width + self.ancor, max: rect.width - thumbSize.width)
+                self.offset = newOffset
+                debugPrint("offset", offset)
+
+                let off = newOffset == 0 ? 0 : newOffset + thumbSize.width
+                let newTarget = off / rect.width * 100
+                debugPrint("newTarget", newTarget)
+                self.target = Double(range(min: 0, element: newTarget, max: 100))
             }
-            .onEnded { _ in
+            .onEnded { value in
+                self.ancor = range(min: 0, element: value.translation.width + self.ancor, max: rect.width - thumbSize.width)
                 self.isDragging = false
             }
 
         // a long press gesture that enables isDragging
-        let pressGesture = LongPressGesture(minimumDuration: 0.1)
+        let pressGesture = LongPressGesture(minimumDuration: 0.05)
             .onEnded { _ in
                 Vibration.selection.vibrate()
                 self.isDragging = true
@@ -49,9 +65,10 @@ struct RectanglePercentView: View {
         return RoundedRectangle(cornerRadius: 3)
             .fill(Color.black)
             .scaleEffect(CGSize(width: 1, height: isDragging ? 1.5 : 1))
-            .frame(width: 10, height: rect.size.height)
-            .offset(CGSize(width: rect.size.width * CGFloat(target / 100), height: 0))
+            .frame(width: thumbSize.width, height: thumbSize.height * 1.2)
+            .offset(CGSize(width: offset, height: 0))
             .gesture(combined)
+            .padding(.all, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
     }
 
     func makeView(geometry: GeometryProxy) -> some View {

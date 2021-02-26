@@ -190,7 +190,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             changeView(convertSortModel: convertSortModel, sources: sourses)
         }).store(in: &cancellables)
 
-//        startTimer()
+        startTimer()
     }
 
     public func loadPositions() {
