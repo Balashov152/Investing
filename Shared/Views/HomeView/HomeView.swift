@@ -10,6 +10,12 @@ import InvestModels
 import Moya
 import SwiftUI
 
+extension NotificationCenter {
+    static var enterForeground: NotificationCenter.Publisher {
+        NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)
+    }
+}
+
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @State var isRefresh: Bool = false
@@ -44,6 +50,9 @@ struct HomeView: View {
                 .navigationBarItems(trailing: MainView.settingsNavigationLink)
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear(perform: viewModel.loadPositions)
+                .onReceive(NotificationCenter.enterForeground, perform: { _ in
+                    viewModel.loadPositions()
+                })
         }
     }
 

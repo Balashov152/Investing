@@ -213,10 +213,10 @@
 		EFA92D4B25DD5F70008DD8D0 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92D4925DD5F70008DD8D0 /* PullToRefresh.swift */; };
 		EFA92DE725DE9B2D008DD8D0 /* HomeHeaderTotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92DE625DE9B2C008DD8D0 /* HomeHeaderTotalView.swift */; };
 		EFA92DE825DE9B2D008DD8D0 /* HomeHeaderTotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92DE625DE9B2C008DD8D0 /* HomeHeaderTotalView.swift */; };
-		EFA92E7E25DEB7BB008DD8D0 /* String+Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92E7D25DEB7BB008DD8D0 /* String+Localize.swift */; };
-		EFA92E7F25DEB7BB008DD8D0 /* String+Localize.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92E7D25DEB7BB008DD8D0 /* String+Localize.swift */; };
-		EFA92E8C25DEB99A008DD8D0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EFA92E8F25DEB99A008DD8D0 /* Localizable.strings */; };
-		EFA92E8D25DEB99A008DD8D0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EFA92E8F25DEB99A008DD8D0 /* Localizable.strings */; };
+		EFAA019B25E94F7500078F48 /* Localizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAA019A25E94F7400078F48 /* Localizator.swift */; };
+		EFAA019C25E94F7500078F48 /* Localizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAA019A25E94F7400078F48 /* Localizator.swift */; };
+		EFAA01BB25E94FA200078F48 /* Localizable.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFAA01BE25E94FA200078F48 /* Localizable.plist */; };
+		EFAA01BC25E94FA200078F48 /* Localizable.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFAA01BE25E94FA200078F48 /* Localizable.plist */; };
 		EFB534C52591E17300C93C3C /* CurrencyPairR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB534C42591E17300C93C3C /* CurrencyPairR.swift */; };
 		EFB534CF2591E18200C93C3C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534CE2591E18200C93C3C /* Realm */; };
 		EFB534D12591E18200C93C3C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534D02591E18200C93C3C /* RealmSwift */; };
@@ -447,9 +447,10 @@
 		EF9CD34F25B232430043E9E1 /* DetailCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCurrencyView.swift; sourceTree = "<group>"; };
 		EFA92D4925DD5F70008DD8D0 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		EFA92DE625DE9B2C008DD8D0 /* HomeHeaderTotalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderTotalView.swift; sourceTree = "<group>"; };
-		EFA92E7D25DEB7BB008DD8D0 /* String+Localize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localize.swift"; sourceTree = "<group>"; };
 		EFA92E8E25DEB99A008DD8D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EFA92E9425DEBB9F008DD8D0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EFAA019A25E94F7400078F48 /* Localizator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizator.swift; sourceTree = "<group>"; };
+		EFAA01BD25E94FA200078F48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Localizable.plist; sourceTree = "<group>"; };
 		EFB534C42591E17300C93C3C /* CurrencyPairR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairR.swift; sourceTree = "<group>"; };
 		EFB5354D2592209500C93C3C /* CurrencyPairService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairService.swift; sourceTree = "<group>"; };
 		EFB535D72592450200C93C3C /* Enviroment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enviroment.swift; sourceTree = "<group>"; };
@@ -1083,8 +1084,9 @@
 		EFA92E7C25DEB79D008DD8D0 /* Localized */ = {
 			isa = PBXGroup;
 			children = (
+				EFAA019A25E94F7400078F48 /* Localizator.swift */,
+				EFAA01BE25E94FA200078F48 /* Localizable.plist */,
 				EFA92E8F25DEB99A008DD8D0 /* Localizable.strings */,
-				EFA92E7D25DEB7BB008DD8D0 /* String+Localize.swift */,
 			);
 			path = Localized;
 			sourceTree = "<group>";
@@ -1382,8 +1384,8 @@
 			files = (
 				EF76A0BF257FA80200991AE3 /* Assets.xcassets in Resources */,
 				EF4C35B725B6D7AE00A3AB5D /* quest.mp3 in Resources */,
+				EFAA01BB25E94FA200078F48 /* Localizable.plist in Resources */,
 				EF4C35B925B6D7AE00A3AB5D /* when.mp3 in Resources */,
-				EFA92E8C25DEB99A008DD8D0 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1393,8 +1395,8 @@
 			files = (
 				EF76A0C0257FA80200991AE3 /* Assets.xcassets in Resources */,
 				EF4C35B825B6D7AE00A3AB5D /* quest.mp3 in Resources */,
+				EFAA01BC25E94FA200078F48 /* Localizable.plist in Resources */,
 				EF4C35BA25B6D7AE00A3AB5D /* when.mp3 in Resources */,
-				EFA92E8D25DEB99A008DD8D0 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1580,7 +1582,7 @@
 				EF76A173257FCE2100991AE3 /* AccountService.swift in Sources */,
 				EF8114B22596375700773236 /* SettingsView.swift in Sources */,
 				EF5416BC25C064A2007EA38D /* InfoRow.swift in Sources */,
-				EFA92E7E25DEB7BB008DD8D0 /* String+Localize.swift in Sources */,
+				EFAA019B25E94F7500078F48 /* Localizator.swift in Sources */,
 				EF66843925CC1CBF0090FAA1 /* ColumnView.swift in Sources */,
 				EF15F26225E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift in Sources */,
 				EF6684FB25D706E20090FAA1 /* API.swift in Sources */,
@@ -1632,7 +1634,6 @@
 				EFB5354F2592209500C93C3C /* CurrencyPairService.swift in Sources */,
 				EFB535D92592450200C93C3C /* Enviroment.swift in Sources */,
 				EF647E5D25AF41BE00D20761 /* LoadingState.swift in Sources */,
-				EFA92E7F25DEB7BB008DD8D0 /* String+Localize.swift in Sources */,
 				EFA92D4B25DD5F70008DD8D0 /* PullToRefresh.swift in Sources */,
 				EF9581CB25909FC800D559E7 /* Operation+Ex.swift in Sources */,
 				EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */,
@@ -1701,6 +1702,7 @@
 				EF66853025D709140090FAA1 /* Position+Ex.swift in Sources */,
 				EF3ED2C325BAD6CA00B25464 /* URLImage.swift in Sources */,
 				EF15F26E25E151D600F281F8 /* Currency+Ex.swift in Sources */,
+				EFAA019C25E94F7500078F48 /* Localizator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1799,6 +1801,14 @@
 				EFA92E9425DEBB9F008DD8D0 /* ru */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		EFAA01BE25E94FA200078F48 /* Localizable.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EFAA01BD25E94FA200078F48 /* Base */,
+			);
+			name = Localizable.plist;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
