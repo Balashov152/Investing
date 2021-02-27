@@ -14,14 +14,7 @@ extension HomeViewModel {
         let type: InstrumentType
         let positions: [PositionView]
 
-        var sectionHeader: String {
-            switch type {
-            case .Bond, .Stock, .Etf:
-                return (type.rawValue + "s").localized
-            case .Currency:
-                return "Currencies"
-            }
-        }
+        var sectionHeader: String { type.pluralName }
 
         var currencies: [Currency] {
             positions.map { $0.currency }.unique
@@ -190,7 +183,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             changeView(convertSortModel: convertSortModel, sources: sourses)
         }).store(in: &cancellables)
 
-        startTimer()
+//        startTimer()
     }
 
     public func loadPositions() {

@@ -15,9 +15,8 @@ struct HomeHeaderView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             HStack(spacing: 16) {
-                Text(section.sectionHeader)
+                Text(section.sectionHeader.capitalized)
                     .font(.system(size: 20, weight: .semibold))
-                    .textCase(.uppercase)
 
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack {

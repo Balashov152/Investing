@@ -32,18 +32,6 @@ struct HomeView: View {
         self.viewModel = viewModel
     }
 
-    func isExpandedSection(type: InstrumentType) -> Binding<Bool> {
-        .init {
-            expandedSections.contains(type)
-        } set: { isExpand in
-            if isExpand {
-                expandedSections.insert(type)
-            } else {
-                expandedSections.remove(type)
-            }
-        }
-    }
-
     var body: some View {
         NavigationView {
             list
@@ -62,13 +50,14 @@ struct HomeView: View {
         ScrollView {
             HomeHeaderTotalView(viewModel: viewModel)
             ForEach(viewModel.sections) { section in
-                DisclosureGroup(isExpanded: isExpandedSection(type: section.type),
-                                content: {
-                                    groupContent(section: section)
-                                },
-                                label: {
-                                    HomeHeaderView(section: section)
-                                })
+                RowDisclosureGroup(element: section.type,
+                                   expanded: expandedSections,
+                                   content: {
+                                       groupContent(section: section)
+                                   },
+                                   label: {
+                                       HomeHeaderView(section: section)
+                                   })
                 Divider()
             }
             .padding([.leading, .trailing], 16)
@@ -94,7 +83,7 @@ struct HomeView: View {
                 NavigationLink(destination: NavigationLazyView(ViewFactory.detailCurrencyView(currency: position.currency,
                                                                                               operations: viewModel.currencyOperation(currency: position.currency),
                                                                                               env: viewModel.env))) {
-                    PositionRowView(position: position)
+                    CurrencyPositionRowView(position: position)
                         .padding(.leading, 10)
                 }
             }

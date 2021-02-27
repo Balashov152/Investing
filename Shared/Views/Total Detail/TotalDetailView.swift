@@ -57,7 +57,7 @@ struct TotalDetailView: View {
                         OperationRowView(operation: $0)
                     }
                 }, label: {
-                    Text("All operations".localized + viewModel.operations.count.string)
+                    Text("All operations".localized + " " + viewModel.operations.count.string)
                 })
             }
         }

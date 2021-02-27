@@ -1,12 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!--
-   Localizable.plist
-   Investing
-
-   Created by Sergey Balashov on 26.02.2021.
-   Copyright (c) 2021 ___ORGANIZATIONNAME___. All rights reserved.
--->
 <plist version="1.0">
-<dict/>
+<dict>
+	<key>Coupon tax</key>
+	<string>Налог по купону</string>
+	<key>Dividend tax</key>
+	<string>Налог на дивиденды</string>
+	<key>Dividend</key>
+	<string>Дивиденды</string>
+	<key>Total tax</key>
+	<string>Всего налог</string>
+	<key>Total dividends</key>
+	<string>Всего дивидендов</string>
+	<key>Investment</key>
+	<string>Инвестиции</string>
+	<key>Analytics</key>
+	<string>Аналитика</string>
+	<key>Results on investment</key>
+	<string>Результат инвестиций</string>
+	<key>Deposit operations</key>
+	<string>Депозитные операции</string>
+	<key>Commission</key>
+	<string>Комиссия</string>
+	<key>Total commission</key>
+	<string>Всего комиссий</string>
+	<key>Total spent</key>
+	<string>Всего потрачено</string>
+	<key>Average price purchase</key>
+	<string>Средняя цена покупки</string>
+	<key>Withdrawal</key>
+	<string>Выводы</string>
+	<key>Refill</key>
+	<string>Пополнения</string>
+	<key>Operations</key>
+	<string>Операции</string>
+	<key>Currency</key>
+	<string>Валюта</string>
+	<key>Analytic portfolio</key>
+	<string>Аналитика портфеля</string>
+	<key>All information about you deals(buy and sell) on selected period. All values did present after convert to selected currency</key>
+	<string>Вся информация о ваших сделках(покупка и продажа) на выбранный период. Все значения представлены после конвертации в выбранную валюту</string>
+	<key>Total in investment</key>
+	<string>Всего в инвестициях</string>
+	<key>Total purchased</key>
+	<string>Всего куплено</string>
+	<key>Total sold</key>
+	<string>Всего продано</string>
+	<key>Total for all time</key>
+	<string>Всего за все время</string>
+	<key>Total with dividends</key>
+	<string>Всего вместе с дивидендами</string>
+	<key>pcs</key>
+	<string>шт</string>
+	<key>value</key>
+	<string>значение</string>
+	<key>Debt</key>
+	<string>Долг</string>
+	<key>All operations</key>
+	<string>Все операции</string>
+	<key>Result of operations with dividends</key>
+	<string>Результат операций с дивидендами</string>
+	<key>Dividends</key>
+	<string>Дивиденды</string>
+	<key>Result of operations</key>
+	<string>Результат операций</string>
+	<key>Now in portfolio</key>
+	<string>Сейчас в портфеле</string>
+	<key>Total of sold</key>
+	<string>Всего продано</string>
+	<key>Total purchases</key>
+	<string>Всего куплено</string>
+	<key>Average</key>
+	<string>Средняя</string>
+	<key>Profit</key>
+	<string>Прибыль</string>
+	<key>Position</key>
+	<string>Позиция</string>
+	<key>Price</key>
+	<string>Цена</string>
+	<key>Name</key>
+	<string>Название</string>
+	<key>Etfs</key>
+	<string>Фонды</string>
+	<key>Stocks</key>
+	<string>Акции</string>
+	<key>Bonds</key>
+	<string>Облигации</string>
+	<key>Currencies</key>
+	<string>Валюты</string>
+	<key>Payable</key>
+	<string></string>
+	<key>Targets</key>
+	<string>Цели</string>
+	<key>Portfolio</key>
+	<string>Портфель</string>
+	<key>Loading...</key>
+	<string>Загрузка...</string>
+	<key>Autorization</key>
+	<string>Авторизация</string>
+	<key>Check</key>
+	<string>Проверка</string>
+	<key>api token</key>
+	<string>api токен</string>
+	<key>Enter token</key>
+	<string>Введите токен</string>
+	<key>Token is invalid</key>
+	<string>Некорректный токен</string>
+	<key>weight</key>
+	<string>вес</string>
+	<key>sort on</key>
+	<string>сортировать по</string>
+	<key>Rates</key>
+	<string>Курсы</string>
+	<key>Total</key>
+	<string>Всего</string>
+	<key>You portfolio in</key>
+	<string>Ваш портфель в</string>
+</dict>
 </plist>

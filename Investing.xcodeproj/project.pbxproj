@@ -217,6 +217,10 @@
 		EFAA019C25E94F7500078F48 /* Localizator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAA019A25E94F7400078F48 /* Localizator.swift */; };
 		EFAA01BB25E94FA200078F48 /* Localizable.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFAA01BE25E94FA200078F48 /* Localizable.plist */; };
 		EFAA01BC25E94FA200078F48 /* Localizable.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFAA01BE25E94FA200078F48 /* Localizable.plist */; };
+		EFAC37A925EA46570024DEBD /* InstrumentType+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAC37A825EA46570024DEBD /* InstrumentType+Ex.swift */; };
+		EFAC37AA25EA46570024DEBD /* InstrumentType+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAC37A825EA46570024DEBD /* InstrumentType+Ex.swift */; };
+		EFAC37B025EA4F6B0024DEBD /* RowDisclosureGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAC37AF25EA4F6B0024DEBD /* RowDisclosureGroup.swift */; };
+		EFAC37B125EA4F6B0024DEBD /* RowDisclosureGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAC37AF25EA4F6B0024DEBD /* RowDisclosureGroup.swift */; };
 		EFB534C52591E17300C93C3C /* CurrencyPairR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB534C42591E17300C93C3C /* CurrencyPairR.swift */; };
 		EFB534CF2591E18200C93C3C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534CE2591E18200C93C3C /* Realm */; };
 		EFB534D12591E18200C93C3C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534D02591E18200C93C3C /* RealmSwift */; };
@@ -447,10 +451,11 @@
 		EF9CD34F25B232430043E9E1 /* DetailCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCurrencyView.swift; sourceTree = "<group>"; };
 		EFA92D4925DD5F70008DD8D0 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		EFA92DE625DE9B2C008DD8D0 /* HomeHeaderTotalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderTotalView.swift; sourceTree = "<group>"; };
-		EFA92E8E25DEB99A008DD8D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		EFA92E9425DEBB9F008DD8D0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EFAA019A25E94F7400078F48 /* Localizator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizator.swift; sourceTree = "<group>"; };
 		EFAA01BD25E94FA200078F48 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Localizable.plist; sourceTree = "<group>"; };
+		EFAC37A325EA3F450024DEBD /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ru; path = ru.lproj/Localizable.plist; sourceTree = "<group>"; };
+		EFAC37A825EA46570024DEBD /* InstrumentType+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "InstrumentType+Ex.swift"; sourceTree = "<group>"; };
+		EFAC37AF25EA4F6B0024DEBD /* RowDisclosureGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowDisclosureGroup.swift; sourceTree = "<group>"; };
 		EFB534C42591E17300C93C3C /* CurrencyPairR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairR.swift; sourceTree = "<group>"; };
 		EFB5354D2592209500C93C3C /* CurrencyPairService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPairService.swift; sourceTree = "<group>"; };
 		EFB535D72592450200C93C3C /* Enviroment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enviroment.swift; sourceTree = "<group>"; };
@@ -571,6 +576,7 @@
 				EF8104EA25D40B4D00B73406 /* ActionButton.swift */,
 				EF3ED2C125BAD6CA00B25464 /* URLImage.swift */,
 				EF15F25925E1341E00F281F8 /* BlockedText.swift */,
+				EFAC37AF25EA4F6B0024DEBD /* RowDisclosureGroup.swift */,
 			);
 			path = "Common Views";
 			sourceTree = "<group>";
@@ -685,6 +691,7 @@
 				EF66852725D708D20090FAA1 /* CurrencyPair+Ex.swift */,
 				EF66852E25D709140090FAA1 /* Position+Ex.swift */,
 				EF15F26C25E151D600F281F8 /* Currency+Ex.swift */,
+				EFAC37A825EA46570024DEBD /* InstrumentType+Ex.swift */,
 			);
 			path = "Model+Ex";
 			sourceTree = "<group>";
@@ -1086,7 +1093,6 @@
 			children = (
 				EFAA019A25E94F7400078F48 /* Localizator.swift */,
 				EFAA01BE25E94FA200078F48 /* Localizable.plist */,
-				EFA92E8F25DEB99A008DD8D0 /* Localizable.strings */,
 			);
 			path = Localized;
 			sourceTree = "<group>";
@@ -1528,6 +1534,7 @@
 				EF6685AA25D70EBF0090FAA1 /* SettingsViewModel.swift in Sources */,
 				EF9581BD25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF9581B425909E5500D559E7 /* EnvironmentCancebleObject.swift in Sources */,
+				EFAC37A925EA46570024DEBD /* InstrumentType+Ex.swift in Sources */,
 				EF76A0BB257FA80200991AE3 /* InvestingApp.swift in Sources */,
 				EF95208925C00ED00006FD97 /* PositionDetailViewModel.swift in Sources */,
 				EF1281FF25B203C20018E5FC /* Array+Ex.swift in Sources */,
@@ -1543,6 +1550,7 @@
 				EF5416DC25C0676E007EA38D /* DividentsViewModel.swift in Sources */,
 				EF9CD35025B232430043E9E1 /* DetailCurrencyView.swift in Sources */,
 				EF9581CA25909FC800D559E7 /* Operation+Ex.swift in Sources */,
+				EFAC37B025EA4F6B0024DEBD /* RowDisclosureGroup.swift in Sources */,
 				EF6684F425D706CB0090FAA1 /* DateInterval.swift in Sources */,
 				EF76A0D4257FAA5A00991AE3 /* HomeView.swift in Sources */,
 				EFF78C5625933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
@@ -1626,6 +1634,7 @@
 				EF9581B525909E5500D559E7 /* EnvironmentCancebleObject.swift in Sources */,
 				EF66858C25D70CB40090FAA1 /* DetailCurrencyViewModel.swift in Sources */,
 				EF8104DD25D3E8EE00B73406 /* CurrencyPairServiceLatest.swift in Sources */,
+				EFAC37B125EA4F6B0024DEBD /* RowDisclosureGroup.swift in Sources */,
 				EF54169225C063BB007EA38D /* PositionView.swift in Sources */,
 				EF76A0BC257FA80200991AE3 /* InvestingApp.swift in Sources */,
 				EF66856D25D70C070090FAA1 /* TextLimiter.swift in Sources */,
@@ -1663,6 +1672,7 @@
 				EFA92DE825DE9B2D008DD8D0 /* HomeHeaderTotalView.swift in Sources */,
 				EFD60C3E25B42C2D003337C2 /* UserDefaultWrapper.swift in Sources */,
 				EF4C38D125B8468200A3AB5D /* IndexedCollection.swift in Sources */,
+				EFAC37AA25EA46570024DEBD /* InstrumentType+Ex.swift in Sources */,
 				EF66851025D707EF0090FAA1 /* PayInViewModel.swift in Sources */,
 				EF249EA525C35D210064C9C6 /* TargetsView.swift in Sources */,
 				EF54167825C06254007EA38D /* FormattedCurrency.swift in Sources */,
@@ -1794,19 +1804,11 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		EFA92E8F25DEB99A008DD8D0 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EFA92E8E25DEB99A008DD8D0 /* en */,
-				EFA92E9425DEBB9F008DD8D0 /* ru */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
 		EFAA01BE25E94FA200078F48 /* Localizable.plist */ = {
 			isa = PBXVariantGroup;
 			children = (
 				EFAA01BD25E94FA200078F48 /* Base */,
+				EFAC37A325EA3F450024DEBD /* ru */,
 			);
 			name = Localizable.plist;
 			sourceTree = "<group>";

@@ -32,7 +32,7 @@ extension Collection where Element == Operation {
     func totalBuy(to currency: Currency) -> MoneyAmount {
         filter(types: [.Buy, .BuyCard]).currencySum(to: currency)
     }
-    
+
     func filter(type: Operation.OperationTypeWithCommission) -> [Element] {
         filter { $0.operationType == type }
     }

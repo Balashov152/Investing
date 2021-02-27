@@ -23,7 +23,7 @@ struct TickersView: View {
 
             if !viewModel.results.isEmpty {
                 ForEach([InstrumentType.Stock, .Bond, .Etf], id: \.self) { type in
-                    Section(header: Text(type.rawValue)) {
+                    Section(header: Text(type.pluralName)) {
                         ForEach(viewModel.results.filter { $0.instrument.type == type }) {
                             cell(insturment: $0.instrument, currency: $0.result)
                         }

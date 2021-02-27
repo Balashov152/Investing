@@ -14,7 +14,8 @@ extension PayInViewModel {
 
         var header: String {
             if let row = rows.first?.date {
-                return DateFormatter.format("MMMM yyyy").string(from: row)
+                return DateFormatter.format("MMMM yyyy")
+                    .string(from: row).capitalized
             }
             return "no rows"
         }

@@ -66,7 +66,7 @@ class PositionDetailViewModel: EnvironmentCancebleObject, ObservableObject {
 
 extension PositionDetailViewModel {
     var dividends: MoneyAmount {
-        operations.filter(types: [.Dividend]).currencySum(to: currency)
+        operations.filter(types: [.Coupon, .Dividend]).currencySum(to: currency)
     }
 
     var total: MoneyAmount {

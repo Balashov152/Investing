@@ -15,23 +15,23 @@ struct PayInView: View {
     var body: some View {
         List {
             ForEach(viewModel.sections) { section in
-                DisclosureGroup(content: {
+                RowDisclosureGroup(element: section, content: {
                     ForEach(section.rows) { row in
                         HStack {
                             MoneyRow(label: row.localizedDate, money: row.money)
                         }
                     }
                 }, label: {
-                    HomeHeaderView(section: section)
+                    HeaderView(section: section)
                 })
             }
         }
         .listStyle(GroupedListStyle())
-        .navigationTitle("Payable".localized + viewModel.convertCurrency.rawValue)
+        .navigationTitle("Operations".localized + " - " + viewModel.convertCurrency.rawValue)
         .onAppear(perform: viewModel.load)
     }
 
-    struct HomeHeaderView: View {
+    struct HeaderView: View {
         let section: PayInViewModel.Section
         var body: some View {
             if let result = section.result {

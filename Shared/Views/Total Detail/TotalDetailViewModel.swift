@@ -39,7 +39,7 @@ class TotalDetailViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     var dividends: MoneyAmount {
-        let value = operations.filter(type: .Dividend).reduce(0) {
+        let value = operations.filter(types: [.Coupon, .Dividend]).reduce(0) {
             $0 + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
                                                 money: $1.payment.addCurrency($1.currency),
                                                 to: currency).value
@@ -58,7 +58,7 @@ class TotalDetailViewModel: EnvironmentCancebleObject, ObservableObject {
             .receive(on: DispatchQueue.global())
             .map { operations, positions in
                 let filtered = operations
-                    .filter(types: [.Sell, .Buy, .BuyCard, .Dividend])
+                    .filter(types: [.Sell, .Buy, .BuyCard, .Dividend, .Coupon])
                     .filter { $0.instrumentType != .some(.Currency) }
 
                 return .loaded(object: (filtered, positions))
