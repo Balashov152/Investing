@@ -15,20 +15,20 @@ struct AnalyticsView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink("Comission",
+                NavigationLink("Commission".localized,
                                destination: ViewFactory.comissionView)
-                NavigationLink("Currency",
+                NavigationLink("Currency".localized,
                                destination: ViewFactory.currencyView)
-                NavigationLink("Tickers",
+                NavigationLink("Results on investment".localized,
                                destination: ViewFactory.tickersView)
-                NavigationLink("Dividends",
+                NavigationLink("Dividends".localized,
                                destination: ViewFactory.dividentsView)
-                NavigationLink("PayInView",
+                NavigationLink("Deposit operations".localized,
                                destination: ViewFactory.payInView)
             }
             .listStyle(GroupedListStyle())
             .navigationBarItems(trailing: MainView.settingsNavigationLink)
-            .navigationTitle("Analytics")
+            .navigationTitle("Analytics".localized)
         }
     }
 }

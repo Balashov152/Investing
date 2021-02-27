@@ -25,30 +25,30 @@ struct TotalDetailView: View {
             }
         }
         .onAppear(perform: viewModel.load)
-        .navigationTitle("Total")
+        .navigationTitle("Total".localized)
     }
 
     var list: some View {
         List {
             Section {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("Profile analitycs")
+                    Text("Analytic portfolio".localized)
                         .font(.title)
-                    Text("All information about you deals(buy and sell) on selected period. All values did present after convert to selected currency - ") + Text(viewModel.currency.rawValue).bold()
+                    Text("All information about you deals(buy and sell) on selected period. All values did present after convert to selected currency".localized + " - ") + Text(viewModel.currency.rawValue).bold()
                         .font(.body)
                 }
             }
             Section {
-                MoneyRow(label: "Total all buy", money: viewModel.totalBuy)
-                MoneyRow(label: "Total all sell", money: viewModel.totalSell)
-                MoneyRow(label: "Total in instruments", money: viewModel.inWork)
+                MoneyRow(label: "Total purchased".localized, money: viewModel.totalBuy)
+                MoneyRow(label: "Total sold".localized, money: viewModel.totalSell)
+                MoneyRow(label: "Total in investment".localized, money: viewModel.inWork)
 
-                MoneyRow(label: "Total all time", money: viewModel.total)
+                MoneyRow(label: "Total for all time".localized, money: viewModel.total)
             }
 
             Section {
-                MoneyRow(label: "Dividends", money: viewModel.dividends)
-                MoneyRow(label: "Total with dividends", money: viewModel.total + viewModel.dividends)
+                MoneyRow(label: "Dividends".localized, money: viewModel.dividends)
+                MoneyRow(label: "Total with dividends".localized, money: viewModel.total + viewModel.dividends)
             }
 
             Section {
@@ -57,12 +57,10 @@ struct TotalDetailView: View {
                         OperationRowView(operation: $0)
                     }
                 }, label: {
-                    Text("All operations \(viewModel.operations.count)")
-
+                    Text("All operations".localized + viewModel.operations.count.string)
                 })
             }
         }
-
         .listStyle(GroupedListStyle())
     }
 }

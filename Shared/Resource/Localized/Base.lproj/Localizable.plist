@@ -2,6 +2,58 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Dividend tax</key>
+	<string></string>
+	<key>Dividend</key>
+	<string></string>
+	<key>Total tax</key>
+	<string></string>
+	<key>Total dividends</key>
+	<string></string>
+	<key>Investment</key>
+	<string></string>
+	<key>Analytics</key>
+	<string></string>
+	<key>Results on investment</key>
+	<string></string>
+	<key>Deposit operations</key>
+	<string></string>
+	<key>Commission</key>
+	<string></string>
+	<key>Total commission</key>
+	<string></string>
+	<key>Total spent</key>
+	<string></string>
+	<key>Average price purchase</key>
+	<string></string>
+	<key>Withdrawal</key>
+	<string></string>
+	<key>Refill</key>
+	<string></string>
+	<key>Operations</key>
+	<string></string>
+	<key>Currency</key>
+	<string></string>
+	<key>Analytic portfolio</key>
+	<string></string>
+	<key>All information about you deals(buy and sell) on selected period. All values did present after convert to selected currency</key>
+	<string></string>
+	<key>Total in investment</key>
+	<string></string>
+	<key>Total purchased</key>
+	<string></string>
+	<key>Total sold</key>
+	<string></string>
+	<key>Total for all time</key>
+	<string></string>
+	<key>Total with dividends</key>
+	<string></string>
+	<key>pcs</key>
+	<string></string>
+	<key>value</key>
+	<string></string>
+	<key>Debt</key>
+	<string></string>
 	<key>All operations</key>
 	<string></string>
 	<key>Result of operations with dividends</key>
@@ -37,8 +89,6 @@
 	<key>Payable</key>
 	<string></string>
 	<key>Targets</key>
-	<string></string>
-	<key>Analytics</key>
 	<string></string>
 	<key>Portfolio</key>
 	<string></string>

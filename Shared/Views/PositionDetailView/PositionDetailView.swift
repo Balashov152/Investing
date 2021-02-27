@@ -51,9 +51,9 @@ struct PositionDetailView: View {
 
     var blockedView: some View {
         HStack(spacing: 8.0) {
-            Text("Blocked")
+            Text("Debt".localized)
             Spacer(minLength: 40)
-            TextField("value", text: $viewModel.blocked)
+            TextField("value".localized, text: $viewModel.blocked)
                 .keyboardType(.decimalPad)
                 .multilineTextAlignment(.trailing)
                 .modifier(DecimalNumberOnlyViewModifier(text: $viewModel.blocked))

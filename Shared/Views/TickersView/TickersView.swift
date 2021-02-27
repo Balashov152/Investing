@@ -14,10 +14,10 @@ struct TickersView: View {
 
     var body: some View {
         List {
-            Section(header: Text("Total")) {
-                MoneyRow(label: "Total RUB",
+            Section(header: Text("Total".localized)) {
+                MoneyRow(label: "Total".localized + " RUB",
                          money: .init(currency: .RUB, value: viewModel.totalRUB))
-                MoneyRow(label: "Total USD",
+                MoneyRow(label: "Total".localized + " USD",
                          money: .init(currency: .USD, value: viewModel.totalUSD))
             }
 
@@ -31,7 +31,7 @@ struct TickersView: View {
                 }
             }
         }
-        .navigationTitle("Tickers")
+        .navigationTitle("Investment".localized)
         .navigationBarItems(trailing: sortView)
         .onAppear(perform: viewModel.loadOperaions)
     }

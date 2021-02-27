@@ -647,8 +647,8 @@
 		EF54166025C06138007EA38D /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				EFA92E7C25DEB79D008DD8D0 /* Localized */,
 				EF76A094257FA80200991AE3 /* Assets.xcassets */,
+				EFA92E7C25DEB79D008DD8D0 /* Localized */,
 				EF4C35B425B6D7A500A3AB5D /* Sounds */,
 			);
 			path = Resource;

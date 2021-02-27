@@ -17,7 +17,7 @@ struct PosotionInfoRow: View {
             VStack(alignment: .leading) {
                 Text(label)
                     .font(.system(size: 15))
-                Text(changes.count.string + "pcs")
+                Text(changes.count.string + "pcs".localized)
                     .font(.system(size: 13))
                     .foregroundColor(.gray)
             }

@@ -26,7 +26,7 @@ struct CurrencyView: View {
             }
         }
         .listStyle(GroupedListStyle())
-        .navigationTitle("Currency")
+        .navigationTitle("Currency".localized)
         .onAppear(perform: viewModel.loadOperaions)
     }
 
@@ -37,7 +37,7 @@ struct CurrencyView: View {
             HStack {
                 Text(row.currency.rawValue)
                 Spacer()
-                Text("operations")
+                Text("Operations".localized.lowercased())
                 Text(row.operations.count.string)
             }
         }
@@ -47,14 +47,11 @@ struct CurrencyView: View {
         let operation: Operation
         var body: some View {
             VStack(alignment: .leading) {
-//                Text(operation.opCurrency.rawValue)
-//                    .font(.system(size: 17, weight: .bold))
-
                 HStack {
                     VStack(alignment: .leading) {
                         Text(operation.operationType.rawValue)
                             .font(.system(size: 17, weight: .bold))
-                        Text(DateFormatter.format("dd.MM.yy HH:mm").string(from: operation.date))
+                        Text(operation.date.string(format: "dd.MM.yy HH:mm"))
                             .font(.system(size: 13))
                     }
                     Spacer()

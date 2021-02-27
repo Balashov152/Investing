@@ -14,11 +14,11 @@ struct DividentsView: View {
     var body: some View {
         List {
             Section {
-                MoneyRow(label: "Total Dividends",
+                MoneyRow(label: "Total dividends".localized,
                          money: viewModel.dividents.filter(type: .Dividend)
                              .currencySum(to: .RUB))
 
-                MoneyRow(label: "Total Tax",
+                MoneyRow(label: "Total tax".localized,
                          money: viewModel.dividents.filter(type: .TaxDividend)
                              .currencySum(to: .RUB))
             }
@@ -41,7 +41,7 @@ struct DividentsView: View {
             }
         }
         .listStyle(GroupedListStyle())
-        .navigationTitle("Dividends")
+        .navigationTitle("Dividends".localized)
         .onAppear(perform: viewModel.loadOperaions)
     }
 
@@ -51,15 +51,15 @@ struct DividentsView: View {
         var body: some View {
             VStack(alignment: .leading) {
                 if operation.operationType == .some(.Dividend) {
-                    CurrencyRow(label: "Dividend",
+                    CurrencyRow(label: "Dividend".localized,
                                 money: MoneyAmount(currency: operation.currency,
                                                    value: operation.payment))
                 } else if operation.operationType == .some(.TaxDividend) {
-                    CurrencyRow(label: "Dividend tax",
+                    CurrencyRow(label: "Dividend tax".localized,
                                 money: MoneyAmount(currency: operation.currency,
                                                    value: operation.payment))
                 }
-                Text(DateFormatter.format("HH:mm dd MMMM yyyy").string(from: operation.date))
+                Text(operation.date.string(format: "HH:mm dd MMMM yyyy"))
                     .font(.system(size: 12, weight: .regular))
                     .foregroundColor(Color.gray)
             }.padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))

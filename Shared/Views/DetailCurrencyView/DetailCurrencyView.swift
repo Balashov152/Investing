@@ -16,10 +16,10 @@ struct DetailCurrencyView: View {
         List {
             Section {
                 HStack {
-                    Text("Pay in")
+                    Text("Refill".localized)
                     Spacer()
                     if viewModel.currency != .RUB {
-                        TextField("average", text: $viewModel.averagePayIn.value)
+                        TextField("Average".localized.lowercased(), text: $viewModel.averagePayIn.value)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .multilineTextAlignment(.center)
@@ -28,24 +28,22 @@ struct DetailCurrencyView: View {
 
                     CurrencyText(money: viewModel.payIn)
                 }
-                CurrencyRow(label: "Pay out", money: viewModel.payOut)
+                CurrencyRow(label: "Withdrawal".localized, money: viewModel.payOut)
             }
             if viewModel.operations.contains { $0.operationType == .Buy } {
                 Section {
-                    CurrencyRow(label: "Average buy", money: viewModel.avgBuy)
-                    CurrencyRow(label: "Total buy", money: viewModel.totalBuy)
-                    CurrencyRow(label: "Total spent", money: viewModel.totalSellRUB)
-                    CurrencyRow(label: "Total comission", money: viewModel.totalCommision)
+                    CurrencyRow(label: "Average price purchase".localized, money: viewModel.avgBuy)
+                    CurrencyRow(label: "Total purchased".localized, money: viewModel.totalBuy)
+                    CurrencyRow(label: "Total spent".localized, money: viewModel.totalSellRUB)
+                    CurrencyRow(label: "Total commission".localized, money: viewModel.totalCommision)
                 }
             }
 
             Section {
                 if viewModel.avg.value.isNormal {
-                    CurrencyRow(label: "Average", money: viewModel.avg)
+                    CurrencyRow(label: "Average".localized, money: viewModel.avg)
                 }
-
-//                CurrencyRow(label: "Total spent", money: viewModel.totalSellRUB)
-                CurrencyRow(label: "Total", money: viewModel.total)
+                CurrencyRow(label: "Total".localized, money: viewModel.total)
             }
         }
 

@@ -31,7 +31,7 @@ struct OperationsView: View {
                     }
                 }
             }
-            .navigationTitle("Operations")
+            .navigationTitle("Operations".localized)
             .onAppear(perform: viewModel.loadOperaions)
         }
     }

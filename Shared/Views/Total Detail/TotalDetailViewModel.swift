@@ -10,16 +10,6 @@ import Foundation
 import InvestModels
 import SwiftUI
 
-extension Collection where Element == Operation {
-    func totalSell(to currency: Currency) -> MoneyAmount {
-        filter(types: [.Sell]).currencySum(to: currency)
-    }
-
-    func totalBuy(to currency: Currency) -> MoneyAmount {
-        filter(types: [.Buy, .BuyCard]).currencySum(to: currency)
-    }
-}
-
 class TotalDetailViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var loading = LoadingState<([Operation], [Position])>.loading
 

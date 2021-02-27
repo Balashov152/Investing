@@ -18,10 +18,10 @@ struct ComissionView: View {
                 MoneyRow(label: row.type.rawValue, money: row.value)
             }
             if viewModel.total.value != 0 {
-                MoneyRow(label: "Total", money: viewModel.total)
+                MoneyRow(label: "Total".localized, money: viewModel.total)
             }
         }
-        .navigationTitle("Commissions")
+        .navigationTitle("Commission".localized)
         .onAppear(perform: viewModel.loadOperaions)
     }
 }

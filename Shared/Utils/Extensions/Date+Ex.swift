@@ -8,6 +8,10 @@
 import Foundation
 
 extension Date {
+    func string(format: String) -> String {
+        DateFormatter.format(format).string(from: self)
+    }
+    
     var month: Int {
         Calendar.current.component(.month, from: self)
     }
