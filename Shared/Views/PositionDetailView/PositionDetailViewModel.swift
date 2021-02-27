@@ -50,6 +50,7 @@ class PositionDetailViewModel: EnvironmentCancebleObject, ObservableObject {
     override func bindings() {
         super.bindings()
         env.api().operationsService.$operations
+            .removeDuplicates()
             .receive(on: DispatchQueue.global())
             .map { [unowned self] operations in
                 operations.filter { $0.instrument?.ticker == position.ticker }
