@@ -634,9 +634,9 @@
 		EF249EA225C35CFC0064C9C6 /* TargetsView */ = {
 			isa = PBXGroup;
 			children = (
-				EF15F2CF25E7EB3600F281F8 /* Deeper Views */,
 				EF249EA325C35D210064C9C6 /* TargetsView.swift */,
 				EF6684BD25D1761D0090FAA1 /* TargetsViewModel.swift */,
+				EF15F2CF25E7EB3600F281F8 /* Deeper Views */,
 			);
 			path = TargetsView;
 			sourceTree = "<group>";

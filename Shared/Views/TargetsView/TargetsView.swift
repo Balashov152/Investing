@@ -62,7 +62,7 @@ struct TargetOneView: View {
                     .lineLimit(1)
             }
 
-            HStack {
+            HStack(alignment: .center) {
                 RectanglePercentView(column: column, target: $target)
                     .frame(height: 10)
                 Stepper("", value: $target, in: 0 ... 100)
