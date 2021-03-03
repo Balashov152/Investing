@@ -18,7 +18,7 @@ struct TargetsView: View {
         .init {
             viewModel.targets[column.position.ticker] ?? column.percentVisible
         } set: { newValue in
-            viewModel.targets.updateValue(newValue, forKey: column.position.ticker)
+            viewModel.targets.updateValue(newValue.rounded(), forKey: column.position.ticker)
         }
     }
 
@@ -62,7 +62,7 @@ struct TargetOneView: View {
                     .lineLimit(1)
             }
 
-            HStack {
+            HStack(alignment: .center) {
                 RectanglePercentView(column: column, target: $target)
                     .frame(height: 10)
                 Stepper("", value: $target, in: 0 ... 100)

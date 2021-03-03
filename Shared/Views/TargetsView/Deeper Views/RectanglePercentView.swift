@@ -22,8 +22,16 @@ struct RectanglePercentView: View {
     @State private var rect: CGRect = .zero
     @State private var isDragging: Bool = false
 
-    @State private var offset: CGFloat = 40
-    @State private var ancor: CGFloat = 40
+    func changeTarget(offset: CGFloat) {
+        let correctThumb = offset == 0 ? 0 : offset + thumbSize.width
+        target = Double(range(min: 0,
+                              element: correctThumb / rect.width * 100,
+                              max: 100))
+    }
+
+    var offset: CGFloat {
+        rect.width * CGFloat(target) / 100
+    }
 
     var thumbSize: CGSize {
         CGSize(width: 3, height: rect.size.height)
@@ -33,22 +41,17 @@ struct RectanglePercentView: View {
         GeometryReader { geometry in
             makeView(geometry: geometry)
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     var targetView: some View {
         let dragGesture = DragGesture()
             .onChanged { value in
-                let newOffset = range(min: 0, element: value.translation.width + self.ancor, max: rect.width - thumbSize.width)
-                self.offset = newOffset
-                debugPrint("offset", offset)
-
-                let off = newOffset == 0 ? 0 : newOffset + thumbSize.width
-                let newTarget = off / rect.width * 100
-                debugPrint("newTarget", newTarget)
-                self.target = Double(range(min: 0, element: newTarget, max: 100))
+                changeTarget(offset: range(min: 0,
+                                           element: value.translation.width + value.startLocation.x,
+                                           max: rect.width - thumbSize.width))
             }
-            .onEnded { value in
-                self.ancor = range(min: 0, element: value.translation.width + self.ancor, max: rect.width - thumbSize.width)
+            .onEnded { _ in
                 self.isDragging = false
             }
 
@@ -68,7 +71,6 @@ struct RectanglePercentView: View {
             .frame(width: thumbSize.width, height: thumbSize.height * 1.2)
             .offset(CGSize(width: offset, height: 0))
             .gesture(combined)
-            .padding(.all, /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/)
     }
 
     func makeView(geometry: GeometryProxy) -> some View {
@@ -92,15 +94,6 @@ struct RectanglePercentView: View {
         }
     }
 }
-
-//
-// struct Preview: PreviewProvider {
-//    static var previews: some View {
-//        TargetPositionView(column: TargetsViewModel.Column(percent: 0.30, target: 0.70, position: .tsla), changeTarget: .constant(71))
-//            .frame(width: UIScreen.main.bounds.width,
-//                   height: 20)
-//    }
-// }
 
 extension Position {
     static let tsla = Position(name: "Tesla", figi: "fasfa", ticker: "TSLA",
