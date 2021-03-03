@@ -60,7 +60,7 @@ struct TargetOneView: View {
     var changeCount: Double {
         let changePercent = target - column.percentVisible
         let changeValue = total * changePercent / 100
-        let changeCount = changeValue / column.position.priceNow.value
+        let changeCount = changeValue / column.position.averageNow.value
 
         return changeCount
     }

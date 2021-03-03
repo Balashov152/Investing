@@ -41,13 +41,9 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     var total: Double {
-        let total = env.api().positionService.positions.reduce(0) { result, position in
+        let total: Double = env.api().positionService.positions.reduce(0) { result, position in
             result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
                                                     money: position.totalInProfile,
-                                                    to: curency).value
-        } + env.api().positionService.currencies.reduce(0) { result, currency in
-            result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                    money: currency.money,
                                                     to: curency).value
         }
 //        debugPrint("total", total)
@@ -56,17 +52,25 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         super.bindings()
-        Publishers.CombineLatest(env.api().positionService.$positions,
-                                 env.api().positionService.$currencies)
+        env.api().positionService.$positions
             .receive(on: DispatchQueue.global())
-            .map { positions, _ -> [Column] in
+            .map { positions -> [Column] in
                 positions.compactMap { [unowned self] (position) -> Column? in
-                    let convert = CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                                 money: position.totalInProfile,
-                                                                 to: curency).value
-                    return Column(percent: convert / total,
-                                  target: targets[position.ticker] ?? convert / total,
-                                  position: .init(position: position))
+                    let averageNow = CurrencyConvertManager
+                        .convert(currencyPair: currencyPairServiceLatest.latest,
+                                 money: position.averagePositionPriceNow,
+                                 to: curency)
+
+                    let convert = CurrencyConvertManager
+                        .convert(currencyPair: currencyPairServiceLatest.latest,
+                                 money: position.totalInProfile,
+                                 to: curency).value
+
+                    let precent = convert / total
+
+                    return Column(percent: precent,
+                                  target: targets[position.ticker] ?? precent * 100,
+                                  position: .init(position: position, averageNow: averageNow))
                 }
                 .sorted(by: { $0.percent > $1.percent })
             }
@@ -77,6 +81,6 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
 
     public func load() {
         env.api().positionService.getPositions()
-        env.api().positionService.getCurrences()
+//        env.api().positionService.getCurrences()
     }
 }

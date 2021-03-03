@@ -9,13 +9,13 @@ import Foundation
 import InvestModels
 
 struct SimplePosition: Hashable, Identifiable, LogoPosition {
-    internal init(position: Position) {
+    internal init(position: Position, averageNow: MoneyAmount) {
         name = position.name ?? position.ticker
         instrumentType = position.instrumentType
         ticker = position.ticker
         isin = position.isin
         currency = position.currency
-        priceNow = position.averagePositionPriceNow
+        self.averageNow = averageNow
     }
 
     let name: String
@@ -23,5 +23,5 @@ struct SimplePosition: Hashable, Identifiable, LogoPosition {
     let ticker: String
     let isin: String?
     let currency: Currency
-    let priceNow: MoneyAmount
+    let averageNow: MoneyAmount
 }
