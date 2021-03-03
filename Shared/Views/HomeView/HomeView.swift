@@ -20,14 +20,15 @@ struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @State var isRefresh: Bool = false
 
-    @State var expandedSections: Set<InstrumentType> {
+    var expandedSections: Set<InstrumentType> {
         willSet {
             viewModel.env.settings.expandedHome = newValue
         }
     }
 
     init(viewModel: HomeViewModel) {
-        _expandedSections = .init(initialValue: viewModel.env.settings.expandedHome)
+        expandedSections = viewModel.env.settings.expandedHome
+//        _expandedSections = .init(initialValue: )
 
         self.viewModel = viewModel
     }

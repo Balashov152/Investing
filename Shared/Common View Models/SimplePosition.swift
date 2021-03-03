@@ -15,19 +15,13 @@ struct SimplePosition: Hashable, Identifiable, LogoPosition {
         ticker = position.ticker
         isin = position.isin
         currency = position.currency
-    }
-
-    internal init(position: CurrencyPosition) {
-        name = position.currency.rawValue
-        instrumentType = .Currency
-        ticker = position.currency.rawValue
-        isin = nil
-        currency = position.currency
+        priceNow = position.averagePositionPriceNow
     }
 
     let name: String
-    var instrumentType: InstrumentType
-    var ticker: String
-    var isin: String?
-    var currency: Currency
+    let instrumentType: InstrumentType
+    let ticker: String
+    let isin: String?
+    let currency: Currency
+    let priceNow: MoneyAmount
 }

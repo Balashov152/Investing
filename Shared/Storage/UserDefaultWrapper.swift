@@ -58,10 +58,13 @@ struct UserDefault<Value: Codable> {
         }
         set {
             // Convert newValue to data
-            let data = try? JSONEncoder().encode(newValue)
-
-            // Set value to UserDefaults
-            storage.set(data, forKey: key)
+            do {
+                let data = try JSONEncoder().encode(newValue)
+                // Set value to UserDefaults
+                storage.set(data, forKey: key)
+            } catch {
+                assertionFailure("error convert \(error.localizedDescription)")
+            }
         }
     }
 }
