@@ -74,7 +74,12 @@ struct AuthorizationView: View {
         NavigationView {
             ScrollView(.vertical) {
                 VStack {
-                    Text("Что бы пользоваться приложением, необходимо ввести токен Тинькофф инвестиций. Его можно взять в настройках, в веб версии")
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Чтобы пользоваться приложением, необходимо ввести токен Тинькофф инвестиций. Его можно взять в настройках, в веб версии")
+                        Button("View instruction", action: {
+                            print("Instruction open")
+                        }).foregroundColor(.blue)
+                    }
                     VStack(alignment: .leading) {
                         Group {
                             if let error = viewModel.error {
