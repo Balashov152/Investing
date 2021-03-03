@@ -28,7 +28,6 @@ struct HomeView: View {
 
     init(viewModel: HomeViewModel) {
         expandedSections = viewModel.env.settings.expandedHome
-//        _expandedSections = .init(initialValue: )
 
         self.viewModel = viewModel
     }

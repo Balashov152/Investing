@@ -18,7 +18,7 @@ struct TargetsView: View {
         .init {
             viewModel.targets[column.position.ticker] ?? column.target
         } set: { newValue in
-            viewModel.targets.updateValue(newValue.rounded(), forKey: column.position.ticker)
+            viewModel.targets.updateValue(newValue, forKey: column.position.ticker)
         }
     }
 
@@ -86,18 +86,21 @@ struct TargetOneView: View {
                     Text(column.percentVisible.string(f: ".2") + "%")
                     Text("->")
                     Text(target.string(f: ".2") + "%")
+                }.onTapGesture {
+                    target = column.percentVisible
                 }
                 Spacer()
                 HStack {
 //                    Text("Что бы достичь нужного процента")
+                    if changeCount != 0 {
+                        Image(systemName: "triangle.fill")
+                            .resizable()
+                            .frame(square: 20)
+                            .rotationEffect(Angle(degrees: changeCount > 0 ? 0 : 180))
+                            .foregroundColor(.currency(value: changeCount))
 
-                    Image(systemName: "triangle.fill")
-                        .resizable()
-                        .frame(square: 20)
-                        .rotationEffect(Angle(degrees: changeCount > 0 ? 0 : 180))
-                        .foregroundColor(.currency(value: changeCount))
-
-                    Text(changeCount.string(f: ".2") + "pcs".localized)
+                        Text(changeCount.string(f: ".2") + "pcs".localized)
+                    }
                 }
 
             }.font(.system(size: 16, weight: .medium))
