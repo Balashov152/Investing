@@ -107,6 +107,7 @@ extension Position {
 
 class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     var currencyPairServiceLatest: CurrencyPairServiceLatest { .shared }
+    lazy var positionService = env.api().positionService()
     // Input
 
     @Published var sortType: SortType {
@@ -134,7 +135,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     var convertedTotal: Total?
 
     var positions: [Position] {
-        env.api().positionService.positions
+        positionService.positions
     }
 
     var currenciesInPositions: [Currency] {
@@ -166,8 +167,8 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
                                                          $sortType.removeDuplicates())
             .map { ConvertSortModel(convert: $0, sort: $1) }
 
-        let changeSourses = Publishers.CombineLatest3(env.api().positionService.$positions.dropFirst(),
-                                                      env.api().positionService.$currencies.dropFirst(),
+        let changeSourses = Publishers.CombineLatest3(positionService.$positions.dropFirst(),
+                                                      positionService.$currencies.dropFirst(),
                                                       env.api().operationsService.$operations.dropFirst())
             .map { Sources(positions: $0, currencies: $1, operations: $2) }
 
@@ -187,8 +188,8 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     public func loadPositions() {
-        env.api().positionService.getPositions()
-        env.api().positionService.getCurrences()
+        env.api().positionService().getPositions()
+        env.api().positionService().getCurrences()
         env.api().operationsService.getOperations(request: .init(env: env))
     }
 

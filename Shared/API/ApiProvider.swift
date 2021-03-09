@@ -13,11 +13,7 @@ import Moya
 import UIKit
 
 class ApiProvider<Target>: MoyaProvider<Target> where Target: TargetType {
-    let isSandbox: Bool
-
-    init(isSandbox: Bool) {
-        self.isSandbox = isSandbox
-
+    init() {
         var plugins: [PluginType] = []
         plugins.append(BearerTokenPlugin())
 
@@ -27,7 +23,7 @@ class ApiProvider<Target>: MoyaProvider<Target> where Target: TargetType {
             }
         }))
 
-        #if DEV || DEBUG
+        #if DEBUG
             plugins.append(NetworkLoggerPlugin(configuration: .init(formatter: NetworkLoggerPlugin.Configuration.Formatter(),
                                                                     output: { _, _ in },
                                                                     logOptions: [.requestMethod, .errorResponseBody])))
@@ -43,7 +39,7 @@ class ApiProvider<Target>: MoyaProvider<Target> where Target: TargetType {
     }
 
     func request(_ target: Target) -> AnyPublisher<Response, MoyaError> {
-        return requestPublisher(target).filterSuccessfulStatusAndRedirectCodes()
+        requestPublisher(target).filterSuccessfulStatusAndRedirectCodes()
     }
 }
 

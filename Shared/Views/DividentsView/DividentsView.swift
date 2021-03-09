@@ -10,6 +10,7 @@ import SwiftUI
 
 struct DividentsView: View {
     @ObservedObject var viewModel: DividentsViewModel
+    @State var expanded: Set<Instrument> = []
 
     var body: some View {
         List {

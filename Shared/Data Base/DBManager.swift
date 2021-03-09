@@ -17,6 +17,9 @@ struct DBManager {
     let realmManager: RealmManager
     var cancellables = Set<AnyCancellable>()
 
+    lazy var instrumentsService = env.api().instrumentsService
+    lazy var currencyPairService = env.api().currencyPairService
+
     init(env: Environment, realmManager: RealmManager) {
         self.env = env
         self.realmManager = realmManager
@@ -28,10 +31,10 @@ struct DBManager {
 //            return
 //        }
 
-        let saveInstruments = Publishers.CombineLatest4(env.api().instrumentsService.getBonds(),
-                                                        env.api().instrumentsService.getStocks(),
-                                                        env.api().instrumentsService.getCurrency(),
-                                                        env.api().instrumentsService.getEtfs())
+        let saveInstruments = Publishers.CombineLatest4(instrumentsService.getBonds(),
+                                                        instrumentsService.getStocks(),
+                                                        instrumentsService.getCurrency(),
+                                                        instrumentsService.getEtfs())
             .map { $0 + $1 + $2 + $3 }
             .replaceError(with: [])
             .receive(on: realmManager.syncQueue)
@@ -41,7 +44,7 @@ struct DBManager {
                 return [()].publisher.eraseToAnyPublisher()
             }
 
-        let saveCurrencyPairs = env.api().currencyPairService
+        let saveCurrencyPairs = currencyPairService
             .getCurrencyPairs(request: .init(dateInterval: env.settings.dateInterval))
             .replaceError(with: [])
             .map { $0.map { CurrencyPairR(currencyPair: $0) } }
@@ -56,7 +59,7 @@ struct DBManager {
             .map { _ in () }.eraseToAnyPublisher()
     }
 
-    func updateCurrency() -> AnyPublisher<Void, Never> {
+    mutating func updateCurrency() -> AnyPublisher<Void, Never> {
         var lastUpdateCurrency: Date?
 
         realmManager.syncQueueBlock {
@@ -70,7 +73,7 @@ struct DBManager {
             return [()].publisher.eraseToAnyPublisher()
         }
 
-        return env.api().currencyPairService
+        return currencyPairService
             .getCurrencyPairs(request: .init(dateInterval: DateInterval(start: lastUpdate, end: Date())))
             .replaceError(with: [])
             .map { $0.map { CurrencyPairR(currencyPair: $0) } }

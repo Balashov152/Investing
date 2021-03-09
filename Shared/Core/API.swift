@@ -8,21 +8,18 @@
 import Foundation
 
 struct API {
-    static let current = API(currencyPairService: .init(provider: .init(isSandbox: false)),
-                             accountService: .init(provider: .init(isSandbox: false)),
-                             positionService: .shared(isSandbox: false),
-                             operationsService: .init(provider: .init(isSandbox: false), realmManager: .shared),
-                             instrumentsService: .init(provider: .init(isSandbox: false)))
+    static let current = API(currencyPairLatest: { .shared },
+                             positionService: { .shared },
+                             currencyPairService: .init(provider: .init()),
+                             accountService: .init(provider: .init()),
+                             operationsService: .init(provider: .init(), realmManager: .shared),
+                             instrumentsService: .init(provider: .init()))
 
-    static let sandbox = API(currencyPairService: .init(provider: .init(isSandbox: true)),
-                             accountService: .init(provider: .init(isSandbox: true)),
-                             positionService: .shared(isSandbox: true),
-                             operationsService: .init(provider: .init(isSandbox: true), realmManager: .shared),
-                             instrumentsService: .init(provider: .init(isSandbox: true)))
+    var currencyPairLatest: () -> CurrencyPairServiceLatest
+    var positionService: () -> PositionsService
 
     var currencyPairService: CurrencyPairService
     var accountService: AccountService
-    var positionService: PositionsService
     var operationsService: OperationsService
     var instrumentsService: InstrumentsService
 }

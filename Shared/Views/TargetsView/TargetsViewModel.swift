@@ -21,6 +21,7 @@ extension TargetsViewModel {
 
 class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
     var currencyPairServiceLatest: CurrencyPairServiceLatest { .shared }
+    lazy var positionService: PositionsService = env.api().positionService()
 
     @Published var columns: [Column] = []
 
@@ -41,7 +42,7 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     var total: Double {
-        let total: Double = env.api().positionService.positions.reduce(0) { result, position in
+        let total: Double = positionService.positions.reduce(0) { result, position in
             result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
                                                     money: position.totalInProfile,
                                                     to: curency).value
@@ -52,7 +53,7 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
 
     override func bindings() {
         super.bindings()
-        env.api().positionService.$positions
+        positionService.$positions
             .receive(on: DispatchQueue.global())
             .map { positions -> [Column] in
                 positions.compactMap { [unowned self] (position) -> Column? in
@@ -80,7 +81,6 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     public func load() {
-        env.api().positionService.getPositions()
-//        env.api().positionService.getCurrences()
+        positionService.getPositions()
     }
 }

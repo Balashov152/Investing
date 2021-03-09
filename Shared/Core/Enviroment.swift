@@ -10,7 +10,7 @@ import InvestModels
 
 extension Environment {
     static var settings: Settings { .shared }
-    static let current = Environment(settings: settings, api: { settings.isSandbox ? .sandbox : .current })
+    static let current = Environment(settings: settings, api: { .current })
 }
 
 struct Environment {
@@ -20,6 +20,6 @@ struct Environment {
     // helpers
     var currencyPairService: CurrencyPairService { api().currencyPairService }
     var accountService: AccountService { api().accountService }
-    var positionService: PositionsService { api().positionService }
+    var positionService: PositionsService { api().positionService() }
     var operationsService: OperationsService { api().operationsService }
 }

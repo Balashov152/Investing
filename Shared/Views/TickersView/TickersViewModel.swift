@@ -19,12 +19,12 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
 
     public func loadOperaions() {
         env.api().operationsService.getOperations(request: .init(env: env))
-        env.api().positionService.getPositions()
+        env.api().positionService().getPositions()
     }
 
     override func bindings() {
         Publishers.CombineLatest3(env.api().operationsService.$operations,
-                                  env.api().positionService.$positions.dropFirst(),
+                                  env.api().positionService().$positions.dropFirst(),
                                   $sortType)
             .receive(on: DispatchQueue.global())
             .map { [unowned self] operations, positions, sortType in

@@ -14,9 +14,7 @@ class PositionsService: CancebleObject {
     @Published public var positions: [Position] = []
     @Published public var currencies: [CurrencyPosition] = []
 
-    static func shared(isSandbox: Bool) -> PositionsService {
-        PositionsService(provider: .init(isSandbox: isSandbox))
-    }
+    static let shared = PositionsService(provider: .init())
 
     let provider: ApiProvider<PositionAPI>
 

@@ -50,11 +50,6 @@ class AuthorizationViewModel: EnvironmentCancebleObject, ObservableObject {
         isSandbox = env.settings.isSandbox
 
         super.init(env: env)
-
-//        if isMe {
-//            apiToken = "t.ElO9J6o7HNsTSVH5LG6tRrMqG3bAKQFG3YehULcdPaYzhK0CXcyMVy4rhtbNUuOHwXo8VAs-QUgA-KbHNLg5yg"
-//            t.uiTdZcEiqAB16-psL3iRgZFOQdQwGhiPwrkQeVKycl4LcFYieNhy8oYvgdBovWyL3TvJ7ra5ISVB4KE8x96cng
-//        }
     }
 
     override func bindings() {

@@ -10,7 +10,11 @@ import SwiftUI
 
 struct RowDisclosureGroup<Element: Hashable, Content: View, Label: View>: View {
     let element: Element
-    @State var expanded: Set<Element> = []
+    @State var expanded: Set<Element> = [] {
+        willSet {
+            debugPrint("expanded", newValue)
+        }
+    }
 
     let content: () -> (Content)
     let label: () -> (Label)
