@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 import InvestModels
+import Moya
 
 extension HomeViewModel {
     struct Section: Hashable, Identifiable {
@@ -204,20 +205,13 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     private func convertTotal(sources: Sources, currency: Currency) -> Total {
-        let positions = sources.positions.filter { $0.instrumentType != .Currency }
-        let currencies = sources.currencies
+        let positions = sources.positions
 
-        let totalInProfile = positions.reduce(0) { (result, position) -> Double in
+        let totalInProfile = positions.reduce(MoneyAmount(currency: currency, value: 0)) { result, position in
             result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
                                                     money: position.totalInProfile,
-                                                    to: currency).value
-        }.addCurrency(currency)
-
-        let currenciesInProfile = currencies.reduce(0) { (result, currencyPosition) -> Double in
-            result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                    money: currencyPosition.money,
-                                                    to: currency).value
-        }.addCurrency(currency)
+                                                    to: currency)
+        }
 
         var expectedProfile: MoneyAmount
 
@@ -225,8 +219,8 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             let operations = sources.operations.filter { $0.instrumentType != .some(.Currency) }
             let sell = operations.totalSell(to: currency)
             let buy = operations.totalBuy(to: currency)
-//            debugPrint("sell", sell.value, "buy", buy.value)
-            expectedProfile = sell + buy + totalInProfile
+
+            expectedProfile = buy + sell + totalInProfile
 
         } else {
             expectedProfile = positions.reduce(0) { (result, position) -> Double in
@@ -245,7 +239,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             return result
         }?.addCurrency(currency)
 
-        var total = totalInProfile + currenciesInProfile
+        var total = totalInProfile // + currenciesInProfile
         if env.settings.minusDebt, let blocked = blocked {
             total = total - blocked
         }

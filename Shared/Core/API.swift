@@ -13,7 +13,8 @@ struct API {
                              currencyPairService: .init(provider: .init()),
                              accountService: .init(provider: .init()),
                              operationsService: .init(provider: .init(), realmManager: .shared),
-                             instrumentsService: .init(provider: .init()))
+                             instrumentsService: .init(provider: .init()),
+                             candlesService: .init(provider: .init()))
 
     var currencyPairLatest: () -> CurrencyPairServiceLatest
     var positionService: () -> PositionsService
@@ -22,4 +23,5 @@ struct API {
     var accountService: AccountService
     var operationsService: OperationsService
     var instrumentsService: InstrumentsService
+    var candlesService: CandlesService
 }

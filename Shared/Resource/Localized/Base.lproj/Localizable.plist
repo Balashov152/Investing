@@ -2,6 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Session</key>
+	<string></string>
+	<key>Settings</key>
+	<string></string>
+	<key>Current token</key>
+	<string></string>
+	<key>Quit</key>
+	<string></string>
+	<key>end period</key>
+	<string></string>
+	<key>start period</key>
+	<string></string>
+	<key>Minus debt from total portfolio</key>
+	<string></string>
+	<key>Adjusted total portfolio</key>
+	<string></string>
+	<key>Adjusted average price</key>
+	<string></string>
 	<key>Coupon tax</key>
 	<string></string>
 	<key>Dividend tax</key>

@@ -1,5 +1,5 @@
 /* 
-Copyright (c) 2020 Swift Models Generated from JSON powered by http://www.json4swift.com
+Copyright (c) 2021 Swift Models Generated from JSON powered by http://www.json4swift.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -13,44 +13,51 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 import Foundation
 
-public extension Double {
-    func addCurrency(_ currency: Currency) -> MoneyAmount {
-        .init(currency: currency, value: self)
+public extension Candle {
+    enum Interval: String, Codable {
+        case onemin = "1min"
+        case twomin = "2min"
+        case thereemin = "3min"
+        case fivemin = "5min"
+        case tenmin = "10min"
+        case fiftenmin = "15min"
+        case thertymin = "30min"
+        case hour, day, week, month
     }
 }
 
-public extension MoneyAmount {
-    static func + (lhs: MoneyAmount, rhs: MoneyAmount) -> MoneyAmount {
-        MoneyAmount(currency: lhs.currency, value: lhs.value + rhs.value)
-    }
+public struct Candle : Codable {
+    public let figi : String?
+    public let interval : Interval?
+    public let o : Double?
+    public let c : Double?
+    public let h : Double?
+    public let l : Double?
+    public let v : Int?
+    public let time : Date?
 
-    static func - (lhs: MoneyAmount, rhs: MoneyAmount) -> MoneyAmount {
-        MoneyAmount(currency: lhs.currency, value: lhs.value - rhs.value)
-    }
-    
-    static func / (lhs: MoneyAmount, rhs: MoneyAmount) -> MoneyAmount {
-        MoneyAmount(currency: lhs.currency, value: lhs.value / rhs.value)
-    }
-}
+	enum CodingKeys: String, CodingKey {
 
-public struct MoneyAmount: Codable, Hashable {
-    public let currency: Currency
-    public let value: Double
-    
-    public init(currency: Currency, value: Double) {
-        self.currency = currency
-        self.value = value
-    }
-
-    public enum CodingKeys: String, CodingKey {
-		case currency = "currency"
-		case value = "value"
+		case figi = "figi"
+		case interval = "interval"
+		case o = "o"
+		case c = "c"
+		case h = "h"
+		case l = "l"
+		case v = "v"
+		case time = "time"
 	}
 
     public init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
-        currency = try values.decodeIfPresent(forKey: .currency, default: .USD)
-        value = try values.decodeIfPresent(forKey: .value, default: 0)
+		figi = try values.decodeIfPresent(forKey: .figi)
+		interval = try values.decodeIfPresent(forKey: .interval)
+		o = try values.decodeIfPresent(forKey: .o)
+		c = try values.decodeIfPresent(forKey: .c)
+		h = try values.decodeIfPresent(forKey: .h)
+		l = try values.decodeIfPresent(forKey: .l)
+		v = try values.decodeIfPresent(forKey: .v)
+		time = try values.decodeIfPresent(forKey: .time)
 	}
 
 }

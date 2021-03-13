@@ -57,12 +57,7 @@ class TotalDetailViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     var dividends: MoneyAmount {
-        let value = operations.filter(types: [.Coupon, .Dividend]).reduce(0) {
-            $0 + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
-                                                money: $1.payment.addCurrency($1.currency),
-                                                to: currency).value
-        }
-        return MoneyAmount(currency: currency, value: value)
+        operations.dividends(to: currency)
     }
 
     var total: MoneyAmount {

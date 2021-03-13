@@ -2,6 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Session</key>
+	<string>Сессия</string>
+	<key>Settings</key>
+	<string>Настройки</string>
+	<key>Current token</key>
+	<string>Ваш токен</string>
+	<key>Quit</key>
+	<string>Выйти</string>
+	<key>end period</key>
+	<string>конец периода</string>
+	<key>start period</key>
+	<string>начало периода</string>
+	<key>Minus debt from total portfolio</key>
+	<string>Вычитать займ из общей стоимости</string>
+	<key>Adjusted total portfolio</key>
+	<string>Скорректированный итог инвестиций</string>
+	<key>Adjusted average price</key>
+	<string>Скорректированная средняя</string>
 	<key>Coupon tax</key>
 	<string>Налог по купону</string>
 	<key>Dividend tax</key>

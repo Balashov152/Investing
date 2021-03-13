@@ -33,6 +33,14 @@ extension Collection where Element == Operation {
         filter(types: [.Buy, .BuyCard]).currencySum(to: currency)
     }
 
+    func dividends(to currency: Currency) -> MoneyAmount {
+        filter(types: [.Coupon, .Dividend]).currencySum(to: currency)
+    }
+
+    func commission(to currency: Currency) -> MoneyAmount {
+        filter(types: [.OtherCommission, .BrokerCommission, .MarginCommission, .ExchangeCommission, .ServiceCommission]).currencySum(to: currency)
+    }
+
     func filter(type: Operation.OperationTypeWithCommission) -> [Element] {
         filter { $0.operationType == type }
     }

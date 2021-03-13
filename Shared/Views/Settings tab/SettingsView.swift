@@ -46,9 +46,11 @@ struct SettingsView: View {
                     case .analytics:
                         VStack {
                             togglesView
-                            Divider()
-                            startPicker
-                            endPicker
+                            /*
+                             Divider()
+                             startPicker
+                             endPicker
+                             */
                         }.padding([.top, .bottom], 8)
                     }
                 }
@@ -56,12 +58,12 @@ struct SettingsView: View {
         }
         .onAppear(perform: viewModel.load)
         .listStyle(GroupedListStyle())
-        .navigationTitle("Settings")
+        .navigationTitle("Settings".localized)
     }
 
     var startPicker: some View {
         VStack(alignment: .leading) {
-            Text("start period")
+            Text("start period".localized)
                 .font(.system(size: 12))
             Picker("", selection: $viewModel.startDate) {
                 ForEach(startRange, id: \.self) {
@@ -73,7 +75,7 @@ struct SettingsView: View {
 
     var endPicker: some View {
         VStack(alignment: .leading) {
-            Text("end period")
+            Text("end period".localized)
                 .font(.system(size: 12))
             Picker("", selection: $viewModel.endDate) {
                 ForEach(endRange, id: \.self) { date in
@@ -85,13 +87,13 @@ struct SettingsView: View {
 
     var tokenApi: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Current token").bold()
+            Text("Current token".localized).bold()
             Text(Storage.token)
         }
     }
 
     var exitButton: some View {
-        ActionButton(title: "Quit") {
+        ActionButton(title: "Quit".localized) {
             Storage.clear()
             userSession.isAuthorized = false
         }
@@ -110,17 +112,17 @@ struct SettingsView: View {
     }
 
     var adjustedAverage: some View {
-        Toggle("Adjusted average price", isOn: $viewModel.adjustedAverage)
+        Toggle("Adjusted average price".localized, isOn: $viewModel.adjustedAverage)
             .font(.system(size: 15))
     }
 
     var adjustedTotal: some View {
-        Toggle("Adjusted total portfolio", isOn: $viewModel.adjustedTotal)
+        Toggle("Adjusted total portfolio".localized, isOn: $viewModel.adjustedTotal)
             .font(.system(size: 15))
     }
 
     var deleteOther: some View {
-        Toggle("Minus debt from total portfolio", isOn: $viewModel.minusDebt)
+        Toggle("Minus debt from total portfolio".localized, isOn: $viewModel.minusDebt)
             .font(.system(size: 15))
             .disabled(viewModel.env.settings.blockedPosition.isEmpty)
     }

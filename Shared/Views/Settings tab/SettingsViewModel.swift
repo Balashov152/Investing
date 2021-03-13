@@ -18,9 +18,9 @@ extension SettingsViewModel {
             var localized: String {
                 switch self {
                 case .session:
-                    return "Session"
+                    return "Session".localized
                 case .analytics:
-                    return "Analytics"
+                    return "Analytics".localized
                 }
             }
         }

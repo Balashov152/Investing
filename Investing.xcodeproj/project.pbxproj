@@ -68,6 +68,10 @@
 		EF5416CC25C06591007EA38D /* TickersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5416CA25C06591007EA38D /* TickersViewModel.swift */; };
 		EF5416DC25C0676E007EA38D /* DividentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5416DB25C0676E007EA38D /* DividentsViewModel.swift */; };
 		EF5416DD25C0676E007EA38D /* DividentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5416DB25C0676E007EA38D /* DividentsViewModel.swift */; };
+		EF580FFE25FCDF230089F75B /* CandlesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF580FFD25FCDF230089F75B /* CandlesService.swift */; };
+		EF580FFF25FCDF230089F75B /* CandlesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF580FFD25FCDF230089F75B /* CandlesService.swift */; };
+		EF58100825FCDFB50089F75B /* Candle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF58100525FCDFB40089F75B /* Candle.swift */; };
+		EF58100A25FCDFB50089F75B /* CandlesPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF58100725FCDFB40089F75B /* CandlesPayload.swift */; };
 		EF637FEE259362DA00D2C42D /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FED259362D900D2C42D /* DBManager.swift */; };
 		EF637FEF259362DA00D2C42D /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FED259362D900D2C42D /* DBManager.swift */; };
 		EF637FFC259364FF00D2C42D /* CurrencyPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */; };
@@ -364,6 +368,9 @@
 		EF5416C225C06502007EA38D /* PercentText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentText.swift; sourceTree = "<group>"; };
 		EF5416CA25C06591007EA38D /* TickersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickersViewModel.swift; sourceTree = "<group>"; };
 		EF5416DB25C0676E007EA38D /* DividentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividentsViewModel.swift; sourceTree = "<group>"; };
+		EF580FFD25FCDF230089F75B /* CandlesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandlesService.swift; sourceTree = "<group>"; };
+		EF58100525FCDFB40089F75B /* Candle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Candle.swift; sourceTree = "<group>"; };
+		EF58100725FCDFB40089F75B /* CandlesPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandlesPayload.swift; sourceTree = "<group>"; };
 		EF637FED259362D900D2C42D /* DBManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		EF637FFA259364FF00D2C42D /* CurrencyPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyPosition.swift; sourceTree = "<group>"; };
 		EF637FFB259364FF00D2C42D /* CurrenciesPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrenciesPayload.swift; sourceTree = "<group>"; };
@@ -741,6 +748,15 @@
 			path = DividentsView;
 			sourceTree = "<group>";
 		};
+		EF58100425FCDF8A0089F75B /* Candles */ = {
+			isa = PBXGroup;
+			children = (
+				EF58100525FCDFB40089F75B /* Candle.swift */,
+				EF58100725FCDFB40089F75B /* CandlesPayload.swift */,
+			);
+			path = Candles;
+			sourceTree = "<group>";
+		};
 		EF61AD9F25E11C020069DE7A /* Deeper views */ = {
 			isa = PBXGroup;
 			children = (
@@ -933,6 +949,7 @@
 		EF76A132257FC17300991AE3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				EF58100425FCDF8A0089F75B /* Candles */,
 				EFC7F6862595F132000A6A80 /* CurrencyPair */,
 				EFBA41FD25821E1F00C2AFC8 /* Common */,
 				EFC997342581148700A722F7 /* Instruments */,
@@ -969,6 +986,7 @@
 				EF76A17D257FCE6400991AE3 /* PositionsService.swift */,
 				EFC02B0725800BF6008AF0FF /* OperationsService.swift */,
 				EFC99747258115B000A722F7 /* InstrumentsService.swift */,
+				EF580FFD25FCDF230089F75B /* CandlesService.swift */,
 				EF79B80425B1E064005C2EB8 /* LogoService.swift */,
 				EFF78C5425933D6300EFC040 /* CurrencyPair */,
 			);
@@ -1509,6 +1527,7 @@
 				EF66857725D70C470090FAA1 /* CurrencyViewModel.swift in Sources */,
 				EF76A17E257FCE6400991AE3 /* PositionsService.swift in Sources */,
 				EF8104D125D3D1EC00B73406 /* PayInView.swift in Sources */,
+				EF580FFE25FCDF230089F75B /* CandlesService.swift in Sources */,
 				EF84A96B25C09D780081F857 /* NavigationLazyView.swift in Sources */,
 				EFA92D4A25DD5F70008DD8D0 /* PullToRefresh.swift in Sources */,
 				EF95202325BEFA920006FD97 /* TotalDetailView.swift in Sources */,
@@ -1677,6 +1696,7 @@
 				EF249EA525C35D210064C9C6 /* TargetsView.swift in Sources */,
 				EF54167825C06254007EA38D /* FormattedCurrency.swift in Sources */,
 				EF5416DD25C0676E007EA38D /* DividentsViewModel.swift in Sources */,
+				EF580FFF25FCDF230089F75B /* CandlesService.swift in Sources */,
 				EF9CD35125B232430043E9E1 /* DetailCurrencyView.swift in Sources */,
 				EF54169D25C063E5007EA38D /* Identifiable+Ex.swift in Sources */,
 				EFF46B76259C6B6200EFD02A /* TickersView.swift in Sources */,
@@ -1738,6 +1758,7 @@
 			files = (
 				EF9582022590A28700D559E7 /* Currency.swift in Sources */,
 				EF958194259093EF00D559E7 /* Instrument.swift in Sources */,
+				EF58100825FCDFB50089F75B /* Candle.swift in Sources */,
 				EF958190259093EF00D559E7 /* Accounts.swift in Sources */,
 				EF958191259093EF00D559E7 /* InstrumentsPayload.swift in Sources */,
 				EF9582042590A28700D559E7 /* InstrumentType.swift in Sources */,
@@ -1752,6 +1773,7 @@
 				EF958198259093EF00D559E7 /* APIBaseModel.swift in Sources */,
 				EF951DF325BB22EF0006FD97 /* PinnedInstrumentR.swift in Sources */,
 				EF9581EB2590A1C600D559E7 /* Decoder+Ex.swift in Sources */,
+				EF58100A25FCDFB50089F75B /* CandlesPayload.swift in Sources */,
 				EF637FFD259364FF00D2C42D /* CurrenciesPayload.swift in Sources */,
 				EF958192259093EF00D559E7 /* Position.swift in Sources */,
 				EF958195259093EF00D559E7 /* Operation.swift in Sources */,
