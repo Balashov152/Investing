@@ -47,8 +47,9 @@ struct RectanglePercentView: View {
     var targetView: some View {
         let dragGesture = DragGesture()
             .onChanged { value in
+                let changedSpeed = 1 - abs(value.translation.height) / UIScreen.main.bounds.height
                 changeTarget(offset: range(min: 0,
-                                           element: value.translation.width + value.startLocation.x,
+                                           element: (value.translation.width + value.startLocation.x) * changedSpeed,
                                            max: rect.width - thumbSize.width))
             }
             .onEnded { _ in
@@ -66,7 +67,7 @@ struct RectanglePercentView: View {
         let combined = pressGesture.sequenced(before: dragGesture)
 
         return RoundedRectangle(cornerRadius: 3)
-            .fill(Color.black)
+            .fill(Color.appBlack)
             .scaleEffect(CGSize(width: 1, height: isDragging ? 1.5 : 1))
             .frame(width: thumbSize.width, height: thumbSize.height * 1.2)
             .offset(CGSize(width: offset, height: 0))
@@ -80,7 +81,7 @@ struct RectanglePercentView: View {
 
         return ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
             RoundedRectangle(cornerRadius: 3)
-                .stroke(Color.black.opacity(0.8), lineWidth: 1)
+                .stroke(Color.appBlack.opacity(0.8), lineWidth: 1)
                 .frame(width: geometry.size.width, height: geometry.size.height)
 
             if column.percent > 0 {
