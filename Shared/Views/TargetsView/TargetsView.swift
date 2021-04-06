@@ -27,16 +27,27 @@ struct TargetsView: View {
         (viewModel.columns.map { $0.percent }.max() ?? 0) > 0.5 ? 1 : 2
     }
 
+    var totalPrecent: Double {
+        viewModel.targets.reduce(0) { $0 + $1.value }
+    }
+
     var body: some View {
         NavigationView {
-            ScrollView(.vertical, showsIndicators: false) {
-                ForEach(viewModel.columns) { column in
-                    TargetOneView(column: column,
-                                  total: viewModel.total,
-                                  target: targetChange(column: column))
-                        .padding([.top, .bottom], 8)
-                        .padding([.leading, .trailing], 16)
-                    Divider()
+            VStack {
+                InfoRow(label: "Total",
+                        text: totalPrecent.percentFormat)
+                    .font(.title3)
+                    .padding()
+
+                ScrollView(.vertical, showsIndicators: false) {
+                    ForEach(viewModel.columns) { column in
+                        TargetOneView(column: column,
+                                      total: viewModel.total,
+                                      target: targetChange(column: column))
+                            .padding([.top, .bottom], 8)
+                            .padding([.leading, .trailing], 16)
+                        Divider()
+                    }
                 }
             }
             .navigationTitle("Targets".localized)
@@ -83,9 +94,9 @@ struct TargetOneView: View {
 
             HStack {
                 HStack {
-                    Text(column.percentVisible.string(f: ".2") + "%")
+                    Text(column.percentVisible.percentFormat)
                     Text("->")
-                    Text(target.string(f: ".2") + "%")
+                    Text(target.percentFormat)
                 }.onTapGesture {
                     target = column.percentVisible
                 }
@@ -112,5 +123,11 @@ public extension View {
     @inlinable
     func frame(square: CGFloat, alignment: Alignment = .center) -> some View {
         frame(width: square, height: square, alignment: alignment)
+    }
+}
+
+extension Double {
+    var percentFormat: String {
+        string(f: ".2") + "%"
     }
 }
