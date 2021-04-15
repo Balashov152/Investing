@@ -12,9 +12,9 @@ extension CurrencyPair {
     func localized(currency: Currency) -> String {
         switch currency {
         case .USD:
-            return (1 / USD).formattedCurrency()
+            return USD.formattedCurrency()
         case .EUR:
-            return (1 / EUR).formattedCurrency()
+            return EUR.formattedCurrency()
         default:
             return ""
         }

@@ -29,7 +29,7 @@ struct RatesView: View {
                     Text(latest.localized(currency: .EUR))
                 }.padding()
             } else {
-                Text("not avalible")
+                Text("rates not found")
             }
         }
     }

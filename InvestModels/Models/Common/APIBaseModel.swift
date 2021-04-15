@@ -19,7 +19,6 @@ public struct APIBaseModel<Payload: Decodable>: Decodable {
     public let payload: Payload?
 
     public enum CodingKeys: String, CodingKey {
-
 		case trackingId = "trackingId"
 		case status = "status"
 		case payload = "payload"
@@ -27,9 +26,9 @@ public struct APIBaseModel<Payload: Decodable>: Decodable {
 
     public init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
-		trackingId = try values.decodeIfPresent(String.self, forKey: .trackingId)
-		status = try values.decodeIfPresent(String.self, forKey: .status)
-		payload = try values.decodeIfPresent(Payload.self, forKey: .payload)
+		trackingId = try values.decodeIfPresent(forKey: .trackingId)
+		status = try values.decodeIfPresent(forKey: .status)
+		payload = try values.decodeIfPresent(forKey: .payload)
 	}
 
 }

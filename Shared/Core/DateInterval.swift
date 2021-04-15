@@ -12,4 +12,6 @@ struct DateInterval: Hashable, Codable {
                                        end: Date().endOfYear)
 
     let start, end: Date
+    
+    var range: ClosedRange<Date> { start...end }
 }

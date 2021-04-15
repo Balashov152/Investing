@@ -107,7 +107,7 @@ extension Position {
 }
 
 class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
-    var currencyPairServiceLatest: CurrencyPairServiceLatest { .shared }
+    var currencyService: CurrencyPairServiceLatest { .shared }
     lazy var positionService = env.api().positionService()
     // Input
 
@@ -208,7 +208,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
         let positions = sources.positions
 
         let totalInProfile = positions.reduce(MoneyAmount(currency: currency, value: 0)) { result, position in
-            result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+            result + CurrencyConvertManager.convert(currencyPair: currencyService.latest,
                                                     money: position.totalInProfile,
                                                     to: currency)
         }
@@ -224,7 +224,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
         } else {
             expectedProfile = positions.reduce(0) { (result, position) -> Double in
-                result + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+                result + CurrencyConvertManager.convert(currencyPair: currencyService.latest,
                                                         money: position.expectedYield,
                                                         to: currency).value
             }.addCurrency(currency)
@@ -232,7 +232,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
         let blocked = positions.reduce(nil) { (result, position) -> Double? in
             if let blocked = position.blocked(settings: env.settings) {
-                return (result ?? 0) + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+                return (result ?? 0) + CurrencyConvertManager.convert(currencyPair: currencyService.latest,
                                                                       money: blocked,
                                                                       to: currency).value
             }
@@ -340,7 +340,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     private func convert(money: MoneyAmount, to currency: Currency) -> MoneyAmount {
-        money.convert(to: currency, pair: currencyPairServiceLatest.latest)
+        money.convert(to: currency, pair: currencyService.latest)
     }
 }
 

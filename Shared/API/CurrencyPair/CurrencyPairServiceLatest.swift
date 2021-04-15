@@ -5,8 +5,10 @@
 //  Created by Sergey Balashov on 10.02.2021.
 //
 
+import Combine
 import Foundation
 import InvestModels
+import Moya
 
 class CurrencyPairServiceLatest: EnvironmentCancebleObject, ObservableObject {
     static let shared = CurrencyPairServiceLatest()
@@ -21,33 +23,32 @@ class CurrencyPairServiceLatest: EnvironmentCancebleObject, ObservableObject {
     override func bindings() {
         super.bindings()
         update()
-//        timer = .scheduledTimer(withTimeInterval: 10, repeats: true) { [unowned self] _ in
-//            update()
-//        }
+        timer = .scheduledTimer(withTimeInterval: 10, repeats: true) { [unowned self] _ in
+            update()
+        }
     }
 
     func update() {
-        env.api().currencyPairService.getLatest()
-            .replaceError(with: nil)
+        let candlesInterval = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+        let interval = DateInterval(start: candlesInterval, end: Date())
+
+        let lastUSD = env.api().candlesService
+            .getCandles(request: .currency(figi: .USD,
+                                           date: interval))
+            .replaceError(with: [])
+            .map { $0.last }
+            .eraseToAnyPublisher().unwrap()
+
+        let lastEUR = env.api().candlesService
+            .getCandles(request: .currency(figi: .EUR,
+                                           date: interval))
+            .replaceError(with: [])
+            .map { $0.last }
+            .eraseToAnyPublisher().unwrap()
+
+        Publishers.CombineLatest(lastUSD, lastEUR)
+            .map { CurrencyPair(date: Date(), USD: $0.0.avg, EUR: $0.1.avg) }
             .assign(to: \.latest, on: self)
             .store(in: &cancellables)
-        /*
-         env.api().positionService().$positions.map {
-             $0.filter { $0.instrumentType == .Currency }
-         }
-         .filter { !$0.isEmpty }
-         .flatMap { [unowned self] positions -> AnyPublisher<[Candle], MoyaError> in
-             let from = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
-             return env.api().candlesService.getCandles(request: CandlesService.RequestCandles(figi: positions.first!.figi!,
-                                                                                               from: from,
-                                                                                               to: Date(),
-                                                                                               interval: .day))
-         }
-         .print("candles")
-         .replaceError(with: [])
-         .sink { candle in
-             print("candle", candle)
-         }.store(in: &cancellables)
-         */
     }
 }

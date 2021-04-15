@@ -15,7 +15,7 @@ struct CandlesService {
 
     func getCandles(request: RequestCandles) -> AnyPublisher<[Candle], MoyaError> {
         provider.request(.getCandles(body: request))
-            .map(APIBaseModel<CandlesPayload>.self)
+            .map(APIBaseModel<CandlesPayload>.self, using: .standart)
             .map { $0.payload?.candles ?? [] }
             .eraseToAnyPublisher()
     }
@@ -23,6 +23,14 @@ struct CandlesService {
 
 extension CandlesService {
     public struct RequestCandles: Codable {
+        static func currency(figi: Constants.FIGI,
+                             date: DateInterval,
+                             interval: Candle.Interval = .day) -> RequestCandles
+        {
+            .init(figi: figi.rawValue,
+                  from: date.start, to: date.end, interval: interval)
+        }
+
         let figi: String
         let from: Date
         let to: Date

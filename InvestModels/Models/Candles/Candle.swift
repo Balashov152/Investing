@@ -29,21 +29,20 @@ public extension Candle {
 public struct Candle : Codable {
     public let figi : String?
     public let interval : Interval?
-    public let o : Double?
-    public let c : Double?
-    public let h : Double?
-    public let l : Double?
+    public let open : Double
+    public let close : Double
+    public let high : Double
+    public let low : Double
     public let v : Int?
     public let time : Date?
 
 	enum CodingKeys: String, CodingKey {
-
 		case figi = "figi"
 		case interval = "interval"
-		case o = "o"
-		case c = "c"
-		case h = "h"
-		case l = "l"
+		case open = "o"
+		case close = "c"
+		case high = "h"
+		case low = "l"
 		case v = "v"
 		case time = "time"
 	}
@@ -52,10 +51,10 @@ public struct Candle : Codable {
 		let values = try decoder.container(keyedBy: CodingKeys.self)
 		figi = try values.decodeIfPresent(forKey: .figi)
 		interval = try values.decodeIfPresent(forKey: .interval)
-		o = try values.decodeIfPresent(forKey: .o)
-		c = try values.decodeIfPresent(forKey: .c)
-		h = try values.decodeIfPresent(forKey: .h)
-		l = try values.decodeIfPresent(forKey: .l)
+		open = try values.decodeIfPresent(forKey: .open, default: 0)
+		close = try values.decodeIfPresent(forKey: .close, default: 0)
+		high = try values.decodeIfPresent(forKey: .high, default: 0)
+		low = try values.decodeIfPresent(forKey: .low, default: 0)
 		v = try values.decodeIfPresent(forKey: .v)
 		time = try values.decodeIfPresent(forKey: .time)
 	}

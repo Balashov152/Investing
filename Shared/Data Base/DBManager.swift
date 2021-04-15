@@ -18,7 +18,7 @@ struct DBManager {
     var cancellables = Set<AnyCancellable>()
 
     lazy var instrumentsService = env.api().instrumentsService
-    lazy var currencyPairService = env.api().currencyPairService
+    lazy var candlesService = env.api().candlesService
 
     init(env: Environment, realmManager: RealmManager) {
         self.env = env
@@ -43,14 +43,29 @@ struct DBManager {
                 realmManager.write(objects: instuments)
                 return [()].publisher.eraseToAnyPublisher()
             }
+        
+        let interval = env.settings.dateInterval
+        let usd = candlesService
+            .getCandles(request: .currency(figi: .USD, date: interval, interval: .day))
+            .replaceError(with: []).eraseToAnyPublisher()
+        
+        let eur = candlesService
+            .getCandles(request: .currency(figi: .EUR, date: interval, interval: .day))
+            .replaceError(with: []).eraseToAnyPublisher()
+            
 
-        let saveCurrencyPairs = currencyPairService
-            .getCurrencyPairs(request: .init(dateInterval: env.settings.dateInterval))
-            .replaceError(with: [])
-            .map { $0.map { CurrencyPairR(currencyPair: $0) } }
+        let saveCurrencyPairs = Publishers.CombineLatest(usd, eur)
             .receive(on: realmManager.syncQueue)
-            .flatMap { [unowned realmManager] (instuments) -> AnyPublisher<Void, Never> in
-                realmManager.write(objects: instuments)
+            .flatMap { [unowned realmManager] (usds, euros) -> AnyPublisher<Void, Never> in
+                let pairs = interval.range.compactMap { date -> CurrencyPair? in
+                    guard let usd = usds.first(where: { $0.date == date }),
+                          let eur = euros.first(where: { $0.date == date }) else {
+                        return nil
+                    }
+                    return .init(date: date, USD: usd.avg, EUR: eur.avg)
+                }
+                
+                realmManager.write(objects: pairs)
                 return [()].publisher.eraseToAnyPublisher()
             }
 
@@ -59,6 +74,7 @@ struct DBManager {
             .map { _ in () }.eraseToAnyPublisher()
     }
 
+/*
     mutating func updateCurrency() -> AnyPublisher<Void, Never> {
         var lastUpdateCurrency: Date?
 
@@ -83,4 +99,5 @@ struct DBManager {
                 return [()].publisher.eraseToAnyPublisher()
             }.eraseToAnyPublisher()
     }
+ */
 }
