@@ -9,7 +9,6 @@ import Foundation
 
 public protocol CurrencyConvertModel {
     var currencyPair: CurrencyPair? { get }
-    
     func convert(money: MoneyAmount, to currency: Currency) -> MoneyAmount
 }
 

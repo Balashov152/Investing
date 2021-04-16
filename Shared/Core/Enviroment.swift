@@ -18,7 +18,6 @@ struct Environment {
     var api: () -> API
 
     // helpers
-    var currencyPairService: CurrencyPairService { api().currencyPairService }
     var accountService: AccountService { api().accountService }
     var positionService: PositionsService { api().positionService() }
     var operationsService: OperationsService { api().operationsService }

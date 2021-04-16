@@ -65,8 +65,12 @@ class OperationsService: CancebleObject, ObservableObject {
         guard let pair = realmManager.object(CurrencyPairR.self,
                                              for: CurrencyPair.dateFormatter.string(from: date))
         else {
-            let previus = Calendar.current.date(byAdding: .day, value: -1, to: date) ?? Date()
-            return getCurrencyForDate(date: previus)
+            let next = Calendar.current.date(byAdding: .day, value: 1, to: date) ?? Date()
+            if next > Date() {
+                assertionFailure("not implement case")
+                return CurrencyPair(date: Date(), USD: 100, EUR: 100)
+            }
+            return getCurrencyForDate(date: next)
         }
         return CurrencyPair(currencyPairR: pair)
     }

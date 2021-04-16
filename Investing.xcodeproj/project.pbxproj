@@ -232,8 +232,6 @@
 		EFB534C52591E17300C93C3C /* CurrencyPairR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB534C42591E17300C93C3C /* CurrencyPairR.swift */; };
 		EFB534CF2591E18200C93C3C /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534CE2591E18200C93C3C /* Realm */; };
 		EFB534D12591E18200C93C3C /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = EFB534D02591E18200C93C3C /* RealmSwift */; };
-		EFB5354E2592209500C93C3C /* CurrencyPairService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB5354D2592209500C93C3C /* CurrencyPairService.swift */; };
-		EFB5354F2592209500C93C3C /* CurrencyPairService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB5354D2592209500C93C3C /* CurrencyPairService.swift */; };
 		EFB535D82592450200C93C3C /* Enviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB535D72592450200C93C3C /* Enviroment.swift */; };
 		EFB535D92592450200C93C3C /* Enviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB535D72592450200C93C3C /* Enviroment.swift */; };
 		EFBA420F25821EDF00C2AFC8 /* Decoder+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA420E25821EDF00C2AFC8 /* Decoder+Ex.swift */; };
@@ -262,8 +260,6 @@
 		EFF46B78259C6B6200EFD02A /* CurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B71259C6B6200EFD02A /* CurrencyView.swift */; };
 		EFF46B79259C6B6200EFD02A /* DividentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B72259C6B6200EFD02A /* DividentsView.swift */; };
 		EFF46B7A259C6B6200EFD02A /* DividentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B72259C6B6200EFD02A /* DividentsView.swift */; };
-		EFF78C5625933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF78C5525933D6F00EFC040 /* CurrencyPairSerializer.swift */; };
-		EFF78C5725933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF78C5525933D6F00EFC040 /* CurrencyPairSerializer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1566,7 +1562,6 @@
 				EF95208925C00ED00006FD97 /* PositionDetailViewModel.swift in Sources */,
 				EF1281FF25B203C20018E5FC /* Array+Ex.swift in Sources */,
 				EFC02B0825800BF6008AF0FF /* OperationsService.swift in Sources */,
-				EFB5354E2592209500C93C3C /* CurrencyPairService.swift in Sources */,
 				EF5416A325C06466007EA38D /* ComissionViewModel.swift in Sources */,
 				EFB535D82592450200C93C3C /* Enviroment.swift in Sources */,
 				EF79B80525B1E064005C2EB8 /* LogoService.swift in Sources */,
@@ -1580,7 +1575,6 @@
 				EFAC37B025EA4F6B0024DEBD /* RowDisclosureGroup.swift in Sources */,
 				EF6684F425D706CB0090FAA1 /* DateInterval.swift in Sources */,
 				EF76A0D4257FAA5A00991AE3 /* HomeView.swift in Sources */,
-				EFF78C5625933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
 				EF79B7B125B1BE3A005C2EB8 /* PlainSection.swift in Sources */,
 				EF5416C325C06502007EA38D /* PercentText.swift in Sources */,
 				EF4C4FA525C87BF1002006F7 /* Vibrate.swift in Sources */,
@@ -1670,7 +1664,6 @@
 				EF66856D25D70C070090FAA1 /* TextLimiter.swift in Sources */,
 				EFC02B0925800BF6008AF0FF /* OperationsService.swift in Sources */,
 				EF54166A25C061CF007EA38D /* MoneyAmount+Ex.swift in Sources */,
-				EFB5354F2592209500C93C3C /* CurrencyPairService.swift in Sources */,
 				EFB535D92592450200C93C3C /* Enviroment.swift in Sources */,
 				EF647E5D25AF41BE00D20761 /* LoadingState.swift in Sources */,
 				EFA92D4B25DD5F70008DD8D0 /* PullToRefresh.swift in Sources */,
@@ -1684,7 +1677,6 @@
 				EF6684EA25D7066B0090FAA1 /* CancebleObject.swift in Sources */,
 				EF79B80625B1E064005C2EB8 /* LogoService.swift in Sources */,
 				EF5416B625C06497007EA38D /* MoneyRow.swift in Sources */,
-				EFF78C5725933D6F00EFC040 /* CurrencyPairSerializer.swift in Sources */,
 				EF76A0F0257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE625800086008AF0FF /* PositionRowView.swift in Sources */,
 				EF6684FC25D706E20090FAA1 /* API.swift in Sources */,

@@ -38,6 +38,10 @@ extension Date {
     var endOfYear: Date {
         Calendar.current.endOfYear(self).endOfDay
     }
+
+    func years(value: Int) -> Date {
+        Calendar.current.date(byAdding: .year, value: value, to: self) ?? self
+    }
 }
 
 extension Calendar {

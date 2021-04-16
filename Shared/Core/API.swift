@@ -10,7 +10,6 @@ import Foundation
 struct API {
     static let current = API(currencyPairLatest: { .shared },
                              positionService: { .shared },
-                             currencyPairService: .init(provider: .init()),
                              accountService: .init(provider: .init()),
                              operationsService: .init(provider: .init(), realmManager: .shared),
                              instrumentsService: .init(provider: .init()),
@@ -19,7 +18,6 @@ struct API {
     var currencyPairLatest: () -> CurrencyPairServiceLatest
     var positionService: () -> PositionsService
 
-    var currencyPairService: CurrencyPairService
     var accountService: AccountService
     var operationsService: OperationsService
     var instrumentsService: InstrumentsService

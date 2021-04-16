@@ -51,7 +51,7 @@ struct TargetsView: View {
                 }
             }
             .navigationTitle("Targets".localized)
-            .navigationBarItems(trailing: MainView.settingsNavigationLink)
+            .navigationBarItems(leading: EditButton(), trailing: MainView.settingsNavigationLink)
             .navigationBarTitleDisplayMode(.inline)
             .onAppear(perform: viewModel.load)
         }
