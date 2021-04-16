@@ -8,7 +8,7 @@
 import Foundation
 
 class RatesViewModel: EnvironmentCancebleObject, ObservableObject {
-    var latestService: CurrencyPairServiceLatest { .shared }
+    var latestService: LatestCurrencyService { .shared }
 
     override func bindings() {
         super.bindings()

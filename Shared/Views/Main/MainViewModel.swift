@@ -11,7 +11,7 @@ import Foundation
 class MainViewModel: EnvironmentCancebleObject, ObservableObject {
     @Published var loadDB: LoadingState<Void> = .loading
     var dbManager: DBManager
-    var latest: CurrencyPairServiceLatest { .shared }
+    var latest: LatestCurrencyService { .shared }
 
     override init(env: Environment = .current) {
         dbManager = DBManager(env: env, realmManager: .shared)

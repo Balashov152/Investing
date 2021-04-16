@@ -34,7 +34,7 @@ class TotalDetailViewModel: EnvironmentCancebleObject, ObservableObject {
     var positions: [Position] { loading.object?.1 ?? [] }
     var operations: [Operation] { loading.object?.0 ?? [] }
 
-    var currencyPairServiceLatest: CurrencyPairServiceLatest { .shared }
+    var LatestCurrencyService: LatestCurrencyService { .shared }
     var currency: Currency {
         env.settings.currency ?? .RUB
     }
@@ -49,7 +49,7 @@ class TotalDetailViewModel: EnvironmentCancebleObject, ObservableObject {
 
     var inWork: MoneyAmount {
         let value = positions.reduce(0) {
-            $0 + CurrencyConvertManager.convert(currencyPair: currencyPairServiceLatest.latest,
+            $0 + CurrencyConvertManager.convert(currencyPair: LatestCurrencyService.latest,
                                                 money: $1.totalInProfile,
                                                 to: currency).value
         }
@@ -62,7 +62,7 @@ class TotalDetailViewModel: EnvironmentCancebleObject, ObservableObject {
 
     var total: MoneyAmount {
         TotalCalculate.total(positions: positions, operations: operations,
-                             pair: currencyPairServiceLatest.latest, currency: currency)
+                             pair: LatestCurrencyService.latest, currency: currency)
     }
 
     override func bindings() {

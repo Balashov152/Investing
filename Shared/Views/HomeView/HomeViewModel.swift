@@ -107,7 +107,7 @@ extension Position {
 }
 
 class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
-    var currencyService: CurrencyPairServiceLatest { .shared }
+    var currencyService: LatestCurrencyService { .shared }
     lazy var positionService = env.api().positionService()
     // Input
 

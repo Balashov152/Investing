@@ -1,5 +1,5 @@
 //
-//  CurrencyPairServiceLatest.swift
+//  LatestCurrencyService.swift
 //  Investing
 //
 //  Created by Sergey Balashov on 10.02.2021.
@@ -10,8 +10,8 @@ import Foundation
 import InvestModels
 import Moya
 
-class CurrencyPairServiceLatest: EnvironmentCancebleObject, ObservableObject {
-    static let shared = CurrencyPairServiceLatest()
+class LatestCurrencyService: EnvironmentCancebleObject, ObservableObject {
+    static let shared = LatestCurrencyService()
 
     @Published public var latest: CurrencyPair?
     private var timer: Timer?
@@ -23,14 +23,16 @@ class CurrencyPairServiceLatest: EnvironmentCancebleObject, ObservableObject {
     override func bindings() {
         super.bindings()
         update()
-//        timer = .scheduledTimer(withTimeInterval: 10, repeats: true) { [unowned self] _ in
-//            update()
-//        }
+        
+        if !Calendar.current.isDateInWeekend(Date()) {
+            timer = .scheduledTimer(withTimeInterval: 10, repeats: true) { [unowned self] _ in
+                update()
+            }
+        }
     }
 
     func update() {
-        let candlesInterval = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
-        let interval = DateInterval(start: candlesInterval, end: Date())
+        let interval = DateInterval(start: Date().previusDateNoWeeked, end: Date())
 
         let lastUSD = env.api().candlesService
             .getCandles(request: .currency(figi: .USD,

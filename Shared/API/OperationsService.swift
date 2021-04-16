@@ -55,7 +55,7 @@ class OperationsService: CancebleObject, ObservableObject {
         let date = operation.date.previusDateNoWeeked
 
         if Calendar.current.isDateInYesterday(date) {
-            operation.currencyPair = CurrencyPairServiceLatest.shared.latest
+            operation.currencyPair = LatestCurrencyService.shared.latest
         } else {
             operation.currencyPair = getCurrencyForDate(date: date)
         }

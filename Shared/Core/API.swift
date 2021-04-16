@@ -15,7 +15,7 @@ struct API {
                              instrumentsService: .init(provider: .init()),
                              candlesService: .init(provider: .init()))
 
-    var currencyPairLatest: () -> CurrencyPairServiceLatest
+    var currencyPairLatest: () -> LatestCurrencyService
     var positionService: () -> PositionsService
 
     var accountService: AccountService

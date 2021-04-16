@@ -39,7 +39,7 @@ class PositionDetailViewModel: EnvironmentCancebleObject, ObservableObject {
 
         if let savedBlocked = env.settings.blockedPosition[position.ticker] {
             blocked = savedBlocked.convert(to: position.currency,
-                                           pair: CurrencyPairServiceLatest.shared.latest).value.string(f: ".2")
+                                           pair: LatestCurrencyService.shared.latest).value.string(f: ".2")
         } else {
             blocked = ""
         }
