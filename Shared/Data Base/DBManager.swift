@@ -20,14 +20,32 @@ struct DBManager {
     lazy var instrumentsService = env.api().instrumentsService
     lazy var candlesService = env.api().candlesService
 
-    var interval: DateInterval? {
-        var lastUpdateCurrency: Date?
+    var savedInterval: DateInterval? {
+        var savedInterval: DateInterval?
         realmManager.syncQueueBlock {
             let sort = NSSortDescriptor(key: "date", ascending: true)
-            lastUpdateCurrency = realmManager.objects(CurrencyPairR.self, sorted: [sort]).first?.date
+            let objects = realmManager.objects(CurrencyPairR.self, sorted: [sort])
+
+            if let first = objects.first, let last = objects.last {
+                savedInterval = DateInterval(start: first.date, end: last.date)
+            }
         }
 
-        guard let last = lastUpdateCurrency else {
+        return savedInterval
+    }
+
+    var nowInterval: DateInterval? {
+        guard let date = savedInterval?.end,
+              !Calendar.current.isDateInToday(date)
+        else {
+            return nil
+        }
+
+        return DateInterval(start: date, end: Date())
+    }
+
+    var historyInterval: DateInterval? {
+        guard let last = savedInterval?.start else {
             return .yearAgo
         }
 
@@ -53,9 +71,28 @@ struct DBManager {
             Storage.currentDBVersion = DBManager.version
         }
 
-        return Publishers.CombineLatest(updateInstruments(), updateCurrency())
+        let publihser: AnyPublisher<Void, Never>
+        if let nowInterval = nowInterval, let historyInterval = historyInterval {
+            publihser = Publishers.CombineLatest3(updateInstruments(),
+                                                  updateCurrency(interval: nowInterval),
+                                                  updateCurrency(interval: historyInterval))
+                .eraseToAnyPublisher().mapToVoid()
+        } else if let nowInterval = nowInterval {
+            publihser = Publishers.CombineLatest(updateInstruments(),
+                                                 updateCurrency(interval: nowInterval))
+                .eraseToAnyPublisher().mapToVoid()
+        } else if let historyInterval = historyInterval {
+            publihser = Publishers.CombineLatest(updateInstruments(),
+                                                 updateCurrency(interval: historyInterval))
+                .eraseToAnyPublisher().mapToVoid()
+        } else {
+            publihser = updateInstruments()
+                .eraseToAnyPublisher().mapToVoid()
+        }
+
+        return publihser
             .receive(on: DispatchQueue.main)
-            .map { _ in () }.eraseToAnyPublisher()
+            .eraseToAnyPublisher()
     }
 
     mutating func updateInstruments() -> AnyPublisher<Void, Never> {
@@ -69,15 +106,11 @@ struct DBManager {
             .map { $0.map { InstrumentR(instrument: $0) } }
             .flatMap { [unowned realmManager] (instuments) -> AnyPublisher<Void, Never> in
                 realmManager.write(objects: instuments)
-                return [()].publisher.eraseToAnyPublisher()
+                return Just(()).eraseToAnyPublisher()
             }.eraseToAnyPublisher()
     }
 
-    mutating func updateCurrency() -> AnyPublisher<Void, Never> {
-        guard let interval = self.interval else {
-            return [()].publisher.eraseToAnyPublisher()
-        }
-
+    mutating func updateCurrency(interval: DateInterval) -> AnyPublisher<Void, Never> {
         let usd = candlesService
             .getCandles(request: .currency(figi: .USD, date: interval, interval: .day))
             .replaceError(with: []).eraseToAnyPublisher()
@@ -107,31 +140,4 @@ struct DBManager {
                 return [()].publisher.eraseToAnyPublisher()
             }.eraseToAnyPublisher()
     }
-
-    /*
-        mutating func updateCurrency() -> AnyPublisher<Void, Never> {
-            var lastUpdateCurrency: Date?
-
-            realmManager.syncQueueBlock {
-                let sort = NSSortDescriptor(key: "date", ascending: true)
-                lastUpdateCurrency = realmManager.objects(CurrencyPairR.self, sorted: [sort]).last?.date
-            }
-
-            guard let lastUpdate = lastUpdateCurrency,
-                  lastUpdate < Calendar.current.startOfDay(for: Date())
-            else {
-                return [()].publisher.eraseToAnyPublisher()
-            }
-
-            return currencyPairService
-                .getCurrencyPairs(request: .init(dateInterval: DateInterval(start: lastUpdate, end: Date())))
-                .replaceError(with: [])
-                .map { $0.map { CurrencyPairR(currencyPair: $0) } }
-                .receive(on: realmManager.syncQueue)
-                .flatMap { [unowned realmManager] (instuments) -> AnyPublisher<Void, Never> in
-                    realmManager.write(objects: instuments)
-                    return [()].publisher.eraseToAnyPublisher()
-                }.eraseToAnyPublisher()
-        }
-     */
 }

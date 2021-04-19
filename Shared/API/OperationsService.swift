@@ -67,7 +67,7 @@ class OperationsService: CancebleObject, ObservableObject {
         else {
             let next = Calendar.current.date(byAdding: .day, value: 1, to: date) ?? Date()
             if next > Date() {
-                assertionFailure("not implement case")
+                assertionFailure("not implement case for next date \(next)")
                 return CurrencyPair(date: Date(), USD: 100, EUR: 100)
             }
             return getCurrencyForDate(date: next)
@@ -85,8 +85,8 @@ extension Date {
         if !Calendar.current.isDateInWeekend(date) {
             return date
         }
-        let previus = Calendar.current.date(byAdding: .day, value: -1, to: date) ?? Date()
-        return getPreviusDateNonWeekend(date: previus)
+
+        return getPreviusDateNonWeekend(date: date.days(value: -1))
     }
 }
 

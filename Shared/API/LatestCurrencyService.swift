@@ -23,7 +23,7 @@ class LatestCurrencyService: EnvironmentCancebleObject, ObservableObject {
     override func bindings() {
         super.bindings()
         update()
-        
+
         if !Calendar.current.isDateInWeekend(Date()) {
             timer = .scheduledTimer(withTimeInterval: 10, repeats: true) { [unowned self] _ in
                 update()
@@ -32,7 +32,8 @@ class LatestCurrencyService: EnvironmentCancebleObject, ObservableObject {
     }
 
     func update() {
-        let interval = DateInterval(start: Date().previusDateNoWeeked, end: Date())
+        let interval = DateInterval(start: Date().previusDateNoWeeked.days(value: -1),
+                                    end: Date())
 
         let lastUSD = env.api().candlesService
             .getCandles(request: .currency(figi: .USD,

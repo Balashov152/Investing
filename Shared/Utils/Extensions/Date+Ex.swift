@@ -42,6 +42,10 @@ extension Date {
     func years(value: Int) -> Date {
         Calendar.current.date(byAdding: .year, value: value, to: self) ?? self
     }
+
+    func days(value: Int) -> Date {
+        Calendar.current.date(byAdding: .day, value: value, to: self) ?? self
+    }
 }
 
 extension Calendar {
