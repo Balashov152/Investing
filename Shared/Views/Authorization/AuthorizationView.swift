@@ -51,15 +51,6 @@ class AuthorizationViewModel: EnvironmentCancebleObject, ObservableObject {
 
         super.init(env: env)
     }
-
-    override func bindings() {
-        super.bindings()
-        guard isMe else { return }
-
-        $isSandbox.map {
-            $0 ? "t.uiTdZcEiqAB16-psL3iRgZFOQdQwGhiPwrkQeVKycl4LcFYieNhy8oYvgdBovWyL3TvJ7ra5ISVB4KE8x96cng" : "t.ElO9J6o7HNsTSVH5LG6tRrMqG3bAKQFG3YehULcdPaYzhK0CXcyMVy4rhtbNUuOHwXo8VAs-QUgA-KbHNLg5yg"
-        }.assign(to: \.apiToken, on: self).store(in: &cancellables)
-    }
 }
 
 struct AuthorizationView: View {
