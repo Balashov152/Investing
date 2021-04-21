@@ -130,8 +130,6 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
 
     // Output
     @Published var sections: [Section] = []
-    @Published var currencies: [CurrencyPosition] = []
-
     var timer: Timer?
     var convertedTotal: Total?
 

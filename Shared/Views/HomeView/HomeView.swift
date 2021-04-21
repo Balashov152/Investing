@@ -20,16 +20,8 @@ struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
     @State var isRefresh: Bool = false
 
-    @State var expandedSections: Set<InstrumentType> {
-        willSet {
-            debugPrint("expanded home", newValue)
-            viewModel.env.settings.expandedHome = newValue
-        }
-    }
-
     init(viewModel: HomeViewModel) {
-        _expandedSections = .init(initialValue: viewModel.env.settings.expandedHome)
-
+        debugPrint("viewModel.env.settings.expandedHome", viewModel.env.settings.expandedHome)
         self.viewModel = viewModel
     }
 
@@ -52,7 +44,8 @@ struct HomeView: View {
             HomeHeaderTotalView(viewModel: viewModel)
             ForEach(viewModel.sections) { section in
                 RowDisclosureGroup(element: section.type,
-                                   expanded: expandedSections,
+                                   expanded: viewModel.env.settings.expandedHome,
+                                   expandedChanged: { viewModel.env.settings.expandedHome = $0 },
                                    content: {
                                        groupContent(section: section)
                                    },
@@ -89,19 +82,5 @@ struct HomeView: View {
                 }
             }
         })
-    }
-
-    var currencies: some View {
-        Section {
-            PlainSection(header: HomeHeaderView(section: .init(type: .Currency, positions: []))) {
-                ForEach(viewModel.currencies, id: \.self) { currency in
-                    HStack {
-                        Text(currency.currency.rawValue)
-                        Spacer()
-                        MoneyText(money: .init(currency: currency.currency, value: currency.balance))
-                    }
-                }
-            }
-        }
     }
 }

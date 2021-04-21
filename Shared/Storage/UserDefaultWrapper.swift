@@ -62,6 +62,8 @@ struct UserDefault<Value: Codable> {
                 let data = try JSONEncoder().encode(newValue)
                 // Set value to UserDefaults
                 storage.set(data, forKey: key)
+                storage.synchronize()
+
             } catch {
                 assertionFailure("error convert \(error.localizedDescription)")
             }
