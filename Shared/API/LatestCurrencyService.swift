@@ -24,11 +24,11 @@ class LatestCurrencyService: EnvironmentCancebleObject, ObservableObject {
         super.bindings()
         update()
 
-        if !Calendar.current.isDateInWeekend(Date()) {
-            timer = .scheduledTimer(withTimeInterval: 10, repeats: true) { [unowned self] _ in
-                update()
-            }
-        }
+//        if !Calendar.current.isDateInWeekend(Date()) {
+//            timer = .scheduledTimer(withTimeInterval: 10, repeats: true) { [unowned self] _ in
+//                update()
+//            }
+//        }
     }
 
     func update() {

@@ -38,7 +38,12 @@ extension Position: Hashable {
     }
     
     public var totalInProfile: MoneyAmount {
-        totalBuyPayment + expectedYield
+        switch instrumentType {
+        case .Bond, .Etf, .Stock:
+        return totalBuyPayment + expectedYield
+        case .Currency:
+            return totalBuyPayment
+        }
     }
 }
 

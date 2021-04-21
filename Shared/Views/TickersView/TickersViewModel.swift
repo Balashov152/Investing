@@ -10,6 +10,7 @@ import InvestModels
 import SwiftUI
 
 class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
+    var latest: CurrencyPair? { env.api().currencyPairLatest().latest }
     @Published var results: [InstrumentResult] = []
 
     @Published var totalRUB: Double = 0
@@ -53,26 +54,34 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     }
 
     private func mapToResults(operations: [Operation], positions: [Position], sortType: SortType) -> [InstrumentResult] {
-        let uniqTickers = Array(Set(operations.compactMap { $0.instrument }.filter { $0.type != .Currency }))
+        let uniqTickers = Set(operations.compactMap { $0.instrument }.filter { $0.type != .Currency })
         return uniqTickers.map { ticker -> InstrumentResult in
-            let nowInProfile: Double = positions.first(where: { $0.figi == ticker.figi })?.totalInProfile.value ?? 0
-            let allOperationsForTicker = operations.filter { $0.instrument?.figi == ticker.figi }
-            let sumOperation = allOperationsForTicker.sum + nowInProfile
-            return InstrumentResult(instrument: ticker,
-                                    result: MoneyAmount(currency: allOperationsForTicker.first?.currency ?? .USD, value: sumOperation),
-                                    inProfile: nowInProfile > 0)
+
+            let currency = ticker.currency
+            let nowInProfile = positions.first(where: { $0.figi == ticker.figi })?.totalInProfile
+
+            var sumOperation = operations
+                .filter { $0.instrument?.figi == ticker.figi }
+                .currencySum(to: currency)
+
+            if let nowInProfile = nowInProfile {
+                assert(currency == nowInProfile.currency)
+
+                sumOperation = sumOperation + nowInProfile
+            }
+
+            let result = InstrumentResult(instrument: ticker, result: sumOperation, inProfile: nowInProfile != nil)
+            return result
         }.sorted(by: {
             switch sortType {
             case .name:
                 return $0.instrument.name < $1.instrument.name
             case .inProfile:
-                return $0.inProfile.hashValue < $1.inProfile.hashValue
+                return $0.inProfile.value > $1.inProfile.value
             case .profit:
-                return CurrencyConvertManager
-                    .convert(currencyPair: env.api().currencyPairLatest().latest,
-                             money: $0.result, to: .USD).value >
-                    CurrencyConvertManager
-                    .convert(currencyPair: env.api().currencyPairLatest().latest,
+                return CurrencyConvertManager.convert(currencyPair: latest,
+                                                      money: $0.result, to: .USD).value >
+                    CurrencyConvertManager.convert(currencyPair: latest,
                              money: $1.result, to: .USD).value
             }
         })
@@ -92,4 +101,8 @@ extension TickersViewModel {
             return "\(self)"
         }
     }
+}
+
+extension Bool {
+    var value: Int { self ? 1 : 0 }
 }
