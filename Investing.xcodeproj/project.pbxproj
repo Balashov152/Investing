@@ -556,6 +556,7 @@
 				1AFAC8B963236EDC782AF3DE /* Pods_Investing__macOS_.framework */,
 			);
 			name = Frameworks;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		C994ACF066261C94A89DE708 /* Pods */ = {
@@ -843,7 +844,6 @@
 				EF9581702590903000D559E7 /* InvestModelsTests */,
 				EF76A09A257FA80200991AE3 /* Products */,
 				C994ACF066261C94A89DE708 /* Pods */,
-				7C9F92DC5730E320C5E5324A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1073,6 +1073,7 @@
 		EF9581702590903000D559E7 /* InvestModelsTests */ = {
 			isa = PBXGroup;
 			children = (
+				7C9F92DC5730E320C5E5324A /* Frameworks */,
 				EF9581712590903000D559E7 /* InvestModelsTests.swift */,
 				EF9581732590903000D559E7 /* Info.plist */,
 			);

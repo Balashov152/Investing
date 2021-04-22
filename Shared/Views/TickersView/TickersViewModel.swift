@@ -79,10 +79,8 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
             case .inProfile:
                 return $0.inProfile.value > $1.inProfile.value
             case .profit:
-                return CurrencyConvertManager.convert(currencyPair: latest,
-                                                      money: $0.result, to: .USD).value >
-                    CurrencyConvertManager.convert(currencyPair: latest,
-                             money: $1.result, to: .USD).value
+                return $0.result.convert(to: .USD, pair: latest).value >
+                    $1.result.convert(to: .USD, pair: latest).value
             }
         })
     }
