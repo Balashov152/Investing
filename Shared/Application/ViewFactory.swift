@@ -10,6 +10,12 @@ import Foundation
 import InvestModels
 
 struct ViewFactory {
+    // MARK: Authorization
+
+    static let instructionView: AuthorizationInstruction = {
+        .init()
+    }()
+
     // MARK: Main
 
     static let mainView: MainView = {

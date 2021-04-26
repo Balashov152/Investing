@@ -31,7 +31,7 @@ extension Position: Hashable {
         switch instrumentType {
         case .Bond, .Etf, .Stock:
         return MoneyAmount(currency: currency,
-                    value: averagePositionPrice.value * Double(lots))
+                    value: averagePositionPrice.value * Double(balance))
         case .Currency:
             return MoneyAmount(currency: currency, value: balance)
         }
@@ -56,7 +56,7 @@ public struct Position: Decodable {
         self.instrumentType = instrumentType
         self.balance = balance
         self.blocked = blocked
-        self.lots = lots
+//        self.lots = lots
         self.expectedYield = expectedYield
         self.averagePositionPrice = averagePositionPrice
         self.averagePositionPriceNoNkd = averagePositionPriceNoNkd
@@ -72,7 +72,7 @@ public struct Position: Decodable {
     public let balance: Double
     public let blocked: Double?
 
-    public let lots: Int
+    public var lots: Int { Int(balance) }
 
     public let expectedYield: MoneyAmount
     public let averagePositionPrice: MoneyAmount
@@ -86,7 +86,7 @@ public struct Position: Decodable {
         instrumentType = try values.decodeIfPresent(forKey: .instrumentType, default: .Stock)
 		balance = try values.decodeIfPresent(forKey: .balance, default: 0)
 		blocked = try values.decodeIfPresent(forKey: .blocked)
-        lots = try values.decodeIfPresent(forKey: .lots, default: 0)
+//        lots = try values.decodeIfPresent(forKey: .lots, default: 0)
         
         expectedYield = try values.decodeIfPresent(forKey: .expectedYield, default: MoneyAmount(currency: .USD, value: 0))
 		averagePositionPrice = try values.decodeIfPresent(forKey: .averagePositionPrice, default: MoneyAmount(currency: .USD, value: 0))

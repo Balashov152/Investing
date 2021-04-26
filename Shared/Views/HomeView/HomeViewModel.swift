@@ -211,6 +211,11 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
                                                     to: currency)
         }
 
+        let currenciesInProfile = sources.currencies
+            .filter { $0.currency == .RUB }.first?.money
+            .convert(to: currency, pair: currencyService.latest) ??
+            MoneyAmount(currency: .RUB, value: 0)
+
         var expectedProfile: MoneyAmount
 
         if env.settings.adjustedTotal {
@@ -237,7 +242,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             return result
         }?.addCurrency(currency)
 
-        var total = totalInProfile // + currenciesInProfile
+        var total = totalInProfile + currenciesInProfile
         if env.settings.minusDebt, let blocked = blocked {
             total = total - blocked
         }
@@ -254,16 +259,29 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             case .Stock, .Bond, .Etf:
                 let filtered = map(operations: sources.operations, positions: positions,
                                    to: convertSortModel.convert).sorted {
+                    let left: MoneyAmount
+                    let right: MoneyAmount
+
                     switch sortType {
                     case .name:
                         return $0.name.orEmpty < $1.name.orEmpty
                     case .price:
-                        return $0.averagePositionPriceNow.value > $1.averagePositionPriceNow.value
+                        left = $0.averagePositionPriceNow
+                        right = $1.averagePositionPriceNow
                     case .profit:
-                        return $0.expectedYield.value > $1.expectedYield.value
+                        left = $0.expectedYield
+                        right = $1.expectedYield
                     case .position:
-                        return $0.totalInProfile.value > $1.totalInProfile.value
+                        left = $0.totalInProfile
+                        right = $1.totalInProfile
                     }
+
+                    if left.currency == right.currency {
+                        return left.value > right.value
+                    }
+
+                    return left.convert(to: .USD, pair: currencyService.latest).value >
+                        right.convert(to: .USD, pair: currencyService.latest).value
                 }
 
                 if !filtered.isEmpty {

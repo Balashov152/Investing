@@ -21,7 +21,6 @@ struct HomeView: View {
     @State var isRefresh: Bool = false
 
     init(viewModel: HomeViewModel) {
-        debugPrint("viewModel.env.settings.expandedHome", viewModel.env.settings.expandedHome)
         self.viewModel = viewModel
     }
 

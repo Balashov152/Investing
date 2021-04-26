@@ -15,7 +15,7 @@ struct ComissionView: View {
     var body: some View {
         List {
             ForEach(viewModel.rows, id: \.type) { row in
-                MoneyRow(label: row.type.rawValue, money: row.value)
+                MoneyRow(label: row.title, money: row.value)
             }
             if viewModel.total.value != 0 {
                 MoneyRow(label: "Total".localized, money: viewModel.total)

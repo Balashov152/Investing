@@ -67,5 +67,23 @@ extension ComissionViewModel {
     struct Row {
         let type: Operation.OperationTypeWithCommission
         let value: MoneyAmount
+
+        var title: String {
+            switch type {
+            case .BrokerCommission:
+                return "Брокерская комиссия"
+            case .ServiceCommission:
+                return "Сервисное обслуживание"
+            case .MarginCommission:
+                return "Перенос позиций"
+            case .ExchangeCommission:
+                return "Комиссия обмена"
+            case .OtherCommission:
+                return "Другая комиссия"
+            default:
+                assertionFailure("not implement case")
+                return "Комиссия"
+            }
+        }
     }
 }

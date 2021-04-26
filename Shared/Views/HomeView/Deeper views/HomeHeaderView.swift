@@ -30,22 +30,24 @@ struct HomeHeaderView: View {
                 }
             }
 
-            HStack {
-                ForEach(section.currencies.sorted(by: >).indexed(), id: \.element) { offset, currency in
-                    if offset != 0 { Divider() }
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack {
+                    ForEach(section.currencies.sorted(by: >).indexed(), id: \.element) { offset, currency in
+                        if offset != 0 { Divider() }
 
-                    if section.totalInProfile(currency: currency) > 0 {
-                        VStack(alignment: .leading) {
-                            CurrencyText(money: MoneyAmount(currency: currency,
-                                                            value: section.totalInProfile(currency: currency)))
-                                .font(.system(size: 20, weight: .medium))
-                            if section.totalChanged(currency: currency) != 0 {
-                                HStack {
-                                    MoneyText(money: MoneyAmount(currency: currency,
-                                                                 value: section.totalChanged(currency: currency)))
-                                    PercentText(percent: section.percentChanged(currency: currency))
+                        if section.totalInProfile(currency: currency) > 0 {
+                            VStack(alignment: .leading) {
+                                CurrencyText(money: MoneyAmount(currency: currency,
+                                                                value: section.totalInProfile(currency: currency)))
+                                    .font(.system(size: 20, weight: .medium))
+                                if section.totalChanged(currency: currency) != 0 {
+                                    HStack {
+                                        MoneyText(money: MoneyAmount(currency: currency,
+                                                                     value: section.totalChanged(currency: currency)))
+                                        PercentText(percent: section.percentChanged(currency: currency))
+                                    }
+                                    .font(.system(size: 14, weight: .regular))
                                 }
-                                .font(.system(size: 14, weight: .regular))
                             }
                         }
                     }

@@ -82,15 +82,28 @@ class DetailCurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
     // Total
 
     var avg: MoneyAmount {
-        var avg = avgBuy.value
         if let inAvg = Double(averagePayIn.value) {
+            let inOut = payIn + payOut
+            let inOutPrice = inOut.value * inAvg
+
+            var newAvg = abs(totalSellRUB.value) + inOutPrice
+            debugPrint("newAvg", newAvg, "inOutPrice", inOutPrice)
+            newAvg /= total.value
+
+            debugPrint("newAvg", newAvg)
+            return MoneyAmount(currency: currency, value: newAvg)
+
             let inSpent = payIn.value * inAvg
             let out = payOut.value * avgBuy.value
+            debugPrint("inSpent", inSpent, "out", out)
+            var avg = inSpent + abs(totalSellRUB.value) + out
+            debugPrint("avg", avg)
 
-            avg = inSpent + abs(totalSellRUB.value) + out
             avg /= total.value
+
+            debugPrint("avg", avg, "total", total.value)
         }
-        return MoneyAmount(currency: currency, value: avg)
+        return MoneyAmount(currency: currency, value: avgBuy.value)
     }
 
     var total: MoneyAmount {

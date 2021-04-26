@@ -72,6 +72,10 @@
 		EF5416CC25C06591007EA38D /* TickersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5416CA25C06591007EA38D /* TickersViewModel.swift */; };
 		EF5416DC25C0676E007EA38D /* DividentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5416DB25C0676E007EA38D /* DividentsViewModel.swift */; };
 		EF5416DD25C0676E007EA38D /* DividentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5416DB25C0676E007EA38D /* DividentsViewModel.swift */; };
+		EF56475E2632BF02004ED79B /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF56475D2632BF02004ED79B /* AuthorizationViewModel.swift */; };
+		EF56475F2632BF03004ED79B /* AuthorizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF56475D2632BF02004ED79B /* AuthorizationViewModel.swift */; };
+		EF5647622632C180004ED79B /* AuthorizationInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5647612632C180004ED79B /* AuthorizationInstruction.swift */; };
+		EF5647632632C180004ED79B /* AuthorizationInstruction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5647612632C180004ED79B /* AuthorizationInstruction.swift */; };
 		EF580FFE25FCDF230089F75B /* CandlesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF580FFD25FCDF230089F75B /* CandlesService.swift */; };
 		EF580FFF25FCDF230089F75B /* CandlesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF580FFD25FCDF230089F75B /* CandlesService.swift */; };
 		EF58100825FCDFB50089F75B /* Candle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF58100525FCDFB40089F75B /* Candle.swift */; };
@@ -370,6 +374,8 @@
 		EF5416C225C06502007EA38D /* PercentText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PercentText.swift; sourceTree = "<group>"; };
 		EF5416CA25C06591007EA38D /* TickersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TickersViewModel.swift; sourceTree = "<group>"; };
 		EF5416DB25C0676E007EA38D /* DividentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividentsViewModel.swift; sourceTree = "<group>"; };
+		EF56475D2632BF02004ED79B /* AuthorizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewModel.swift; sourceTree = "<group>"; };
+		EF5647612632C180004ED79B /* AuthorizationInstruction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationInstruction.swift; sourceTree = "<group>"; };
 		EF580FFD25FCDF230089F75B /* CandlesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandlesService.swift; sourceTree = "<group>"; };
 		EF58100525FCDFB40089F75B /* Candle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Candle.swift; sourceTree = "<group>"; };
 		EF58100725FCDFB40089F75B /* CandlesPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandlesPayload.swift; sourceTree = "<group>"; };
@@ -751,6 +757,14 @@
 			path = DividentsView;
 			sourceTree = "<group>";
 		};
+		EF5647602632C14C004ED79B /* Deeper views */ = {
+			isa = PBXGroup;
+			children = (
+				EF5647612632C180004ED79B /* AuthorizationInstruction.swift */,
+			);
+			path = "Deeper views";
+			sourceTree = "<group>";
+		};
 		EF58100425FCDF8A0089F75B /* Candles */ = {
 			isa = PBXGroup;
 			children = (
@@ -1026,6 +1040,8 @@
 			isa = PBXGroup;
 			children = (
 				EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */,
+				EF56475D2632BF02004ED79B /* AuthorizationViewModel.swift */,
+				EF5647602632C14C004ED79B /* Deeper views */,
 			);
 			path = Authorization;
 			sourceTree = "<group>";
@@ -1544,6 +1560,7 @@
 				EF6684BE25D1761D0090FAA1 /* TargetsViewModel.swift in Sources */,
 				EF15F2C125E7EAC400F281F8 /* SimplePosition.swift in Sources */,
 				EF6685AA25D70EBF0090FAA1 /* SettingsViewModel.swift in Sources */,
+				EF5647622632C180004ED79B /* AuthorizationInstruction.swift in Sources */,
 				EF9581BD25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF9581B425909E5500D559E7 /* EnvironmentCancebleObject.swift in Sources */,
 				EFAC37A925EA46570024DEBD /* InstrumentType+Ex.swift in Sources */,
@@ -1562,6 +1579,7 @@
 				EF9CD35025B232430043E9E1 /* DetailCurrencyView.swift in Sources */,
 				EF9581CA25909FC800D559E7 /* Operation+Ex.swift in Sources */,
 				EFAC37B025EA4F6B0024DEBD /* RowDisclosureGroup.swift in Sources */,
+				EF56475E2632BF02004ED79B /* AuthorizationViewModel.swift in Sources */,
 				EF6684F425D706CB0090FAA1 /* DateInterval.swift in Sources */,
 				EF76A0D4257FAA5A00991AE3 /* HomeView.swift in Sources */,
 				EF79B7B125B1BE3A005C2EB8 /* PlainSection.swift in Sources */,
@@ -1645,6 +1663,7 @@
 				EF66851725D708810090FAA1 /* MainViewModel.swift in Sources */,
 				EF66859F25D70E850090FAA1 /* OperationsViewModel.swift in Sources */,
 				EF9581B525909E5500D559E7 /* EnvironmentCancebleObject.swift in Sources */,
+				EF5647632632C180004ED79B /* AuthorizationInstruction.swift in Sources */,
 				EF66858C25D70CB40090FAA1 /* DetailCurrencyViewModel.swift in Sources */,
 				EF8104DD25D3E8EE00B73406 /* LatestCurrencyService.swift in Sources */,
 				EFAC37B125EA4F6B0024DEBD /* RowDisclosureGroup.swift in Sources */,
@@ -1703,6 +1722,7 @@
 				EF8104D225D3D1EC00B73406 /* PayInView.swift in Sources */,
 				EF66855A25D70B7B0090FAA1 /* TotalViewModel.swift in Sources */,
 				EF647E6825AF41D100D20761 /* LoadingError.swift in Sources */,
+				EF56475F2632BF03004ED79B /* AuthorizationViewModel.swift in Sources */,
 				EF5416CC25C06591007EA38D /* TickersViewModel.swift in Sources */,
 				EF76A124257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
 				EF15F2C225E7EAC400F281F8 /* SimplePosition.swift in Sources */,

@@ -66,12 +66,12 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
 
             if let nowInProfile = nowInProfile {
                 assert(currency == nowInProfile.currency)
-
                 sumOperation = sumOperation + nowInProfile
             }
 
-            let result = InstrumentResult(instrument: ticker, result: sumOperation, inProfile: nowInProfile != nil)
-            return result
+            return InstrumentResult(instrument: ticker,
+                                    result: sumOperation,
+                                    inProfile: nowInProfile != nil)
         }.sorted(by: {
             switch sortType {
             case .name:
@@ -96,7 +96,14 @@ extension TickersViewModel {
     enum SortType: Int {
         case name, inProfile, profit
         var localize: String {
-            return "\(self)"
+            switch self {
+            case .name:
+                return "По имени"
+            case .inProfile:
+                return "В портфеле"
+            case .profit:
+                return "Прибыль"
+            }
         }
     }
 }
