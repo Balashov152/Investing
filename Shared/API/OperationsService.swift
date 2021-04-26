@@ -65,10 +65,10 @@ class OperationsService: CancebleObject, ObservableObject {
         guard let pair = realmManager.object(CurrencyPairR.self,
                                              for: CurrencyPair.dateFormatter.string(from: date))
         else {
-            let next = Calendar.current.date(byAdding: .day, value: 1, to: date) ?? Date()
+            let next = date.days(value: 1)
             if next > Date() {
-                assertionFailure("not implement case for next date \(next)")
-                return CurrencyPair(date: Date(), USD: 100, EUR: 100)
+                print("WARNING: get date for next date \(next)")
+                return LatestCurrencyService.shared.latest ?? getCurrencyForDate(date: date.days(value: -1))
             }
             return getCurrencyForDate(date: next)
         }

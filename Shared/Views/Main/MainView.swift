@@ -51,6 +51,7 @@ struct MainView: View {
             profileView
             analyticsView
             targetsView
+            operationsView
         }
         .accentColor(Color.appBlack)
     }
@@ -83,15 +84,15 @@ struct MainView: View {
         }.tag(2)
     }
 
-//    var operationsView: some View {
-//        ViewFactory.operationsView.tabItem {
-//            VStack {
-//                Image(systemName: "list.bullet.rectangle")
-//                    .resizable()
-//                Text("Operations")
-//            }.font(.system(size: 16, weight: selection == 2 ? .bold : .regular))
-//        }.tag(2)
-//    }
+    var operationsView: some View {
+        ViewFactory.operationsView.tabItem {
+            VStack {
+                Image(systemName: "list.bullet.rectangle")
+                    .resizable()
+                Text("Operations")
+            }.font(.system(size: 16, weight: selection == 3 ? .bold : .regular))
+        }.tag(3)
+    }
 }
 
 // line.diagonal.arrow 􀫱

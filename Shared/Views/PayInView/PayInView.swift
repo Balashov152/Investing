@@ -15,27 +15,44 @@ struct PayInView: View {
     var body: some View {
         List {
             ForEach(viewModel.sections) { section in
-                RowDisclosureGroup(element: section, content: {
-                    ForEach(section.rows) { row in
-                        HStack {
-                            MoneyRow(label: row.localizedDate, money: row.money)
-                        }
+                Section(header: YearHeaderView(section: section)) {
+                    ForEach(section.months) { month in
+                        RowDisclosureGroup(element: month, content: {
+                            ForEach(month.rows) { row in
+                                MoneyRow(label: row.localizedDate, money: row.money)
+                            }
+                        }, label: {
+                            HeaderView(section: month)
+                        })
                     }
-                }, label: {
-                    HeaderView(section: section)
-                })
+                }
             }
         }
         .listStyle(GroupedListStyle())
-        .navigationTitle("Operations".localized + " - " + viewModel.convertCurrency.rawValue)
+        .navigationTitle("Operations".localized)
         .onAppear(perform: viewModel.load)
     }
 
     struct HeaderView: View {
-        let section: PayInViewModel.Section
+        let section: PayInViewModel.Month
         var body: some View {
             if let result = section.result {
                 MoneyRow(label: section.header, money: result)
+            }
+        }
+    }
+
+    struct YearHeaderView: View {
+        let section: PayInViewModel.Section
+        var body: some View {
+            HStack {
+                Text(section.year.string).font(.title).bold()
+
+                if let result = section.result {
+                    Spacer()
+                    MoneyText(money: result)
+                        .body.font(.title3).bold()
+                }
             }
         }
     }

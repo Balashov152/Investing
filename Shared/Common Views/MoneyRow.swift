@@ -11,7 +11,7 @@ import SwiftUI
 struct MoneyText: View {
     let money: MoneyAmount
 
-    var body: some View {
+    var body: Text {
         Text(money.value.formattedCurrency(locale: money.currency.locale))
             .foregroundColor(.currency(value: money.value))
     }
