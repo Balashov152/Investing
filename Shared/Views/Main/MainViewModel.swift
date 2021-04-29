@@ -22,8 +22,7 @@ class MainViewModel: EnvironmentCancebleObject, ObservableObject {
     func loadData() {
         guard loadDB == .loading else { return }
 
-        Publishers.CombineLatest(dbManager.updateIfNeeded(),
-                                 latest.$latest.dropFirst())
+        Publishers.CombineLatest(dbManager.updateIfNeeded(), latest.$latest)
             .eraseToAnyPublisher().mapToVoid()
             .map { .loaded(object: $0) }
             .receive(on: DispatchQueue.main)

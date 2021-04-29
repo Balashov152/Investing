@@ -87,7 +87,15 @@ struct SettingsView: View {
 
     var tokenApi: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Current token".localized).bold()
+            HStack {
+                Text("Current token".localized).bold()
+                Spacer()
+                Button("Copy") {
+                    UIPasteboard.general.string = Storage.token
+                }
+                .buttonStyle(PlainButtonStyle())
+            }
+
             Text(Storage.token)
         }
     }

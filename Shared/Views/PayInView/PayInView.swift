@@ -18,8 +18,8 @@ struct PayInView: View {
                 Section(header: YearHeaderView(section: section)) {
                     ForEach(section.months) { month in
                         RowDisclosureGroup(element: month, content: {
-                            ForEach(month.rows) { row in
-                                MoneyRow(label: row.localizedDate, money: row.money)
+                            ForEach(month.operations) { operation in
+                                MoneyRow(label: operation.localizedDate, money: operation.money)
                             }
                         }, label: {
                             HeaderView(section: month)

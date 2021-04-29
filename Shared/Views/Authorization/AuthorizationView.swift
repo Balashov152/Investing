@@ -17,7 +17,7 @@ struct AuthorizationView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical) {
-                VStack {
+                VStack(alignment: .leading) {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Чтобы пользоваться приложением, необходимо ввести токен Тинькофф инвестиций. Его можно взять в настройках, в веб версии")
                         Button("Просмотреть инструкцию", action: {
