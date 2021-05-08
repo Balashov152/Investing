@@ -22,7 +22,7 @@ struct ViewFactory {
         .init(viewModel: .init())
     }()
 
-    static let SettingsView: SettingsView = {
+    static let settingsView: SettingsView = {
         .init(viewModel: .init())
     }()
 
@@ -77,7 +77,11 @@ struct ViewFactory {
         .init(viewModel: .init())
     }()
 
-    static let plansPayInView: PlansPayInView = {
+    static let newPayInPlanView: NewPayInPlanView = {
+        .init(viewModel: .init())
+    }()
+
+    static let plansPayInView: PayInPlansView = {
         .init(viewModel: .init())
     }()
 

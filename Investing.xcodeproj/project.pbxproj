@@ -175,10 +175,10 @@
 		EF84A97825C0AAAC0081F857 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A97625C0AAAC0081F857 /* RootView.swift */; };
 		EF84A97F25C0B2A50081F857 /* RatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A97E25C0B2A50081F857 /* RatesView.swift */; };
 		EF84A98025C0B2A50081F857 /* RatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A97E25C0B2A50081F857 /* RatesView.swift */; };
-		EF875E16263AE5A500026731 /* PlansPayInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E15263AE5A500026731 /* PlansPayInView.swift */; };
-		EF875E17263AE5A500026731 /* PlansPayInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E15263AE5A500026731 /* PlansPayInView.swift */; };
-		EF875E21263AE5B000026731 /* PlansPayInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E20263AE5B000026731 /* PlansPayInViewModel.swift */; };
-		EF875E22263AE5B000026731 /* PlansPayInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E20263AE5B000026731 /* PlansPayInViewModel.swift */; };
+		EF875E16263AE5A500026731 /* NewPayInPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E15263AE5A500026731 /* NewPayInPlanView.swift */; };
+		EF875E17263AE5A500026731 /* NewPayInPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E15263AE5A500026731 /* NewPayInPlanView.swift */; };
+		EF875E21263AE5B000026731 /* NewPayInPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E20263AE5B000026731 /* NewPayInPlanViewModel.swift */; };
+		EF875E22263AE5B000026731 /* NewPayInPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E20263AE5B000026731 /* NewPayInPlanViewModel.swift */; };
 		EF875E31263AEA8600026731 /* PayInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E30263AEA8600026731 /* PayInService.swift */; };
 		EF875E32263AEA8600026731 /* PayInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E30263AEA8600026731 /* PayInService.swift */; };
 		EF951DF325BB22EF0006FD97 /* PinnedInstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */; };
@@ -259,6 +259,10 @@
 		EFD60C3D25B42C2D003337C2 /* UserDefaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD60C3C25B42C2D003337C2 /* UserDefaultWrapper.swift */; };
 		EFD60C3E25B42C2D003337C2 /* UserDefaultWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD60C3C25B42C2D003337C2 /* UserDefaultWrapper.swift */; };
 		EFDED5CA2594D35A00618E14 /* InstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDED5C92594D35A00618E14 /* InstrumentR.swift */; };
+		EFDFCA8E2646F1430034B1C3 /* PayInPlanR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDFCA8D2646F1430034B1C3 /* PayInPlanR.swift */; };
+		EFDFCA922646F38C0034B1C3 /* PayInPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDFCA902646F34C0034B1C3 /* PayInPlansView.swift */; };
+		EFDFCA932646F38D0034B1C3 /* PayInPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDFCA902646F34C0034B1C3 /* PayInPlansView.swift */; };
+		EFDFCA962646F59D0034B1C3 /* PayInPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDFCA952646F59D0034B1C3 /* PayInPlan.swift */; };
 		EFEFDE4725BF3DB30013BB1B /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */; };
 		EFEFDE4825BF3DB30013BB1B /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */; };
 		EFEFDE5325BF43740013BB1B /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = EFEFDE5225BF43740013BB1B /* Introspect */; };
@@ -450,8 +454,8 @@
 		EF84A96A25C09D780081F857 /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
 		EF84A97625C0AAAC0081F857 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		EF84A97E25C0B2A50081F857 /* RatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesView.swift; sourceTree = "<group>"; };
-		EF875E15263AE5A500026731 /* PlansPayInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansPayInView.swift; sourceTree = "<group>"; };
-		EF875E20263AE5B000026731 /* PlansPayInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlansPayInViewModel.swift; sourceTree = "<group>"; };
+		EF875E15263AE5A500026731 /* NewPayInPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPayInPlanView.swift; sourceTree = "<group>"; };
+		EF875E20263AE5B000026731 /* NewPayInPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPayInPlanViewModel.swift; sourceTree = "<group>"; };
 		EF875E30263AEA8600026731 /* PayInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInService.swift; sourceTree = "<group>"; };
 		EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedInstrumentR.swift; sourceTree = "<group>"; };
 		EF951DF925BB245E0006FD97 /* PositionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionDetailView.swift; sourceTree = "<group>"; };
@@ -498,6 +502,9 @@
 		EFC99747258115B000A722F7 /* InstrumentsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentsService.swift; sourceTree = "<group>"; };
 		EFD60C3C25B42C2D003337C2 /* UserDefaultWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultWrapper.swift; sourceTree = "<group>"; };
 		EFDED5C92594D35A00618E14 /* InstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentR.swift; sourceTree = "<group>"; };
+		EFDFCA8D2646F1430034B1C3 /* PayInPlanR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInPlanR.swift; sourceTree = "<group>"; };
+		EFDFCA902646F34C0034B1C3 /* PayInPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInPlansView.swift; sourceTree = "<group>"; };
+		EFDFCA952646F59D0034B1C3 /* PayInPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInPlan.swift; sourceTree = "<group>"; };
 		EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
 		EFF46B6F259C6B6200EFD02A /* ComissionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComissionView.swift; sourceTree = "<group>"; };
 		EFF46B70259C6B6200EFD02A /* TickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickersView.swift; sourceTree = "<group>"; };
@@ -950,7 +957,8 @@
 		EF76A10A257FB4D100991AE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				EF875E14263AE58C00026731 /* PlansPayInView */,
+				EFDFCA8F2646F3380034B1C3 /* PayInPlansView */,
+				EF875E14263AE58C00026731 /* NewPayInPlanView */,
 				EF66850525D707D30090FAA1 /* Root */,
 				EF84A97525C0AA9E0081F857 /* Authorization */,
 				EF54168D25C0633B007EA38D /* Main */,
@@ -975,6 +983,7 @@
 		EF76A132257FC17300991AE3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				EFDFCA942646F5900034B1C3 /* Plans */,
 				EF58100425FCDF8A0089F75B /* Candles */,
 				EFC7F6862595F132000A6A80 /* CurrencyPair */,
 				EFBA41FD25821E1F00C2AFC8 /* Common */,
@@ -1066,13 +1075,13 @@
 			path = RatesView;
 			sourceTree = "<group>";
 		};
-		EF875E14263AE58C00026731 /* PlansPayInView */ = {
+		EF875E14263AE58C00026731 /* NewPayInPlanView */ = {
 			isa = PBXGroup;
 			children = (
-				EF875E15263AE5A500026731 /* PlansPayInView.swift */,
-				EF875E20263AE5B000026731 /* PlansPayInViewModel.swift */,
+				EF875E15263AE5A500026731 /* NewPayInPlanView.swift */,
+				EF875E20263AE5B000026731 /* NewPayInPlanViewModel.swift */,
 			);
-			path = PlansPayInView;
+			path = NewPayInPlanView;
 			sourceTree = "<group>";
 		};
 		EF875E2F263AEA7700026731 /* Service */ = {
@@ -1168,6 +1177,7 @@
 				EFB534C42591E17300C93C3C /* CurrencyPairR.swift */,
 				EFDED5C92594D35A00618E14 /* InstrumentR.swift */,
 				EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */,
+				EFDFCA8D2646F1430034B1C3 /* PayInPlanR.swift */,
 			);
 			path = Realm;
 			sourceTree = "<group>";
@@ -1232,6 +1242,22 @@
 				EFC99736258114DC00A722F7 /* Instrument.swift */,
 			);
 			path = Instruments;
+			sourceTree = "<group>";
+		};
+		EFDFCA8F2646F3380034B1C3 /* PayInPlansView */ = {
+			isa = PBXGroup;
+			children = (
+				EFDFCA902646F34C0034B1C3 /* PayInPlansView.swift */,
+			);
+			path = PayInPlansView;
+			sourceTree = "<group>";
+		};
+		EFDFCA942646F5900034B1C3 /* Plans */ = {
+			isa = PBXGroup;
+			children = (
+				EFDFCA952646F59D0034B1C3 /* PayInPlan.swift */,
+			);
+			path = Plans;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1563,7 +1589,7 @@
 				EF27F73125B089FA00E83EE3 /* Date+Ex.swift in Sources */,
 				EF66857725D70C470090FAA1 /* CurrencyViewModel.swift in Sources */,
 				EF76A17E257FCE6400991AE3 /* PositionsService.swift in Sources */,
-				EF875E21263AE5B000026731 /* PlansPayInViewModel.swift in Sources */,
+				EF875E21263AE5B000026731 /* NewPayInPlanViewModel.swift in Sources */,
 				EF8104D125D3D1EC00B73406 /* PayInView.swift in Sources */,
 				EF580FFE25FCDF230089F75B /* CandlesService.swift in Sources */,
 				EF84A96B25C09D780081F857 /* NavigationLazyView.swift in Sources */,
@@ -1589,6 +1615,7 @@
 				EF6684BE25D1761D0090FAA1 /* TargetsViewModel.swift in Sources */,
 				EF15F2C125E7EAC400F281F8 /* SimplePosition.swift in Sources */,
 				EF6685AA25D70EBF0090FAA1 /* SettingsViewModel.swift in Sources */,
+				EFDFCA932646F38D0034B1C3 /* PayInPlansView.swift in Sources */,
 				EF5647622632C180004ED79B /* AuthorizationInstruction.swift in Sources */,
 				EF875E31263AEA8600026731 /* PayInService.swift in Sources */,
 				EF9581BD25909F2A00D559E7 /* StringConvertible.swift in Sources */,
@@ -1663,7 +1690,7 @@
 				EF637FEE259362DA00D2C42D /* DBManager.swift in Sources */,
 				EF394A1D26287E1900BF0492 /* Constants.swift in Sources */,
 				EF95209C25C00F490006FD97 /* TotalDetailViewModel.swift in Sources */,
-				EF875E16263AE5A500026731 /* PlansPayInView.swift in Sources */,
+				EF875E16263AE5A500026731 /* NewPayInPlanView.swift in Sources */,
 				EF951DFF25BB24610006FD97 /* PositionDetailView.swift in Sources */,
 				EF4C38D025B8468200A3AB5D /* IndexedCollection.swift in Sources */,
 				EF6684E925D7066B0090FAA1 /* CancebleObject.swift in Sources */,
@@ -1765,7 +1792,7 @@
 				EF95202425BEFA920006FD97 /* TotalDetailView.swift in Sources */,
 				EF15F26325E150B700F281F8 /* DecimalNumberOnlyViewModifier.swift in Sources */,
 				EF4C4FA625C87BF1002006F7 /* Vibrate.swift in Sources */,
-				EF875E17263AE5A500026731 /* PlansPayInView.swift in Sources */,
+				EF875E17263AE5A500026731 /* NewPayInPlanView.swift in Sources */,
 				EF54167125C061FD007EA38D /* DateFormatter+Ex.swift in Sources */,
 				EF8104EC25D40B4E00B73406 /* ActionButton.swift in Sources */,
 				EF95209D25C00F490006FD97 /* TotalDetailViewModel.swift in Sources */,
@@ -1775,8 +1802,9 @@
 				EF76A101257FB4BE00991AE3 /* Storage.swift in Sources */,
 				EF637FEF259362DA00D2C42D /* DBManager.swift in Sources */,
 				EF84A97825C0AAAC0081F857 /* RootView.swift in Sources */,
-				EF875E22263AE5B000026731 /* PlansPayInViewModel.swift in Sources */,
+				EF875E22263AE5B000026731 /* NewPayInPlanViewModel.swift in Sources */,
 				EF66853025D709140090FAA1 /* Position+Ex.swift in Sources */,
+				EFDFCA922646F38C0034B1C3 /* PayInPlansView.swift in Sources */,
 				EF3ED2C325BAD6CA00B25464 /* URLImage.swift in Sources */,
 				EF15F26E25E151D600F281F8 /* Currency+Ex.swift in Sources */,
 				EFAA019C25E94F7500078F48 /* Localizator.swift in Sources */,
@@ -1807,6 +1835,7 @@
 				EF958194259093EF00D559E7 /* Instrument.swift in Sources */,
 				EF58100825FCDFB50089F75B /* Candle.swift in Sources */,
 				EF958190259093EF00D559E7 /* Accounts.swift in Sources */,
+				EFDFCA962646F59D0034B1C3 /* PayInPlan.swift in Sources */,
 				EF958191259093EF00D559E7 /* InstrumentsPayload.swift in Sources */,
 				EF9582042590A28700D559E7 /* InstrumentType.swift in Sources */,
 				EFDED5CA2594D35A00618E14 /* InstrumentR.swift in Sources */,
@@ -1820,6 +1849,7 @@
 				EF958198259093EF00D559E7 /* APIBaseModel.swift in Sources */,
 				EF951DF325BB22EF0006FD97 /* PinnedInstrumentR.swift in Sources */,
 				EF9581EB2590A1C600D559E7 /* Decoder+Ex.swift in Sources */,
+				EFDFCA8E2646F1430034B1C3 /* PayInPlanR.swift in Sources */,
 				EF58100A25FCDFB50089F75B /* CandlesPayload.swift in Sources */,
 				EF637FFD259364FF00D2C42D /* CurrenciesPayload.swift in Sources */,
 				EF958192259093EF00D559E7 /* Position.swift in Sources */,

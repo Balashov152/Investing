@@ -12,7 +12,7 @@ import SwiftUI
 extension MainView {
     static let settingsNavigationLink: some View = {
         Button(action: {}) {
-            NavigationLink(destination: ViewFactory.SettingsView) {
+            NavigationLink(destination: ViewFactory.settingsView) {
                 Image(systemName: "gearshape")
             }
         }

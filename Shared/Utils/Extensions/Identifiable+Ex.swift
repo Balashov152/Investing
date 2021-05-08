@@ -7,6 +7,6 @@
 
 import Foundation
 
-extension Identifiable where Self: Hashable {
+public extension Identifiable where Self: Hashable {
     var id: Int { hashValue }
 }

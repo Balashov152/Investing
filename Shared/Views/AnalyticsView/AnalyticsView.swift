@@ -25,6 +25,8 @@ struct AnalyticsView: View {
                                destination: ViewFactory.dividentsView)
                 NavigationLink("Deposit operations".localized,
                                destination: ViewFactory.payInView)
+                NavigationLink("Plans pay in",
+                               destination: ViewFactory.plansPayInView)
             }
             .listStyle(GroupedListStyle())
             .navigationBarItems(trailing: MainView.settingsNavigationLink)

@@ -68,7 +68,13 @@ class OperationsService: CancebleObject, ObservableObject {
             let next = date.days(value: 1)
             if next > Date() {
                 print("WARNING: get date for next date \(next)")
-                return LatestCurrencyService.shared.latest ?? getCurrencyForDate(date: date.days(value: -1))
+                if let latest = LatestCurrencyService.shared.latest {
+                    return latest
+                } else if let last = realmManager.objects(CurrencyPairR.self).last {
+                    return CurrencyPair(currencyPairR: last)
+                }
+                print("ERROR: return default CurrencyPair")
+                return CurrencyPair(date: Date(), USD: 75, EUR: 80)
             }
             return getCurrencyForDate(date: next)
         }
