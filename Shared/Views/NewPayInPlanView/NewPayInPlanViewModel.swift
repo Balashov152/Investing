@@ -24,6 +24,8 @@ class NewPayInPlanViewModel: EnvironmentCancebleObject, ObservableObject {
 
     @Published var newPlan: PayInPlan?
 
+    public var didSave: (PayInPlan) -> Void = { _ in }
+
     private var realmManager: RealmManager { .shared }
 
     override func bindings() {
@@ -37,9 +39,10 @@ class NewPayInPlanViewModel: EnvironmentCancebleObject, ObservableObject {
             .store(in: &cancellables)
     }
 
-    func savePlanAndBack() {
+    func savePlan() {
         if let newPlan = newPlan {
             realmManager.write(objects: [PayInPlanR(payInPlan: newPlan)])
+            didSave(newPlan)
         }
     }
 }

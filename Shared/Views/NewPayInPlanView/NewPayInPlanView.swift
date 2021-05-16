@@ -7,11 +7,21 @@
 
 import Combine
 import InvestModels
+import NavigationStack
 import SwiftUI
 
 struct NewPayInPlanView: View {
     typealias OfftenType = NewPayInPlanViewModel.OfftenType
     @ObservedObject var viewModel: NewPayInPlanViewModel
+    @EnvironmentObject private var navigationStack: NavigationStack
+
+    func appear() {
+        viewModel.didSave = { _ in
+            DispatchQueue.main.async {
+                self.navigationStack.pop()
+            }
+        }
+    }
 
     var body: some View {
         ScrollView(.vertical) {
@@ -26,6 +36,7 @@ struct NewPayInPlanView: View {
         }
         .navigationTitle("Plans pay in")
         .navigationBarItems(trailing: saveButton)
+        .onAppear(perform: appear)
     }
 
     var howOften: some View {
@@ -72,6 +83,6 @@ struct NewPayInPlanView: View {
     }
 
     var saveButton: some View {
-        Button("Save", action: viewModel.savePlanAndBack)
+        Button("Save", action: viewModel.savePlan)
     }
 }
