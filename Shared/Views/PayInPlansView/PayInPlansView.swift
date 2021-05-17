@@ -11,15 +11,14 @@ import SwiftUI
 
 extension PayInPlan: Identifiable {}
 extension PayInPlan.OfftenType {
-    
     var allInYear: Int {
         howManyTimes(on: .init(start: Date().startOfDay, end: Date().endOfYear))
     }
-    
+
     var howManyUntilYear: Int {
         howManyTimes(on: .init(start: Date(), end: Date().endOfYear))
     }
-    
+
     func howManyTimes(on interval: DateInterval) -> Int {
         switch self {
         case .day:
@@ -39,7 +38,7 @@ extension PayInPlan {
     var untilYear: String {
         (Double(offtenType.howManyUntilYear) * money).formattedCurrency()
     }
-    
+
     var inYear: String {
         (Double(offtenType.allInYear) * money).formattedCurrency()
     }

@@ -7,18 +7,18 @@
 
 import Combine
 import InvestModels
-import NavigationStack
 import SwiftUI
+import UIKit
 
 struct NewPayInPlanView: View {
     typealias OfftenType = NewPayInPlanViewModel.OfftenType
     @ObservedObject var viewModel: NewPayInPlanViewModel
-    @EnvironmentObject private var navigationStack: NavigationStack
+    @SwiftUI.Environment(\.presentationMode) var mode: Binding<PresentationMode>
 
     func appear() {
         viewModel.didSave = { _ in
             DispatchQueue.main.async {
-                self.navigationStack.pop()
+                self.mode.wrappedValue.dismiss()
             }
         }
     }
