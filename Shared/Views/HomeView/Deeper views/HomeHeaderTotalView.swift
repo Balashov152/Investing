@@ -8,6 +8,27 @@
 import Foundation
 import SwiftUI
 
+protocol Localizbles {
+    var localized: String { get }
+}
+
+struct SegmentView<Item: Hashable & Localizbles>: View {
+    let items: [Item]
+    @Binding var selected: Item?
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack {
+                ForEach(items, id: \.self) { item in
+                    BackgroundButton(title: item.localized, isSelected: item == selected) {
+                        selected = item
+                    }
+                }
+            }.font(.system(size: 17, weight: .semibold))
+        }
+    }
+}
+
 struct HomeHeaderTotalView: View {
     @State var showingDetail = false
     @State var showingRates = false

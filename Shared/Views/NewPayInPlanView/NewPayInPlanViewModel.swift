@@ -11,9 +11,7 @@ import InvestModels
 import SwiftUI
 
 extension NewPayInPlanViewModel.OfftenType: Identifiable {
-    var localized: String {
-        rawValue
-    }
+    var localized: String { rawValue }
 }
 
 class NewPayInPlanViewModel: EnvironmentCancebleObject, ObservableObject {

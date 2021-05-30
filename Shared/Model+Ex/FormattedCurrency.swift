@@ -9,16 +9,19 @@ import Foundation
 import InvestModels
 
 extension Double {
-    func formattedCurrency(locale: Locale = Locale(identifier: "ru_RU")) -> String {
+    func formattedCurrency(locale: Locale = .current) -> String {
         (self as NSNumber).formattedCurrency(locale: locale)
     }
 }
 
 extension NSNumber {
-    func formattedCurrency(locale: Locale = Locale(identifier: "ru_RU")) -> String {
+    func formattedCurrency(locale: Locale = .current,
+                           with style: NumberFormatter.Style = .currency) -> String
+    {
         let formater = NumberFormatter()
+//        formater.usesGroupingSeparator = true
         formater.groupingSeparator = " "
-        formater.numberStyle = .currency
+        formater.numberStyle = style
         formater.locale = locale
         let isInteger = floor(doubleValue) == doubleValue
         formater.minimumFractionDigits = isInteger ? 0 : 2

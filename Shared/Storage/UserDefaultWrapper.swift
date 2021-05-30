@@ -17,6 +17,8 @@ extension UserDefault {
         case averageCurrency
         case minusDebt
         case homeSortType
+        case targetDate
+        case targetTotalPortfolio
         case blockedPosition
         case targetPositions
     }

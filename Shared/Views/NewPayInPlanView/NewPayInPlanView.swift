@@ -13,13 +13,13 @@ import UIKit
 struct NewPayInPlanView: View {
     typealias OfftenType = NewPayInPlanViewModel.OfftenType
     @ObservedObject var viewModel: NewPayInPlanViewModel
-    @SwiftUI.Environment(\.presentationMode) var mode: Binding<PresentationMode>
+//    @SwiftUI.Environment(\.presentationMode) var mode: Binding<PresentationMode>
 
     func appear() {
         viewModel.didSave = { _ in
-            DispatchQueue.main.async {
-                self.mode.wrappedValue.dismiss()
-            }
+//            DispatchQueue.main.async {
+//                self.mode.wrappedValue.dismiss()
+//            }
         }
     }
 

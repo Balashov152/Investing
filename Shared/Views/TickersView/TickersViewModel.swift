@@ -13,8 +13,13 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
     var latest: CurrencyPair? { env.api().currencyPairLatest().latest }
     @Published var results: [InstrumentResult] = []
 
-    @Published var totalRUB: Double = 0
-    @Published var totalUSD: Double = 0
+    @Published var totalRUB = MoneyAmount(currency: .RUB, value: 0)
+    @Published var totalUSD = MoneyAmount(currency: .USD, value: 0)
+
+    var total: MoneyAmount {
+        let currency = env.settings.currency ?? .RUB
+        return totalRUB.convert(to: currency, pair: latest) + totalUSD.convert(to: currency, pair: latest)
+    }
 
     @Published var sortType: SortType = .name
 
@@ -39,15 +44,16 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
             .map {
                 $0.filter {
                     $0.instrument.currency == .USD && $0.instrument.type != .Currency
-                }.map { $0.result }.sum
+                }.map { $0.result }.sum.addCurrency(.USD)
             }
             .assign(to: \.totalUSD, on: self)
             .store(in: &cancellables)
 
         $results
-            .map { $0.filter {
-                $0.instrument.currency == .RUB && $0.instrument.type != .Currency
-            }.map { $0.result }.sum
+            .map {
+                $0.filter {
+                    $0.instrument.currency == .RUB && $0.instrument.type != .Currency
+                }.map { $0.result }.sum.addCurrency(.RUB)
             }
             .assign(to: \.totalRUB, on: self)
             .store(in: &cancellables)

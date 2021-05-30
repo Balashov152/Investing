@@ -15,10 +15,9 @@ struct TickersView: View {
     var body: some View {
         List {
             Section(header: Text("Total".localized)) {
-                MoneyRow(label: "Total".localized + " RUB",
-                         money: .init(currency: .RUB, value: viewModel.totalRUB))
-                MoneyRow(label: "Total".localized + " USD",
-                         money: .init(currency: .USD, value: viewModel.totalUSD))
+                MoneyRow(label: "Total".localized + " RUB", money: viewModel.totalRUB)
+                MoneyRow(label: "Total".localized + " USD", money: viewModel.totalUSD)
+                MoneyRow(label: "Total".localized, money: viewModel.total)
             }
 
             if !viewModel.results.isEmpty {

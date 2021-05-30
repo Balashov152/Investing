@@ -68,12 +68,11 @@ struct PayInPlansView: View {
     }
 
     var addNewButton: some View {
-        NavigationLink(
-            destination: NavigationLazyView(ViewFactory.newPayInPlanView),
-            label: {
-                Text("New")
+        Button(action: {}) {
+            NavigationLink(destination: ViewFactory.newPayInPlanView) {
+                Image(systemName: "plus")
             }
-        )
+        }
     }
 
     struct PlanView: View {

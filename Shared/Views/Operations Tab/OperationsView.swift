@@ -52,6 +52,7 @@ struct OperationsView: View {
                     })
                 }
             }
-        }.frame(height: 40)
+        }
+        .frame(height: 40)
     }
 }

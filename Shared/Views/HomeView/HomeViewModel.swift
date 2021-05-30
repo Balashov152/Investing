@@ -206,9 +206,7 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
         let positions = sources.positions
 
         let totalInProfile = positions.reduce(MoneyAmount(currency: currency, value: 0)) { result, position in
-            result + CurrencyConvertManager.convert(currencyPair: currencyService.latest,
-                                                    money: position.totalInProfile,
-                                                    to: currency)
+            result + position.totalInProfile.convert(to: currency, pair: currencyService.latest)
         }
 
         let currenciesInProfile = sources.currencies

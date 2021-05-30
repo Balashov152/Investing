@@ -53,4 +53,10 @@ struct Settings {
 
     @UserDefault(key: .targetPositions, defaultValue: [:])
     var targetPositions: [String: Double]
+
+    @UserDefault(key: .targetDate, defaultValue: Date().years(value: 1))
+    var targetDate: Date
+
+    @UserDefault(key: .targetTotalPortfolio, defaultValue: nil)
+    var targetTotalPortfolio: MoneyAmount?
 }

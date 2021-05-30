@@ -7,47 +7,69 @@
 
 import Combine
 import Foundation
+import InvestModels
 import SwiftUI
+
+extension OperationRowView {
+    struct TopView: View {
+        let instument: Instrument
+
+        var body: some View {
+            HStack {
+                if let ticker = instument.ticker,
+                   let name = instument.name
+                {
+                    Text(name + " (\(ticker))").lineLimit(1)
+                }
+            }.font(.system(size: 17, weight: .semibold))
+        }
+    }
+}
 
 struct OperationRowView: View {
     let operation: Operation
+
     var body: some View {
-        VStack(alignment: .leading) {
-            if let instument = operation.instrument {
-                HStack {
-                    if let ticker = instument.ticker, let name = instument.name {
-                        Text(name + " (\(ticker))").lineLimit(1)
-                    }
-                }.font(.system(size: 17, weight: .semibold))
+        VStack(alignment: .leading, spacing: 8) {
+            if let instrument = operation.instrument {
+                TopView(instument: instrument)
             }
-            Spacer()
-            rightStack
+            HStack {
+                leftStack
+                Spacer()
+                rightStack
+            }
+        }
+    }
+
+    var leftStack: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            if let type = operation.operationType {
+                HStack(spacing: 2) {
+                    Text(type.rawValue)
+                    if operation.quantityExecuted > 0 {
+                        Text(operation.quantityExecuted.string)
+                        Text("шт")
+                    }
+                }
+
+                .font(.system(size: 15, weight: .bold))
+            }
+
+            Text(DateFormatter.format("dd.MM.yy HH:mm").string(from: operation.date))
+                .font(.system(size: 13))
         }
     }
 
     var rightStack: some View {
-        HStack {
-            VStack(alignment: .leading) {
-                if let type = operation.operationType {
-                    Text(type.rawValue + " " + operation.quantityExecuted.string + " " + operation.currency.rawValue)
-                        .font(.system(size: 15, weight: .bold))
-                }
+        VStack(alignment: .trailing, spacing: 2) {
+            MoneyText(money: operation.money)
 
-                if let date = operation.date {
-                    Text(DateFormatter.format("dd.MM.yy HH:mm").string(from: date))
-                        .font(.system(size: 13))
-                }
+            if let commission = operation.commission {
+                MoneyText(money: commission)
+                    .foregroundColor(Color.gray)
             }
-            Spacer()
-            VStack(alignment: .trailing) {
-                if let payment = operation.payment, let currency = operation.currency {
-                    Text(payment.string(f: ".2") + " " + currency.rawValue)
-                }
-                if let commission = operation.commission {
-                    Text(commission.value.string(f: ".2") + " " + commission.currency.rawValue)
-                        .foregroundColor(Color.gray)
-                }
-            }.font(.system(size: 14))
         }
+        .font(.system(size: 14))
     }
 }

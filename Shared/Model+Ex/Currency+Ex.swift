@@ -13,12 +13,12 @@ extension Currency {
         switch self {
         case .USD:
             return Locale(identifier: "en_US")
+        case .EUR:
+            return Locale(identifier: "en_EU")
         case .RUB:
             return Locale(identifier: "ru_RU")
-        case .EUR:
-            return Locale(identifier: "eu_EU")
         default:
-            return Locale(identifier: "ru_RU")
+            return .current
         }
     }
 

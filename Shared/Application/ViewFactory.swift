@@ -81,6 +81,10 @@ struct ViewFactory {
         .init(viewModel: .init())
     }()
 
+    static let targetToPayInView: TargetToPayInView = {
+        .init(viewModel: .init())
+    }()
+
     static let plansPayInView: PayInPlansView = {
         .init(viewModel: .init())
     }()

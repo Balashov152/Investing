@@ -227,6 +227,7 @@
 		EF95821F2590A7D100D559E7 /* MoyaTask+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */; };
 		EF9CD35025B232430043E9E1 /* DetailCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9CD34F25B232430043E9E1 /* DetailCurrencyView.swift */; };
 		EF9CD35125B232430043E9E1 /* DetailCurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9CD34F25B232430043E9E1 /* DetailCurrencyView.swift */; };
+		EFA2AF2E2663E8C00090C3C9 /* TargetToPayInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA2AF2D2663E8C00090C3C9 /* TargetToPayInView.swift */; };
 		EFA92D4A25DD5F70008DD8D0 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92D4925DD5F70008DD8D0 /* PullToRefresh.swift */; };
 		EFA92D4B25DD5F70008DD8D0 /* PullToRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92D4925DD5F70008DD8D0 /* PullToRefresh.swift */; };
 		EFA92DE725DE9B2D008DD8D0 /* HomeHeaderTotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA92DE625DE9B2C008DD8D0 /* HomeHeaderTotalView.swift */; };
@@ -477,6 +478,7 @@
 		EF9581EA2590A1C600D559E7 /* Decoder+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decoder+Ex.swift"; sourceTree = "<group>"; };
 		EF95821D2590A7D100D559E7 /* MoyaTask+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoyaTask+Ex.swift"; sourceTree = "<group>"; };
 		EF9CD34F25B232430043E9E1 /* DetailCurrencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCurrencyView.swift; sourceTree = "<group>"; };
+		EFA2AF2D2663E8C00090C3C9 /* TargetToPayInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetToPayInView.swift; sourceTree = "<group>"; };
 		EFA92D4925DD5F70008DD8D0 /* PullToRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PullToRefresh.swift; sourceTree = "<group>"; };
 		EFA92DE625DE9B2C008DD8D0 /* HomeHeaderTotalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeHeaderTotalView.swift; sourceTree = "<group>"; };
 		EFAA019A25E94F7400078F48 /* Localizator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Localizator.swift; sourceTree = "<group>"; };
@@ -957,6 +959,7 @@
 		EF76A10A257FB4D100991AE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EFA2AF2C2663E88A0090C3C9 /* TargetToPayIn */,
 				EFDFCA8F2646F3380034B1C3 /* PayInPlansView */,
 				EF875E14263AE58C00026731 /* NewPayInPlanView */,
 				EF66850525D707D30090FAA1 /* Root */,
@@ -1160,6 +1163,14 @@
 				EF9581EA2590A1C600D559E7 /* Decoder+Ex.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		EFA2AF2C2663E88A0090C3C9 /* TargetToPayIn */ = {
+			isa = PBXGroup;
+			children = (
+				EFA2AF2D2663E8C00090C3C9 /* TargetToPayInView.swift */,
+			);
+			path = TargetToPayIn;
 			sourceTree = "<group>";
 		};
 		EFA92E7C25DEB79D008DD8D0 /* Localized */ = {
@@ -1666,6 +1677,7 @@
 				EF647E6725AF41D100D20761 /* LoadingError.swift in Sources */,
 				EF761AF12590FF6200320289 /* RealmManager.swift in Sources */,
 				EF84A96425C09CE70081F857 /* AnyPublisher+Ex.swift in Sources */,
+				EFA2AF2E2663E8C00090C3C9 /* TargetToPayInView.swift in Sources */,
 				EF5416CB25C06591007EA38D /* TickersViewModel.swift in Sources */,
 				EFF46B75259C6B6200EFD02A /* TickersView.swift in Sources */,
 				EF76A123257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
