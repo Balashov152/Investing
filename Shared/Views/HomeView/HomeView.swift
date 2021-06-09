@@ -18,7 +18,8 @@ extension NotificationCenter {
 
 struct HomeView: View {
     @ObservedObject var viewModel: HomeViewModel
-    @State var isRefresh: Bool = false
+
+    @State private var isRefresh: Bool = false
 
     init(viewModel: HomeViewModel) {
         self.viewModel = viewModel
@@ -30,6 +31,9 @@ struct HomeView: View {
                 .navigationBarItems(trailing: MainView.settingsNavigationLink)
                 .navigationBarTitleDisplayMode(.inline)
                 .onAppear(perform: viewModel.loadPositions)
+                .onAppear(perform: {
+                    UINavigationBar.appearance().shadowImage = UIImage()
+                })
                 .onReceive(NotificationCenter.enterForeground, perform: { _ in
                     viewModel.loadPositions()
                 })
@@ -40,29 +44,36 @@ struct HomeView: View {
 
     var list: some View {
         ScrollView {
-            HomeHeaderTotalView(viewModel: viewModel)
-            ForEach(viewModel.sections) { section in
-                RowDisclosureGroup(element: section.type,
-                                   expanded: viewModel.env.settings.expandedHome,
-                                   expandedChanged: { viewModel.env.settings.expandedHome = $0 },
-                                   content: {
-                                       groupContent(section: section)
-                                   },
-                                   label: {
-                                       HomeHeaderView(section: section)
-                                   })
-                Divider()
+            ShadowView {
+                HomeHeaderTotalView(viewModel: viewModel)
             }
-            .padding([.leading, .trailing], 16)
+
+            ShadowView {
+                VStack {
+                    ForEach(viewModel.sections) { section in
+                        RowDisclosureGroup(element: section.type,
+                                           expanded: viewModel.env.settings.expandedHome,
+                                           expandedChanged: { viewModel.env.settings.expandedHome = $0 },
+                                           content: { groupContent(section: section) },
+                                           label: { HomeHeaderView(section: section) })
+                        if viewModel.sections.last != section {
+                            Divider()
+                        }
+                    }
+                }
+                .padding(.all, 16)
+            }
         }
     }
 
+    @ViewBuilder
     func groupContent(section: HomeViewModel.Section) -> some View {
+        let padding: CGFloat = 10
         ForEach(section.positions.indexed(), id: \.element, content: { index, position in
             if index == 0 {
                 Divider()
             } else {
-                Divider().padding(.leading, 10)
+                Divider().padding(.leading, padding)
             }
 
             switch position.instrumentType {
@@ -70,14 +81,14 @@ struct HomeView: View {
                 NavigationLink(destination: NavigationLazyView(ViewFactory.positionDetailView(position: position,
                                                                                               env: viewModel.env))) {
                     PositionRowView(position: position)
-                        .padding(.leading, 10)
+                        .padding(.leading, padding)
                 }
             case .Currency:
                 NavigationLink(destination: NavigationLazyView(ViewFactory.detailCurrencyView(currency: position.currency,
                                                                                               operations: viewModel.currencyOperation(currency: position.currency),
                                                                                               env: viewModel.env))) {
                     CurrencyPositionRowView(position: position)
-                        .padding(.leading, 10)
+                        .padding(.leading, padding)
                 }
             }
         })

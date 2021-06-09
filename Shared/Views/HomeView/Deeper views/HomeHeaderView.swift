@@ -13,7 +13,7 @@ struct HomeHeaderView: View {
     let section: HomeViewModel.Section
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 16) {
                 Text(section.sectionHeader.capitalized)
                     .font(.system(size: 20, weight: .semibold))
@@ -54,6 +54,5 @@ struct HomeHeaderView: View {
                 }
             }
         }
-        .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
     }
 }

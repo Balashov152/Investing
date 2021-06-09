@@ -13,11 +13,11 @@ struct PositionRowView: View {
     let position: PositionView
 
     var body: some View {
-        VStack {
+        VStack(spacing: 8) {
             top
-            Spacer(minLength: 8)
             bottom
-        }.padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
+        }
+        .padding(EdgeInsets(top: 8, leading: 0, bottom: 8, trailing: 0))
     }
 
     var top: some View {

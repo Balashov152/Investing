@@ -21,9 +21,14 @@ public extension CurrencyPosition {
 
 public struct CurrencyPosition : Codable, Hashable {
     public let currency : Currency
-    
     public let balance : Double
     public let blocked : Double
+    
+    public init(currency: Currency, balance: Double, blocked: Double) {
+        self.currency = currency
+        self.balance = balance
+        self.blocked = blocked
+    }
 
 	enum CodingKeys: String, CodingKey {
 		case currency = "currency"

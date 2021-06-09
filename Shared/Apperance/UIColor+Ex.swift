@@ -12,8 +12,20 @@ import UIKit
 extension Color {
     static func currency(value: Double) -> Color {
         if value == .zero { return .gray }
-
         return value > 0 ? .green : .red
+    }
+
+    static var appWhite: Color {
+        Color(UIColor { (collection) -> UIColor in
+            switch collection.userInterfaceStyle {
+            case .light, .unspecified:
+                return .white
+            case .dark:
+                return UIColor(white: 0.13, alpha: 1)
+            @unknown default:
+                return .white
+            }
+        })
     }
 
     static var appBlack: Color {

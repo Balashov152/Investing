@@ -275,6 +275,8 @@
 		EFF46B78259C6B6200EFD02A /* CurrencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B71259C6B6200EFD02A /* CurrencyView.swift */; };
 		EFF46B79259C6B6200EFD02A /* DividentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B72259C6B6200EFD02A /* DividentsView.swift */; };
 		EFF46B7A259C6B6200EFD02A /* DividentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B72259C6B6200EFD02A /* DividentsView.swift */; };
+		EFF848682670020B000D0DAA /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF848672670020B000D0DAA /* ShadowView.swift */; };
+		EFF848692670020B000D0DAA /* ShadowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF848672670020B000D0DAA /* ShadowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -512,6 +514,7 @@
 		EFF46B70259C6B6200EFD02A /* TickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickersView.swift; sourceTree = "<group>"; };
 		EFF46B71259C6B6200EFD02A /* CurrencyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrencyView.swift; sourceTree = "<group>"; };
 		EFF46B72259C6B6200EFD02A /* DividentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DividentsView.swift; sourceTree = "<group>"; };
+		EFF848672670020B000D0DAA /* ShadowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -959,6 +962,7 @@
 		EF76A10A257FB4D100991AE3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				EFF8486626700184000D0DAA /* ShadowView */,
 				EFA2AF2C2663E88A0090C3C9 /* TargetToPayIn */,
 				EFDFCA8F2646F3380034B1C3 /* PayInPlansView */,
 				EF875E14263AE58C00026731 /* NewPayInPlanView */,
@@ -1269,6 +1273,14 @@
 				EFDFCA952646F59D0034B1C3 /* PayInPlan.swift */,
 			);
 			path = Plans;
+			sourceTree = "<group>";
+		};
+		EFF8486626700184000D0DAA /* ShadowView */ = {
+			isa = PBXGroup;
+			children = (
+				EFF848672670020B000D0DAA /* ShadowView.swift */,
+			);
+			path = ShadowView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1631,6 +1643,7 @@
 				EF875E31263AEA8600026731 /* PayInService.swift in Sources */,
 				EF9581BD25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF9581B425909E5500D559E7 /* EnvironmentCancebleObject.swift in Sources */,
+				EFF848682670020B000D0DAA /* ShadowView.swift in Sources */,
 				EFAC37A925EA46570024DEBD /* InstrumentType+Ex.swift in Sources */,
 				EF76A0BB257FA80200991AE3 /* InvestingApp.swift in Sources */,
 				EF95208925C00ED00006FD97 /* PositionDetailViewModel.swift in Sources */,
@@ -1749,6 +1762,7 @@
 				EF27F73225B089FA00E83EE3 /* Date+Ex.swift in Sources */,
 				EF6685AB25D70EBF0090FAA1 /* SettingsViewModel.swift in Sources */,
 				EF66852925D708D20090FAA1 /* CurrencyPair+Ex.swift in Sources */,
+				EFF848692670020B000D0DAA /* ShadowView.swift in Sources */,
 				EF394A1E26287E1900BF0492 /* Constants.swift in Sources */,
 				EF76A0D5257FAA5A00991AE3 /* HomeView.swift in Sources */,
 				EF15F2A625E6AEA200F281F8 /* RectanglePercentView.swift in Sources */,

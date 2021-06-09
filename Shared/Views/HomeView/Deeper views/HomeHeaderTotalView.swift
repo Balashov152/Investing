@@ -36,16 +36,13 @@ struct HomeHeaderTotalView: View {
     @ObservedObject var viewModel: HomeViewModel
 
     var body: some View {
-        VStack {
-            totalTitleView
-                .padding([.leading, .trailing, .top], 16)
-            Divider()
-        }
+        totalTitleView
+            .padding(.all, 16)
     }
 
     var totalTitleView: some View {
         VStack(alignment: .leading, spacing: 50) {
-            VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 16) {
                 convertView
                 total
             }
