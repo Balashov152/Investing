@@ -10,37 +10,74 @@ import InvestModels
 import SwiftUI
 import UIKit
 
+@propertyWrapper
+struct PriceFormatter {
+    private let currency: Currency
+    public var value: Double
+
+    init(currency: Currency, value: Double) {
+        self.currency = currency
+        self.value = value
+    }
+
+    var wrappedValue: String {
+        get {
+            NSNumber(value: value).formatted(currency: currency)
+        }
+        set {
+            if let targetPrice = Double(newValue.string) {
+                value = targetPrice
+            } else {
+                print("not a string")
+            }
+        }
+    }
+
+//    func das() {
+//        let oldPrice = oldValue.filter { $0.isNumber }
+//        var newPrice = howMuchText.filter { $0.isNumber }
+//
+//        let isDelete = howMuchText.count < oldValue.count
+//        if isDelete, newPrice.count > 1 {
+//            print("delete")
+//            newPrice.removeLast()
+//        }
+//
+//        if let targetPrice = Double(newPrice) {
+//            self.targetPrice = targetPrice
+//
+//            let formatted = NSNumber(value: targetPrice).formatted(currency: currency)
+//
+//            if howMuchText != formatted {
+//                howMuchText = formatted
+//            }
+//        }
+//    }
+}
+
 class TargetToPayInViewModel: EnvironmentCancebleObject, ObservableObject {
     var latest: LatestCurrencyService { env.api().currencyPairLatest() }
 
     @Published var howOfften: HowOfften = .week
     @Published var targetDate = Date().years(value: 1)
     @Published var currency: Currency {
-        didSet { howMuchText = howMuchText }
+        didSet { targetPriceText = targetPriceText }
     }
 
-    @Published var howMuchText: String {
+    @Published var targetPriceText: String = "" {
         didSet {
-            targetPrice = Double(howMuchText.filter { $0.isNumber }) ?? 0
-
-            guard howMuchText.count >= oldValue.count else {
-                return
-            }
-
-            let formatted = NSNumber(value: targetPrice).formatted(currency: currency)
-
-            if howMuchText != formatted {
-                howMuchText = formatted
-            }
+            env.settings.targetTotalPortfolio = targetPrice.addCurrency(currency)
         }
     }
 
-    var targetPrice: Double = 1_000_000
+    var targetPrice: Double {
+        Double(targetPriceText.filter { $0.isNumber }) ?? 0
+    }
 
     @Published var totalInProfile: Double = 0
 
     override init(env: Environment = .current) {
-        howMuchText = (env.settings.targetTotalPortfolio?.value ?? 0).string(f: ".0")
+        targetPriceText = env.settings.targetTotalPortfolio?.value.string(f: ".0") ?? ""
         currency = env.settings.targetTotalPortfolio?.currency ?? .RUB
 
         targetDate = env.settings.targetDate
@@ -63,10 +100,10 @@ class TargetToPayInViewModel: EnvironmentCancebleObject, ObservableObject {
             env.settings.targetDate = date
         }).store(in: &cancellables)
 
-        Publishers.CombineLatest($howMuchText, $currency)
-            .sink(receiveValue: { [unowned self] _, currency in
-                env.settings.targetTotalPortfolio = targetPrice.addCurrency(currency)
-            }).store(in: &cancellables)
+//        Publishers.CombineLatest($targetPriceText, $currency)
+//            .sink(receiveValue: { [unowned self] _, currency in
+//
+//            }).store(in: &cancellables)
     }
 
     func load() {
@@ -118,7 +155,7 @@ struct TargetToPayInView: View {
     }
 
     var howMuch: some View {
-        TextField("1 000 000", text: $viewModel.howMuchText)
+        TextField("1 000 000", text: $viewModel.targetPriceText.allowing(currency: viewModel.currency))
             .keyboardType(.numberPad)
             .multilineTextAlignment(.trailing)
             .font(.system(size: 20, weight: .bold))
@@ -196,14 +233,41 @@ enum HowOfften: Int, Localizbles, CaseIterable {
 }
 
 private extension NSNumber {
-    func formatted(currency: Currency) -> String {
+    func formatted(currency _: Currency) -> String {
         let formater = NumberFormatter()
         formater.usesGroupingSeparator = true
         formater.groupingSeparator = " "
-        formater.numberStyle = .currency
-        formater.locale = currency.locale
+//        formater.numberStyle = .currency
+//        formater.locale = currency.locale
         formater.minimumFractionDigits = 0
 
         return formater.string(from: self).orEmpty
+    }
+}
+
+extension Binding where Value == String {
+    func allowing(currency: Currency) -> Self {
+        Binding(get: {
+                    if let double = Double(wrappedValue.filter { $0.isNumber }) {
+                        return NSNumber(value: double).formatted(currency: currency)
+                    }
+
+                    return ""
+                },
+                set: { newValue in
+                    print("new", newValue, "old", wrappedValue)
+                    let oldPrice = wrappedValue.filter { $0.isNumber }
+                    let newPrice = newValue.filter { $0.isNumber }
+
+                    let isDeleteNotNumber = oldPrice == newPrice && wrappedValue.count < newValue.count
+
+                    if isDeleteNotNumber {
+                        var new = newValue
+                        new.removeLast()
+                        wrappedValue = new
+                    } else {
+                        wrappedValue = newValue
+                    }
+                })
     }
 }
