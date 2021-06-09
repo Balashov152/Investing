@@ -233,12 +233,12 @@ enum HowOfften: Int, Localizbles, CaseIterable {
 }
 
 private extension NSNumber {
-    func formatted(currency: Currency) -> String {
+    func formatted(currency _: Currency) -> String {
         let formater = NumberFormatter()
         formater.usesGroupingSeparator = true
         formater.groupingSeparator = " "
-        formater.numberStyle = .currency
-        formater.locale = currency.locale
+//        formater.numberStyle = .currency
+//        formater.locale = currency.locale
         formater.minimumFractionDigits = 0
 
         return formater.string(from: self).orEmpty
