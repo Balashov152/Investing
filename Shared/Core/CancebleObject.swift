@@ -9,7 +9,7 @@ import Combine
 import Foundation
 
 open class CancebleObject {
-    public var cancellables = Set<AnyCancellable>()
+    public var cancellables: Set<AnyCancellable> = []
 
     public init() {
         debugPrint("init", type(of: self))

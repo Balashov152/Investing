@@ -11,7 +11,7 @@ import Foundation
 import InvestModels
 
 struct DBManager {
-    static let version = 6
+    static let version = 9
 
     let env: Environment
     let realmManager: RealmManager
@@ -63,11 +63,7 @@ struct DBManager {
 
     mutating func updateIfNeeded(force: Bool = false) -> AnyPublisher<Void, Never> {
         if force || Storage.currentDBVersion < DBManager.version {
-            realmManager.syncQueueBlock {
-                realmManager.objectTypes.forEach {
-                    realmManager.deleteAllObjects(type: $0)
-                }
-            }
+            realmManager.deleteAllObjects()
             Storage.currentDBVersion = DBManager.version
         }
 
@@ -104,7 +100,7 @@ struct DBManager {
             .replaceError(with: [])
             .receive(on: realmManager.syncQueue)
             .map { $0.map { InstrumentR(instrument: $0) } }
-            .flatMap { [unowned realmManager] (instuments) -> AnyPublisher<Void, Never> in
+            .flatMap { [unowned realmManager] instuments -> AnyPublisher<Void, Never> in
                 realmManager.write(objects: instuments)
                 return Just(()).eraseToAnyPublisher()
             }.eraseToAnyPublisher()
@@ -121,7 +117,7 @@ struct DBManager {
 
         return Publishers.CombineLatest(usd, eur)
             .receive(on: realmManager.syncQueue)
-            .flatMap { [unowned realmManager] (usds, euros) -> AnyPublisher<Void, Never> in
+            .flatMap { [unowned realmManager] usds, euros -> AnyPublisher<Void, Never> in
                 let format = "dd.MM.yyyy"
                 let dates = Calendar.current.dates(from: interval.start,
                                                    to: interval.end, in: format)

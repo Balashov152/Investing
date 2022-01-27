@@ -12,33 +12,21 @@ import InvestModels
 struct ViewFactory {
     // MARK: Authorization
 
-    static let instructionView: AuthorizationInstruction = {
-        .init()
-    }()
+    static let instructionView: AuthorizationInstruction = .init()
 
     // MARK: Main
 
-    static let mainView: MainView = {
-        .init(viewModel: .init())
-    }()
+    static let mainView: MainView = .init(viewModel: .init())
 
-    static let settingsView: SettingsView = {
-        .init(viewModel: .init())
-    }()
+    static let settingsView: SettingsView = .init(viewModel: .init())
 
     // MARK: Home views
 
-    static let homeView: HomeView = {
-        .init(viewModel: .init())
-    }()
+    static let homeView: HomeView = .init(viewModel: .init())
 
-    static let ratesView: RatesView = {
-        .init(viewModel: .init())
-    }()
+    static let ratesView: RatesView = .init(viewModel: .init())
 
-    static let totalDetailView: TotalDetailView = {
-        .init(viewModel: .init())
-    }()
+    static let totalDetailView: TotalDetailView = .init(viewModel: .init())
 
     static func positionDetailView(position: PositionView, env: Environment) -> PositionDetailView {
         .init(viewModel: .init(position: position, env: env))
@@ -46,56 +34,34 @@ struct ViewFactory {
 
     // MARK: Analytics
 
-    static let analyticsView: AnalyticsView = {
-        .init(viewModel: .init())
-    }()
+    static let analyticsView: AnalyticsView = .init(viewModel: .init())
 
-    static let payInView: PayInView = {
-        .init(viewModel: .init())
-    }()
+    static let payInView: PayInView = .init(viewModel: .init())
 
     // VIEWS
 
-    static let comissionView: ComissionView = {
-        .init(viewModel: .init())
-    }()
+    static let comissionView: ComissionView = .init(viewModel: .init())
 
     // Currency
-    static let currencyView: CurrencyView = {
-        .init(viewModel: .init())
-    }()
+    static let currencyView: CurrencyView = .init(viewModel: .init())
 
     static func detailCurrencyView(currency: Currency, operations: [Operation], env: Environment) -> DetailCurrencyView {
         .init(viewModel: .init(currency: currency, operations: operations, env: env))
     }
 
-    static let tickersView: TickersView = {
-        .init(viewModel: .init())
-    }()
+    static let tickersView: TickersView = .init(viewModel: .init())
 
-    static let dividentsView: DividentsView = {
-        .init(viewModel: .init())
-    }()
+    static let dividentsView: DividentsView = .init(viewModel: .init())
 
-    static let newPayInPlanView: NewPayInPlanView = {
-        .init(viewModel: .init())
-    }()
+    static let newPayInPlanView: NewPayInPlanView = .init(viewModel: .init())
 
-    static let targetToPayInView: TargetToPayInView = {
-        .init(viewModel: .init())
-    }()
+    static let targetToPayInView: TargetToPayInView = .init(viewModel: .init())
 
-    static let plansPayInView: PayInPlansView = {
-        .init(viewModel: .init())
-    }()
+    static let plansPayInView: PayInPlansView = .init(viewModel: .init())
 
     // MARK: Need will be
 
-    static let operationsView: OperationsView = {
-        .init(viewModel: .init())
-    }()
+    static let operationsView: OperationsView = .init(viewModel: .init())
 
-    static let targetsView: TargetsView = {
-        .init(viewModel: .init())
-    }()
+    static let targetsView: TargetsView = .init(viewModel: .init())
 }

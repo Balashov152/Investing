@@ -5,7 +5,7 @@
 //  Created by Sergey Balashov on 15.04.2021.
 //
 
-import Foundation
+import CoreGraphics
 
 enum Constants {
     enum FIGI: String {
@@ -13,5 +13,9 @@ enum Constants {
 
         case USD = "BBG0013HGFT4"
         case EUR = "BBG0013HJJ31"
+    }
+
+    enum Paddings {
+        static let m: CGFloat = 16
     }
 }

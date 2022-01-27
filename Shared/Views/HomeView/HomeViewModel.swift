@@ -36,7 +36,7 @@ extension HomeViewModel {
         }
     }
 
-    enum ConvertedType: Equatable {
+    enum ConvertedType: Equatable, Hashable {
         case original
         case currency(Currency)
 
@@ -88,12 +88,12 @@ extension HomeViewModel {
         }
     }
 
-    struct ConvertSortModel {
+    struct ConvertSortModel: Hashable {
         let convert: ConvertedType
         let sort: SortType
     }
 
-    struct Sources {
+    struct Sources: Hashable {
         let positions: [Position]
         let currencies: [CurrencyPosition]
         let operations: [Operation]
@@ -127,6 +127,8 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             }
         }
     }
+
+    var convertedCurrencies: [Currency] = [.RUB, .USD, .EUR]
 
     // Output
     @Published var sections: [Section] = []
@@ -172,7 +174,10 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             .map { Sources(positions: $0, currencies: $1, operations: $2) }
 
         let didChangeView = Publishers
-            .CombineLatest(changeConvertSort, changeSourses)
+            .CombineLatest(
+                changeConvertSort.removeDuplicates(),
+                changeSourses.removeDuplicates()
+            )
             .receive(on: DispatchQueue.global()).share()
 
         changeConvertSort.dropFirst().sink(receiveValue: { _ in
@@ -224,14 +229,14 @@ class HomeViewModel: EnvironmentCancebleObject, ObservableObject {
             expectedProfile = buy + sell + totalInProfile
 
         } else {
-            expectedProfile = positions.reduce(0) { (result, position) -> Double in
+            expectedProfile = positions.reduce(0) { result, position -> Double in
                 result + CurrencyConvertManager.convert(currencyPair: currencyService.latest,
                                                         money: position.expectedYield,
                                                         to: currency).value
             }.addCurrency(currency)
         }
 
-        let blocked = positions.reduce(nil) { (result, position) -> Double? in
+        let blocked = positions.reduce(nil) { result, position -> Double? in
             if let blocked = position.blocked(settings: env.settings) {
                 return (result ?? 0) + CurrencyConvertManager.convert(currencyPair: currencyService.latest,
                                                                       money: blocked,

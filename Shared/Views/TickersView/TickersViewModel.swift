@@ -71,7 +71,7 @@ class TickersViewModel: EnvironmentCancebleObject, ObservableObject {
                 .currencySum(to: currency)
 
             if let nowInProfile = nowInProfile {
-                assert(currency == nowInProfile.currency)
+//                assert(currency == nowInProfile.currency)
                 sumOperation = sumOperation + nowInProfile
             }
 

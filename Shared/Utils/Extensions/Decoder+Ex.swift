@@ -15,9 +15,17 @@ extension JSONDecoder {
     }
 }
 
+extension JSONEncoder {
+    static var standart: JSONEncoder {
+        let decoder = JSONEncoder()
+        decoder.dateEncodingStrategy = .iso8601
+        return decoder
+    }
+}
+
 extension JSONDecoder.DateDecodingStrategy {
-    static let customISO8601 = custom {
-        let container = try $0.singleValueContainer()
+    static let customISO8601 = custom { decoder in
+        let container = try decoder.singleValueContainer()
         let string = try container.decode(String.self)
         if let date = Formatter.iso8601withFractionalSeconds.date(from: string) ?? Formatter.iso8601.date(from: string) {
             return date

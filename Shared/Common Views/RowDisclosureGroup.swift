@@ -10,13 +10,26 @@ import SwiftUI
 
 struct RowDisclosureGroup<Element: Hashable, Content: View, Label: View>: View {
     let element: Element
-    @State private var expanded: Set<Element> = [] {
+
+    @State private var expanded: Set<Element> {
         didSet { expandedChanged(expanded) }
     }
 
-    var expandedChanged: (Set<Element>) -> Void = { _ in }
+    var expandedChanged: (Set<Element>) -> Void
     let content: () -> (Content)
     let label: () -> (Label)
+
+    internal init(element: Element, expanded: Set<Element> = [],
+                  expandedChanged: @escaping (Set<Element>) -> Void = { _ in },
+                  content: @escaping () -> (Content),
+                  label: @escaping () -> (Label))
+    {
+        self.element = element
+        _expanded = .init(initialValue: expanded)
+        self.expandedChanged = expandedChanged
+        self.content = content
+        self.label = label
+    }
 
     func isExpanded(element: Element) -> Binding<Bool> {
         .init { () -> Bool in

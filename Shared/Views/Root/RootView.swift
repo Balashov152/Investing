@@ -9,7 +9,7 @@ import Combine
 import Moya
 import SwiftUI
 
-class UserSession: EnvironmentCancebleObject, ObservableObject {
+class UserSession: CancebleObject, ObservableObject {
     @Published var isAuthorized = Storage.isAuthorized
 }
 

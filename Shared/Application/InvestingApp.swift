@@ -10,10 +10,6 @@ import SwiftUI
 import UIKit
 
 public typealias Operation = InvestModels.Operation
-public var isMe: Bool {
-    UIDevice.isSimulator ||
-        UIDevice.current.identifierForVendor?.uuidString == "E0531109-4C21-43CA-ACF4-ECD1C4AB3818"
-}
 
 extension UIDevice {
     static var isSimulator: Bool {
@@ -29,11 +25,22 @@ extension UIDevice {
 
 @main
 struct InvestingApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
+    private let modulesFactory: ModuleFactoring
+
+    init() {
+        let dependencyFactory = DependencyFactory()
+
+        modulesFactory = ModuleFactory(dependencyFactory: dependencyFactory)
+    }
+
     var body: some Scene {
         let session = UserSession()
 
         WindowGroup {
-            RootView()
+            modulesFactory
+                .switchVersionView()
                 .environmentObject(session)
                 .onAppear(perform: onAppearApp)
         }
@@ -41,5 +48,12 @@ struct InvestingApp: App {
 
     func onAppearApp() {
         UIScrollView.appearance().keyboardDismissMode = .onDrag
+    }
+}
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        print(">> your code here !!")
+        return true
     }
 }

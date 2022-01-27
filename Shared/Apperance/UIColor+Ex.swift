@@ -16,7 +16,7 @@ extension Color {
     }
 
     static var appWhite: Color {
-        Color(UIColor { (collection) -> UIColor in
+        Color(UIColor { collection -> UIColor in
             switch collection.userInterfaceStyle {
             case .light, .unspecified:
                 return .white
@@ -29,7 +29,7 @@ extension Color {
     }
 
     static var appBlack: Color {
-        Color(UIColor { (collection) -> UIColor in
+        Color(UIColor { collection -> UIColor in
             switch collection.userInterfaceStyle {
             case .light, .unspecified:
                 return UIColor(white: 0.13, alpha: 1)
@@ -42,7 +42,7 @@ extension Color {
     }
 
     static var litleGray: Color {
-        Color(UIColor { (collection) -> UIColor in
+        Color(UIColor { collection -> UIColor in
             switch collection.userInterfaceStyle {
             case .light, .unspecified:
                 return UIColor(white: 0.93, alpha: 1)
@@ -55,7 +55,7 @@ extension Color {
     }
 
     static var gray27: Color {
-        Color(UIColor { (collection) -> UIColor in
+        Color(UIColor { collection -> UIColor in
             switch collection.userInterfaceStyle {
             case .light, .unspecified:
                 return UIColor(white: 0.27, alpha: 1)
@@ -68,7 +68,7 @@ extension Color {
     }
 
     static var gray34: Color {
-        Color(UIColor { (collection) -> UIColor in
+        Color(UIColor { collection -> UIColor in
             switch collection.userInterfaceStyle {
             case .light, .unspecified:
                 return UIColor(white: 0.34, alpha: 1)

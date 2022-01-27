@@ -57,7 +57,7 @@ struct HomeHeaderTotalView: View {
 
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack {
-                    ForEach(viewModel.positions.map { $0.currency }.unique.sorted(by: >), id: \.self) { currency in
+                    ForEach(viewModel.convertedCurrencies, id: \.self) { currency in
                         let isSelected = viewModel.convertType == .currency(currency)
                         BackgroundButton(title: currency.rawValue, isSelected: isSelected) {
                             viewModel.convertType = isSelected ? .original : .currency(currency)
@@ -126,9 +126,9 @@ struct HomeHeaderTotalView: View {
                 Text("Total".localized)
             }
         })
-            .sheet(isPresented: $showingDetail) {
-                ViewFactory.totalDetailView
-            }
+        .sheet(isPresented: $showingDetail) {
+            ViewFactory.totalDetailView
+        }
     }
 
     var ratesButton: some View {
@@ -143,9 +143,9 @@ struct HomeHeaderTotalView: View {
             }
 
         })
-            .sheet(isPresented: $showingRates) {
-                ViewFactory.ratesView
-            }
+        .sheet(isPresented: $showingRates) {
+            ViewFactory.ratesView
+        }
     }
 }
 

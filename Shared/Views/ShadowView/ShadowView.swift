@@ -17,20 +17,27 @@ struct ShadowView<Content: View>: View {
         content()
             .background(Color.appWhite)
             .cornerRadius(radius)
-            .padding(.all, 16)
-            .shadow(radius: radius)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 8)
+            .shadow(
+                color: .appBlack.opacity(0.2),
+                radius: radius,
+                x: 0, y: 3
+            )
     }
 }
 
-struct ShadowViewPreview: PreviewProvider {
-    static var previews: some View {
-        ShadowView {
-            PositionRowView(position: PositionView(currency:
-                .init(currency: .RUB,
-                      balance: 200, blocked: 0),
-                percentInProfile: 150))
-                .padding(.horizontal, 16)
-        }
-        .previewLayout(.sizeThatFits)
-    }
-}
+/*
+ struct ShadowViewPreview: PreviewProvider {
+     static var previews: some View {
+         ShadowView {
+             PositionRowView(position: PositionView(currency:
+                 .init(currency: .RUB,
+                       balance: 200, blocked: 0),
+                 percentInProfile: 150))
+                 .padding(.horizontal, 16)
+         }
+         .previewLayout(.sizeThatFits)
+     }
+ }
+ */

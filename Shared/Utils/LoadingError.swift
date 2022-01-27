@@ -7,13 +7,16 @@
 
 import Foundation
 
-enum LoadingError: Error, LocalizedError {
+enum LoadingError: Error, LocalizedError, Equatable {
     case error(code: Int)
+    case simpleError(string: String)
 
     var errorDescription: String? {
         switch self {
         case let .error(code):
             return "Status code" + code.string
+        case let .simpleError(string):
+            return string
         }
     }
 }

@@ -16,7 +16,7 @@ struct PayInService {
 
     func payInOut(operations: [Operation]) -> [Year] {
         let onlyPay = operations.filter(types: [.PayIn, .PayOut])
-        let grouped = Dictionary(grouping: onlyPay) { (element) -> Date in
+        let grouped = Dictionary(grouping: onlyPay) { element -> Date in
             Calendar.current.date(from: DateComponents(year: element.date.year,
                                                        month: element.date.month)) ?? Date()
         }
@@ -30,7 +30,7 @@ struct PayInService {
     private func months(year: Int, grouped: [Date: [Operation]]) -> [Month] {
         grouped
             .filter { $0.key.year == year }.keys
-            .sorted(by: >).compactMap { (date) -> Month? in
+            .sorted(by: >).compactMap { date -> Month? in
                 guard let values = grouped[date] else { return nil }
                 return Month(operations: values.map { value in
                     PayOperation(date: value.date,

@@ -50,9 +50,7 @@ class PayInPlansViewModel: EnvironmentCancebleObject, ObservableObject {
     private var realmManager: RealmManager { .shared }
 
     public func load() {
-        RealmManager.shared.syncQueueBlock {
-            plans = realmManager.objects(PayInPlanR.self).map { .init(payInPlanR: $0) }
-        }
+        plans = realmManager.objects(PayInPlanR.self).map { .init(payInPlanR: $0) }
     }
 }
 

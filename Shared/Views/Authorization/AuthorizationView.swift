@@ -12,7 +12,7 @@ import SwiftUI
 
 struct AuthorizationView: View {
     @ObservedObject var viewModel: AuthorizationViewModel
-    @State var isInstuctionOpen: Bool = false
+    @State private var isInstuctionOpen: Bool = false
 
     var body: some View {
         NavigationView {

@@ -21,7 +21,6 @@ enum LoadingState<Object>: Equatable {
     }
 
     case loading
-
     case loaded(object: Object)
     case failure(error: LoadingError)
 

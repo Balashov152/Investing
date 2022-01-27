@@ -1,4 +1,12 @@
-#  TODO List
+# Project description
+
+### Arhitecture
+- SwiftUI
+- MVVM Modules
+- SwiftUI Navigation 
+- Combine services
+
+# TODO List
 
 - Динамика изменений портфеля на определенный день
 - Много фильтров по операциям

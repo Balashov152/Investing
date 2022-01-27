@@ -8,6 +8,7 @@
 
 import Foundation
 import InvestModels
+import Realm
 import RealmSwift
 
 class RealmManager {
@@ -23,14 +24,23 @@ class RealmManager {
         return queue
     }()
 
-    let objectTypes: [Object.Type] = [CurrencyPairR.self, InstrumentR.self,
-                                      PinnedInstrumentR.self, PayInPlanR.self]
     lazy var realm: Realm = {
         do {
-            let configuration = Realm.Configuration(schemaVersion: UInt64(DBManager.version),
-                                                    migrationBlock: { migration, oldSchemaVersion in
-                                                        print("migration", migration, "oldSchemaVersion", oldSchemaVersion)
-                                                    }, objectTypes: objectTypes)
+            let configuration = Realm.Configuration(
+                schemaVersion: UInt64(DBManager.version),
+                migrationBlock: { migration, oldSchemaVersion in
+                    print("migration", migration, "oldSchemaVersion", oldSchemaVersion)
+                }, objectTypes: [
+                    CurrencyPairR.self,
+                    InstrumentR.self,
+                    PinnedInstrumentR.self,
+                    PayInPlanR.self,
+                    RealmBrokerAccount.self,
+                    RealmOperation.self,
+                    RealmPrice.self,
+                    RealmShare.self,
+                ]
+            )
 
             let realm = try Realm(configuration: configuration, queue: syncQueue)
             print("Realm url: ", Realm.Configuration.defaultConfiguration.fileURL?.absoluteString ?? "")
@@ -39,10 +49,6 @@ class RealmManager {
             fatalError(error.localizedDescription)
         }
     }()
-
-    func isEmptyDB() -> Bool {
-        return objectTypes.allSatisfy(isEmpty)
-    }
 
     func syncQueueBlock(block: () -> Void) {
         if DispatchQueue.getSpecific(key: specificKey) == specificValue {
@@ -66,26 +72,38 @@ class RealmManager {
         }
     }
 
-    func write<T: Object>(objects: [T]) {
+    func write<T: Object>(objects: [T], policy: Realm.UpdatePolicy = .modified) {
         writeBlock {
-            self.realm.add(objects, update: .all)
+            self.realm.add(objects, update: policy)
         }
     }
 
-    func isEmpty<T>(_ type: T.Type) -> Bool where T: Object {
-        objects(type).isEmpty
-    }
-
-    func objects<T>(_ type: T.Type,
-                    predicate: NSPredicate? = nil,
-                    sorted: [NSSortDescriptor] = []) -> [T] where T: Object
-    {
+    func objects<T>(
+        _ type: T.Type,
+        predicate: NSPredicate? = nil,
+        sorted: [NSSortDescriptor] = []
+    ) -> [T] where T: Object {
 //        print(#function)
 //        dispatchPrecondition(condition: DispatchPredicate.notOnQueue(syncQueue))
 
         var objects: [T] = []
         syncQueueBlock {
-            objects = Array(self.results(type, predicate: predicate, sorted: sorted))
+            objects = Array(results(type, predicate: predicate, sorted: sorted))
+        }
+
+        return objects
+    }
+
+    func objects<T, Result>(
+        _ type: T.Type,
+        predicate: NSPredicate? = nil,
+        sorted: [NSSortDescriptor] = [],
+        syncMap: (T) -> (Result)
+    ) -> [Result] where T: Object {
+        var objects: [Result] = []
+        syncQueueBlock {
+            let realmObjects = results(type, predicate: predicate, sorted: sorted)
+            objects = Array(realmObjects).map(syncMap)
         }
 
         return objects
@@ -120,19 +138,19 @@ class RealmManager {
         return object
     }
 
-    func deleteAllObjects(type: Object.Type) {
+    func deleteAllObjects() {
         writeBlock {
-            self.realm.delete(self.realm.objects(type))
+            self.realm.deleteAll() // .delete(self.realm.objects(type))
         }
     }
 
-    func debugPrintCount() {
-        syncQueueBlock {
-            for objectType in self.objectTypes {
-                print("\(objectType)", self.realm.objects(objectType).count)
-            }
-        }
-    }
+//    func debugPrintCount() {
+//        syncQueueBlock {
+//            for objectType in self.objectTypes {
+//                print("\(objectType)", self.realm.objects(objectType).count)
+//            }
+//        }
+//    }
 }
 
 extension Thread {

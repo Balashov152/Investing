@@ -52,7 +52,10 @@ extension TargetType {
         }
     }
 
-    var headers: [String: String]? { nil }
+    var headers: [String: String]? {
+        ["Content-Type": "application/json"]
+    }
+
     var sampleData: Data { Data() }
 }
 

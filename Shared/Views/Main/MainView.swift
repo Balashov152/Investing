@@ -10,13 +10,11 @@ import InvestModels
 import SwiftUI
 
 extension MainView {
-    static let settingsNavigationLink: some View = {
-        Button(action: {}) {
-            NavigationLink(destination: ViewFactory.settingsView) {
-                Image(systemName: "gearshape")
-            }
+    static let settingsNavigationLink: some View = Button(action: {}) {
+        NavigationLink(destination: ViewFactory.settingsView) {
+            Image(systemName: "gearshape")
         }
-    }()
+    }
 }
 
 struct MainView: View {
@@ -42,6 +40,7 @@ struct MainView: View {
         VStack(spacing: 8) {
             ProgressView()
                 .progressViewStyle(CircularProgressViewStyle())
+
             Text("Loading...".localized)
         }
     }

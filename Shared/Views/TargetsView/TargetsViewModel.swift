@@ -56,7 +56,7 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
         positionService.$positions
             .receive(on: DispatchQueue.global())
             .map { positions -> [Column] in
-                positions.compactMap { [unowned self] (position) -> Column? in
+                positions.compactMap { [unowned self] position -> Column? in
                     let averageNow = CurrencyConvertManager
                         .convert(currencyPair: LatestCurrencyService.latest,
                                  money: position.averagePositionPriceNow,

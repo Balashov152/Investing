@@ -50,8 +50,8 @@ struct NewPayInPlanView: View {
                     Text(type.localized)
                 }
             })
-                .pickerStyle(SegmentedPickerStyle())
-                .labelsHidden()
+            .pickerStyle(SegmentedPickerStyle())
+            .labelsHidden()
         }
     }
 
