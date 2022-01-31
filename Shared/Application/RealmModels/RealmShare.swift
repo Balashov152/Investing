@@ -15,7 +15,7 @@ class RealmShare: Object {
     @Persisted var classCode: String?
     @Persisted var lot: Int?
     @Persisted var isin: String?
-    @Persisted var currency: String?
+    @Persisted var currency: String = ""
     @Persisted var nominal: RealmPrice?
     @Persisted var tradingStatus: String?
     @Persisted var shareType: String?
@@ -30,7 +30,7 @@ extension RealmShare {
         realmShare.classCode = share.classCode
         realmShare.lot = share.lot
         realmShare.isin = share.isin
-        realmShare.currency = share.currency?.rawValue
+        realmShare.currency = share.currency.rawValue
         realmShare.nominal = share.nominal.map(RealmPrice.realmPrice(from:))
         realmShare.tradingStatus = share.tradingStatus?.rawValue
         realmShare.shareType = share.shareType?.rawValue

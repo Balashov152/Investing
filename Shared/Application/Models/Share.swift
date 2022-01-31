@@ -8,13 +8,13 @@
 import Foundation
 
 struct Share: Codable {
-    let figi: String?
+    let figi: String
     let ticker: String?
     let name: String?
     let classCode: String?
     let lot: Int?
     let isin: String?
-    let currency: Price.Currency?
+    let currency: Price.Currency
 
     let nominal: Price?
     let tradingStatus: TradingStatus?
@@ -51,13 +51,13 @@ struct Share: Codable {
 
 extension Share {
     init(from realmShare: RealmShare) {
-        figi = realmShare.figi
+        figi = realmShare.figi ?? ""
         name = realmShare.name
         ticker = realmShare.ticker
         classCode = realmShare.classCode
         lot = realmShare.lot
         isin = realmShare.isin
-        currency = Price.Currency(rawValue: realmShare.currency ?? "")
+        currency = Price.Currency(rawValue: realmShare.currency) ?? .usd
         nominal = realmShare.nominal.map(Price.init)
         tradingStatus = TradingStatus(rawValue: realmShare.tradingStatus ?? "")
         shareType = ShareType(rawValue: realmShare.shareType ?? "")

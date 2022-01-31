@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 public extension CurrencyPair {
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()

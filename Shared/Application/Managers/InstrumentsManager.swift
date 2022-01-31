@@ -28,6 +28,7 @@ class InstrumentsManager {
 extension InstrumentsManager: InstrumentsManaging {
     func updateInstruments() -> AnyPublisher<Void, Error> {
         shareService.loadShares()
+            .receive(on: DispatchQueue.global())
             .flatMap { [weak self] shares -> AnyPublisher<Void, Error> in
                 self?.realmStorage.saveShares(shares: shares)
 

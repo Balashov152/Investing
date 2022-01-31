@@ -32,3 +32,9 @@ public extension AnyPublisher where Output == Response, Failure == MoyaError {
 public enum APIBaseResponseKey: String {
     case accounts, operations, instruments
 }
+
+public extension Publisher {
+    func receive(queue: DispatchQueue) -> Publishers.ReceiveOn<Self, DispatchQueue> {
+        receive(on: queue)
+    }
+}

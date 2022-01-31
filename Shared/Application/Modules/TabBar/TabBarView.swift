@@ -54,20 +54,23 @@ struct TabBarView: View {
 
     @ViewBuilder private var tabBarView: some View {
         TabView(selection: $selectedIndex) {
-            profileView
-            analyticsView
-            targetsView
+//            profileView
+//            analyticsView
+//            targetsView
             operationsView
         }
         .accentColor(Color.appBlack)
     }
 
     @ViewBuilder private var profileView: some View {
-        ViewFactory.homeView.tabItem {
+        viewModel.moduleFactory.investResults().tabItem {
             VStack {
                 Image(systemName: selectedIndex == 0 ? "dollarsign.circle.fill" : "dollarsign.circle")
+
                 Text("Portfolio".localized)
+
             }.font(.system(size: 16, weight: selectedIndex == 0 ? .bold : .regular))
+
         }.tag(0)
     }
 
@@ -91,12 +94,15 @@ struct TabBarView: View {
     }
 
     @ViewBuilder private var operationsView: some View {
-        ViewFactory.operationsView.tabItem {
+        viewModel.moduleFactory.operationsList().tabItem {
             VStack {
                 Image(systemName: "list.bullet.rectangle")
                     .resizable()
+
                 Text("Operations")
-            }.font(.system(size: 16, weight: selectedIndex == 3 ? .bold : .regular))
-        }.tag(3)
+            }
+            .font(.system(size: 16, weight: selectedIndex == 3 ? .bold : .regular))
+        }
+//        .tag(3)
     }
 }

@@ -16,7 +16,7 @@ protocol RealmStoraging {
     func selectedAccounts() -> [BrokerAccount]
 
     func saveOperations(operations: [OperationV2], for accountId: String)
-    func operations(for accountId: String) -> [OperationV2]
+    func save(portfolio: Portfolio, for accountId: String)
 
     func saveShares(shares: [Share])
 }
@@ -60,36 +60,72 @@ extension RealmStorage: RealmStoraging {
     }
 
     func saveOperations(operations: [OperationV2], for accountId: String) {
-        let predicate = NSPredicate(format: "id == %@", accountId)
-
-        guard let account = manager
-            .objects(RealmBrokerAccount.self, predicate: predicate)
-            .first
-        else {
+        guard let account = realmAccount(for: accountId) else {
             return
         }
 
         let realmOperations = operations.map(RealmOperation.realmOperation(from:))
+        realmOperations.forEach { $0.share = realmShare(for: $0.figi) }
+
         manager.writeBlock {
             account.operations.removeAll()
             account.operations.append(objectsIn: realmOperations)
         }
     }
 
-    func operations(for accountId: String) -> [OperationV2] {
-        guard let account = manager
-            .objects(RealmBrokerAccount.self)
-            .first(where: { $0.id == accountId })
-        else {
-            return []
-        }
-
-        return account.operations.map(OperationV2.init)
-    }
-
     func saveShares(shares: [Share]) {
         let realmShares = shares.map(RealmShare.realmShare(from:))
 
         manager.write(objects: realmShares, policy: .modified)
+    }
+
+    func save(portfolio: Portfolio, for accountId: String) {
+        guard let account = realmAccount(for: accountId) else {
+            return
+        }
+
+        manager.writeBlock {
+            account.portfolio = RealmPortfolio.realmPortfolio(from: portfolio)
+        }
+    }
+}
+
+private extension RealmStorage {
+    func realmAccount(for accountId: String) -> RealmBrokerAccount? {
+        let predicate = NSPredicate(format: "id == %@", accountId)
+        return manager
+            .objects(RealmBrokerAccount.self, predicate: predicate)
+            .first
+    }
+
+    func account(for accountId: String) -> BrokerAccount? {
+        let predicate = NSPredicate(format: "id == %@", accountId)
+        return manager
+            .objects(RealmBrokerAccount.self, predicate: predicate, syncMap: BrokerAccount.init)
+            .first
+    }
+
+    func realmShare(for figi: String?) -> RealmShare? {
+        guard let figi = figi else {
+            return nil
+        }
+
+        let predicate = NSPredicate(format: "figi == %@", figi)
+
+        return manager
+            .objects(RealmShare.self, predicate: predicate)
+            .first
+    }
+
+    func share(for figi: String?) -> Share? {
+        guard let figi = figi else {
+            return nil
+        }
+
+        let predicate = NSPredicate(format: "figi == %@", figi)
+
+        return manager
+            .objects(RealmShare.self, predicate: predicate, syncMap: Share.init)
+            .first
     }
 }

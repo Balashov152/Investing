@@ -14,6 +14,8 @@ protocol ModuleFactoring {
     func loginView(output: LoginViewOutput) -> LoginView
 
     func accountsList(output: AccountsListOutput) -> AccountsListView
+    func investResults() -> InvestResultsView
+    func operationsList() -> OperationsListView
 }
 
 struct ModuleFactory {
@@ -30,8 +32,7 @@ extension ModuleFactory: ModuleFactoring {
         TabBarView(
             viewModel: TabBarViewModel(
                 moduleFactory: self,
-                operationsManager: dependencyFactory.operationsManager,
-                instrumentsManager: dependencyFactory.instrumentsManager,
+                dataBaseManager: dependencyFactory.dataBaseManager,
                 realmStorage: dependencyFactory.realmStorage
             )
         )
@@ -56,5 +57,15 @@ extension ModuleFactory: ModuleFactoring {
                                              portfolioManager: dependencyFactory.portfolioManager,
                                              realmStorage: dependencyFactory.realmStorage)
         )
+    }
+
+    func investResults() -> InvestResultsView {
+        InvestResultsView(
+            viewModel: InvestResultsViewModel(realmStorage: dependencyFactory.realmStorage)
+        )
+    }
+
+    func operationsList() -> OperationsListView {
+        OperationsListView(viewModel: OperationsListModel(portfolioManager: dependencyFactory.portfolioManager))
     }
 }

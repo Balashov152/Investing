@@ -10,14 +10,14 @@ import RealmSwift
 
 public class RealmPrice: EmbeddedObject {
     @Persisted var nano: Int?
-    @Persisted var currency: String?
-    @Persisted var units: String?
+    @Persisted var currency: String = ""
+    @Persisted var units: String = ""
 }
 
 extension RealmPrice {
     static func realmPrice(from price: Price) -> RealmPrice {
         let realmPrice = RealmPrice()
-        realmPrice.currency = price.currency?.rawValue
+        realmPrice.currency = price.currency.rawValue
         realmPrice.units = price.units
         realmPrice.nano = price.nano
 

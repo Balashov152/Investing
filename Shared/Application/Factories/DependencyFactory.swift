@@ -31,6 +31,15 @@ struct DependencyFactory {
         )
     }
 
+    var dataBaseManager: DataBaseManaging {
+        DataBaseManager(
+            operationsManager: operationsManager,
+            instrumentsManager: instrumentsManager,
+            portfolioManager: portfolioManager,
+            realmStorage: realmStorage
+        )
+    }
+
     // MARK: - Services
 
     var portfolioService: PortfolioServing {

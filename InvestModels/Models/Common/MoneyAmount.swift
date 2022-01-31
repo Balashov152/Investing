@@ -52,5 +52,8 @@ public struct MoneyAmount: Codable, Hashable {
         currency = try values.decodeIfPresent(forKey: .currency, default: .USD)
         value = try values.decodeIfPresent(forKey: .value, default: 0)
 	}
-
+    
+    public static var zero: MoneyAmount {
+        MoneyAmount(currency: .USD, value: 0)
+    }
 }

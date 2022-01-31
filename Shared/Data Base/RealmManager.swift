@@ -39,6 +39,8 @@ class RealmManager {
                     RealmOperation.self,
                     RealmPrice.self,
                     RealmShare.self,
+                    RealmPortfolio.self,
+                    RealmPosition.self,
                 ]
             )
 

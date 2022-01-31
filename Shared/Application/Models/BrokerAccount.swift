@@ -7,10 +7,13 @@
 
 import Foundation
 
-struct BrokerAccount: Codable, Equatable {
+struct BrokerAccount: Decodable, Equatable {
     let id: String
     let type: AccountType
     let name: String
+
+    let operations: [OperationV2]
+    let portfolio: Portfolio?
 }
 
 extension BrokerAccount {
@@ -29,7 +32,9 @@ extension BrokerAccount {
         self.init(
             id: realmAccount.id,
             type: type ?? .TINKOFF,
-            name: realmAccount.name
+            name: realmAccount.name,
+            operations: realmAccount.operations.map(OperationV2.init),
+            portfolio: realmAccount.portfolio.map(Portfolio.init)
         )
     }
 }

@@ -372,3 +372,21 @@ extension Collection where Element == Operation {
         operations(position: position).currencySum(to: currency ?? position.currency)
     }
 }
+
+extension Collection where Element == OperationV2 {
+    func operations(figi: String) -> [OperationV2] {
+        filter { $0.figi == figi }
+    }
+//
+//    func paymentTotal(figi: String, currency: Currency? = nil) -> MoneyAmount {
+//        operations(figi: figi).currencySum(to: currency ?? position.currency)
+//    }
+//
+//    func currencySum(to currency: Currency) -> MoneyAmount {
+//        let value = map { operation in
+//            operation.convertPayment(to: currency)
+//        }.map { $0.value }.reduce(0, +)
+//
+//        return MoneyAmount(currency: currency, value: value)
+//    }
+}

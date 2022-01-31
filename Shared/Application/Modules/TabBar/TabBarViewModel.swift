@@ -15,19 +15,16 @@ class TabBarViewModel: CancebleObject, ObservableObject {
     @Published var loadingState: ContentState = .loading
 
     public let moduleFactory: ModuleFactoring
+    private let dataBaseManager: DataBaseManaging
     private let realmStorage: RealmStoraging
-    private let operationsManager: OperationsManaging
-    private let instrumentsManager: InstrumentsManaging
 
     init(
         moduleFactory: ModuleFactoring,
-        operationsManager: OperationsManaging,
-        instrumentsManager: InstrumentsManaging,
+        dataBaseManager: DataBaseManaging,
         realmStorage: RealmStoraging
     ) {
         self.moduleFactory = moduleFactory
-        self.operationsManager = operationsManager
-        self.instrumentsManager = instrumentsManager
+        self.dataBaseManager = dataBaseManager
         self.realmStorage = realmStorage
     }
 }
@@ -72,11 +69,7 @@ private extension TabBarViewModel {
     }
 
     func updateOperations() {
-        operationsManager.updateOperations()
-            .tryMap { [unowned self] _ -> AnyPublisher<Void, Error> in
-                instrumentsManager.updateInstruments()
-            }
-            .switchToLatest()
+        dataBaseManager.updateDataBase()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 print(completion.error)

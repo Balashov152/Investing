@@ -24,7 +24,9 @@ struct MoneyRow: View {
     var body: some View {
         HStack {
             Text(label)
+
             Spacer()
+
             MoneyText(money: money)
         }
     }

@@ -10,6 +10,8 @@ import Foundation
 
 protocol PortfolioManaging {
     func userAccounts() -> AnyPublisher<[BrokerAccount], Error>
+    func getPortfolio(for accountId: String) -> AnyPublisher<Portfolio, Error>
+    func syncGetFirstSelectedAccount() -> BrokerAccount?
 }
 
 class PortfolioManager {
@@ -36,5 +38,21 @@ extension PortfolioManager: PortfolioManaging {
                     .eraseToAnyPublisher()
             }
             .eraseToAnyPublisher()
+    }
+
+    func getPortfolio(for accountId: String) -> AnyPublisher<Portfolio, Error> {
+        portfolioService.getPortfolio(accountId: accountId)
+            .flatMap { [weak self] portfolio -> AnyPublisher<Portfolio, Error> in
+                self?.realmStorage.save(portfolio: portfolio, for: accountId)
+
+                return Result
+                    .Publisher(.success(portfolio))
+                    .eraseToAnyPublisher()
+            }
+            .eraseToAnyPublisher()
+    }
+
+    func syncGetFirstSelectedAccount() -> BrokerAccount? {
+        realmStorage.selectedAccounts().first
     }
 }

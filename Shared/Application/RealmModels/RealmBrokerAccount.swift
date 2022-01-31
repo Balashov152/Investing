@@ -16,4 +16,5 @@ public class RealmBrokerAccount: Object {
     @Persisted public var isSelected: Bool = false
 
     @Persisted public var operations = List<RealmOperation>()
+    @Persisted public var portfolio: RealmPortfolio?
 }
