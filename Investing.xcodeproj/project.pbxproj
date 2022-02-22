@@ -132,6 +132,7 @@
 		EF84A96B25C09D780081F857 /* NavigationLazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A96A25C09D780081F857 /* NavigationLazyView.swift */; };
 		EF84A97725C0AAAC0081F857 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A97625C0AAAC0081F857 /* RootView.swift */; };
 		EF84A97F25C0B2A50081F857 /* RatesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF84A97E25C0B2A50081F857 /* RatesView.swift */; };
+		EF87383027C500AD00799E6A /* CombineLatestCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF87382F27C500AD00799E6A /* CombineLatestCollection.swift */; };
 		EF875E16263AE5A500026731 /* NewPayInPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E15263AE5A500026731 /* NewPayInPlanView.swift */; };
 		EF875E21263AE5B000026731 /* NewPayInPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E20263AE5B000026731 /* NewPayInPlanViewModel.swift */; };
 		EF875E31263AEA8600026731 /* PayInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E30263AEA8600026731 /* PayInService.swift */; };
@@ -177,6 +178,8 @@
 		EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02AE425800086008AF0FF /* PositionRowView.swift */; };
 		EFC02AFD25800BD3008AF0FF /* OperationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02AFC25800BD3008AF0FF /* OperationsView.swift */; };
 		EFC02B0825800BF6008AF0FF /* OperationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC02B0725800BF6008AF0FF /* OperationsService.swift */; };
+		EFC1686F27A988E8009EDEE7 /* CandleV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC1686E27A988E8009EDEE7 /* CandleV2.swift */; };
+		EFC1687127A98D1D009EDEE7 /* RealmCandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC1687027A98D1D009EDEE7 /* RealmCandle.swift */; };
 		EFC7F6882595F13A000A6A80 /* CurrencyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7F6872595F13A000A6A80 /* CurrencyPair.swift */; };
 		EFC7F6972595F17B000A6A80 /* CurrencyConvertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7F6962595F17B000A6A80 /* CurrencyConvertModel.swift */; };
 		EFC99748258115B000A722F7 /* InstrumentsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC99747258115B000A722F7 /* InstrumentsService.swift */; };
@@ -371,6 +374,7 @@
 		EF84A96A25C09D780081F857 /* NavigationLazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationLazyView.swift; sourceTree = "<group>"; };
 		EF84A97625C0AAAC0081F857 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		EF84A97E25C0B2A50081F857 /* RatesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesView.swift; sourceTree = "<group>"; };
+		EF87382F27C500AD00799E6A /* CombineLatestCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineLatestCollection.swift; sourceTree = "<group>"; };
 		EF875E15263AE5A500026731 /* NewPayInPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPayInPlanView.swift; sourceTree = "<group>"; };
 		EF875E20263AE5B000026731 /* NewPayInPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPayInPlanViewModel.swift; sourceTree = "<group>"; };
 		EF875E30263AEA8600026731 /* PayInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInService.swift; sourceTree = "<group>"; };
@@ -410,6 +414,8 @@
 		EFC02B0F25800C49008AF0FF /* Operation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Operation.swift; sourceTree = "<group>"; };
 		EFC02B1025800C49008AF0FF /* Trades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Trades.swift; sourceTree = "<group>"; };
 		EFC02B2C25800CE3008AF0FF /* OperationsPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationsPayload.swift; sourceTree = "<group>"; };
+		EFC1686E27A988E8009EDEE7 /* CandleV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleV2.swift; sourceTree = "<group>"; };
+		EFC1687027A98D1D009EDEE7 /* RealmCandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmCandle.swift; sourceTree = "<group>"; };
 		EFC7F6872595F13A000A6A80 /* CurrencyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyPair.swift; sourceTree = "<group>"; };
 		EFC7F6962595F17B000A6A80 /* CurrencyConvertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyConvertModel.swift; sourceTree = "<group>"; };
 		EFC99735258114DC00A722F7 /* InstrumentsPayload.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstrumentsPayload.swift; sourceTree = "<group>"; };
@@ -600,6 +606,7 @@
 				EF4C0B5E27A2F10E00C33A2A /* RealmShare.swift */,
 				EF21637427A7D3D300D55D7B /* RealmPortfolio.swift */,
 				EF21637627A7D93E00D55D7B /* RealmPosition.swift */,
+				EFC1687027A98D1D009EDEE7 /* RealmCandle.swift */,
 			);
 			path = RealmModels;
 			sourceTree = "<group>";
@@ -634,6 +641,7 @@
 				EF21637227A7CEFD00D55D7B /* PortfolioPosition.swift */,
 				EF21637B27A7DF6100D55D7B /* InstrumentTypeV2.swift */,
 				EF21638827A81D7500D55D7B /* Currency+.swift */,
+				EFC1686E27A988E8009EDEE7 /* CandleV2.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1200,6 +1208,7 @@
 				EF66856B25D70C070090FAA1 /* TextLimiter.swift */,
 				EFA92D4925DD5F70008DD8D0 /* PullToRefresh.swift */,
 				EFF8F4E02796C99B00B13B80 /* ContentState.swift */,
+				EF87382F27C500AD00799E6A /* CombineLatestCollection.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1619,6 +1628,7 @@
 				EF8104DC25D3E8EE00B73406 /* LatestCurrencyService.swift in Sources */,
 				EF66850F25D707EF0090FAA1 /* PayInViewModel.swift in Sources */,
 				EF79B76425B1B128005C2EB8 /* HomeViewModel.swift in Sources */,
+				EFC1687127A98D1D009EDEE7 /* RealmCandle.swift in Sources */,
 				EF15F26D25E151D600F281F8 /* Currency+Ex.swift in Sources */,
 				EF76A0EF257FAD0000991AE3 /* ViewFactory.swift in Sources */,
 				EFC02AE525800086008AF0FF /* PositionRowView.swift in Sources */,
@@ -1644,6 +1654,7 @@
 				EF4C0B4827A0719600C33A2A /* AccountsList.swift in Sources */,
 				EF76A123257FBE5B00991AE3 /* ApiProvider.swift in Sources */,
 				EF54167725C06254007EA38D /* FormattedCurrency.swift in Sources */,
+				EFC1686F27A988E8009EDEE7 /* CandleV2.swift in Sources */,
 				EF21638027A7EC0800D55D7B /* MoneyAmount+.swift in Sources */,
 				EFF46B73259C6B6200EFD02A /* ComissionView.swift in Sources */,
 				EF21638727A81C4100D55D7B /* PorfolioPositionView.swift in Sources */,
@@ -1678,6 +1689,7 @@
 				EF951DFF25BB24610006FD97 /* PositionDetailView.swift in Sources */,
 				EF4C38D025B8468200A3AB5D /* IndexedCollection.swift in Sources */,
 				EF6684E925D7066B0090FAA1 /* CancebleObject.swift in Sources */,
+				EF87383027C500AD00799E6A /* CombineLatestCollection.swift in Sources */,
 				EF21637A27A7DC3700D55D7B /* DataBaseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,6 +11,7 @@ import Moya
 
 protocol ShareServing {
     func loadShares() -> AnyPublisher<[Share], Error>
+    func loadCandles(figi: String, dateInterval: DateInterval, interval: CandleV2.Interval) -> AnyPublisher<[CandleV2], Error>
 }
 
 struct ShareService {
@@ -24,10 +25,23 @@ extension ShareService: ShareServing {
             .mapError { $0 as Error }
             .eraseToAnyPublisher()
     }
+
+    func loadCandles(figi: String, dateInterval: DateInterval, interval: CandleV2.Interval) -> AnyPublisher<[CandleV2], Error> {
+        provider.request(.loadCandles(figi: figi, dateInterval: dateInterval, interval: interval))
+            .map([CandleV2].self, at: .candles, using: .standart)
+            .map {
+                let candles = $0
+                candles.forEach { $0.figi = figi }
+                return candles
+            }
+            .mapError { $0 as Error }
+            .eraseToAnyPublisher()
+    }
 }
 
 enum ShareAPI: TargetType {
     case loadShares(status: ShareStatus)
+    case loadCandles(figi: String, dateInterval: DateInterval, interval: CandleV2.Interval)
 
     var baseURL: URL {
         URL(string: "https://invest-public-api.tinkoff.ru/rest/")!
@@ -39,6 +53,8 @@ enum ShareAPI: TargetType {
         switch self {
         case .loadShares:
             return "tinkoff.public.invest.api.contract.v1.InstrumentsService/Shares"
+        case .loadCandles:
+            return "tinkoff.public.invest.api.contract.v1.MarketDataService/GetCandles"
         }
     }
 
@@ -48,6 +64,17 @@ enum ShareAPI: TargetType {
             return .requestCompositeParameters(bodyParameters: ["instrumentStatus": status.rawValue],
                                                bodyEncoding: JSONEncoding.default,
                                                urlParameters: [:])
+        case let .loadCandles(figi: figi, dateInterval: dateInterval, interval: interval):
+            return .requestCompositeParameters(
+                bodyParameters: [
+                    "figi": figi,
+                    "from": dateInterval.start.string(formatter: .iso8601),
+                    "to": dateInterval.end.string(formatter: .iso8601),
+                    "interval": interval.rawValue,
+                ],
+                bodyEncoding: JSONEncoding.default,
+                urlParameters: [:]
+            )
         }
     }
 }

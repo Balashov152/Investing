@@ -15,7 +15,7 @@ public class RealmPortfolio: EmbeddedObject {
     @Persisted var totalAmountShares: RealmPrice?
     @Persisted var totalAmountEtf: RealmPrice?
 
-    @Persisted var expectedYield: Double?
+    @Persisted var expectedYield: RealmPrice?
     @Persisted var positions = List<RealmPosition>()
 }
 
@@ -27,7 +27,7 @@ extension RealmPortfolio {
         realmPortfolio.totalAmountCurrencies = portfolio.totalAmountCurrencies.map(RealmPrice.realmPrice(from:))
         realmPortfolio.totalAmountShares = portfolio.totalAmountShares.map(RealmPrice.realmPrice(from:))
         realmPortfolio.totalAmountEtf = portfolio.totalAmountEtf.map(RealmPrice.realmPrice(from:))
-        realmPortfolio.expectedYield = portfolio.expectedYield
+        realmPortfolio.expectedYield = portfolio.expectedYield.map(RealmPrice.realmPrice(from:))
         realmPortfolio.positions.append(objectsIn: portfolio.positions.map(RealmPosition.realmPosition(from:)))
 
         return realmPortfolio

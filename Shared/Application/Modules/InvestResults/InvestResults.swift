@@ -10,13 +10,13 @@ import InvestModels
 import SwiftUI
 
 struct InvestResultsHelper {
-    func calculateResults(account: BrokerAccount) -> [InstrumentResult] {
+    func calculateResults(account: BrokerAccount) -> [InvestResult] {
         let operationWithShare = account.operations
             .filter { $0.instrumentType == .share }
 
         let uniqFigi = Set(operationWithShare.compactMap { $0.figi })
 
-        let results = uniqFigi.compactMap { figi -> InstrumentResult? in
+        let results = uniqFigi.compactMap { figi -> InvestResult? in
             guard let instrument = account.operations.first(where: { $0.figi == figi })?.share else {
                 return nil
             }
@@ -31,11 +31,11 @@ struct InvestResultsHelper {
 
             let result = MoneyAmount(currency: instrument.currency, value: outcome)
 
-            return InstrumentResult(
+            return InvestResult(
                 figi: instrument.figi,
                 instrument: instrument.name ?? "Non instrument name",
                 result: result,
-                currentQuantity: position?.quantity
+                currentQuantity: position?.quantity?.price ?? 0
             )
         }
 
@@ -44,7 +44,7 @@ struct InvestResultsHelper {
 }
 
 extension InvestResultsHelper {
-    struct InstrumentResult: Hashable, Identifiable {
+    struct InvestResult: Hashable, Identifiable {
         let figi: String
         let instrument: String
         let result: MoneyAmount

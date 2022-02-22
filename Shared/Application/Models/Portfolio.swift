@@ -11,7 +11,7 @@ struct Portfolio: Codable, Equatable {
     let totalAmountBonds: Price?
     let totalAmountFutures: Price?
     let totalAmountCurrencies: Price?
-    let expectedYield: Double?
+    let expectedYield: Price?
     let positions: [PortfolioPosition]
     let totalAmountShares: Price?
     let totalAmountEtf: Price?
@@ -24,7 +24,7 @@ extension Portfolio {
         totalAmountCurrencies = portfolio.totalAmountCurrencies.map(Price.init)
         totalAmountShares = portfolio.totalAmountShares.map(Price.init)
         totalAmountEtf = portfolio.totalAmountEtf.map(Price.init)
-        expectedYield = portfolio.expectedYield
+        expectedYield = portfolio.expectedYield.map(Price.init)
         positions = portfolio.positions.map(PortfolioPosition.init)
     }
 }

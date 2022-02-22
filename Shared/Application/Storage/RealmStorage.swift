@@ -19,6 +19,7 @@ protocol RealmStoraging {
     func save(portfolio: Portfolio, for accountId: String)
 
     func saveShares(shares: [Share])
+    func save(candles: [CandleV2])
 }
 
 class RealmStorage {
@@ -87,6 +88,12 @@ extension RealmStorage: RealmStoraging {
         manager.writeBlock {
             account.portfolio = RealmPortfolio.realmPortfolio(from: portfolio)
         }
+    }
+
+    func save(candles: [CandleV2]) {
+        let realmCandles: [RealmCandle] = candles.map { .realmCandle(from: $0) }
+
+        manager.write(objects: realmCandles, policy: .modified)
     }
 }
 

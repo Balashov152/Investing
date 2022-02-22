@@ -41,6 +41,7 @@ class RealmManager {
                     RealmShare.self,
                     RealmPortfolio.self,
                     RealmPosition.self,
+                    RealmCandle.self,
                 ]
             )
 
@@ -56,7 +57,7 @@ class RealmManager {
         if DispatchQueue.getSpecific(key: specificKey) == specificValue {
             block()
         } else {
-            syncQueue.sync(execute: block)
+            syncQueue.sync(flags: .barrier, execute: block)
         }
     }
 

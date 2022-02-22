@@ -48,6 +48,9 @@ struct SwitchVersionView: View {
                     Text("New Version View")
                 })
             }
+            .onAppear {
+                print(Storage.token)
+            }
 
         case .new:
             viewModel.moduleFactory.tabBarModule()

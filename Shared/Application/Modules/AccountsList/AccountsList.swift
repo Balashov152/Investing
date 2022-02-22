@@ -39,8 +39,8 @@ extension AccountsListViewModel: ViewLifeCycleOperator {
     func onAppear() {
         // TODO: ADD CONTENT STATE
         portfolioManager.userAccounts()
-            .sink(receiveCompletion: { _ in
-                // TODO: ADD ERROR HANDLE
+            .sink(receiveCompletion: { completion in
+                assert(completion.error == nil)
             }, receiveValue: { [unowned self] accounts in
                 self.accounts = accounts
             })

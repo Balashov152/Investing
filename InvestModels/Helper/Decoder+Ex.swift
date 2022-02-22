@@ -8,6 +8,10 @@
 import Foundation
 
 public extension KeyedDecodingContainer where K: CodingKey {
+    func decode<T>(forKey key: Self.Key) throws -> T where T: Decodable {
+        try self.decode(T.self, forKey: key)
+    }
+    
     func decodeIfPresent<T>(forKey key: Self.Key) throws -> T? where T: Decodable {
         try self.decodeIfPresent(T.self, forKey: key)
     }

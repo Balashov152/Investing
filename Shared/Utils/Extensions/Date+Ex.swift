@@ -12,6 +12,10 @@ extension Date {
         DateFormatter.format(format).string(from: self)
     }
 
+    func string(formatter: ISO8601DateFormatter) -> String {
+        formatter.string(from: self)
+    }
+
     var month: Int {
         Calendar.current.component(.month, from: self)
     }

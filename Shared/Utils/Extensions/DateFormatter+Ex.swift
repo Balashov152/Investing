@@ -14,3 +14,9 @@ extension DateFormatter {
         return formatter
     }
 }
+
+extension Date {
+    static func from(string: String, format: String) -> Date? {
+        DateFormatter.format(format).date(from: string)
+    }
+}

@@ -24,14 +24,14 @@ struct DateInterval: Hashable, Codable {
 }
 
 extension Calendar {
-    func dates(from: Date, to end: Date, in format: String) -> [String] {
+    func dates(from: Date, to end: Date, by component: Calendar.Component = .day, in format: String) -> [String] {
         var startDate = from
         var dates: [String] = []
 
         while startDate <= end {
             dates.append(startDate.string(format: format))
 
-            startDate = date(byAdding: .day, value: 1, to: startDate)!
+            startDate = date(byAdding: component, value: 1, to: startDate)!
         }
         return dates
     }

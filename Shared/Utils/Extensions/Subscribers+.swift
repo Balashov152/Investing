@@ -30,7 +30,7 @@ public extension AnyPublisher where Output == Response, Failure == MoyaError {
 }
 
 public enum APIBaseResponseKey: String {
-    case accounts, operations, instruments
+    case accounts, operations, instruments, candles
 }
 
 public extension Publisher {
