@@ -31,7 +31,7 @@ extension InstrumentsManager: InstrumentsManaging {
             .receive(on: DispatchQueue.global())
             .tryMap { [weak self] shares -> AnyPublisher<[CandleV2], Error> in
                 guard let self = self else {
-                    throw PublisherErrors.selfRealise
+                    throw PublisherErrors.releaseSelf
                 }
                 self.realmStorage.saveShares(shares: shares)
 
@@ -41,7 +41,7 @@ extension InstrumentsManager: InstrumentsManaging {
             .receive(on: DispatchQueue.global())
             .tryMap { [weak self] usd -> AnyPublisher<[CandleV2], Error> in
                 guard let self = self else {
-                    throw PublisherErrors.selfRealise
+                    throw PublisherErrors.releaseSelf
                 }
 
                 self.realmStorage.save(candles: usd)
@@ -52,7 +52,7 @@ extension InstrumentsManager: InstrumentsManaging {
             .receive(on: DispatchQueue.global())
             .tryMap { [weak self] eur -> AnyPublisher<Void, Error> in
                 guard let self = self else {
-                    throw PublisherErrors.selfRealise
+                    throw PublisherErrors.releaseSelf
                 }
 
                 self.realmStorage.save(candles: eur)
@@ -128,5 +128,5 @@ private extension InstrumentsManager {
 
 enum PublisherErrors: Error {
     case emptyData
-    case selfRealise
+    case releaseSelf
 }
