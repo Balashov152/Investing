@@ -10,7 +10,7 @@ import Foundation
 public class CandleV2: Codable {
     var figi: String?
     let volume: String?
-    let time: Date?
+    let time: Date
     let isComplete: Bool
 
     let high: Price?
@@ -34,7 +34,7 @@ public class CandleV2: Codable {
         volume = try values.decodeIfPresent(forKey: .volume)
         high = try values.decodeIfPresent(forKey: .high)
         low = try values.decodeIfPresent(forKey: .low)
-        time = try values.decodeIfPresent(forKey: .time)
+        time = try values.decode(forKey: .time)
         close = try values.decodeIfPresent(forKey: .close)
         open = try values.decodeIfPresent(forKey: .open)
         isComplete = try values.decodeIfPresent(forKey: .isComplete, default: true)
@@ -44,7 +44,7 @@ public class CandleV2: Codable {
         figi = candle.figi
         volume = candle.volume
         isComplete = candle.isComplete
-        time = candle.time
+        time = candle.time ?? Date()
 
         high = candle.high.map(Price.init)
         low = candle.low.map(Price.init)
@@ -52,7 +52,7 @@ public class CandleV2: Codable {
         open = candle.open.map(Price.init)
     }
 
-    public init(volume: String?, time: Date?, isComplete: Bool, high: Price?, low: Price?, close: Price?, open: Price?) {
+    public init(volume: String?, time: Date, isComplete: Bool, high: Price?, low: Price?, close: Price?, open: Price?) {
         figi = nil
         self.volume = volume
         self.time = time

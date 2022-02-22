@@ -9,7 +9,9 @@ import Foundation
 import RealmSwift
 
 public class RealmCandle: Object {
-    @Persisted(primaryKey: true) var figi: String?
+    @Persisted(primaryKey: true) var id: String?
+
+    @Persisted var figi: String?
     @Persisted var volume: String?
     @Persisted var isComplete: Bool = false
     @Persisted var time: Date?
@@ -23,6 +25,9 @@ public class RealmCandle: Object {
 public extension RealmCandle {
     static func realmCandle(from candle: CandleV2) -> RealmCandle {
         let realmCandle = RealmCandle()
+        realmCandle.id = candle.figi.orEmpty + "_" + DateFormatter.iso8601.string(from: candle.time)
+
+        realmCandle.figi = candle.figi
         realmCandle.volume = candle.volume
         realmCandle.isComplete = candle.isComplete
         realmCandle.time = candle.time

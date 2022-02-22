@@ -66,9 +66,9 @@ extension InstrumentsManager: InstrumentsManaging {
 
 private extension InstrumentsManager {
     func usdCandles() -> AnyPublisher<[CandleV2], Error> {
-        let format = "YYYY"
+        let format = "dd-MM-yyyy"
         let years = Calendar.current.dates(
-            from: Settings.shared.dateInterval.start,
+            from: Settings.shared.dateInterval.start.days(value: 10),
             to: Settings.shared.dateInterval.end,
             by: .year,
             in: format
