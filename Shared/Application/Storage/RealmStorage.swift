@@ -35,10 +35,12 @@ extension RealmStorage: RealmStoraging {
             realmBrokerAccount.type = account.type.rawValue
             realmBrokerAccount.name = account.name
 
+            realmBrokerAccount.isSelected = selectedAccounts().contains(where: { $0.id == account.id })
+
             return realmBrokerAccount
         }
 
-        manager.write(objects: accounts)
+        manager.write(objects: accounts, policy: .modified)
     }
 
     func saveSelectedAccounts(accounts: [BrokerAccount]) {

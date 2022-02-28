@@ -11,6 +11,7 @@ import SwiftUI
 
 struct PorfolioPositionViewModel: Identifiable, LogoPosition {
     var id: String { figi }
+    var deeplinkURL: URL { URL(string: "https://www.tinkoff.ru/invest/stocks/\(ticker)")! }
 
     let figi: String
     let name: String
@@ -67,7 +68,7 @@ struct PorfolioPositionView: View {
     }
 
     @ViewBuilder private var instrumentInfo: some View {
-        let imageSize: CGFloat = 50
+        let imageSize: CGFloat = 40
 
         HStack(alignment: .center, spacing: Constants.Paddings.xs) {
             URLImage(position: viewModel)

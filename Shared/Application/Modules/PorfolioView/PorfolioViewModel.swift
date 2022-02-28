@@ -12,6 +12,7 @@ import SwiftUI
 class PorfolioViewModel: CancebleObject, ObservableObject {
     @Published var dataSource: [PorfolioSectionViewModel] = []
     @Published var sortType: SortType = .inProfile
+    @Published var refreshSubject = PassthroughSubject<Void, Never>()
     @Published var isPresentAccounts: Bool = false
 
     private let realmStorage: RealmStoraging
@@ -24,13 +25,17 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
         self.realmStorage = realmStorage
         self.moduleFactory = moduleFactory
     }
+
+    public func refresh() {
+        refreshSubject.send()
+    }
 }
 
 extension PorfolioViewModel: ViewLifeCycleOperator {
     func onAppear() {
-        $sortType
+        Publishers.CombineLatest($sortType, refreshSubject)
             .receive(on: DispatchQueue.global())
-            .map { [unowned self] sortType -> [PorfolioSectionViewModel] in
+            .map { [unowned self] sortType, _ -> [PorfolioSectionViewModel] in
                 realmStorage.selectedAccounts().map {
                     map(account: $0, sortType: sortType)
                 }
@@ -87,10 +92,7 @@ extension PorfolioViewModel {
         let allOperations = account.operations.filter { $0.figi == figi }
 
         var resultAmount: Double = allOperations.reduce(0) { result, operation in
-            if instrument.ticker == "MAC" {
-                print(operation.payment?.price ?? 0)
-            }
-            return result + (operation.payment?.price ?? 0)
+            result + (operation.payment?.price ?? 0)
         }
 
         var average: MoneyAmount?

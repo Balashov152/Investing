@@ -37,12 +37,13 @@ class AccountsListViewModel: CancebleObject, ObservableObject {
 
 extension AccountsListViewModel: ViewLifeCycleOperator {
     func onAppear() {
-        // TODO: ADD CONTENT STATE
         portfolioManager.userAccounts()
             .sink(receiveCompletion: { completion in
                 assert(completion.error == nil)
             }, receiveValue: { [unowned self] accounts in
                 self.accounts = accounts
+
+                self.selectionAccounts = self.realmStorage.selectedAccounts()
             })
             .store(in: &cancellables)
     }
@@ -63,17 +64,6 @@ struct AccountsListView: View {
                         accountView(account: account)
                     }
                 }
-//                .toolbar {
-//                    HStack {
-//                        Spacer()
-//
-//                        Button(action: {
-//                            viewModel.output?.accountsDidSelectAccounts()
-//                        }, label: {
-//                            Image(systemName: "xmark")
-//                        })
-//                    }
-//                }
                 .navigationBarTitleDisplayMode(.inline)
 
                 VStack {
@@ -95,7 +85,7 @@ struct AccountsListView: View {
                 Text(account.name)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                Text(account.type.rawValue)
+                Text(account.type.rawValue.lowercased())
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
 
@@ -109,11 +99,11 @@ struct AccountsListView: View {
                 }
             }, label: {
                 let isSelected = viewModel.selectionAccounts.contains(account)
+
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "checkmark.circle")
                     .resizable()
                     .foregroundColor(isSelected ? .purple : .gray)
                     .frame(width: 20, height: 20)
-//                    .background(isSelected ? .purple : .clear)
                     .cornerRadius(10)
             })
         }

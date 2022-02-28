@@ -22,6 +22,10 @@ struct PorfolioView: View {
                 Section {
                     ForEach(item.operations) { operation in
                         PorfolioPositionView(viewModel: operation)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                UIApplication.shared.open(operation.deeplinkURL)
+                            }
                     }
                 } header: {
                     Text(item.accountName)
@@ -29,6 +33,9 @@ struct PorfolioView: View {
                 }
             }
             .listStyle(PlainListStyle())
+            .refreshable {
+                viewModel.refresh()
+            }
             .navigationTitle("Портфель")
             .addLifeCycle(operator: viewModel)
             .toolbar {

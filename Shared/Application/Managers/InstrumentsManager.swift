@@ -37,28 +37,28 @@ extension InstrumentsManager: InstrumentsManaging {
 
                 return self.usdCandles()
             }
-            .switchToLatest()
-            .receive(on: DispatchQueue.global())
-            .tryMap { [weak self] usd -> AnyPublisher<[CandleV2], Error> in
-                guard let self = self else {
-                    throw PublisherErrors.releaseSelf
-                }
-
-                self.realmStorage.save(candles: usd)
-
-                return self.eurCandles()
-            }
-            .switchToLatest()
-            .receive(on: DispatchQueue.global())
-            .tryMap { [weak self] eur -> AnyPublisher<Void, Error> in
-                guard let self = self else {
-                    throw PublisherErrors.releaseSelf
-                }
-
-                self.realmStorage.save(candles: eur)
-
-                return Result.Publisher(()).eraseToAnyPublisher()
-            }
+//            .switchToLatest()
+//            .receive(on: DispatchQueue.global())
+//            .tryMap { [weak self] usd -> AnyPublisher<[CandleV2], Error> in
+//                guard let self = self else {
+//                    throw PublisherErrors.releaseSelf
+//                }
+//
+//                self.realmStorage.save(candles: usd)
+//
+//                return self.eurCandles()
+//            }
+//            .switchToLatest()
+//            .receive(on: DispatchQueue.global())
+//            .tryMap { [weak self] eur -> AnyPublisher<Void, Error> in
+//                guard let self = self else {
+//                    throw PublisherErrors.releaseSelf
+//                }
+//
+//                self.realmStorage.save(candles: eur)
+//
+//                return Result.Publisher(()).eraseToAnyPublisher()
+//            }
             .eraseToAnyPublisher()
             .mapToVoid()
     }
