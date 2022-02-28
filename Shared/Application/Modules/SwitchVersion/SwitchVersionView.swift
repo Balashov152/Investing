@@ -35,7 +35,7 @@ struct SwitchVersionView: View {
     var body: some View {
         switch viewModel.currentVersion {
         case .none:
-            VStack(spacing: Constants.Paddings.m) {
+            VStack(spacing: 100) {
                 Button(action: {
                     viewModel.currentVersion = .old
                 }, label: {

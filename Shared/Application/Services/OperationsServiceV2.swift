@@ -14,7 +14,7 @@ protocol OperationsServing {
 }
 
 class OperationsServiceV2 {
-    let provider = ApiProvider<OperationsAPI>()
+    let provider = ApiProvider<OperationsAPI>(isNewApi: true)
 }
 
 extension OperationsServiceV2: OperationsServing {

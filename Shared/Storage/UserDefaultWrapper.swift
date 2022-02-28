@@ -9,7 +9,7 @@ import Foundation
 
 extension UserDefault {
     enum ClearKeys: String, CaseIterable {
-        case token, currency
+        case token, newToken, currency
         case dateInterval
         case payInAvg, expandedHome
         case adjustedAverage

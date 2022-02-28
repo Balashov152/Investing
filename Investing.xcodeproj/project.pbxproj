@@ -188,6 +188,9 @@
 		EFDFCA8E2646F1430034B1C3 /* PayInPlanR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDFCA8D2646F1430034B1C3 /* PayInPlanR.swift */; };
 		EFDFCA932646F38D0034B1C3 /* PayInPlansView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDFCA902646F34C0034B1C3 /* PayInPlansView.swift */; };
 		EFDFCA962646F59D0034B1C3 /* PayInPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDFCA952646F59D0034B1C3 /* PayInPlan.swift */; };
+		EFEC155527CD1412004DDEB3 /* PorfolioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEC155427CD1412004DDEB3 /* PorfolioView.swift */; };
+		EFEC155727CD1DF9004DDEB3 /* UICurrency.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEC155627CD1DF9004DDEB3 /* UICurrency.swift */; };
+		EFEC155927CD3311004DDEB3 /* PorfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEC155827CD3311004DDEB3 /* PorfolioViewModel.swift */; };
 		EFEFDE4725BF3DB30013BB1B /* AuthorizationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */; };
 		EFEFDE5325BF43740013BB1B /* Introspect in Frameworks */ = {isa = PBXBuildFile; productRef = EFEFDE5225BF43740013BB1B /* Introspect */; };
 		EFF46B73259C6B6200EFD02A /* ComissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF46B6F259C6B6200EFD02A /* ComissionView.swift */; };
@@ -426,6 +429,9 @@
 		EFDFCA8D2646F1430034B1C3 /* PayInPlanR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInPlanR.swift; sourceTree = "<group>"; };
 		EFDFCA902646F34C0034B1C3 /* PayInPlansView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInPlansView.swift; sourceTree = "<group>"; };
 		EFDFCA952646F59D0034B1C3 /* PayInPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInPlan.swift; sourceTree = "<group>"; };
+		EFEC155427CD1412004DDEB3 /* PorfolioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorfolioView.swift; sourceTree = "<group>"; };
+		EFEC155627CD1DF9004DDEB3 /* UICurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICurrency.swift; sourceTree = "<group>"; };
+		EFEC155827CD3311004DDEB3 /* PorfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorfolioViewModel.swift; sourceTree = "<group>"; };
 		EFEFDE4625BF3DB30013BB1B /* AuthorizationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationView.swift; sourceTree = "<group>"; };
 		EFF46B6F259C6B6200EFD02A /* ComissionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComissionView.swift; sourceTree = "<group>"; };
 		EFF46B70259C6B6200EFD02A /* TickersView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickersView.swift; sourceTree = "<group>"; };
@@ -566,6 +572,8 @@
 			isa = PBXGroup;
 			children = (
 				EF21638627A81C4100D55D7B /* PorfolioPositionView.swift */,
+				EFEC155427CD1412004DDEB3 /* PorfolioView.swift */,
+				EFEC155827CD3311004DDEB3 /* PorfolioViewModel.swift */,
 			);
 			path = PorfolioView;
 			sourceTree = "<group>";
@@ -574,6 +582,7 @@
 			isa = PBXGroup;
 			children = (
 				EF21637F27A7EC0800D55D7B /* MoneyAmount+.swift */,
+				EFEC155627CD1DF9004DDEB3 /* UICurrency.swift */,
 			);
 			path = UIModels;
 			sourceTree = "<group>";
@@ -1601,6 +1610,7 @@
 				EF79B80525B1E064005C2EB8 /* LogoService.swift in Sources */,
 				EF15F25A25E1341E00F281F8 /* BlockedText.swift in Sources */,
 				EF1281E525B202D40018E5FC /* BackgroundButton.swift in Sources */,
+				EFEC155727CD1DF9004DDEB3 /* UICurrency.swift in Sources */,
 				EF4C0B5D27A2EF2A00C33A2A /* ShareService.swift in Sources */,
 				EF54168225C06288007EA38D /* Double+Ex.swift in Sources */,
 				EF66852825D708D20090FAA1 /* CurrencyPair+Ex.swift in Sources */,
@@ -1647,6 +1657,7 @@
 				EF21637327A7CEFD00D55D7B /* PortfolioPosition.swift in Sources */,
 				EF761AF12590FF6200320289 /* RealmManager.swift in Sources */,
 				EF4C0B6127A2F38700C33A2A /* InstrumentsManager.swift in Sources */,
+				EFEC155927CD3311004DDEB3 /* PorfolioViewModel.swift in Sources */,
 				EF84A96425C09CE70081F857 /* AnyPublisher+Ex.swift in Sources */,
 				EFA2AF2E2663E8C00090C3C9 /* TargetToPayInView.swift in Sources */,
 				EF5416CB25C06591007EA38D /* TickersViewModel.swift in Sources */,
@@ -1687,6 +1698,7 @@
 				EF95209C25C00F490006FD97 /* TotalDetailViewModel.swift in Sources */,
 				EF875E16263AE5A500026731 /* NewPayInPlanView.swift in Sources */,
 				EF951DFF25BB24610006FD97 /* PositionDetailView.swift in Sources */,
+				EFEC155527CD1412004DDEB3 /* PorfolioView.swift in Sources */,
 				EF4C38D025B8468200A3AB5D /* IndexedCollection.swift in Sources */,
 				EF6684E925D7066B0090FAA1 /* CancebleObject.swift in Sources */,
 				EF87383027C500AD00799E6A /* CombineLatestCollection.swift in Sources */,

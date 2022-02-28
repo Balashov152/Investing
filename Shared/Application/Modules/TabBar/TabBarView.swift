@@ -54,7 +54,7 @@ struct TabBarView: View {
 
     @ViewBuilder private var tabBarView: some View {
         TabView(selection: $selectedIndex) {
-//            profileView
+            profileView
 //            analyticsView
 //            targetsView
             operationsView
@@ -63,7 +63,7 @@ struct TabBarView: View {
     }
 
     @ViewBuilder private var profileView: some View {
-        viewModel.moduleFactory.investResults().tabItem {
+        viewModel.moduleFactory.porfolioView().tabItem {
             VStack {
                 Image(systemName: selectedIndex == 0 ? "dollarsign.circle.fill" : "dollarsign.circle")
 

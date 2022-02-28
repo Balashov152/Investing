@@ -16,7 +16,7 @@ protocol PortfolioServing {
 }
 
 struct PortfolioService {
-    let provider = ApiProvider<PortfolioAPI>()
+    let provider = ApiProvider<PortfolioAPI>(isNewApi: true)
 }
 
 extension PortfolioService: PortfolioServing {

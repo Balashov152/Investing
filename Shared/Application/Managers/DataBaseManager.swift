@@ -44,13 +44,16 @@ extension DataBaseManager: DataBaseManaging {
             }
             .switchToLatest()
             .tryMap { _ -> AnyPublisher<Void, Error> in
-                guard let account = realmStorage.selectedAccounts().first else {
-                    return Fail(error: DataBaseError.selectedAccountsNotFound)
-                        .eraseToAnyPublisher()
-                }
-
-                return self.portfolioManager
-                    .getPortfolio(for: account.id)
+                // Load portfolios for every account
+                realmStorage
+                    .selectedAccounts()
+                    .map { account in
+                        self.portfolioManager
+                            .getPortfolio(for: account.id)
+                            .eraseToAnyPublisher()
+                            .mapToVoid()
+                    }
+                    .combineLatest
                     .eraseToAnyPublisher()
                     .mapToVoid()
             }

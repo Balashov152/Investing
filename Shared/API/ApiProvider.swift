@@ -13,9 +13,13 @@ import Moya
 import UIKit
 
 class ApiProvider<Target>: MoyaProvider<Target> where Target: TargetType {
-    init() {
+    init(isNewApi: Bool = false) {
         var plugins: [PluginType] = []
-        plugins.append(BearerTokenPlugin())
+        if isNewApi {
+            plugins.append(NewBearerTokenPlugin())
+        } else {
+            plugins.append(BearerTokenPlugin())
+        }
 
         plugins.append(NetworkActivityPlugin(networkActivityClosure: { type, _ in
             DispatchQueue.main.async {
@@ -87,6 +91,15 @@ struct BearerTokenPlugin: PluginType {
     public func prepare(_ request: URLRequest, target _: TargetType) -> URLRequest {
         var request = request
         let authValue = AuthorizationType.bearer.value + " " + Storage.token
+        request.addValue(authValue, forHTTPHeaderField: "Authorization")
+        return request
+    }
+}
+
+struct NewBearerTokenPlugin: PluginType {
+    public func prepare(_ request: URLRequest, target _: TargetType) -> URLRequest {
+        var request = request
+        let authValue = AuthorizationType.bearer.value + " " + Storage.newToken
         request.addValue(authValue, forHTTPHeaderField: "Authorization")
         return request
     }

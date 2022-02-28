@@ -8,13 +8,25 @@
 import Foundation
 
 public struct Price: Codable, Equatable {
-    let nano: Int?
+    let nano: Int
     let currency: Currency
     let units: String
 
     var price: Double {
-        let price = units + "." + abs(nano ?? 0).string
-        return Double(price) ?? 0
+        let unit = Int(units) ?? 0
+        var nanoWithUnit = Double(nano)
+
+        if unit > 0 {
+            (0 ..< nano.string.count).forEach { _ in
+                nanoWithUnit /= 10
+            }
+        } else {
+            (0 ... nano.string.count).forEach { _ in
+                nanoWithUnit /= 10
+            }
+        }
+
+        return Double(unit) + nanoWithUnit
     }
 
     enum CodingKeys: String, CodingKey {
@@ -34,6 +46,17 @@ public struct Price: Codable, Equatable {
 public extension Price {
     enum Currency: String, Codable, Equatable {
         case usd, rub, eur, cad, ils, chf, gbp
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(String.self)
+
+            if rawValue.isEmpty {
+                self = .usd
+            } else {
+                self.init(rawValue: rawValue)!
+            }
+        }
     }
 }
 

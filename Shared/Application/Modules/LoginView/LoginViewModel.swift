@@ -28,7 +28,7 @@ class LoginViewModel: CancebleObject, ObservableObject {
     }
 
     func tryToLoadAccounts(token: String) {
-        Storage.token = token
+        Storage.newToken = token
 
         userAccountsCancellable = portfolioManager
             .userAccounts()
@@ -37,7 +37,7 @@ class LoginViewModel: CancebleObject, ObservableObject {
                     self.contentState = .failure(
                         error: .simpleError(string: error.localizedDescription)
                     )
-                    Storage.token = ""
+                    Storage.newToken = ""
                 }
             } receiveValue: { [unowned self] _ in
                 self.output?.didSuccessLogin()

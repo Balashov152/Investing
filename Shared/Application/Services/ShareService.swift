@@ -15,7 +15,7 @@ protocol ShareServing {
 }
 
 struct ShareService {
-    let provider = ApiProvider<ShareAPI>()
+    let provider = ApiProvider<ShareAPI>(isNewApi: true)
 }
 
 extension ShareService: ShareServing {

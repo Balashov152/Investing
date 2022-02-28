@@ -13,6 +13,17 @@ protocol LogoPosition {
     var ticker: String { get }
     var isin: String? { get }
     var currency: Currency { get }
+    var uiCurrency: UICurrency { get }
+}
+
+extension LogoPosition {
+    var currency: Currency {
+        Currency(rawValue: uiCurrency.rawValue.uppercased()) ?? .USD
+    }
+
+    var uiCurrency: UICurrency {
+        UICurrency(currency: currency) ?? .usd
+    }
 }
 
 enum InstrumentLogoService {

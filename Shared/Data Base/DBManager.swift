@@ -11,7 +11,7 @@ import Foundation
 import InvestModels
 
 struct DBManager {
-    static let version = 20
+    static let version = 22
 
     let env: Environment
     let realmManager: RealmManager

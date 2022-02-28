@@ -22,6 +22,9 @@ enum Storage {
     @UserDefault(key: .token, defaultValue: "")
     static var token: String
 
+    @UserDefault(key: .newToken, defaultValue: "")
+    static var newToken: String
+
     @UserDefault(key: .currentDBVersion, defaultValue: 0)
     static var currentDBVersion: Int
 }

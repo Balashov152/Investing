@@ -75,7 +75,7 @@ class OperationV2: Decodable {
         id = realmOperation.id
         date = realmOperation.date
         instrumentType = InstrumentTypeV2(rawValue: realmOperation.instrumentType ?? "")
-        operationType = OperationType(rawValue: realmOperation.instrumentType ?? "")
+        operationType = OperationType(rawValue: realmOperation.operationType ?? "")
         state = OperationState(rawValue: realmOperation.state) ?? .OPERATION_STATE_UNSPECIFIED
         quantity = realmOperation.quantity
         parentOperationId = realmOperation.parentOperationId

@@ -9,19 +9,32 @@ import Foundation
 import InvestModels
 import SwiftUI
 
-struct PorfolioPositionViewModel: LogoPosition {
+struct PorfolioPositionViewModel: Identifiable, LogoPosition {
+    var id: String { figi }
+
+    let figi: String
     let name: String
     let ticker: String
     var isin: String?
 
-    let currency: Currency
+    let uiCurrency: UICurrency
     let instrumentType: InstrumentType
 
     let result: MoneyAmount
     let inPortfolio: InPortfolio?
 
-    var average: MoneyAmount {
-        .zero
+    let average: MoneyAmount?
+
+    init(figi: String, name: String, ticker: String, isin: String? = nil, uiCurrency: UICurrency, instrumentType: InstrumentType, result: MoneyAmount, inPortfolio: PorfolioPositionViewModel.InPortfolio?, average: MoneyAmount?) {
+        self.figi = figi
+        self.name = name
+        self.ticker = ticker
+        self.isin = isin
+        self.uiCurrency = uiCurrency
+        self.instrumentType = instrumentType
+        self.result = result
+        self.inPortfolio = inPortfolio
+        self.average = average
     }
 }
 
@@ -51,7 +64,6 @@ struct PorfolioPositionView: View {
 
             inPorfolio
         }
-        .padding(.horizontal)
     }
 
     @ViewBuilder private var instrumentInfo: some View {
@@ -90,13 +102,15 @@ struct PorfolioPositionView: View {
 
 struct PorfolioPositionViewPreview: PreviewProvider {
     static let viewModel = PorfolioPositionViewModel(
+        figi: "FIGI",
         name: "Telsa",
         ticker: "TSLA",
         isin: nil,
-        currency: .new(currency: .usd) ?? .USD,
+        uiCurrency: .usd,
         instrumentType: .Stock,
         result: .init(currency: .usd, value: 7324.34),
-        inPortfolio: .init(quantity: 10, price: MoneyAmount(currency: .usd, value: 800))
+        inPortfolio: .init(quantity: 10, price: MoneyAmount(currency: .usd, value: 800)),
+        average: nil
     )
 
     static var previews: some View {

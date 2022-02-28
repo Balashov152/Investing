@@ -65,7 +65,7 @@ private extension TabBarViewModel {
     }
 
     func checkIfAuthorized() {
-        isAuthorized = Storage.isAuthorized
+        isAuthorized = !Storage.newToken.isEmpty
     }
 
     func updateOperations() {
@@ -73,7 +73,7 @@ private extension TabBarViewModel {
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 print(completion.error)
-                assert(completion.error == nil)
+//                assert(completion.error == nil)
             }) { [unowned self] _ in
                 self.loadingState = .content
             }

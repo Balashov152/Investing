@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 public class RealmPrice: EmbeddedObject {
-    @Persisted var nano: Int?
+    @Persisted var nano: Int = 0
     @Persisted var currency: String = ""
     @Persisted var units: String = ""
 }

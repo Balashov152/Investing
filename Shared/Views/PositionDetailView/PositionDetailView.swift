@@ -23,15 +23,12 @@ struct PositionDetailView: View {
 
             Section {
                 CurrencyRow(label: "Average".localized, money: viewModel.average)
-                MoneyRow(label: "Result of operations".localized, money: viewModel.total)
+
                 if viewModel.dividends.value > 0 {
                     MoneyRow(label: "Dividends", money: viewModel.dividends)
-                    MoneyRow(label: "Result of operations with dividends".localized, money: viewModel.total + viewModel.dividends)
                 }
-            }
 
-            Section {
-                blockedView
+                MoneyRow(label: "Result of operations".localized, money: viewModel.total)
             }
 
             Section {
@@ -40,27 +37,12 @@ struct PositionDetailView: View {
                         OperationRowView(operation: $0)
                     }
                 }, label: {
-                    Text("All operations".localized + viewModel.operations.count.string)
+                    Text("All operations".localized + " " + viewModel.operations.count.string)
                 })
             }
         }
         .onAppear(perform: viewModel.load)
         .listStyle(GroupedListStyle())
         .navigationTitle(viewModel.position.name.orEmpty)
-    }
-
-    var blockedView: some View {
-        HStack(spacing: 8.0) {
-            Text("Debt".localized)
-            Spacer(minLength: 40)
-            TextField("value".localized, text: $viewModel.blocked)
-                .keyboardType(.decimalPad)
-                .multilineTextAlignment(.trailing)
-                .modifier(DecimalNumberOnlyViewModifier(text: $viewModel.blocked))
-
-            if !viewModel.blocked.isEmpty {
-                Text(viewModel.currency.symbol).bold()
-            }
-        }
     }
 }

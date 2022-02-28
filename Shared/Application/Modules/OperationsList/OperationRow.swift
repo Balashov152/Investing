@@ -21,6 +21,7 @@ struct OperationRowModel: Identifiable {
     let operationType: String
     let state: String
     let ticker: String
+    let figi: String
     let name: String
 
     init(operation: OperationV2) {
@@ -46,6 +47,7 @@ struct OperationRowModel: Identifiable {
         operationType = operation.operationType?.rawValue ?? "operationType"
         state = operation.state.rawValue
         ticker = operation.share?.ticker ?? "ticker"
+        figi = operation.figi ?? "FIGI"
         name = operation.share?.name ?? operation.instrumentType?.rawValue ?? "NOT TYPE"
     }
 }
@@ -73,6 +75,7 @@ struct OperationRow: View {
                 Text(viewModel.operationType)
                 Text(viewModel.state)
                 Text(viewModel.ticker)
+                Text(viewModel.figi)
                 Text(viewModel.name)
             }
         }

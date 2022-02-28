@@ -28,23 +28,26 @@ class OperationsManager {
 
 extension OperationsManager: OperationsManaging {
     func updateOperations() -> AnyPublisher<Void, Error> {
-        guard let account = realmStorage.selectedAccounts().first else {
-            print("NON SELECTED ACCOUNTS")
-            return Fail(error: Errors.notSelectedAccounts).eraseToAnyPublisher()
-        }
+        // Load portfolios for every account
+        return realmStorage
+            .selectedAccounts()
+            .map { account in
+                operationsService.loadOperations(for: account)
+                    .receive(on: DispatchQueue.global())
+                    .tryMap { [weak self] operations -> AnyPublisher<Void, Error> in
+                        Future { promise in
+                            self?.realmStorage.saveOperations(operations: operations, for: account.id)
 
-        return operationsService.loadOperations(for: account)
-            .receive(on: DispatchQueue.global())
-            .tryMap { [weak self] operations -> AnyPublisher<Void, Error> in
-                Future { promise in
-                    self?.realmStorage.saveOperations(operations: operations, for: account.id)
-
-                    promise(.success(()))
-                }
-                .eraseToAnyPublisher()
+                            promise(.success(()))
+                        }
+                        .eraseToAnyPublisher()
+                    }
+                    .switchToLatest()
+                    .eraseToAnyPublisher()
             }
-            .switchToLatest()
+            .combineLatest
             .eraseToAnyPublisher()
+            .mapToVoid()
     }
 }
 

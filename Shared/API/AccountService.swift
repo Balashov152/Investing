@@ -22,7 +22,9 @@ struct AccountService {
 
     func getBrokerAccount() -> AnyPublisher<Account?, MoyaError> {
         getAccounts()
-            .map { $0.first(where: { $0.brokerAccountType == "Tinkoff" }) }
+            .map {
+                $0.first(where: { $0.brokerAccountType == "Tinkoff" })
+            }
             .eraseToAnyPublisher()
     }
 }

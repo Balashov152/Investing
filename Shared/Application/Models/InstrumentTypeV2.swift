@@ -9,4 +9,15 @@ import Foundation
 
 enum InstrumentTypeV2: String, Codable, Equatable {
     case share, currency, bond, etf
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+
+        if rawValue.isEmpty {
+            self = .share
+        } else {
+            self.init(rawValue: rawValue)!
+        }
+    }
 }

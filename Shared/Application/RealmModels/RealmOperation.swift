@@ -8,8 +8,8 @@
 import Foundation
 import RealmSwift
 
-public class RealmOperation: EmbeddedObject {
-    @Persisted var id: String = ""
+public class RealmOperation: Object {
+    @Persisted(primaryKey: true) var id: String = ""
     @Persisted var date: Date?
     @Persisted var instrumentType: String?
     @Persisted var operationType: String?

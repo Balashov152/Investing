@@ -20,6 +20,7 @@ protocol RealmStoraging {
 
     func saveShares(shares: [Share])
     func save(candles: [CandleV2])
+    func share(figi: String) -> Share?
 }
 
 class RealmStorage {
@@ -68,6 +69,8 @@ extension RealmStorage: RealmStoraging {
         let realmOperations = operations.map(RealmOperation.realmOperation(from:))
         realmOperations.forEach { $0.share = realmShare(for: $0.figi) }
 
+        manager.write(objects: realmOperations, policy: .modified)
+
         manager.writeBlock {
             account.operations.removeAll()
             account.operations.append(objectsIn: realmOperations)
@@ -94,6 +97,10 @@ extension RealmStorage: RealmStoraging {
         let realmCandles: [RealmCandle] = candles.map { .realmCandle(from: $0) }
 
         manager.write(objects: realmCandles, policy: .modified)
+    }
+
+    func share(figi: String) -> Share? {
+        share(for: figi)
     }
 }
 

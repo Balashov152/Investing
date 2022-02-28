@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import InvestModels
 
 struct PortfolioPosition: Codable, Equatable {
     let averagePositionPrice: Price?
@@ -15,6 +16,20 @@ struct PortfolioPosition: Codable, Equatable {
     let currentNkd: Price?
     let figi: String?
     let expectedYield: Price?
+
+    var inPortfolioPrice: MoneyAmount? {
+        guard let quantity = quantity,
+              let averagePositionPrice = averagePositionPrice,
+              let expectedYield = expectedYield
+        else {
+            return nil
+        }
+
+        return MoneyAmount(
+            currency: quantity.currency,
+            value: quantity.price * averagePositionPrice.price + expectedYield.price
+        )
+    }
 }
 
 extension PortfolioPosition {
