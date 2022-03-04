@@ -11,6 +11,7 @@ import SwiftUI
 
 struct PorfolioView: View {
     @ObservedObject private var viewModel: PorfolioViewModel
+    @State private var expanded: Set<PorfolioSectionViewModel> = []
 
     init(viewModel: PorfolioViewModel) {
         self.viewModel = viewModel
@@ -19,7 +20,7 @@ struct PorfolioView: View {
     var body: some View {
         NavigationView {
             List(viewModel.dataSource) { item in
-                Section {
+                RowDisclosureGroup(element: item, expanded: expanded, content: {
                     ForEach(item.operations) { operation in
                         PorfolioPositionView(viewModel: operation)
                             .contentShape(Rectangle())
@@ -27,9 +28,17 @@ struct PorfolioView: View {
                                 UIApplication.shared.open(operation.deeplinkURL)
                             }
                     }
-                } header: {
-                    Text(item.accountName)
-                        .padding(.horizontal, Constants.Paddings.m)
+                }) {
+                    VStack(alignment: .leading, spacing: Constants.Paddings.s) {
+                        Text(item.accountName)
+                            .bold()
+                            .font(.title2)
+
+                        ForEach(item.results, id: \.currency) { moneyAmount in
+                            MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
+                        }
+                    }
+                    .padding(.horizontal, Constants.Paddings.m)
                 }
             }
             .listStyle(PlainListStyle())

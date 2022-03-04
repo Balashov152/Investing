@@ -9,7 +9,7 @@ import Foundation
 import InvestModels
 import SwiftUI
 
-struct PorfolioPositionViewModel: Identifiable, LogoPosition {
+struct PorfolioPositionViewModel: Hashable, Identifiable, LogoPosition {
     var id: String { figi }
     var deeplinkURL: URL { URL(string: "https://www.tinkoff.ru/invest/stocks/\(ticker)")! }
 
@@ -40,7 +40,7 @@ struct PorfolioPositionViewModel: Identifiable, LogoPosition {
 }
 
 extension PorfolioPositionViewModel {
-    struct InPortfolio {
+    struct InPortfolio: Hashable {
         let quantity: Double
         let price: MoneyAmount
     }

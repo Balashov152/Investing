@@ -19,10 +19,11 @@ struct RowDisclosureGroup<Element: Hashable, Content: View, Label: View>: View {
     let content: () -> (Content)
     let label: () -> (Label)
 
-    internal init(element: Element, expanded: Set<Element> = [],
-                  expandedChanged: @escaping (Set<Element>) -> Void = { _ in },
-                  content: @escaping () -> (Content),
-                  label: @escaping () -> (Label))
+    init(element: Element,
+         expanded: Set<Element> = [],
+         expandedChanged: @escaping (Set<Element>) -> Void = { _ in },
+         content: @escaping () -> (Content),
+         label: @escaping () -> (Label))
     {
         self.element = element
         _expanded = .init(initialValue: expanded)
@@ -32,7 +33,7 @@ struct RowDisclosureGroup<Element: Hashable, Content: View, Label: View>: View {
     }
 
     func isExpanded(element: Element) -> Binding<Bool> {
-        .init { () -> Bool in
+        Binding<Bool> { () -> Bool in
             expanded.contains(element)
         } set: { _ in
             changeExpanded(element: element)

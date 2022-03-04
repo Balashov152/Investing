@@ -15,4 +15,11 @@ public extension MoneyAmount {
             value: value
         )
     }
+
+    init(uiCurrency: UICurrency, value: Double) {
+        self.init(
+            currency: InvestModels.Currency(rawValue: uiCurrency.rawValue.uppercased()) ?? .USD,
+            value: value
+        )
+    }
 }

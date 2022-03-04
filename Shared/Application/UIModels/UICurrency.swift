@@ -7,8 +7,8 @@
 
 import InvestModels
 
-enum UICurrency: String, Equatable, Comparable {
-    static func < (lhs: UICurrency, rhs: UICurrency) -> Bool {
+public enum UICurrency: String, Hashable, Equatable, Comparable {
+    public static func < (lhs: UICurrency, rhs: UICurrency) -> Bool {
         lhs.hashValue < rhs.hashValue
     }
 

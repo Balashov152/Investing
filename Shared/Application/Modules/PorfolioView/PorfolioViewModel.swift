@@ -12,10 +12,11 @@ import SwiftUI
 class PorfolioViewModel: CancebleObject, ObservableObject {
     @Published var dataSource: [PorfolioSectionViewModel] = []
     @Published var sortType: SortType = .inProfile
-    @Published var refreshSubject = PassthroughSubject<Void, Never>()
     @Published var isPresentAccounts: Bool = false
 
+    private let refreshSubject = CurrentValueSubject<Void, Never>(())
     private let realmStorage: RealmStoraging
+
     let moduleFactory: ModuleFactoring
 
     init(
@@ -79,8 +80,21 @@ extension PorfolioViewModel {
             }
         }
 
-        return PorfolioSectionViewModel(accountName: account.name,
-                                        operations: operationsVM)
+        let uiCurrencies = Set(operationsVM.map { $0.uiCurrency })
+
+        let results: [MoneyAmount] = uiCurrencies.map { currency in
+            let amount = operationsVM
+                .filter { $0.uiCurrency == currency }
+                .reduce(0) { $0 + $1.result.value }
+
+            return MoneyAmount(uiCurrency: currency, value: amount)
+        }
+
+        return PorfolioSectionViewModel(
+            accountName: account.name,
+            operations: operationsVM,
+            results: results
+        )
     }
 
     func map(account: BrokerAccount, figi: String) -> PorfolioPositionViewModel? {
@@ -134,11 +148,14 @@ extension PorfolioViewModel: AccountsListOutput {
     }
 }
 
-struct PorfolioSectionViewModel: Identifiable {
-    var id: String { accountName }
-
+struct PorfolioSectionViewModel: Hashable, Identifiable {
     let accountName: String
     let operations: [PorfolioPositionViewModel]
+    let results: [MoneyAmount]
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(accountName)
+    }
 }
 
 extension PorfolioViewModel {
