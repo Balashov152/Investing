@@ -55,7 +55,7 @@ private extension InstrumentDetailsViewModel {
 
     func map(account: BrokerAccount) -> InstrumentDetailsBlockViewModel? {
         let operations = account.operations.filter { $0.figi == figi }
-        
+
         guard !operations.isEmpty else {
             return nil
         }
