@@ -37,7 +37,6 @@ struct PorfolioView: View {
                             MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
                         }
                     }
-                    .padding(.horizontal, Constants.Paddings.m)
                 }
             }
             .listStyle(PlainListStyle())

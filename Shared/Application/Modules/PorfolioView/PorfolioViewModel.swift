@@ -69,7 +69,7 @@ extension PorfolioViewModel {
 
         soted(positions: &positions, sortType: sortType)
 
-        let uiCurrencies = Set(positions.map { $0.uiCurrency })
+        let uiCurrencies = Set(positions.map { $0.uiCurrency }).sorted()
 
         let results: [MoneyAmount] = uiCurrencies.map { currency in
             let amount = positions
@@ -94,24 +94,22 @@ extension PorfolioViewModel {
         let instrumentInProfile = account.portfolio?.positions.first(where: { $0.figi == figi })
         let allOperations = account.operations.filter { $0.figi == figi }
 
-        var resultAmount: Double = allOperations.reduce(0) { result, operation in
+        let resultAmount: Double = allOperations.reduce(0) { result, operation in
             result + (operation.payment?.price ?? 0)
         }
 
-        var average: MoneyAmount?
+        let average = average(for: instrumentInProfile,
+                              currency: instrument.currency,
+                              resultAmount: resultAmount)
+
         var inPortfolio: PorfolioPositionViewModel.InPortfolio?
 
-        if let quantity = instrumentInProfile?.quantity,
-           let positionPrice = instrumentInProfile?.inPortfolioPrice
+        if let average = average,
+           let quantity = instrumentInProfile?.quantity
         {
-            resultAmount += positionPrice.value
-            let averageAmount = (abs(resultAmount) + positionPrice.value) / quantity.price
-
-            average = MoneyAmount(currency: instrument.currency, value: averageAmount)
-
             inPortfolio = PorfolioPositionViewModel.InPortfolio(
                 quantity: quantity.price,
-                price: average!
+                price: average
             )
         }
 
@@ -147,7 +145,7 @@ extension PorfolioViewModel {
             positions = inPortfolio + notPortfolio
 
         case .profit:
-            let availableCurrency = Set(positions.map { $0.uiCurrency })
+            let availableCurrency = Set(positions.map { $0.uiCurrency }).sorted()
 
             positions = availableCurrency.sorted().reduce([]) { result, uiCurrency in
                 result + positions
@@ -155,6 +153,29 @@ extension PorfolioViewModel {
                     .sorted { $0.result.value > $1.result.value }
             }
         }
+    }
+
+    func average(
+        for instrumentInProfile: PortfolioPosition?,
+        currency: Price.Currency,
+        resultAmount: Double
+    ) -> MoneyAmount? {
+        guard let quantity = instrumentInProfile?.quantity,
+              let positionPrice = instrumentInProfile?.inPortfolioPrice
+        else {
+            return nil
+        }
+
+        let resultAmount = resultAmount + positionPrice.value
+        let averageAmount: Double = {
+            if resultAmount > 0 {
+                return resultAmount / quantity.price
+            } else {
+                return (abs(resultAmount) + positionPrice.value) / quantity.price
+            }
+        }()
+
+        return MoneyAmount(currency: currency, value: averageAmount)
     }
 }
 
