@@ -46,21 +46,23 @@ private extension InstrumentDetailsViewModel {
             .prepend(())
             .receive(queue: .global())
             .map { [unowned self] _ -> [InstrumentDetailsBlockViewModel] in
-                realmStorage.selectedAccounts().map { map(account: $0) }
+                realmStorage.selectedAccounts().compactMap { map(account: $0) }
             }
             .receive(on: DispatchQueue.main)
             .assign(to: \.dataSource, on: self)
             .store(in: &cancellables)
     }
 
-    func map(account: BrokerAccount) -> InstrumentDetailsBlockViewModel {
+    func map(account: BrokerAccount) -> InstrumentDetailsBlockViewModel? {
         let operations = account.operations.filter { $0.figi == figi }
-
-        let operationsVM = operations.map { OperationRowModel(operation: $0) }
+        
+        guard !operations.isEmpty else {
+            return nil
+        }
 
         return InstrumentDetailsBlockViewModel(
             accountName: account.name,
-            operations: operationsVM
+            operations: operations.map { OperationRowModel(operation: $0) }
         )
     }
 }
