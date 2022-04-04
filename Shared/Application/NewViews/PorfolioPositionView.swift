@@ -113,7 +113,7 @@ struct PorfolioPositionView: View {
             UIApplication.shared.open(viewModel.deeplinkURL)
         }) {
             HStack(spacing: .zero) {
-                Text("In Tinkoff Invest")
+                Text("Tinkoff Invest")
 
                 Image(systemName: "arrow.up.right.circle.fill")
             }
