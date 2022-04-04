@@ -23,9 +23,8 @@ struct PorfolioView: View {
                 RowDisclosureGroup(element: item, expanded: expanded, content: {
                     ForEach(item.operations) { operation in
                         PorfolioPositionView(viewModel: operation)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                UIApplication.shared.open(operation.deeplinkURL)
+                            .addNavigationLink {
+                                viewModel.moduleFactory.instrumentDetailsView(figi: operation.figi)
                             }
                     }
                 }) {

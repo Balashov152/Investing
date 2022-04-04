@@ -13,20 +13,26 @@ public struct Price: Codable, Equatable {
     let units: String
 
     var price: Double {
-        let unit = Int(units) ?? 0
-        var nanoWithUnit = Double(nano)
+        let unit = Double(units) ?? 0
+        var nanoInt = Int(nano)
 
-        if unit > 0 {
-            (0 ..< nano.string.count).forEach { _ in
-                nanoWithUnit /= 10
-            }
-        } else {
-            (0 ... nano.string.count).forEach { _ in
-                nanoWithUnit /= 10
-            }
+        if nanoInt == 0 {
+            return unit
         }
 
-        return Double(unit) + nanoWithUnit
+        assert(nanoInt < 0 && unit <= 0 || nanoInt > 0 && unit >= 0)
+
+        while nanoInt.string.last == "0" {
+            nanoInt /= 10
+        }
+
+        var nanoWithUnit = Double(nanoInt)
+
+        (0 ..< abs(nanoInt).string.count).forEach { _ in
+            nanoWithUnit /= 10
+        }
+
+        return unit + nanoWithUnit
     }
 
     enum CodingKeys: String, CodingKey {

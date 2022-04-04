@@ -136,6 +136,10 @@
 		EF875E16263AE5A500026731 /* NewPayInPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E15263AE5A500026731 /* NewPayInPlanView.swift */; };
 		EF875E21263AE5B000026731 /* NewPayInPlanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E20263AE5B000026731 /* NewPayInPlanViewModel.swift */; };
 		EF875E31263AEA8600026731 /* PayInService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF875E30263AEA8600026731 /* PayInService.swift */; };
+		EF8856F227FB4A7D00EB00C2 /* InstrumentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8856F127FB4A7D00EB00C2 /* InstrumentDetailsView.swift */; };
+		EF8856F527FB533600EB00C2 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8856F427FB533600EB00C2 /* LazyView.swift */; };
+		EF8856F727FB534700EB00C2 /* NavigationLink+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8856F627FB534700EB00C2 /* NavigationLink+.swift */; };
+		EF8856FB27FB557400EB00C2 /* Publisher+.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF8856FA27FB557400EB00C2 /* Publisher+.swift */; };
 		EF951DF325BB22EF0006FD97 /* PinnedInstrumentR.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */; };
 		EF951DFF25BB24610006FD97 /* PositionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF951DF925BB245E0006FD97 /* PositionDetailView.swift */; };
 		EF95202325BEFA920006FD97 /* TotalDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF95201D25BEFA8D0006FD97 /* TotalDetailView.swift */; };
@@ -381,6 +385,10 @@
 		EF875E15263AE5A500026731 /* NewPayInPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPayInPlanView.swift; sourceTree = "<group>"; };
 		EF875E20263AE5B000026731 /* NewPayInPlanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPayInPlanViewModel.swift; sourceTree = "<group>"; };
 		EF875E30263AEA8600026731 /* PayInService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInService.swift; sourceTree = "<group>"; };
+		EF8856F127FB4A7D00EB00C2 /* InstrumentDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentDetailsView.swift; sourceTree = "<group>"; };
+		EF8856F427FB533600EB00C2 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
+		EF8856F627FB534700EB00C2 /* NavigationLink+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NavigationLink+.swift"; sourceTree = "<group>"; };
+		EF8856FA27FB557400EB00C2 /* Publisher+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+.swift"; sourceTree = "<group>"; };
 		EF951DF225BB22EF0006FD97 /* PinnedInstrumentR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinnedInstrumentR.swift; sourceTree = "<group>"; };
 		EF951DF925BB245E0006FD97 /* PositionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionDetailView.swift; sourceTree = "<group>"; };
 		EF95201D25BEFA8D0006FD97 /* TotalDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalDetailView.swift; sourceTree = "<group>"; };
@@ -571,7 +579,6 @@
 		EF21637D27A7E4E000D55D7B /* PorfolioView */ = {
 			isa = PBXGroup;
 			children = (
-				EF21638627A81C4100D55D7B /* PorfolioPositionView.swift */,
 				EFEC155427CD1412004DDEB3 /* PorfolioView.swift */,
 				EFEC155827CD3311004DDEB3 /* PorfolioViewModel.swift */,
 			);
@@ -591,7 +598,6 @@
 			isa = PBXGroup;
 			children = (
 				EF21638227A80A1800D55D7B /* OperationsListView.swift */,
-				EF21638427A8137400D55D7B /* OperationRow.swift */,
 			);
 			path = OperationsList;
 			sourceTree = "<group>";
@@ -943,6 +949,8 @@
 		EF76A0FE257FB4AF00991AE3 /* Application */ = {
 			isa = PBXGroup;
 			children = (
+				EF8856F927FB54E800EB00C2 /* NewViews */,
+				EF8856F327FB532A00EB00C2 /* UIHelpers */,
 				EF76A092257FA7FE00991AE3 /* InvestingApp.swift */,
 				EFF8F4D92796BF5D00B13B80 /* Factories */,
 				EFF8F4D42796BE8000B13B80 /* Modules */,
@@ -1096,6 +1104,32 @@
 				EF875E30263AEA8600026731 /* PayInService.swift */,
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		EF8856F027FB4A6700EB00C2 /* InstrumentDetails */ = {
+			isa = PBXGroup;
+			children = (
+				EF8856F127FB4A7D00EB00C2 /* InstrumentDetailsView.swift */,
+			);
+			path = InstrumentDetails;
+			sourceTree = "<group>";
+		};
+		EF8856F327FB532A00EB00C2 /* UIHelpers */ = {
+			isa = PBXGroup;
+			children = (
+				EF8856F427FB533600EB00C2 /* LazyView.swift */,
+				EF8856F627FB534700EB00C2 /* NavigationLink+.swift */,
+			);
+			path = UIHelpers;
+			sourceTree = "<group>";
+		};
+		EF8856F927FB54E800EB00C2 /* NewViews */ = {
+			isa = PBXGroup;
+			children = (
+				EF21638427A8137400D55D7B /* OperationRow.swift */,
+				EF21638627A81C4100D55D7B /* PorfolioPositionView.swift */,
+			);
+			path = NewViews;
 			sourceTree = "<group>";
 		};
 		EF951DF825BB244A0006FD97 /* PositionDetailView */ = {
@@ -1291,6 +1325,7 @@
 				EF394A1C26287E1900BF0492 /* Constants.swift */,
 				EF6684F325D706CB0090FAA1 /* DateInterval.swift */,
 				EF4C0B3B27A0395C00C33A2A /* ViewLifeCycleOperator.swift */,
+				EF8856FA27FB557400EB00C2 /* Publisher+.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1307,6 +1342,7 @@
 		EFF8F4D42796BE8000B13B80 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				EF8856F027FB4A6700EB00C2 /* InstrumentDetails */,
 				EF21638127A809FF00D55D7B /* OperationsList */,
 				EF21637D27A7E4E000D55D7B /* PorfolioView */,
 				EF21636C27A7CA9600D55D7B /* InvestResults */,
@@ -1593,10 +1629,12 @@
 				EF4C0B4C27A11CFA00C33A2A /* OperationV2.swift in Sources */,
 				EF9581BD25909F2A00D559E7 /* StringConvertible.swift in Sources */,
 				EF21637527A7D3D300D55D7B /* RealmPortfolio.swift in Sources */,
+				EF8856F527FB533600EB00C2 /* LazyView.swift in Sources */,
 				EF9581B425909E5500D559E7 /* EnvironmentCancebleObject.swift in Sources */,
 				EFF848682670020B000D0DAA /* ShadowView.swift in Sources */,
 				EFAC37A925EA46570024DEBD /* InstrumentType+Ex.swift in Sources */,
 				EF76A0BB257FA80200991AE3 /* InvestingApp.swift in Sources */,
+				EF8856FB27FB557400EB00C2 /* Publisher+.swift in Sources */,
 				EF4C0B3A27A037A800C33A2A /* TabBarViewModel.swift in Sources */,
 				EF95208925C00ED00006FD97 /* PositionDetailViewModel.swift in Sources */,
 				EF4C0B3F27A03B3F00C33A2A /* LoginView.swift in Sources */,
@@ -1697,12 +1735,14 @@
 				EF394A1D26287E1900BF0492 /* Constants.swift in Sources */,
 				EF95209C25C00F490006FD97 /* TotalDetailViewModel.swift in Sources */,
 				EF875E16263AE5A500026731 /* NewPayInPlanView.swift in Sources */,
+				EF8856F227FB4A7D00EB00C2 /* InstrumentDetailsView.swift in Sources */,
 				EF951DFF25BB24610006FD97 /* PositionDetailView.swift in Sources */,
 				EFEC155527CD1412004DDEB3 /* PorfolioView.swift in Sources */,
 				EF4C38D025B8468200A3AB5D /* IndexedCollection.swift in Sources */,
 				EF6684E925D7066B0090FAA1 /* CancebleObject.swift in Sources */,
 				EF87383027C500AD00799E6A /* CombineLatestCollection.swift in Sources */,
 				EF21637A27A7DC3700D55D7B /* DataBaseManager.swift in Sources */,
+				EF8856F727FB534700EB00C2 /* NavigationLink+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

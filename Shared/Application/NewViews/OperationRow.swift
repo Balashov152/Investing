@@ -9,7 +9,7 @@ import Foundation
 import InvestModels
 import SwiftUI
 
-struct OperationRowModel: Identifiable {
+struct OperationRowModel: Identifiable, Hashable {
     let id: String
     let date: Date
     let parentOperationId: String?

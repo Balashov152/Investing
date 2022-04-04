@@ -19,6 +19,8 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
 
     let moduleFactory: ModuleFactoring
 
+    private var updateViewCancellable: AnyCancellable?
+
     init(
         realmStorage: RealmStoraging,
         moduleFactory: ModuleFactoring
@@ -34,56 +36,43 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
 
 extension PorfolioViewModel: ViewLifeCycleOperator {
     func onAppear() {
-        Publishers.CombineLatest($sortType, refreshSubject)
-            .receive(on: DispatchQueue.global())
-            .map { [unowned self] sortType, _ -> [PorfolioSectionViewModel] in
-                realmStorage.selectedAccounts().map {
-                    map(account: $0, sortType: sortType)
-                }
-            }
-            .receive(on: DispatchQueue.main)
-            .assign(to: \.dataSource, on: self)
-            .store(in: &cancellables)
+        setupUpdateContent()
     }
 }
 
 extension PorfolioViewModel {
+    func setupUpdateContent() {
+        guard updateViewCancellable == nil else {
+            return
+        }
+
+        updateViewCancellable = Publishers.CombineLatest($sortType, refreshSubject)
+            .receive(on: DispatchQueue.global())
+            .map { [unowned self] sortType, _ -> [PorfolioSectionViewModel] in
+                let accounts = realmStorage.selectedAccounts()
+
+                return accounts.map {
+                    map(account: $0, sortType: sortType)
+                }
+                .sorted(by: { $0.id > $1.id })
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: \.dataSource, on: self)
+    }
+
     func map(account: BrokerAccount, sortType: SortType) -> PorfolioSectionViewModel {
         let uniqueInstrument = Set(account.operations.compactMap { $0.figi })
 
-        var operationsVM = uniqueInstrument.compactMap { figi -> PorfolioPositionViewModel? in
+        var positions = uniqueInstrument.compactMap { figi -> PorfolioPositionViewModel? in
             self.map(account: account, figi: figi)
         }
 
-        switch sortType {
-        case .name:
-            operationsVM = operationsVM.sorted { $0.name < $1.name }
-        case .inProfile:
+        soted(positions: &positions, sortType: sortType)
 
-            let inPortfolio = operationsVM
-                .filter { $0.inPortfolio != nil }
-                .sorted { $0.name < $1.name }
-
-            let notPortfolio = operationsVM
-                .filter { $0.inPortfolio == nil }
-                .sorted { $0.name < $1.name }
-
-            operationsVM = inPortfolio + notPortfolio
-
-        case .profit:
-            let availableCurrency = Set(operationsVM.map { $0.uiCurrency })
-
-            operationsVM = availableCurrency.sorted().reduce([]) { result, uiCurrency in
-                result + operationsVM
-                    .filter { $0.uiCurrency == uiCurrency }
-                    .sorted { $0.result.value > $1.result.value }
-            }
-        }
-
-        let uiCurrencies = Set(operationsVM.map { $0.uiCurrency })
+        let uiCurrencies = Set(positions.map { $0.uiCurrency })
 
         let results: [MoneyAmount] = uiCurrencies.map { currency in
-            let amount = operationsVM
+            let amount = positions
                 .filter { $0.uiCurrency == currency }
                 .reduce(0) { $0 + $1.result.value }
 
@@ -92,7 +81,7 @@ extension PorfolioViewModel {
 
         return PorfolioSectionViewModel(
             accountName: account.name,
-            operations: operationsVM,
+            operations: positions,
             results: results
         )
     }
@@ -140,11 +129,39 @@ extension PorfolioViewModel {
             average: average
         )
     }
+
+    func soted(positions: inout [PorfolioPositionViewModel], sortType: SortType) {
+        switch sortType {
+        case .name:
+            positions.sort { $0.name < $1.name }
+        case .inProfile:
+
+            let inPortfolio = positions
+                .filter { $0.inPortfolio != nil }
+                .sorted { $0.name < $1.name }
+
+            let notPortfolio = positions
+                .filter { $0.inPortfolio == nil }
+                .sorted { $0.name < $1.name }
+
+            positions = inPortfolio + notPortfolio
+
+        case .profit:
+            let availableCurrency = Set(positions.map { $0.uiCurrency })
+
+            positions = availableCurrency.sorted().reduce([]) { result, uiCurrency in
+                result + positions
+                    .filter { $0.uiCurrency == uiCurrency }
+                    .sorted { $0.result.value > $1.result.value }
+            }
+        }
+    }
 }
 
 extension PorfolioViewModel: AccountsListOutput {
     func accountsDidSelectAccounts() {
         isPresentAccounts = false
+        refresh()
     }
 }
 

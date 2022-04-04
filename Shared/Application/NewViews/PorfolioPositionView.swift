@@ -60,11 +60,18 @@ struct PorfolioPositionView: View {
 
                 Spacer()
 
-                MoneyText(money: viewModel.result)
+                VStack(alignment: .trailing) {
+                    MoneyText(money: viewModel.result)
+
+                    Spacer()
+
+                    inTinkoffApp
+                }
             }
 
             inPorfolio
         }
+        .padding(.trailing, Constants.Paddings.m)
     }
 
     @ViewBuilder private var instrumentInfo: some View {
@@ -79,6 +86,7 @@ struct PorfolioPositionView: View {
             VStack(alignment: .leading, spacing: .zero) {
                 Text(viewModel.name)
                     .bold()
+                    .lineLimit(1)
 
                 Text("$" + viewModel.ticker)
                     .font(.caption)
@@ -98,6 +106,21 @@ struct PorfolioPositionView: View {
             .font(.system(size: 12, weight: .bold))
             .foregroundColor(Color.gray34)
         }
+    }
+
+    @ViewBuilder private var inTinkoffApp: some View {
+        Button(action: {
+            UIApplication.shared.open(viewModel.deeplinkURL)
+        }) {
+            HStack(spacing: .zero) {
+                Text("In Tinkoff Invest")
+
+                Image(systemName: "arrow.up.right.circle.fill")
+            }
+            .font(.caption)
+            .foregroundColor(.gray34)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 

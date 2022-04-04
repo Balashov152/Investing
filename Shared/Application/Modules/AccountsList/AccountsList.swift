@@ -15,35 +15,50 @@ class AccountsListViewModel: CancebleObject, ObservableObject {
     @Published var accounts: [BrokerAccount] = []
     @Published var selectionAccounts: [BrokerAccount] = []
 
+    @Published var state: ContentState = .loading
+
     private weak var output: AccountsListOutput?
     private let portfolioManager: PortfolioManaging
     private let realmStorage: RealmStoraging
+    private let dataBaseManager: DataBaseManaging
 
     init(
         output: AccountsListOutput,
         portfolioManager: PortfolioManaging,
-        realmStorage: RealmStoraging
+        realmStorage: RealmStoraging,
+        dataBaseManager: DataBaseManaging
     ) {
         self.output = output
         self.portfolioManager = portfolioManager
         self.realmStorage = realmStorage
+        self.dataBaseManager = dataBaseManager
     }
 
     func savedSelectedAccounts() {
         realmStorage.saveSelectedAccounts(accounts: selectionAccounts)
-        output?.accountsDidSelectAccounts()
+
+        state = .loading
+
+        dataBaseManager.updateDataBase()
+            .receiveValue { [unowned self] in
+                output?.accountsDidSelectAccounts()
+            }
+            .store(in: &cancellables)
     }
 }
 
 extension AccountsListViewModel: ViewLifeCycleOperator {
     func onAppear() {
+        state = .loading
+
         portfolioManager.userAccounts()
             .sink(receiveCompletion: { completion in
                 assert(completion.error == nil)
             }, receiveValue: { [unowned self] accounts in
                 self.accounts = accounts
-
                 self.selectionAccounts = self.realmStorage.selectedAccounts()
+
+                self.state = .content
             })
             .store(in: &cancellables)
     }
@@ -58,25 +73,48 @@ struct AccountsListView: View {
 
     var body: some View {
         NavigationView {
-            ZStack {
-                ScrollView {
-                    ForEach(viewModel.accounts, id: \.id) { account in
-                        accountView(account: account)
-                    }
-                }
-                .navigationBarTitleDisplayMode(.inline)
+            switch viewModel.state {
+            case .loading:
+                loadingView
 
-                VStack {
-                    Spacer()
+            case .content:
+                content
 
-                    ActionButton(title: "Сохранить") {
-                        viewModel.savedSelectedAccounts()
-                    }
-                    .padding()
-                }
+            case let .failure(error):
+                Text(error.errorDescription ?? "")
+                    .foregroundColor(.red)
             }
         }
         .addLifeCycle(operator: viewModel)
+    }
+
+    @ViewBuilder private var loadingView: some View {
+        VStack(spacing: 8) {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle())
+
+            Text("Loading...".localized)
+        }
+    }
+
+    private var content: some View {
+        ZStack {
+            ScrollView {
+                ForEach(viewModel.accounts, id: \.id) { account in
+                    accountView(account: account)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+
+            VStack {
+                Spacer()
+
+                ActionButton(title: "Сохранить") {
+                    viewModel.savedSelectedAccounts()
+                }
+                .padding()
+            }
+        }
     }
 
     private func accountView(account: BrokerAccount) -> some View {

@@ -29,8 +29,7 @@ class OperationsManager {
 extension OperationsManager: OperationsManaging {
     func updateOperations() -> AnyPublisher<Void, Error> {
         // Load portfolios for every account
-        return realmStorage
-            .selectedAccounts()
+        return realmStorage.selectedAccounts()
             .map { account in
                 operationsService.loadOperations(for: account)
                     .receive(on: DispatchQueue.global())

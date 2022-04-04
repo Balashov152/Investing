@@ -23,3 +23,27 @@ extension ViewLifeCycleOperator {
     func onAppear() {}
     func onDisappear() {}
 }
+
+public extension EnvironmentValues {
+    var isOnAppearDidCall: Bool {
+        get {
+            return self[OnAppearDidCall.self]
+        }
+        set {
+            self[OnAppearDidCall.self] = newValue
+        }
+    }
+}
+
+struct OnAppearDidCall: EnvironmentKey {
+    static let defaultValue: Bool = false
+}
+
+public extension View {
+    /**
+     When enabled, button will be disabled but appearance won't change
+     */
+    @inlinable func onAppearCall(_ called: Bool = true) -> some View {
+        environment(\.isOnAppearDidCall, called)
+    }
+}

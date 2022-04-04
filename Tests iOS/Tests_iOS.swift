@@ -6,6 +6,7 @@
 //
 
 import XCTest
+//import Investing
 
 class Tests_iOS: XCTestCase {
 
