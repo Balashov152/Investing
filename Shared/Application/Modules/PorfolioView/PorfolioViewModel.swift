@@ -94,13 +94,15 @@ extension PorfolioViewModel {
         let instrumentInProfile = account.portfolio?.positions.first(where: { $0.figi == figi })
         let allOperations = account.operations.filter { $0.figi == figi }
 
-        let resultAmount: Double = allOperations.reduce(0) { result, operation in
+        var resultAmount: Double = allOperations.reduce(0) { result, operation in
             result + (operation.payment?.price ?? 0)
         }
 
-        let average = average(for: instrumentInProfile,
-                              currency: instrument.currency,
-                              resultAmount: resultAmount)
+        let average = average(
+            for: instrumentInProfile,
+            currency: instrument.currency,
+            resultAmount: &resultAmount
+        )
 
         var inPortfolio: PorfolioPositionViewModel.InPortfolio?
 
@@ -158,7 +160,7 @@ extension PorfolioViewModel {
     func average(
         for instrumentInProfile: PortfolioPosition?,
         currency: Price.Currency,
-        resultAmount: Double
+        resultAmount: inout Double
     ) -> MoneyAmount? {
         guard let quantity = instrumentInProfile?.quantity,
               let positionPrice = instrumentInProfile?.inPortfolioPrice
@@ -166,7 +168,8 @@ extension PorfolioViewModel {
             return nil
         }
 
-        let resultAmount = resultAmount + positionPrice.value
+        resultAmount += positionPrice.value
+
         let averageAmount: Double = {
             if resultAmount > 0 {
                 return resultAmount / quantity.price
