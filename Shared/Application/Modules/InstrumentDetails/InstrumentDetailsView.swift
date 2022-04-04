@@ -92,6 +92,7 @@ struct InstrumentDetailsView: View {
         .refreshable {
             viewModel.refresh.send()
         }
+        .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(viewModel.share?.name ?? "Детали по инструменту")
         .addLifeCycle(operator: viewModel)
     }
