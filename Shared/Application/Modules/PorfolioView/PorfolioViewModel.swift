@@ -47,16 +47,16 @@ extension PorfolioViewModel {
         }
 
         updateViewCancellable = Publishers.CombineLatest($sortType, refreshSubject)
-            .receive(on: DispatchQueue.global())
+            .receive(queue: .global())
             .map { [unowned self] sortType, _ -> [PorfolioSectionViewModel] in
                 let accounts = realmStorage.selectedAccounts()
 
                 return accounts.map {
                     map(account: $0, sortType: sortType)
                 }
-                .sorted(by: { $0.id > $1.id })
+                .sorted(by: { $0.accountName < $1.accountName })
             }
-            .receive(on: DispatchQueue.main)
+            .receive(queue: DispatchQueue.main)
             .assign(to: \.dataSource, on: self)
     }
 
