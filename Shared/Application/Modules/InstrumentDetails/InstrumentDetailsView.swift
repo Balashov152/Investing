@@ -16,19 +16,22 @@ struct InstrumentDetailsBlockViewModel: Identifiable, Hashable {
 }
 
 final class InstrumentDetailsViewModel: CancebleObject, ObservableObject {
-    @Published var dataSource: [InstrumentDetailsBlockViewModel] = []
+    @Published var operations: [OperationRowModel] = []
     @Published var share: Share?
 
     private let realmStorage: RealmStoraging
+    private let accountId: String
     private let figi: String
 
     let refresh = PassthroughSubject<Void, Never>()
 
     init(
         realmStorage: RealmStoraging,
+        accountId: String,
         figi: String
     ) {
         self.realmStorage = realmStorage
+        self.accountId = accountId
         self.figi = figi
     }
 }
@@ -45,25 +48,21 @@ private extension InstrumentDetailsViewModel {
         refresh
             .prepend(())
             .receive(queue: .global())
-            .map { [unowned self] _ -> [InstrumentDetailsBlockViewModel] in
-                realmStorage.selectedAccounts().compactMap { map(account: $0) }
+            .map { [unowned self] _ -> [OperationRowModel] in
+                realmStorage.selectedAccounts()
+                    .filter { $0.id == accountId }
+                    .first
+                    .map { map(account: $0) } ?? []
             }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.dataSource, on: self)
+            .assign(to: \.operations, on: self)
             .store(in: &cancellables)
     }
 
-    func map(account: BrokerAccount) -> InstrumentDetailsBlockViewModel? {
-        let operations = account.operations.filter { $0.figi == figi }
-
-        guard !operations.isEmpty else {
-            return nil
-        }
-
-        return InstrumentDetailsBlockViewModel(
-            accountName: account.name,
-            operations: operations.map { OperationRowModel(operation: $0) }
-        )
+    func map(account: BrokerAccount) -> [OperationRowModel] {
+        account.operations
+            .filter { $0.figi == figi }
+            .map { OperationRowModel(operation: $0) }
     }
 }
 
@@ -76,19 +75,8 @@ struct InstrumentDetailsView: View {
     }
 
     var body: some View {
-        List(viewModel.dataSource) { item in
-            RowDisclosureGroup(element: item, expanded: expanded, content: {
-                ForEach(item.operations) { operation in
-                    OperationRow(viewModel: operation)
-                }
-            }) {
-                VStack(alignment: .leading, spacing: Constants.Paddings.s) {
-                    Text(item.accountName)
-                        .bold()
-                        .font(.title2)
-                }
-                .padding(.horizontal, Constants.Paddings.m)
-            }
+        List(viewModel.operations) { operation in
+            OperationRow(viewModel: operation)
         }
         .listStyle(PlainListStyle())
         .refreshable {

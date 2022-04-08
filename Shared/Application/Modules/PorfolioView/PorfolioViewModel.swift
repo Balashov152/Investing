@@ -10,6 +10,7 @@ import InvestModels
 import SwiftUI
 
 class PorfolioViewModel: CancebleObject, ObservableObject {
+    @Published var totals: [MoneyAmount] = []
     @Published var dataSource: [PorfolioSectionViewModel] = []
     @Published var sortType: SortType = .inProfile
     @Published var isPresentAccounts: Bool = false
@@ -54,10 +55,30 @@ extension PorfolioViewModel {
                 return accounts.map {
                     map(account: $0, sortType: sortType)
                 }
-                .sorted(by: { $0.accountName < $1.accountName })
+                .sorted(by: { $0.account.name < $1.account.name })
             }
             .receive(queue: DispatchQueue.main)
             .assign(to: \.dataSource, on: self)
+
+        $dataSource
+            .receive(queue: .global())
+            .map { models in
+                let results = models.reduce([]) { $0 + $1.results }
+
+                let uniqCurrencies = results.map { $0.currency }.unique.sorted()
+
+                let totals = uniqCurrencies.map { currency -> MoneyAmount in
+                    MoneyAmount(
+                        currency: currency,
+                        value: results.filter { $0.currency == currency }.sum
+                    )
+                }
+
+                return totals
+            }
+            .receive(queue: DispatchQueue.main)
+            .assign(to: \.totals, on: self)
+            .store(in: &cancellables)
     }
 
     func map(account: BrokerAccount, sortType: SortType) -> PorfolioSectionViewModel {
@@ -80,7 +101,7 @@ extension PorfolioViewModel {
         }
 
         return PorfolioSectionViewModel(
-            accountName: account.name,
+            account: account,
             operations: positions,
             results: results
         )
@@ -190,12 +211,12 @@ extension PorfolioViewModel: AccountsListOutput {
 }
 
 struct PorfolioSectionViewModel: Hashable, Identifiable {
-    let accountName: String
+    let account: BrokerAccount
     let operations: [PorfolioPositionViewModel]
     let results: [MoneyAmount]
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(accountName)
+        hasher.combine(account.id)
     }
 }
 

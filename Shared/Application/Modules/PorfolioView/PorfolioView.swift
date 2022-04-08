@@ -19,22 +19,33 @@ struct PorfolioView: View {
 
     var body: some View {
         NavigationView {
-            List(viewModel.dataSource) { item in
-                RowDisclosureGroup(element: item, expanded: expanded, content: {
-                    ForEach(item.operations) { operation in
-                        PorfolioPositionView(viewModel: operation)
-                            .addNavigationLink {
-                                viewModel.moduleFactory.instrumentDetailsView(figi: operation.figi)
-                            }
+            List {
+                VStack(alignment: .leading, spacing: Constants.Paddings.s) {
+                    ForEach(viewModel.totals, id: \.currency) { moneyAmount in
+                        MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
                     }
-                }) {
-                    VStack(alignment: .leading, spacing: Constants.Paddings.s) {
-                        Text(item.accountName)
-                            .bold()
-                            .font(.title2)
+                }
 
-                        ForEach(item.results, id: \.currency) { moneyAmount in
-                            MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
+                ForEach(viewModel.dataSource) { item in
+                    RowDisclosureGroup(element: item, expanded: expanded, content: {
+                        ForEach(item.operations) { operation in
+                            PorfolioPositionView(viewModel: operation)
+                                .addNavigationLink {
+                                    viewModel.moduleFactory.instrumentDetailsView(
+                                        accountId: item.account.id,
+                                        figi: operation.figi
+                                    )
+                                }
+                        }
+                    }) {
+                        VStack(alignment: .leading, spacing: Constants.Paddings.s) {
+                            Text(item.account.name)
+                                .bold()
+                                .font(.title2)
+
+                            ForEach(item.results, id: \.currency) { moneyAmount in
+                                MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
+                            }
                         }
                     }
                 }

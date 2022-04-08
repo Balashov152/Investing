@@ -17,7 +17,7 @@ protocol ModuleFactoring {
     func investResults() -> InvestResultsView
     func operationsList() -> OperationsListView
     func porfolioView() -> PorfolioView
-    func instrumentDetailsView(figi: String) -> InstrumentDetailsView
+    func instrumentDetailsView(accountId: String, figi: String) -> InstrumentDetailsView
 }
 
 struct ModuleFactory {
@@ -83,10 +83,11 @@ extension ModuleFactory: ModuleFactoring {
         )
     }
 
-    func instrumentDetailsView(figi: String) -> InstrumentDetailsView {
+    func instrumentDetailsView(accountId: String, figi: String) -> InstrumentDetailsView {
         InstrumentDetailsView(
             viewModel: InstrumentDetailsViewModel(
                 realmStorage: dependencyFactory.realmStorage,
+                accountId: accountId,
                 figi: figi
             )
         )
