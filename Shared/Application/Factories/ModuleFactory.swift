@@ -78,6 +78,7 @@ extension ModuleFactory: ModuleFactoring {
         PorfolioView(
             viewModel: PorfolioViewModel(
                 realmStorage: dependencyFactory.realmStorage,
+                calculatorManager: dependencyFactory.calculatorManager,
                 moduleFactory: self
             )
         )

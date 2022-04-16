@@ -10,6 +10,8 @@ import Foundation
 import Moya
 
 protocol ShareServing {
+    func loadBonds() -> AnyPublisher<[Share], Error>
+    func loadEtfs() -> AnyPublisher<[Share], Error>
     func loadShares() -> AnyPublisher<[Share], Error>
     func loadCandles(figi: String, dateInterval: DateInterval, interval: CandleV2.Interval) -> AnyPublisher<[CandleV2], Error>
 }
@@ -19,6 +21,20 @@ struct ShareService {
 }
 
 extension ShareService: ShareServing {
+    func loadBonds() -> AnyPublisher<[Share], Error> {
+        provider.request(.loadBonds(status: .INSTRUMENT_STATUS_UNSPECIFIED))
+            .map([Share].self, at: .instruments, using: .standart)
+            .mapError { $0 as Error }
+            .eraseToAnyPublisher()
+    }
+
+    func loadEtfs() -> AnyPublisher<[Share], Error> {
+        provider.request(.loadEtfs(status: .INSTRUMENT_STATUS_UNSPECIFIED))
+            .map([Share].self, at: .instruments, using: .standart)
+            .mapError { $0 as Error }
+            .eraseToAnyPublisher()
+    }
+
     func loadShares() -> AnyPublisher<[Share], Error> {
         provider.request(.loadShares(status: .INSTRUMENT_STATUS_UNSPECIFIED))
             .map([Share].self, at: .instruments, using: .standart)
@@ -40,7 +56,10 @@ extension ShareService: ShareServing {
 }
 
 enum ShareAPI: TargetType {
+    case loadBonds(status: ShareStatus)
+    case loadEtfs(status: ShareStatus)
     case loadShares(status: ShareStatus)
+
     case loadCandles(figi: String, dateInterval: DateInterval, interval: CandleV2.Interval)
 
     var baseURL: URL {
@@ -51,6 +70,10 @@ enum ShareAPI: TargetType {
 
     var path: String {
         switch self {
+        case .loadBonds:
+            return "tinkoff.public.invest.api.contract.v1.InstrumentsService/Bonds"
+        case .loadEtfs:
+            return "tinkoff.public.invest.api.contract.v1.InstrumentsService/Etfs"
         case .loadShares:
             return "tinkoff.public.invest.api.contract.v1.InstrumentsService/Shares"
         case .loadCandles:
@@ -60,7 +83,7 @@ enum ShareAPI: TargetType {
 
     var task: Task {
         switch self {
-        case let .loadShares(status):
+        case let .loadShares(status), let .loadEtfs(status), let .loadBonds(status):
             return .requestCompositeParameters(bodyParameters: ["instrumentStatus": status.rawValue],
                                                bodyEncoding: JSONEncoding.default,
                                                urlParameters: [:])

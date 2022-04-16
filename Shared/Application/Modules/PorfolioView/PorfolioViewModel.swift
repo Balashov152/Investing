@@ -17,6 +17,7 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
 
     private let refreshSubject = CurrentValueSubject<Void, Never>(())
     private let realmStorage: RealmStoraging
+    private let calculatorManager: CalculatorManager
 
     let moduleFactory: ModuleFactoring
 
@@ -24,9 +25,11 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
 
     init(
         realmStorage: RealmStoraging,
+        calculatorManager: CalculatorManager,
         moduleFactory: ModuleFactoring
     ) {
         self.realmStorage = realmStorage
+        self.calculatorManager = calculatorManager
         self.moduleFactory = moduleFactory
     }
 
@@ -108,24 +111,14 @@ extension PorfolioViewModel {
     }
 
     func map(account: BrokerAccount, figi: String) -> PorfolioPositionViewModel? {
-        guard let instrument = realmStorage.share(figi: figi) else {
+        guard let instrument = realmStorage.share(figi: figi),
+              let (result, average) = calculatorManager.calculateResult(on: figi, in: account)
+        else {
             return nil
         }
 
-        let instrumentInProfile = account.portfolio?.positions.first(where: { $0.figi == figi })
-        let allOperations = account.operations.filter { $0.figi == figi }
-
-        var resultAmount: Double = allOperations.reduce(0) { result, operation in
-            result + (operation.payment?.price ?? 0)
-        }
-
-        let average = average(
-            for: instrumentInProfile,
-            currency: instrument.currency,
-            resultAmount: &resultAmount
-        )
-
         var inPortfolio: PorfolioPositionViewModel.InPortfolio?
+        let instrumentInProfile = account.portfolio?.positions.first(where: { $0.figi == figi })
 
         if let average = average,
            let quantity = instrumentInProfile?.quantity
@@ -135,8 +128,6 @@ extension PorfolioViewModel {
                 price: average
             )
         }
-
-        let result = MoneyAmount(currency: instrument.currency, value: resultAmount)
 
         return PorfolioPositionViewModel(
             figi: figi,
@@ -176,30 +167,6 @@ extension PorfolioViewModel {
                     .sorted { $0.result.value > $1.result.value }
             }
         }
-    }
-
-    func average(
-        for instrumentInProfile: PortfolioPosition?,
-        currency: Price.Currency,
-        resultAmount: inout Double
-    ) -> MoneyAmount? {
-        guard let quantity = instrumentInProfile?.quantity,
-              let positionPrice = instrumentInProfile?.inPortfolioPrice
-        else {
-            return nil
-        }
-
-        resultAmount += positionPrice.value
-
-        let averageAmount: Double = {
-            if resultAmount > 0 {
-                return resultAmount / quantity.price
-            } else {
-                return (abs(resultAmount) + positionPrice.value) / quantity.price
-            }
-        }()
-
-        return MoneyAmount(currency: currency, value: averageAmount)
     }
 }
 

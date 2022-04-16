@@ -27,16 +27,30 @@ class InstrumentsManager {
 
 extension InstrumentsManager: InstrumentsManaging {
     func updateInstruments() -> AnyPublisher<Void, Error> {
-        shareService.loadShares()
-            .receive(on: DispatchQueue.global())
-            .tryMap { [weak self] shares -> AnyPublisher<[CandleV2], Error> in
-                guard let self = self else {
-                    throw PublisherErrors.releaseSelf
-                }
-                self.realmStorage.saveShares(shares: shares)
+        Publishers.CombineLatest3(
+            shareService.loadShares(),
+            shareService.loadEtfs(),
+            shareService.loadBonds()
+        )
+        .receive(queue: .global())
+        .map { [weak self] shares, efts, bonds in
+            self?.realmStorage.saveShares(shares: shares)
+            self?.realmStorage.saveShares(shares: efts)
+            self?.realmStorage.saveShares(shares: bonds)
 
-                return self.usdCandles()
-            }
+            return ()
+        }
+        .eraseToAnyPublisher()
+
+//            .receive(on: DispatchQueue.global())
+//            .tryMap { [weak self] shares -> AnyPublisher<[CandleV2], Error> in
+//                guard let self = self else {
+//                    throw PublisherErrors.releaseSelf
+//                }
+//                self.realmStorage.saveShares(shares: shares)
+//
+//                return self.usdCandles()
+//            }
 //            .switchToLatest()
 //            .receive(on: DispatchQueue.global())
 //            .tryMap { [weak self] usd -> AnyPublisher<[CandleV2], Error> in
@@ -59,8 +73,8 @@ extension InstrumentsManager: InstrumentsManaging {
 //
 //                return Result.Publisher(()).eraseToAnyPublisher()
 //            }
-            .eraseToAnyPublisher()
-            .mapToVoid()
+//        .eraseToAnyPublisher()
+//        .mapToVoid()
     }
 }
 

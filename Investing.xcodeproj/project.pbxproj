@@ -105,6 +105,7 @@
 		EF66858B25D70CB40090FAA1 /* DetailCurrencyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66858A25D70CB40090FAA1 /* DetailCurrencyViewModel.swift */; };
 		EF66859E25D70E850090FAA1 /* OperationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF66859D25D70E850090FAA1 /* OperationsViewModel.swift */; };
 		EF6685AA25D70EBF0090FAA1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6685A925D70EBF0090FAA1 /* SettingsViewModel.swift */; };
+		EF6FF8EA280062C50013C381 /* CalculatorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6FF8E9280062C50013C381 /* CalculatorManager.swift */; };
 		EF761AD92590E5DD00320289 /* AnalyticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AD82590E5DD00320289 /* AnalyticsView.swift */; };
 		EF761AF12590FF6200320289 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF761AF02590FF6200320289 /* RealmManager.swift */; };
 		EF76A0AE257FA80200991AE3 /* Tests_iOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF76A0AD257FA80200991AE3 /* Tests_iOS.swift */; };
@@ -342,6 +343,7 @@
 		EF66858A25D70CB40090FAA1 /* DetailCurrencyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCurrencyViewModel.swift; sourceTree = "<group>"; };
 		EF66859D25D70E850090FAA1 /* OperationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationsViewModel.swift; sourceTree = "<group>"; };
 		EF6685A925D70EBF0090FAA1 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		EF6FF8E9280062C50013C381 /* CalculatorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorManager.swift; sourceTree = "<group>"; };
 		EF761AD82590E5DD00320289 /* AnalyticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsView.swift; sourceTree = "<group>"; };
 		EF761AF02590FF6200320289 /* RealmManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		EF76A092257FA7FE00991AE3 /* InvestingApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvestingApp.swift; sourceTree = "<group>"; };
@@ -1315,6 +1317,7 @@
 				EF4C0B4927A07E9400C33A2A /* OperationsManager.swift */,
 				EF4C0B6027A2F38700C33A2A /* InstrumentsManager.swift */,
 				EF21637927A7DC3700D55D7B /* DataBaseManager.swift */,
+				EF6FF8E9280062C50013C381 /* CalculatorManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1671,6 +1674,7 @@
 				EF4C0B3C27A0395C00C33A2A /* ViewLifeCycleOperator.swift in Sources */,
 				EF394A24262881BA00BF0492 /* Candle+Ex.swift in Sources */,
 				EF4C0B5027A2AF2200C33A2A /* Price.swift in Sources */,
+				EF6FF8EA280062C50013C381 /* CalculatorManager.swift in Sources */,
 				EF66855925D70B7B0090FAA1 /* TotalViewModel.swift in Sources */,
 				EF66852F25D709140090FAA1 /* Position+Ex.swift in Sources */,
 				EF8104DC25D3E8EE00B73406 /* LatestCurrencyService.swift in Sources */,

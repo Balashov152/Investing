@@ -10,6 +10,12 @@ import Foundation
 struct DependencyFactory {
     // MARK: - Managers
 
+    var calculatorManager: CalculatorManager {
+        CalculatorManager(
+            realmStorage: realmStorage
+        )
+    }
+
     var portfolioManager: PortfolioManaging {
         PortfolioManager(
             portfolioService: portfolioService,
