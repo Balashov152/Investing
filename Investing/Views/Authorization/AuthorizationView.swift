@@ -1,22 +1,17 @@
 //
-//  LoginView.swift
+//  AuthorizationView.swift
 //  Investing
 //
-//  Created by Sergey Balashov on 25.01.2022.
+//  Created by Sergey Balashov on 25.01.2021.
 //
 
 import Combine
+import Foundation
 import SwiftUI
 
-struct LoginView: View {
-    @ObservedObject private var viewModel: LoginViewModel
-
+struct AuthorizationView: View {
+    @ObservedObject var viewModel: AuthorizationViewModel
     @State private var isInstuctionOpen: Bool = false
-    @State private var apiToken: String = ""
-
-    init(viewModel: LoginViewModel) {
-        self.viewModel = viewModel
-    }
 
     var body: some View {
         NavigationView {
@@ -28,41 +23,36 @@ struct LoginView: View {
                             isInstuctionOpen.toggle()
                         }).foregroundColor(.blue)
                     }
-
                     VStack(alignment: .leading) {
-                        Text("Enter token".localized).lineLimit(1)
+                        Group {
+                            if let error = viewModel.error {
+                                Text(error)
+                                    .foregroundColor(.red)
+                            } else {
+                                Text("Enter token".localized)
+                            }
+                        }.lineLimit(1)
 
-                        TextField("api token".localized, text: $apiToken)
+                        TextField("api token".localized, text: $viewModel.apiToken)
                             .textFieldStyle(PlainTextFieldStyle())
-                            .introspectTextField(customize: { textField in
-                                textField.becomeFirstResponder()
-                            })
+//                            .introspectTextField(customize: { textField in
+//                                textField.becomeFirstResponder()
+//                            })
 
                         Divider()
                     }
                     .padding(.top, 50)
                     .padding(.bottom, 50)
 
-                    ActionButton(title: "Check".localized,
-                                 action: checkToken)
+                    ActionButton(title: "Check".localized, action: viewModel.actionButton)
                 }.padding()
             }
             .accentColor(.appBlack)
             .navigationTitle("Autorization".localized)
+            .navigationBarItems(trailing: Toggle("sandbox", isOn: $viewModel.isSandbox))
             .sheet(isPresented: $isInstuctionOpen) {
                 ViewFactory.instructionView
             }
         }
-    }
-
-    private func checkToken() {
-        let token = apiToken.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        guard !token.isEmpty else {
-            // TODO: Show Error
-            return
-        }
-
-        viewModel.tryToLoadAccounts(token: token)
     }
 }

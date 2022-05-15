@@ -20,7 +20,7 @@ extension TargetsViewModel {
 }
 
 class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
-    var LatestCurrencyService: LatestCurrencyService { .shared }
+    var latestCurrencyService: LatestCurrencyService { .shared }
     lazy var positionService: PositionsService = env.api().positionService()
 
     @Published var columns: [Column] = []
@@ -43,7 +43,7 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
 
     var total: Double {
         let total: Double = positionService.positions.reduce(0) { result, position in
-            result + CurrencyConvertManager.convert(currencyPair: LatestCurrencyService.latest,
+            result + CurrencyConvertManager.convert(currencyPair: latestCurrencyService.latest,
                                                     money: position.totalInProfile,
                                                     to: curency).value
         }
@@ -58,19 +58,19 @@ class TargetsViewModel: EnvironmentCancebleObject, ObservableObject {
             .map { positions -> [Column] in
                 positions.compactMap { [unowned self] position -> Column? in
                     let averageNow = CurrencyConvertManager
-                        .convert(currencyPair: LatestCurrencyService.latest,
+                        .convert(currencyPair: self.latestCurrencyService.latest,
                                  money: position.averagePositionPriceNow,
-                                 to: curency)
+                                 to: self.curency)
 
                     let convert = CurrencyConvertManager
-                        .convert(currencyPair: LatestCurrencyService.latest,
+                        .convert(currencyPair: self.latestCurrencyService.latest,
                                  money: position.totalInProfile,
-                                 to: curency).value
+                                 to: self.curency).value
 
-                    let precent = convert / total
+                    let precent = convert / self.total
 
                     return Column(percent: precent,
-                                  target: targets[position.ticker] ?? precent * 100,
+                                  target: self.targets[position.ticker] ?? precent * 100,
                                   position: .init(position: position, averageNow: averageNow))
                 }
                 .sorted(by: { $0.percent > $1.percent })

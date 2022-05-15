@@ -7,7 +7,6 @@
 
 import Foundation
 import RealmSwift
-import Realm
 
 open class CurrencyPairR: Object {
     @objc public dynamic var id: String = UUID().uuidString

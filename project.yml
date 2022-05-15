@@ -1,0 +1,54 @@
+name: Investing
+
+options:
+  bundleIdPrefix: ru.ba1ashov
+  deploymentTarget: 
+      iOS: 15.0
+  # postGenCommand: pod install
+
+packages:
+  Moya:
+    url: https://github.com/Moya/Moya
+    from: 15.0.0
+  CombineMoya:
+    url: https://github.com/Moya/Moya
+    from: 15.0.0
+  Kingfisher:
+    url: https://github.com/onevcat/Kingfisher
+    from: 6.3.0
+  Realm:
+    url: https://github.com/realm/realm-swift
+    from: 10.22.0
+  RealmSwift:
+    url: https://github.com/realm/realm-swift
+    from: 10.22.0
+
+targets:
+  InvestModels:
+    type: framework
+    sources: InvestModels
+    platform: iOS
+    # deploymentTarget: "14.0"
+    
+    dependencies:
+      - package: Realm
+      - package: RealmSwift
+
+  Investing:
+    type: application    
+    sources: Investing
+    platform: iOS
+    # deploymentTarget: "15.0"
+    scheme: {}
+    configFiles:
+      Debug: Configs/debug.xcconfig
+      Release: Configs/release.xcconfig
+
+    dependencies:
+      - framework: InvestModels.framework
+        implicit: true
+      - package: Moya
+      - package: CombineMoya
+      - package: Realm
+      - package: RealmSwift
+      - package: Kingfisher

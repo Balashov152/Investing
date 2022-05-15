@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 import Moya
+import CombineMoya
 
 extension Subscribers.Completion where Failure: Error {
     var error: Error? {

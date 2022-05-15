@@ -15,7 +15,7 @@ struct CandlesService {
 
     func getCandles(request: RequestCandles) -> AnyPublisher<[Candle], MoyaError> {
         provider.request(.getCandles(body: request))
-            .map(APIBaseModel<CandlesPayload>.self, using: .standart)
+            .map(APIBaseModel<CandlesPayload>.self, at: APIBaseResponseKey.candles, using: .standart)
             .map { $0.payload?.candles ?? [] }
             .eraseToAnyPublisher()
     }
