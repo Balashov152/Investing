@@ -9,13 +9,19 @@ import Combine
 import InvestModels
 import SwiftUI
 
+protocol PorfolioViewOutput: AnyObject {
+    func didRequestRefresh(completion: @escaping () -> Void)
+}
+
 class PorfolioViewModel: CancebleObject, ObservableObject {
     @Published var totals: [MoneyAmount] = []
     @Published var dataSource: [PorfolioSectionViewModel] = []
     @Published var sortType: SortType = .inProfile
     @Published var isPresentAccounts: Bool = false
-
+    
     private let refreshSubject = CurrentValueSubject<Void, Never>(())
+
+    private weak var output: PorfolioViewOutput?
     private let realmStorage: RealmStoraging
     private let calculatorManager: CalculatorManager
 
@@ -24,17 +30,21 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
     private var updateViewCancellable: AnyCancellable?
 
     init(
+        output: PorfolioViewOutput,
         realmStorage: RealmStoraging,
         calculatorManager: CalculatorManager,
         moduleFactory: ModuleFactoring
     ) {
+        self.output = output
         self.realmStorage = realmStorage
         self.calculatorManager = calculatorManager
         self.moduleFactory = moduleFactory
     }
 
     public func refresh() {
-        refreshSubject.send()
+        output?.didRequestRefresh() { [weak self] in
+            self?.refreshSubject.send()
+        }
     }
 }
 

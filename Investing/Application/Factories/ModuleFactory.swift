@@ -16,7 +16,7 @@ protocol ModuleFactoring {
     func accountsList(output: AccountsListOutput) -> AccountsListView
     func investResults() -> InvestResultsView
     func operationsList() -> OperationsListView
-    func porfolioView() -> PorfolioView
+    func porfolioView(output: PorfolioViewOutput) -> PorfolioView
     func instrumentDetailsView(accountId: String, figi: String) -> InstrumentDetailsView
 }
 
@@ -74,9 +74,10 @@ extension ModuleFactory: ModuleFactoring {
         OperationsListView(viewModel: OperationsListModel(portfolioManager: dependencyFactory.portfolioManager))
     }
 
-    func porfolioView() -> PorfolioView {
+    func porfolioView(output: PorfolioViewOutput) -> PorfolioView {
         PorfolioView(
             viewModel: PorfolioViewModel(
+                output: output,
                 realmStorage: dependencyFactory.realmStorage,
                 calculatorManager: dependencyFactory.calculatorManager,
                 moduleFactory: self
