@@ -50,17 +50,17 @@ public struct Price: Codable, Equatable {
 }
 
 public extension Price {
-    enum Currency: String, Codable, Equatable {
-        case usd, rub, eur, cad, ils, chf, gbp
+    enum Currency: String, Codable, Equatable, CaseIterable {
+        case usd, rub, eur, cad, ils, chf, gbp, hkd
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(String.self)
-
-            if rawValue.isEmpty {
-                self = .usd
-            } else {
+            
+            if Currency.allCases.map({ $0.rawValue }).contains(rawValue) {
                 self.init(rawValue: rawValue)!
+            } else {
+                self = .usd
             }
         }
     }
