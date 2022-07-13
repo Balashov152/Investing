@@ -75,7 +75,9 @@ private extension TabBarViewModel {
                 print(completion.error)
 //                assert(completion.error == nil)
             }) { [unowned self] _ in
-                self.loadingState = .content
+                if self.loadingState != .content {
+                    self.loadingState = .content
+                }
                 completion()
             }
             .store(in: &cancellables)

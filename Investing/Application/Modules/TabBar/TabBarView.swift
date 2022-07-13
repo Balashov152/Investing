@@ -55,6 +55,7 @@ struct TabBarView: View {
     @ViewBuilder private var tabBarView: some View {
         TabView(selection: $selectedIndex) {
             profileView
+                
 //            analyticsView
 //            targetsView
             operationsView

@@ -41,9 +41,14 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
         self.moduleFactory = moduleFactory
     }
 
-    public func refresh() {
-        output?.didRequestRefresh() { [weak self] in
-            self?.refreshSubject.send()
+    public func refresh() async {
+        await withCheckedContinuation { configuration in
+            output?.didRequestRefresh() { [weak self] in
+                configuration.resume()
+                DispatchQueue.main.async { [weak self] in
+                    self?.refreshSubject.send()
+                }
+            }
         }
     }
 }
@@ -62,6 +67,7 @@ extension PorfolioViewModel {
 
         updateViewCancellable = Publishers.CombineLatest($sortType, refreshSubject)
             .receive(queue: .global())
+            .print("setupUpdateContent")
             .map { [unowned self] sortType, _ -> [PorfolioSectionViewModel] in
                 let accounts = realmStorage.selectedAccounts()
 
@@ -183,17 +189,22 @@ extension PorfolioViewModel {
 extension PorfolioViewModel: AccountsListOutput {
     func accountsDidSelectAccounts() {
         isPresentAccounts = false
-        refresh()
+        DispatchQueue.main.async { [weak self] in
+            self?.refreshSubject.send()
+        }
     }
 }
 
 struct PorfolioSectionViewModel: Hashable, Identifiable {
+    var id: Int { hashValue }
+    
     let account: BrokerAccount
     let operations: [PorfolioPositionViewModel]
     let results: [MoneyAmount]
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(account.id)
+        hasher.combine(results)
     }
 }
 

@@ -52,7 +52,7 @@ struct PorfolioView: View {
             }
             .listStyle(PlainListStyle())
             .refreshable {
-                viewModel.refresh()
+                await viewModel.refresh()
             }
             .navigationTitle("Портфель")
             .addLifeCycle(operator: viewModel)
