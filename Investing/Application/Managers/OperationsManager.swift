@@ -33,6 +33,7 @@ extension OperationsManager: OperationsManaging {
             .map { account in
                 operationsService.loadOperations(for: account)
                     .receive(on: DispatchQueue.global())
+                    .map { $0.filter { $0.instrumentType != .currency } }
                     .tryMap { [weak self] operations -> AnyPublisher<Void, Error> in
                         Future { promise in
                             self?.realmStorage.saveOperations(operations: operations, for: account.id)

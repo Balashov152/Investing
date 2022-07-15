@@ -16,6 +16,9 @@ enum Constants {
     }
 
     enum Paddings {
+        /// 2
+        static let xxxs: CGFloat = 2
+        
         /// 4
         static let xxs: CGFloat = 4
 

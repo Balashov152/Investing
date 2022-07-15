@@ -11,7 +11,7 @@ import InvestModels
 class OperationV2: Decodable {
     /// Идентификатор операции
     let id: String?
-    let date: Date?
+    let date: Date
     let instrumentType: InstrumentTypeV2?
 
     /// Идентификатор родительской операции
@@ -41,7 +41,7 @@ class OperationV2: Decodable {
 
     init(
         id: String?,
-        date: Date?,
+        date: Date,
         instrumentType: InstrumentTypeV2?,
         quantity: String?,
         parentOperationId: String?,
@@ -73,7 +73,7 @@ class OperationV2: Decodable {
 
     init(realmOperation: RealmOperation) {
         id = realmOperation.id
-        date = realmOperation.date
+        date = realmOperation.date ?? Date()
         instrumentType = InstrumentTypeV2(rawValue: realmOperation.instrumentType ?? "")
         operationType = OperationType(rawValue: realmOperation.operationType ?? "")
         state = OperationState(rawValue: realmOperation.state) ?? .OPERATION_STATE_UNSPECIFIED

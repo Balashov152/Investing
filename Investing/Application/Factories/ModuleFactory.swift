@@ -56,7 +56,10 @@ extension ModuleFactory: ModuleFactoring {
     }
     
     func operationsList() -> OperationsListModel {
-        OperationsListModel(portfolioManager: dependencyFactory.portfolioManager)
+        OperationsListModel(
+            portfolioManager: dependencyFactory.portfolioManager,
+            realmStorage: dependencyFactory.realmStorage
+        )
     }
     
     func porfolioView(output: PorfolioViewOutput) -> PorfolioViewModel {

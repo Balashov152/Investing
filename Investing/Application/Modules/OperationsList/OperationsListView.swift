@@ -15,47 +15,67 @@ class OperationsListModel: ObservableObject {
     @Published var figes: [String] = []
     @Published var operations: [OperationRowModel] = []
 
-    private var account: BrokerAccount?
     private let portfolioManager: PortfolioManaging
+    private let realmStorage: RealmStoraging
 
     private var operationsCancellable: AnyCancellable?
     private var figesCancellable: AnyCancellable?
 
-    init(portfolioManager: PortfolioManaging) {
+    init(
+        portfolioManager: PortfolioManaging,
+        realmStorage: RealmStoraging
+    ) {
         self.portfolioManager = portfolioManager
-        account = portfolioManager.syncGetFirstSelectedAccount()
+        self.realmStorage = realmStorage
     }
 
     private func prepareOperations() {
-        operationsCancellable = Publishers.CombineLatest(account.publisher, $selectedFigi)
+        operationsCancellable = Just(())
             .receive(queue: .global())
-            .map { account, selectedFigi -> [OperationRowModel] in
-                if let selectedFigi = selectedFigi {
-                    return account.operations
-                        .filter { $0.figi == selectedFigi }
-                        .map(OperationRowModel.init(operation:))
-
-                } else {
-                    return account.operations.map(OperationRowModel.init(operation:))
-                }
+            .map { [unowned self] _ -> [OperationRowModel] in
+                realmStorage.selectedAccounts()
+                   .reduce([], { result, account -> [OperationRowModel] in
+                       let operations = account.operations.map {
+                           OperationRowModel(operation: $0, accountName: account.name)
+                       }
+                       
+                       return result + operations
+                   })
+                   .sorted(by: { $0.date > $1.date })
             }
             .receive(queue: .main)
             .assign(to: \.operations, on: self)
+        
+
+//        operationsCancellable = Publishers.CombineLatest(account.publisher, $selectedFigi)
+//            .receive(queue: .global())
+//            .map { account, selectedFigi -> [OperationRowModel] in
+//                if let selectedFigi = selectedFigi {
+//                    return account.operations
+//                        .filter { $0.figi == selectedFigi }
+//                        .map(OperationRowModel.init(operation:))
+//
+//                } else {
+//                    return account.operations.map(OperationRowModel.init(operation:))
+//                }
+//            }
+//            .receive(queue: .main)
+//            .assign(to: \.operations, on: self)
     }
 
-    private func prepareFiges() {
-        figesCancellable = account.publisher
-            .receive(queue: .global())
-            .map { $0.operations.compactMap { $0.figi }.unique }
-            .receive(queue: .main)
-            .assign(to: \.figes, on: self)
-    }
+//    private func prepareFiges() {
+//        figesCancellable = account.publisher
+//            .receive(queue: .global())
+//            .map { $0.operations.compactMap { $0.figi }.unique }
+//            .receive(queue: .main)
+//            .assign(to: \.figes, on: self)
+//    }
 }
 
 extension OperationsListModel: ViewLifeCycleOperator {
     func onAppear() {
         prepareOperations()
-        prepareFiges()
+//        prepareFiges()
     }
 }
 
@@ -68,29 +88,39 @@ struct OperationsListView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(alignment: .center, spacing: Constants.Paddings.m) {
-                        ForEach(viewModel.figes, id: \.self) { figi in
-                            Button(action: {
-                                viewModel.selectedFigi = figi
-                            }, label: {
-                                Text(figi)
-                                    .foregroundColor(viewModel.selectedFigi == figi ? .purple : .black)
-                            })
+            ZStack {
+                Color.litleGray.edgesIgnoringSafeArea(.all)
+                
+                ScrollView {
+                    LazyVStack {
+                        ForEach(viewModel.operations) { operation in
+                            OperationRow(viewModel: operation)
+                                .padding()
                         }
                     }
-                    .padding(.horizontal)
-                }
-                .frame(height: 40)
-
-                List(viewModel.operations) { operation in
-                    OperationRow(viewModel: operation)
                 }
             }
-            .navigationBarTitle("OperationsListView")
+            .navigationBarTitle("Operations")
             .navigationBarTitleDisplayMode(.inline)
         }
         .addLifeCycle(operator: viewModel)
     }
+
+/*
+ VStack {
+     ScrollView(.horizontal, showsIndicators: false) {
+         LazyHStack(alignment: .center, spacing: Constants.Paddings.m) {
+             ForEach(viewModel.figes, id: \.self) { figi in
+                 Button(action: {
+                     viewModel.selectedFigi = figi
+                 }, label: {
+                     Text(figi)
+                         .foregroundColor(viewModel.selectedFigi == figi ? .purple : .black)
+                 })
+             }
+         }
+         .padding(.horizontal)
+     }
+     .frame(height: 40)
+ */
 }

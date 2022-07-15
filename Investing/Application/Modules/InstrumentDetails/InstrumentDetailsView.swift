@@ -23,8 +23,6 @@ final class InstrumentDetailsViewModel: CancebleObject, ObservableObject {
     private let accountId: String
     private let figi: String
 
-    let refresh = PassthroughSubject<Void, Never>()
-
     init(
         realmStorage: RealmStoraging,
         accountId: String,
@@ -33,29 +31,32 @@ final class InstrumentDetailsViewModel: CancebleObject, ObservableObject {
         self.realmStorage = realmStorage
         self.accountId = accountId
         self.figi = figi
-    }
-}
-
-extension InstrumentDetailsViewModel: ViewLifeCycleOperator {
-    func onAppear() {
-        setupSubscribtion()
+        
+        super.init()
+        
+        updateDataSource()
         share = realmStorage.share(figi: figi)
     }
 }
 
+extension InstrumentDetailsViewModel: ViewLifeCycleOperator {
+    func onAppear() {}
+}
+
 private extension InstrumentDetailsViewModel {
-    func setupSubscribtion() {
-        refresh
-            .prepend(())
+    func updateDataSource() {
+        Just(())
             .receive(queue: .global())
             .map { [unowned self] _ -> [OperationRowModel] in
-                realmStorage.selectedAccounts()
+                self.realmStorage.selectedAccounts()
                     .filter { $0.id == accountId }
                     .first
                     .map { map(account: $0) } ?? []
             }
             .receive(on: DispatchQueue.main)
-            .assign(to: \.operations, on: self)
+            .sink(receiveValue: { [unowned self] operations in
+                self.operations = operations
+            })
             .store(in: &cancellables)
     }
 
@@ -75,12 +76,17 @@ struct InstrumentDetailsView: View {
     }
 
     var body: some View {
-        List(viewModel.operations) { operation in
-            OperationRow(viewModel: operation)
-        }
-        .listStyle(PlainListStyle())
-        .refreshable {
-            viewModel.refresh.send()
+        ZStack {
+            Color.litleGray.edgesIgnoringSafeArea(.all)
+            
+            ScrollView {
+                LazyVStack {
+                    ForEach(viewModel.operations) { operation in
+                        OperationRow(viewModel: operation)
+                            .padding()
+                    }
+                }
+            }
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(viewModel.share?.name ?? "Детали по инструменту")
