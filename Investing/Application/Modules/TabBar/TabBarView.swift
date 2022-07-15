@@ -24,11 +24,11 @@ struct TabBarView: View {
                     isPresented: $viewModel.isPresentAccounts,
                     onDismiss: {}
                 ) {
-                    viewModel.moduleFactory.accountsList(output: viewModel)
+                    AccountsListView(viewModel: viewModel.accountsListViewModel)
                 }
 
         } else {
-            viewModel.moduleFactory.loginView(output: viewModel)
+            LoginView(viewModel: viewModel.loginViewModel)
         }
     }
 
@@ -56,15 +56,15 @@ struct TabBarView: View {
         TabView(selection: $selectedIndex) {
             profileView
                 
-//            analyticsView
-//            targetsView
             operationsView
+            
+            oldVersionView
         }
         .accentColor(Color.appBlack)
     }
 
     @ViewBuilder private var profileView: some View {
-        viewModel.moduleFactory.porfolioView(output: viewModel).tabItem {
+        PorfolioView(viewModel: viewModel.porfolioViewModel).tabItem {
             VStack {
                 Image(systemName: selectedIndex == 0 ? "dollarsign.circle.fill" : "dollarsign.circle")
 
@@ -72,30 +72,12 @@ struct TabBarView: View {
 
             }.font(.system(size: 16, weight: selectedIndex == 0 ? .bold : .regular))
 
-        }.tag(0)
-    }
-
-    @ViewBuilder private var analyticsView: some View {
-        ViewFactory.analyticsView.tabItem {
-            VStack {
-                Image(systemName: selectedIndex == 1 ? "chart.bar.fill" : "chart.bar")
-                Text("Analytics".localized)
-                    .font(.system(size: 16, weight: selectedIndex == 1 ? .bold : .regular))
-            }
-        }.tag(1)
-    }
-
-    @ViewBuilder private var targetsView: some View {
-        ViewFactory.targetsView.tabItem {
-            VStack {
-                Image(systemName: "target")
-                Text("Targets".localized)
-            }.font(.system(size: 16, weight: selectedIndex == 0 ? .bold : .regular))
-        }.tag(2)
+        }
+        .tag(0)
     }
 
     @ViewBuilder private var operationsView: some View {
-        viewModel.moduleFactory.operationsList().tabItem {
+        OperationsListView(viewModel: viewModel.operationsListModel).tabItem {
             VStack {
                 Image(systemName: "list.bullet.rectangle")
                     .resizable()
@@ -104,6 +86,19 @@ struct TabBarView: View {
             }
             .font(.system(size: 16, weight: selectedIndex == 3 ? .bold : .regular))
         }
-//        .tag(3)
+        .tag(3)
+    }
+    
+    @ViewBuilder private var oldVersionView: some View {
+        RootView().tabItem {
+            VStack {
+                Image(systemName: "clock.arrow.circlepath")
+                    .resizable()
+
+                Text("Old version")
+            }
+            .font(.system(size: 16, weight: selectedIndex == 3 ? .bold : .regular))
+        }
+        .tag(4)
     }
 }

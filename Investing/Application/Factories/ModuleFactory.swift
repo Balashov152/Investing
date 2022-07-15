@@ -6,18 +6,16 @@
 //
 
 protocol ModuleFactoring {
-    func switchVersionView() -> SwitchVersionView
-
-    func tabBarModule() -> TabBarView
+    func tabBarModule() -> TabBarViewModel
     func oldVersionView() -> RootView
 
-    func loginView(output: LoginViewOutput) -> LoginView
+    func loginView(output: LoginViewOutput) -> LoginViewModel
 
-    func accountsList(output: AccountsListOutput) -> AccountsListView
-    func investResults() -> InvestResultsView
-    func operationsList() -> OperationsListView
-    func porfolioView(output: PorfolioViewOutput) -> PorfolioView
-    func instrumentDetailsView(accountId: String, figi: String) -> InstrumentDetailsView
+    func accountsList(output: AccountsListOutput) -> AccountsListViewModel
+    func investResults() -> InvestResultsViewModel
+    func operationsList() -> OperationsListModel
+    func porfolioView(output: PorfolioViewOutput) -> PorfolioViewModel
+    func instrumentDetailsView(accountId: String, figi: String) -> InstrumentDetailsViewModel
 }
 
 struct ModuleFactory {
@@ -25,73 +23,56 @@ struct ModuleFactory {
 }
 
 extension ModuleFactory: ModuleFactoring {
-    func switchVersionView() -> SwitchVersionView {
-        let vm = SwitchVersionViewModel(moduleFactory: self)
-        return SwitchVersionView(viewModel: vm)
-    }
-
-    func tabBarModule() -> TabBarView {
-        TabBarView(
-            viewModel: TabBarViewModel(
-                moduleFactory: self,
-                dataBaseManager: dependencyFactory.dataBaseManager,
-                realmStorage: dependencyFactory.realmStorage
-            )
-        )
-    }
-
     func oldVersionView() -> RootView {
         RootView()
     }
-
-    func loginView(output: LoginViewOutput) -> LoginView {
-        let viewModel = LoginViewModel(
+    
+    func tabBarModule() -> TabBarViewModel {
+        TabBarViewModel(
+            moduleFactory: self,
+            dataBaseManager: dependencyFactory.dataBaseManager,
+            realmStorage: dependencyFactory.realmStorage
+        )
+    }
+    
+    func loginView(output: LoginViewOutput) -> LoginViewModel {
+        LoginViewModel(
             portfolioManager: dependencyFactory.portfolioManager,
             output: output
         )
-
-        return LoginView(viewModel: viewModel)
     }
-
-    func accountsList(output: AccountsListOutput) -> AccountsListView {
-        AccountsListView(
-            viewModel: AccountsListViewModel(
-                output: output,
-                portfolioManager: dependencyFactory.portfolioManager,
-                realmStorage: dependencyFactory.realmStorage,
-                dataBaseManager: dependencyFactory.dataBaseManager
-            )
+    
+    func accountsList(output: AccountsListOutput) -> AccountsListViewModel {
+        AccountsListViewModel(
+            output: output,
+            portfolioManager: dependencyFactory.portfolioManager,
+            realmStorage: dependencyFactory.realmStorage,
+            dataBaseManager: dependencyFactory.dataBaseManager
         )
     }
-
-    func investResults() -> InvestResultsView {
-        InvestResultsView(
-            viewModel: InvestResultsViewModel(realmStorage: dependencyFactory.realmStorage)
+    
+    func investResults() -> InvestResultsViewModel {
+        InvestResultsViewModel(realmStorage: dependencyFactory.realmStorage)
+    }
+    
+    func operationsList() -> OperationsListModel {
+        OperationsListModel(portfolioManager: dependencyFactory.portfolioManager)
+    }
+    
+    func porfolioView(output: PorfolioViewOutput) -> PorfolioViewModel {
+        PorfolioViewModel(
+            output: output,
+            realmStorage: dependencyFactory.realmStorage,
+            calculatorManager: dependencyFactory.calculatorManager,
+            moduleFactory: self
         )
     }
-
-    func operationsList() -> OperationsListView {
-        OperationsListView(viewModel: OperationsListModel(portfolioManager: dependencyFactory.portfolioManager))
-    }
-
-    func porfolioView(output: PorfolioViewOutput) -> PorfolioView {
-        PorfolioView(
-            viewModel: PorfolioViewModel(
-                output: output,
-                realmStorage: dependencyFactory.realmStorage,
-                calculatorManager: dependencyFactory.calculatorManager,
-                moduleFactory: self
-            )
-        )
-    }
-
-    func instrumentDetailsView(accountId: String, figi: String) -> InstrumentDetailsView {
-        InstrumentDetailsView(
-            viewModel: InstrumentDetailsViewModel(
-                realmStorage: dependencyFactory.realmStorage,
-                accountId: accountId,
-                figi: figi
-            )
+    
+    func instrumentDetailsView(accountId: String, figi: String) -> InstrumentDetailsViewModel {
+        InstrumentDetailsViewModel(
+            realmStorage: dependencyFactory.realmStorage,
+            accountId: accountId,
+            figi: figi
         )
     }
 }

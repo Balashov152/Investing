@@ -11,36 +11,25 @@ import UIKit
 
 public typealias Operation = InvestModels.Operation
 
-extension UIDevice {
-    static var isSimulator: Bool {
-        #if targetEnvironment(simulator)
-            // We're on the simulator
-            return true
-        #else
-            // We're on a device
-            return false
-        #endif
-    }
-}
-
 @main
 struct InvestingApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     private let modulesFactory: ModuleFactoring
+    private let tabBarModule: TabBarViewModel
 
     init() {
         let dependencyFactory = DependencyFactory()
 
         modulesFactory = ModuleFactory(dependencyFactory: dependencyFactory)
+        tabBarModule = modulesFactory.tabBarModule()
     }
 
     var body: some Scene {
         let session = UserSession()
 
         WindowGroup {
-            modulesFactory
-                .switchVersionView()
+            TabBarView(viewModel: tabBarModule)
                 .environmentObject(session)
                 .onAppear(perform: onAppearApp)
         }

@@ -31,10 +31,8 @@ struct PorfolioView: View {
                         ForEach(item.operations) { operation in
                             PorfolioPositionView(viewModel: operation)
                                 .addNavigationLink {
-                                    viewModel.moduleFactory.instrumentDetailsView(
-                                        accountId: item.account.id,
-                                        figi: operation.figi
-                                    )
+                                    instrumentDetailsView(accountId: item.account.id,
+                                                          figi: operation.figi)
                                 }
                         }
                     }) {
@@ -69,7 +67,7 @@ struct PorfolioView: View {
                 isPresented: $viewModel.isPresentAccounts,
                 onDismiss: {}
             ) {
-                viewModel.moduleFactory.accountsList(output: viewModel)
+                AccountsListView(viewModel: viewModel.accountsListViewModel)
             }
         }
     }
@@ -84,5 +82,11 @@ struct PorfolioView: View {
         Button("Аккаунты") {
             viewModel.isPresentAccounts = true
         }
+    }
+    
+    func instrumentDetailsView(accountId: String, figi: String) -> some View {
+        InstrumentDetailsView(
+            viewModel: viewModel.instrumentDetailsViewModel(accountId: accountId, figi: figi)
+        )
     }
 }

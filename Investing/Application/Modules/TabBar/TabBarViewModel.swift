@@ -11,10 +11,15 @@ import SwiftUI
 class TabBarViewModel: CancebleObject, ObservableObject {
     @Published var isAuthorized: Bool = true
     @Published var isPresentAccounts: Bool = false
-
     @Published var loadingState: ContentState = .loading
+    
+    // MARK: Child View models
+    lazy var porfolioViewModel = moduleFactory.porfolioView(output: self)
+    lazy var accountsListViewModel = moduleFactory.accountsList(output: self)
+    lazy var loginViewModel = moduleFactory.loginView(output: self)
+    lazy var operationsListModel = moduleFactory.operationsList()
 
-    public let moduleFactory: ModuleFactoring
+    private let moduleFactory: ModuleFactoring
     private let dataBaseManager: DataBaseManaging
     private let realmStorage: RealmStoraging
 

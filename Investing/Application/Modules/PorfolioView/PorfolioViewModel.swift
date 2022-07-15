@@ -19,13 +19,15 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
     @Published var sortType: SortType = .inProfile
     @Published var isPresentAccounts: Bool = false
     
+    lazy var accountsListViewModel = moduleFactory.accountsList(output: self)
+    
     private let refreshSubject = CurrentValueSubject<Void, Never>(())
 
     private weak var output: PorfolioViewOutput?
     private let realmStorage: RealmStoraging
     private let calculatorManager: CalculatorManager
 
-    let moduleFactory: ModuleFactoring
+    private let moduleFactory: ModuleFactoring
 
     private var updateViewCancellable: AnyCancellable?
 
@@ -39,6 +41,10 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
         self.realmStorage = realmStorage
         self.calculatorManager = calculatorManager
         self.moduleFactory = moduleFactory
+    }
+    
+    public func instrumentDetailsViewModel(accountId: String, figi: String) -> InstrumentDetailsViewModel {
+        moduleFactory.instrumentDetailsView(accountId: accountId, figi: figi)
     }
 
     public func refresh() async {
