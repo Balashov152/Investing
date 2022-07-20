@@ -119,8 +119,6 @@ extension PorfolioViewModel {
                 self.totals = totals
             })
             .store(in: &cancellables)
-        
-
     }
 
     func map(account: BrokerAccount, sortType: SortType) -> PorfolioSectionViewModel {
