@@ -11,7 +11,7 @@ import SwiftUI
 class TabBarViewModel: CancebleObject, ObservableObject {
     @Published var isAuthorized: Bool = true
     @Published var isPresentAccounts: Bool = false
-    @Published var loadingState: ContentState = .loading
+    @Published var loadingState: ContentState = .content
     
     // MARK: Child View models
     lazy var porfolioViewModel = moduleFactory.porfolioView(output: self)
@@ -66,7 +66,7 @@ private extension TabBarViewModel {
 
         guard !isPresentAccounts else { return }
 
-        updateOperations()
+//        updateOperations()
     }
 
     func checkIfAuthorized() {

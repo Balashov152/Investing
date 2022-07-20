@@ -15,7 +15,7 @@ struct ShadowView<Content: View>: View {
 
     var body: some View {
         content()
-            .background(Color.appWhite)
+            .background(Color.white)
             .cornerRadius(radius)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)

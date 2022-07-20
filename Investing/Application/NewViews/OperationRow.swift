@@ -136,7 +136,9 @@ struct OperationRow: View {
         HStack {
             VStack(alignment: .leading){
                 Text("id: " + viewModel.id.lowercased())
-                Text("figi: " + (viewModel.figi ?? "FIGI"))
+                if let figi = viewModel.figi, !figi.isEmpty {
+                    Text("figi: " + figi)
+                }
             }
             
             Spacer()

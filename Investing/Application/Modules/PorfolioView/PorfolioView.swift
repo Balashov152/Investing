@@ -19,38 +19,25 @@ struct PorfolioView: View {
 
     var body: some View {
         NavigationView {
-            List {
-                VStack(alignment: .leading, spacing: Constants.Paddings.s) {
-                    ForEach(viewModel.totals, id: \.currency) { moneyAmount in
-                        MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
+            Group {
+                switch viewModel.contentState {
+                case .loading:
+                    VStack(spacing: 8) {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                        
+                        Text("Loading...".localized)
+                    }
+                case .content:
+                    content
+                case let .failure(error):
+                    VStack {
+                        Text("Error")
+                            .font(.headline)
+                        
+                        Text(error.errorDescription ?? "")
                     }
                 }
-
-                ForEach(viewModel.dataSource) { item in
-                    RowDisclosureGroup(element: item, expanded: expanded, content: {
-                        ForEach(item.operations) { operation in
-                            PorfolioPositionView(viewModel: operation)
-                                .addNavigationLink {
-                                    instrumentDetailsView(accountId: item.account.id,
-                                                          figi: operation.figi)
-                                }
-                        }
-                    }) {
-                        VStack(alignment: .leading, spacing: Constants.Paddings.s) {
-                            Text(item.account.name)
-                                .bold()
-                                .font(.title2)
-
-                            ForEach(item.results, id: \.currency) { moneyAmount in
-                                MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
-                            }
-                        }
-                    }
-                }
-            }
-            .listStyle(PlainListStyle())
-            .refreshable {
-                await viewModel.refresh()
             }
             .navigationTitle("Портфель")
             .addLifeCycle(operator: viewModel)
@@ -69,6 +56,42 @@ struct PorfolioView: View {
             ) {
                 AccountsListView(viewModel: viewModel.accountsListViewModel)
             }
+        }
+    }
+    
+    var content: some View {
+        List {
+            VStack(alignment: .leading, spacing: Constants.Paddings.s) {
+                ForEach(viewModel.totals, id: \.currency) { moneyAmount in
+                    MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
+                }
+            }
+
+            ForEach(viewModel.dataSource) { item in
+                RowDisclosureGroup(element: item, expanded: expanded, content: {
+                    ForEach(item.operations) { operation in
+                        PorfolioPositionView(viewModel: operation)
+                            .addNavigationLink {
+                                instrumentDetailsView(accountId: item.account.id,
+                                                      figi: operation.figi)
+                            }
+                    }
+                }) {
+                    VStack(alignment: .leading, spacing: Constants.Paddings.s) {
+                        Text(item.account.name)
+                            .bold()
+                            .font(.title2)
+
+                        ForEach(item.results, id: \.currency) { moneyAmount in
+                            MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
+                        }
+                    }
+                }
+            }
+        }
+        .listStyle(PlainListStyle())
+        .refreshable {
+            await viewModel.refresh()
         }
     }
 

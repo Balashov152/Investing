@@ -14,6 +14,7 @@ protocol PorfolioViewOutput: AnyObject {
 }
 
 class PorfolioViewModel: CancebleObject, ObservableObject {
+    @Published var contentState: ContentState = .loading
     @Published var totals: [MoneyAmount] = []
     @Published var dataSource: [PorfolioSectionViewModel] = []
     @Published var sortType: SortType = .inProfile
@@ -70,6 +71,8 @@ extension PorfolioViewModel {
         guard updateViewCancellable == nil else {
             return
         }
+        
+        contentState = .loading
 
         updateViewCancellable = Publishers.CombineLatest($sortType, refreshSubject)
             .receive(queue: .global())
@@ -83,9 +86,15 @@ extension PorfolioViewModel {
                 .sorted(by: { $0.account.name < $1.account.name })
             }
             .receive(queue: DispatchQueue.main)
-            .assign(to: \.dataSource, on: self)
+            .sink(receiveValue: { [unowned self] dataSource in
+                if contentState != .content {
+                    contentState = .content
+                }
+                self.dataSource = dataSource
+            })
 
         $dataSource
+            .dropFirst()
             .receive(queue: .global())
             .map { models in
                 let results = models.reduce([]) { $0 + $1.results }
@@ -102,8 +111,16 @@ extension PorfolioViewModel {
                 return totals
             }
             .receive(queue: DispatchQueue.main)
-            .assign(to: \.totals, on: self)
+            .sink(receiveValue: { [unowned self] totals in
+                if contentState != .content {
+                    contentState = .content
+                }
+
+                self.totals = totals
+            })
             .store(in: &cancellables)
+        
+
     }
 
     func map(account: BrokerAccount, sortType: SortType) -> PorfolioSectionViewModel {
