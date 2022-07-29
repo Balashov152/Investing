@@ -13,6 +13,7 @@ protocol ShareServing {
     func loadBonds() -> AnyPublisher<[Share], Error>
     func loadEtfs() -> AnyPublisher<[Share], Error>
     func loadShares() -> AnyPublisher<[Share], Error>
+    func loadCurrencies() -> AnyPublisher<[Share], Error>
     func loadCandles(figi: String, dateInterval: DateInterval, interval: CandleV2.Interval) -> AnyPublisher<[CandleV2], Error>
 }
 
@@ -22,21 +23,28 @@ struct ShareService {
 
 extension ShareService: ShareServing {
     func loadBonds() -> AnyPublisher<[Share], Error> {
-        provider.request(.loadBonds(status: .INSTRUMENT_STATUS_UNSPECIFIED))
+        provider.request(.loadBonds(status: .INSTRUMENT_STATUS_ALL))
             .map([Share].self, at: .instruments, using: .standart)
             .mapError { $0 as Error }
             .eraseToAnyPublisher()
     }
 
     func loadEtfs() -> AnyPublisher<[Share], Error> {
-        provider.request(.loadEtfs(status: .INSTRUMENT_STATUS_UNSPECIFIED))
+        provider.request(.loadEtfs(status: .INSTRUMENT_STATUS_ALL))
             .map([Share].self, at: .instruments, using: .standart)
             .mapError { $0 as Error }
             .eraseToAnyPublisher()
     }
 
     func loadShares() -> AnyPublisher<[Share], Error> {
-        provider.request(.loadShares(status: .INSTRUMENT_STATUS_UNSPECIFIED))
+        provider.request(.loadShares(status: .INSTRUMENT_STATUS_ALL))
+            .map([Share].self, at: .instruments, using: .standart)
+            .mapError { $0 as Error }
+            .eraseToAnyPublisher()
+    }
+    
+    func loadCurrencies() -> AnyPublisher<[Share], Error> {
+        provider.request(.loadCurrencies(status: .INSTRUMENT_STATUS_ALL))
             .map([Share].self, at: .instruments, using: .standart)
             .mapError { $0 as Error }
             .eraseToAnyPublisher()
@@ -59,6 +67,7 @@ enum ShareAPI: TargetType {
     case loadBonds(status: ShareStatus)
     case loadEtfs(status: ShareStatus)
     case loadShares(status: ShareStatus)
+    case loadCurrencies(status: ShareStatus)
 
     case loadCandles(figi: String, dateInterval: DateInterval, interval: CandleV2.Interval)
 
@@ -76,6 +85,8 @@ enum ShareAPI: TargetType {
             return "tinkoff.public.invest.api.contract.v1.InstrumentsService/Etfs"
         case .loadShares:
             return "tinkoff.public.invest.api.contract.v1.InstrumentsService/Shares"
+        case .loadCurrencies:
+            return "tinkoff.public.invest.api.contract.v1.InstrumentsService/Currencies"
         case .loadCandles:
             return "tinkoff.public.invest.api.contract.v1.MarketDataService/GetCandles"
         }
@@ -83,7 +94,10 @@ enum ShareAPI: TargetType {
 
     var task: Task {
         switch self {
-        case let .loadShares(status), let .loadEtfs(status), let .loadBonds(status):
+        case let .loadShares(status),
+            let .loadEtfs(status),
+            let .loadBonds(status),
+            let .loadCurrencies(status):
             return .requestCompositeParameters(bodyParameters: ["instrumentStatus": status.rawValue],
                                                bodyEncoding: JSONEncoding.default,
                                                urlParameters: [:])

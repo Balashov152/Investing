@@ -16,7 +16,7 @@ struct PorfolioPositionViewModel: Hashable, Identifiable, LogoPosition {
     let figi: String
     let name: String
     let ticker: String
-    var isin: String?
+    let isin: String?
 
     let uiCurrency: UICurrency
     let instrumentType: InstrumentType

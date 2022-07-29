@@ -76,7 +76,6 @@ extension PorfolioViewModel {
 
         updateViewCancellable = Publishers.CombineLatest($sortType, refreshSubject)
             .receive(queue: .global())
-            .print("setupUpdateContent")
             .map { [unowned self] sortType, _ -> [PorfolioSectionViewModel] in
                 let accounts = realmStorage.selectedAccounts()
 
@@ -142,7 +141,7 @@ extension PorfolioViewModel {
 
         return PorfolioSectionViewModel(
             account: account,
-            operations: positions,
+            positions: positions,
             results: results
         )
     }
@@ -183,8 +182,8 @@ extension PorfolioViewModel {
         switch sortType {
         case .name:
             positions.sort { $0.name < $1.name }
-        case .inProfile:
 
+        case .inProfile:
             let inPortfolio = positions
                 .filter { $0.inPortfolio != nil }
                 .sorted { $0.name < $1.name }
@@ -220,7 +219,7 @@ struct PorfolioSectionViewModel: Hashable, Identifiable {
     var id: Int { hashValue }
     
     let account: BrokerAccount
-    let operations: [PorfolioPositionViewModel]
+    let positions: [PorfolioPositionViewModel]
     let results: [MoneyAmount]
 
     func hash(into hasher: inout Hasher) {

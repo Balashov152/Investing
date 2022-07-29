@@ -13,7 +13,8 @@ class TabBarViewModel: CancebleObject, ObservableObject {
     @Published var isPresentAccounts: Bool = false
     @Published var loadingState: ContentState = .content
     
-    // MARK: Child View models
+    // MARK: - Child View models
+
     lazy var porfolioViewModel = moduleFactory.porfolioView(output: self)
     lazy var accountsListViewModel = moduleFactory.accountsList(output: self)
     lazy var loginViewModel = moduleFactory.loginView(output: self)
@@ -77,7 +78,7 @@ private extension TabBarViewModel {
         dataBaseManager.updateDataBase()
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
-                print(completion.error)
+                print("updateDataBase ERROR", completion.error)
 //                assert(completion.error == nil)
             }) { [unowned self] _ in
                 if self.loadingState != .content {

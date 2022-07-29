@@ -69,7 +69,7 @@ struct PorfolioView: View {
 
             ForEach(viewModel.dataSource) { item in
                 RowDisclosureGroup(element: item, expanded: expanded, content: {
-                    ForEach(item.operations) { operation in
+                    ForEach(item.positions) { operation in
                         PorfolioPositionView(viewModel: operation)
                             .addNavigationLink {
                                 instrumentDetailsView(accountId: item.account.id,
