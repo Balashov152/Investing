@@ -27,18 +27,19 @@ class InstrumentsManager {
 
 extension InstrumentsManager: InstrumentsManaging {
     func updateInstruments() -> AnyPublisher<Void, Error> {
-        Publishers.CombineLatest4(
+        Publishers.CombineLatest3(
             shareService.loadShares(),
             shareService.loadEtfs(),
-            shareService.loadBonds(),
-            shareService.loadCurrencies()
+            shareService.loadBonds()
+//            shareService.loadCurrencies()
         )
+        .retry(3)
         .receive(queue: .global())
-        .map { [weak self] shares, efts, bonds, currencies in
+        .map { [weak self] shares, efts, bonds in // , currencies
             self?.realmStorage.saveShares(shares: shares)
             self?.realmStorage.saveShares(shares: efts)
             self?.realmStorage.saveShares(shares: bonds)
-            self?.realmStorage.saveShares(shares: currencies)
+//            self?.realmStorage.saveShares(shares: currencies)
 
             return ()
         }

@@ -121,7 +121,9 @@ extension PorfolioViewModel {
     }
 
     func map(account: BrokerAccount, sortType: SortType) -> PorfolioSectionViewModel {
-        let uniqueInstrument = Set(account.operations.compactMap { $0.figi })
+        let uniqueInstrument = Set(account.operations
+            .filter { $0.instrumentType != .currency }
+            .compactMap { $0.figi })
 
         var positions = uniqueInstrument.compactMap { figi -> PorfolioPositionViewModel? in
             self.map(account: account, figi: figi)

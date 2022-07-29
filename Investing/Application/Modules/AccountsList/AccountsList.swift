@@ -40,9 +40,11 @@ class AccountsListViewModel: CancebleObject, ObservableObject {
         state = .loading
 
         dataBaseManager.updateDataBase()
-            .receiveValue { [unowned self] in
+            .sink(receiveCompletion: { completion in
+                print("updateDataBase ERROR", completion.error)
+            }, receiveValue: { [unowned self] in
                 output?.accountsDidSelectAccounts()
-            }
+            })
             .store(in: &cancellables)
     }
 }
