@@ -58,8 +58,10 @@ struct CalculatorManager {
 
         let averageAmount: Double = {
             if resultAmount > 0 {
-                return resultAmount / quantity.price
+                /// If we have positive result just show which price will be in zero
+                return (positionPrice.value - resultAmount) / quantity.price
             } else {
+                /// If we have negative result show which price should be to exit in zero
                 return (abs(resultAmount) + positionPrice.value) / quantity.price
             }
         }()
