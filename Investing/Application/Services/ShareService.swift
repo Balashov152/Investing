@@ -23,28 +23,28 @@ struct ShareService {
 
 extension ShareService: ShareServing {
     func loadBonds() -> AnyPublisher<[Share], Error> {
-        provider.request(.loadBonds(status: .INSTRUMENT_STATUS_ALL))
+        provider.request(.loadBonds(status: .INSTRUMENT_STATUS_UNSPECIFIED))
             .map([Share].self, at: .instruments, using: .standart)
             .mapError { $0 as Error }
             .eraseToAnyPublisher()
     }
 
     func loadEtfs() -> AnyPublisher<[Share], Error> {
-        provider.request(.loadEtfs(status: .INSTRUMENT_STATUS_ALL))
+        provider.request(.loadEtfs(status: .INSTRUMENT_STATUS_UNSPECIFIED))
             .map([Share].self, at: .instruments, using: .standart)
             .mapError { $0 as Error }
             .eraseToAnyPublisher()
     }
 
     func loadShares() -> AnyPublisher<[Share], Error> {
-        provider.request(.loadShares(status: .INSTRUMENT_STATUS_ALL))
+        provider.request(.loadShares(status: .INSTRUMENT_STATUS_UNSPECIFIED))
             .map([Share].self, at: .instruments, using: .standart)
             .mapError { $0 as Error }
             .eraseToAnyPublisher()
     }
     
     func loadCurrencies() -> AnyPublisher<[Share], Error> {
-        provider.request(.loadCurrencies(status: .INSTRUMENT_STATUS_ALL))
+        provider.request(.loadCurrencies(status: .INSTRUMENT_STATUS_UNSPECIFIED))
             .map([Share].self, at: .instruments, using: .standart)
             .mapError { $0 as Error }
             .eraseToAnyPublisher()
