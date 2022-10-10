@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum InstrumentTypeV2: String, Codable, Equatable {
+enum InstrumentTypeV2: String, Codable, Equatable, Hashable {
     case share, currency, bond, etf
 
     init(from decoder: Decoder) throws {

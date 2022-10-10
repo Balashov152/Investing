@@ -29,7 +29,7 @@ public class RealmOperation: Object {
 extension RealmOperation {
     static func realmOperation(from operation: OperationV2) -> RealmOperation {
         let realmOperation = RealmOperation()
-        realmOperation.id = operation.id ?? ""
+        realmOperation.id = operation.id
         realmOperation.date = operation.date
         realmOperation.instrumentType = operation.instrumentType?.rawValue
         realmOperation.operationType = operation.operationType?.rawValue

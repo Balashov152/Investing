@@ -8,9 +8,15 @@
 import Foundation
 import InvestModels
 
+extension OperationV2: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+}
+
 class OperationV2: Decodable {
     /// Идентификатор операции
-    let id: String?
+    let id: String
     let date: Date
     let instrumentType: InstrumentTypeV2?
 
@@ -55,7 +61,7 @@ class OperationV2: Decodable {
         state: OperationState,
         share: Share? = nil
     ) {
-        self.id = id
+        self.id = id!
         self.date = date
         self.instrumentType = instrumentType
         self.quantity = quantity
@@ -97,7 +103,7 @@ extension OperationV2: Equatable {
 }
 
 extension OperationV2 {
-    enum OperationState: String, Codable {
+    enum OperationState: String, Codable, Hashable {
         /// Статус операции не определён
         case OPERATION_STATE_UNSPECIFIED
         /// Исполнена
@@ -106,7 +112,7 @@ extension OperationV2 {
         case OPERATION_STATE_CANCELED
     }
 
-    enum OperationType: String, Codable {
+    enum OperationType: String, Codable, Hashable {
         case OPERATION_TYPE_UNSPECIFIED
         case OPERATION_TYPE_INPUT
         case OPERATION_TYPE_BOND_TAX

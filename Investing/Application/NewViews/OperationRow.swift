@@ -9,10 +9,15 @@ import Foundation
 import InvestModels
 import SwiftUI
 
-struct OperationRowModel: Identifiable, Hashable {
+extension OperationRowModel: Identifiable {
+    var id: String { _id ?? "\(hashValue)" }
+}
+
+struct OperationRowModel: Hashable {
     let accountName: String?
     
-    let id: String
+    private let _id: String?
+
     let date: Date
     let parentOperationId: String?
     let description: String
@@ -32,7 +37,7 @@ struct OperationRowModel: Identifiable, Hashable {
 
     init(operation: OperationV2, accountName: String? = nil) {
         self.accountName = accountName
-        id = operation.id ?? "ID"
+        _id = operation.id
         date = operation.date
         parentOperationId = operation.parentOperationId
         description = operation.type ?? "operation.type"

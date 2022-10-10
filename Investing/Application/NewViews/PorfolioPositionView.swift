@@ -55,15 +55,13 @@ struct PorfolioPositionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Paddings.xs) {
-            HStack(spacing: Constants.Paddings.xxs) {
+            HStack(alignment: .center, spacing: Constants.Paddings.xxs) {
                 instrumentInfo
 
                 Spacer()
 
-                VStack(alignment: .trailing) {
+                VStack(alignment: .trailing, spacing: Constants.Paddings.xs) {
                     MoneyText(money: viewModel.result)
-
-                    Spacer()
 
                     inTinkoffApp
                 }

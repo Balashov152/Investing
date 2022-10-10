@@ -93,7 +93,7 @@ struct OperationsListView: View {
                 
                 ScrollView {
                     LazyVStack {
-                        ForEach(viewModel.operations) { operation in
+                        ForEach(viewModel.operations, id: \.hashValue) { operation in
                             OperationRow(viewModel: operation)
                                 .padding()
                         }

@@ -19,17 +19,35 @@ class OperationsServiceV2 {
 
 extension OperationsServiceV2: OperationsServing {
     func loadOperations(for account: BrokerAccount) -> AnyPublisher<[OperationV2], Error> {
-        let parameters = OperationsAPI.OperationParameters(
-            accountId: account.id,
-            from: Settings.shared.dateInterval.start,
-            to: Settings.shared.dateInterval.end,
-            state: .executed,
-            figi: nil
-        )
+        let end = Settings.shared.dateInterval.end
+        var start = Settings.shared.dateInterval.start
+        
+        var intervals: [DateInterval] = [DateInterval(start: start.startOfYear, end: start.endOfYear)]
+        
+        while start.year < end.year {
+            start = start.years(value: 1)
+            intervals.append(DateInterval(start: start.startOfYear, end: start.endOfYear))
+        }
+        
+        let publishers = intervals.reversed().map { interval -> AnyPublisher<[OperationV2], Error> in
+            let parameters = OperationsAPI.OperationParameters(
+                accountId: account.id,
+                from: interval.start,
+                to: interval.end,
+                state: .executed,
+                figi: nil
+            )
+            
+            return provider.request(.loadOperations(parameters: parameters))
+                .map([OperationV2].self, at: .operations, using: .standart)
+                .mapError { $0 as Error }
+                .eraseToAnyPublisher()
+        }
 
-        return provider.request(.loadOperations(parameters: parameters))
-            .map([OperationV2].self, at: .operations, using: .standart)
-            .mapError { $0 as Error }
+        return Publishers.MergeMany(publishers).collect(publishers.count)
+            .receive(queue: .global())
+            .map { $0.reduce([], +) }
+            .receive(queue: .main)
             .eraseToAnyPublisher()
     }
 }
