@@ -43,6 +43,7 @@ extension PorfolioPositionViewModel {
     struct InPortfolio: Hashable {
         let quantity: Double
         let price: MoneyAmount
+        let average: MoneyAmount
     }
 }
 
@@ -95,14 +96,18 @@ struct PorfolioPositionView: View {
     @ViewBuilder private var inPorfolio: some View {
         if let inPortfolio = viewModel.inPortfolio {
             HStack(spacing: 4) {
-                Text(inPortfolio.quantity.string(f: ".0") + " pcs")
-
+                Text(inPortfolio.quantity.string(f: ".0")) + Text("pcs").font(.caption2)
+                
                 Text("|")
-
-                MoneyText(money: inPortfolio.price)
+                
+                Text(inPortfolio.price.value.formattedCurrency(locale: inPortfolio.price.currency.locale))
+                
+                Text("|")
+                
+                MoneyText(money: inPortfolio.average)
             }
-            .font(.system(size: 12, weight: .bold))
-            .foregroundColor(Color.gray34)
+            .font(.footnote).bold()
+            .foregroundColor(.secondary)
         }
     }
 
@@ -131,7 +136,7 @@ struct PorfolioPositionViewPreview: PreviewProvider {
         uiCurrency: .usd,
         instrumentType: .Stock,
         result: .init(currency: .usd, value: 7324.34),
-        inPortfolio: .init(quantity: 10, price: MoneyAmount(currency: .usd, value: 800)),
+        inPortfolio: .init(quantity: 10, price: MoneyAmount(currency: .usd, value: 300), average: MoneyAmount(currency: .usd, value: 800)),
         average: nil
     )
 

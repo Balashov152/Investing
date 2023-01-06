@@ -165,11 +165,13 @@ extension PorfolioViewModel {
         let instrumentInProfile = account.portfolio?.positions.first(where: { $0.figi == figi })
 
         if let average = average,
-           let quantity = instrumentInProfile?.quantity
+           let quantity = instrumentInProfile?.quantity,
+           let currentCurrencyPrice = instrumentInProfile?.currentCurrencyPrice
         {
             inPortfolio = PorfolioPositionViewModel.InPortfolio(
                 quantity: quantity.price,
-                price: average
+                price: currentCurrencyPrice,
+                average: average
             )
         }
 

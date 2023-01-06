@@ -16,6 +16,20 @@ struct PortfolioPosition: Codable, Equatable {
     let currentNkd: Price?
     let figi: String?
     let expectedYield: Price?
+    
+    var currentCurrencyPrice: MoneyAmount? {
+        guard let quantity = quantity,
+              let averagePositionPrice = averagePositionPrice,
+              let expectedYield = expectedYield
+        else {
+            return nil
+        }
+
+        return MoneyAmount(
+            currency: quantity.currency,
+            value: averagePositionPrice.price + expectedYield.price / quantity.price
+        )
+    }
 
     var inPortfolioPrice: MoneyAmount? {
         guard let quantity = quantity,
