@@ -47,12 +47,13 @@ extension DataBaseManager: DataBaseManaging {
                 // Load portfolios for every account
                 let publishers = realmStorage.selectedAccounts()
                     .map { account in
-                        progress(.portfolio(account: account))
-                        return self.portfolioManager.getPortfolio(for: account.id)
+                        self.portfolioManager.getPortfolio(for: account.id)
+                            .handleEvents(receiveSubscription: { _ in progress(.portfolio(account: account)) })
                     }
                 
                 return Publishers.Sequence(sequence: publishers)
                     .flatMap(maxPublishers: .max(1), { $0.delay(for: Constants.requestDelay, scheduler: DispatchQueue.global()) })
+                    .collect(publishers.count)
                     .mapVoid()
                     .eraseToAnyPublisher()
             }

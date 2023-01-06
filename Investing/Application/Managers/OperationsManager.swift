@@ -28,18 +28,20 @@ class OperationsManager {
 
 extension OperationsManager: OperationsManaging {
     func updateOperations(progress: @escaping (UpdatingProgress) -> ()) -> AnyPublisher<Void, Error> {
-        // Load portfolios for every account
-        return realmStorage.selectedAccounts()
-            .map { account in
-                operationsService.loadOperations(for: account) { progress(UpdatingProgress(account: account, progress: $0)) }
-                    .receive(on: DispatchQueue.global())
-                    .handleEvents(receiveOutput: { [weak self] operations in
-                        self?.realmStorage.saveOperations(operations: operations, for: account.id)
-                    })
-            }
-            .combineLatest
+        /// Load portfolios for every account
+        let publishers = realmStorage.selectedAccounts().map { account in
+            operationsService.loadOperations(for: account) { progress(UpdatingProgress(account: account, progress: $0)) }
+                .receive(on: DispatchQueue.global())
+                .handleEvents(receiveOutput: { [weak self] operations in
+                    self?.realmStorage.saveOperations(operations: operations, for: account.id)
+                })
+        }
+        
+        return Publishers.Sequence(sequence: publishers)
+            .flatMap(maxPublishers: .max(1)) { $0 }
+            .collect(publishers.count)
+            .mapVoid()
             .eraseToAnyPublisher()
-            .mapToVoid()
     }
 }
 
