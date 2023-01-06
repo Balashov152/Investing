@@ -188,6 +188,7 @@
 		EDAEC7C0F9DF048D03686814 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADCB5F22EAAC2DFB20F9C66 /* Assets.xcassets */; };
 		EF3740742858D41F00FD22C9 /* LibraryPackages in Frameworks */ = {isa = PBXBuildFile; productRef = EF3740732858D41F00FD22C9 /* LibraryPackages */; };
 		EF50A5AF28882CCD0081C5BB /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF50A5AE28882CCD0081C5BB /* Colors.xcassets */; };
+		EF6EDD78296820A5001B21A3 /* AnyPublisher+Async.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6EDD77296820A5001B21A3 /* AnyPublisher+Async.swift */; };
 		F2117BADBD83A9AF9DC3341B /* MoneyAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C73F87DA733ADE5B6DB1B8E /* MoneyAmount.swift */; };
 		F2688A728461BE83E57D75F3 /* DateInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5D6696ED33DC8991CDAC94 /* DateInterval.swift */; };
 		F4570F575C6741662EF63894 /* PayInPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF8017D6B901876D30B3DF5 /* PayInPlan.swift */; };
@@ -405,6 +406,7 @@
 		EEAEDA931C62B3F17BA7E4AF /* release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		EF50A5AE28882CCD0081C5BB /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		EF6968852850B368004B9F54 /* Packages */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Packages; sourceTree = "<group>"; };
+		EF6EDD77296820A5001B21A3 /* AnyPublisher+Async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnyPublisher+Async.swift"; sourceTree = "<group>"; };
 		F1699C873C99937D2F66E9DB /* Array+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Ex.swift"; sourceTree = "<group>"; };
 		F19422142C4E1805EF597BC9 /* TextLimiter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLimiter.swift; sourceTree = "<group>"; };
 		F358749AE91C7921B4C437F4 /* CombineLatestCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineLatestCollection.swift; sourceTree = "<group>"; };
@@ -608,6 +610,7 @@
 			isa = PBXGroup;
 			children = (
 				FF68D79DECA70DC2498B922E /* AnyPublisher+Ex.swift */,
+				EF6EDD77296820A5001B21A3 /* AnyPublisher+Async.swift */,
 				F1699C873C99937D2F66E9DB /* Array+Ex.swift */,
 				5841C4475E536AF3E22AA2C9 /* Date+Ex.swift */,
 				7AC9D6DBF0A9BACC3F63C696 /* DateFormatter+Ex.swift */,
@@ -1153,7 +1156,6 @@
 				9623BF80E89E1A4197BECA37 /* MoyaTask+Ex.swift */,
 				B989F964E3B1E4A85FCB9CDA /* StringConvertible.swift */,
 				F19422142C4E1805EF597BC9 /* TextLimiter.swift */,
-				3C0266904247B53A16B58DD4 /* Extensions */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1266,6 +1268,7 @@
 				7327F4F0BB7047B11DED99A6 /* Resource */,
 				CACAB8359A15487B838D0426 /* Storage */,
 				E42308D9FC950994F9B91D4F /* Utils */,
+				3C0266904247B53A16B58DD4 /* Extensions */,
 				A3EDAB6B691CBC7368DDAA8F /* Views */,
 			);
 			path = Investing;
@@ -1465,6 +1468,7 @@
 				BF902D21054A5C7B69F814BD /* CurrencyViewModel.swift in Sources */,
 				8F23C3E3AEA1A619EC8D5AA1 /* DBManager.swift in Sources */,
 				41F25E684630C9FD08F8102E /* DataBaseManager.swift in Sources */,
+				EF6EDD78296820A5001B21A3 /* AnyPublisher+Async.swift in Sources */,
 				815DA539F3FE993FD3424840 /* Date+Ex.swift in Sources */,
 				FF897212BF5A2052A791CFC4 /* DateFormatter+Ex.swift in Sources */,
 				F2688A728461BE83E57D75F3 /* DateInterval.swift in Sources */,

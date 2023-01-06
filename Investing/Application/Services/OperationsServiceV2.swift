@@ -10,7 +10,7 @@ import Foundation
 import Moya
 
 protocol OperationsServing {
-    func loadOperations(for account: BrokerAccount) -> AnyPublisher<[OperationV2], Error>
+    func loadOperations(for account: BrokerAccount, progress: @escaping (Progress) -> ()) -> AnyPublisher<[OperationV2], Error>
 }
 
 class OperationsServiceV2 {
@@ -18,37 +18,56 @@ class OperationsServiceV2 {
 }
 
 extension OperationsServiceV2: OperationsServing {
-    func loadOperations(for account: BrokerAccount) -> AnyPublisher<[OperationV2], Error> {
-        let end = Settings.shared.dateInterval.end
-        var start = Settings.shared.dateInterval.start
+    func loadOperations(for account: BrokerAccount, progress: @escaping (Progress) -> ()) -> AnyPublisher<[OperationV2], Error> {
+        let parameters = createParameters(accountId: account.id)
         
-        var intervals: [DateInterval] = [DateInterval(start: start.startOfYear, end: start.endOfYear)]
-        
-        while start.year < end.year {
-            start = start.years(value: 1)
-            intervals.append(DateInterval(start: start.startOfYear, end: start.endOfYear))
-        }
-        
-        let publishers = intervals.reversed().map { interval -> AnyPublisher<[OperationV2], Error> in
-            let parameters = OperationsAPI.OperationParameters(
-                accountId: account.id,
-                from: interval.start,
-                to: interval.end,
-                state: .executed,
-                figi: nil
-            )
-            
-            return provider.request(.loadOperations(parameters: parameters))
+        let publishers = parameters.map { parameters in
+            provider.request(.loadOperations(parameters: parameters))
                 .map([OperationV2].self, at: .operations, using: .standart)
                 .mapError { $0 as Error }
                 .eraseToAnyPublisher()
         }
+        
+        var requestNumber = 0
+        
+        return Publishers.Sequence(sequence: publishers)
+            .flatMap(maxPublishers: .max(1)) {
+                requestNumber += 1
+                progress(Progress(current: requestNumber, all: publishers.count))
 
-        return Publishers.MergeMany(publishers).collect(publishers.count)
-            .receive(queue: .global())
+                return $0.delay(for: Constants.requestDelay, scheduler: DispatchQueue.global())
+            }
+            .collect(parameters.count)
             .map { $0.reduce([], +) }
-            .receive(queue: .main)
             .eraseToAnyPublisher()
+    }
+}
+
+extension OperationsServiceV2 {
+    func createParameters(accountId: String) -> [OperationsAPI.OperationParameters] {
+        let daysInterval: Double = 200
+        let periodInSeconds: Double = daysInterval * 24 * 60 * 60 // Days * hours * minutes * seconds
+        let targetIntervals = Settings.shared.dateInterval.timeIntervalSinceStartToEnd / periodInSeconds
+        let roundedIntervals = Int(targetIntervals.rounded(.up))
+        
+        let intervals = (0 ..< roundedIntervals).map { period in
+            let start = Settings.shared.dateInterval.start
+            let startStamp = start.timeIntervalSince1970 + Double(period) * periodInSeconds
+            return DateInterval(
+                start: Date(timeIntervalSince1970: startStamp),
+                end: Date(timeIntervalSince1970: startStamp + periodInSeconds)
+            )
+        }
+        
+        return intervals.map { interval -> OperationsAPI.OperationParameters in
+            return OperationsAPI.OperationParameters(
+                accountId: accountId,
+                from: interval.start,
+                to: interval.end,
+                state: .executed,
+                figi: nil // "BBG004731354"
+            )
+        }.reversed()
     }
 }
 
@@ -77,7 +96,7 @@ enum OperationsAPI: TargetType {
 }
 
 extension OperationsAPI {
-    struct OperationParameters: Encodable {
+    struct OperationParameters: Encodable, Hashable {
         let accountId: String
         let from: Date
         let to: Date

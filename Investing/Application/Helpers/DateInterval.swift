@@ -8,19 +8,25 @@
 import Foundation
 
 struct DateInterval: Hashable, Codable {
-    static let lastYear = DateInterval(
-        start: DateFormatter.format("yyyy").date(from: "2018")!.startOfYear,
-        end: Date().endOfYear
+    let start, end: Date
+
+    var range: ClosedRange<Date> { start ... end }
+}
+
+extension DateInterval {
+    static let from2020ToNow = DateInterval(
+        start: DateFormatter.format("yyyy").date(from: "2020")!.startOfYear,
+        end: Date()
     )
 
     static let yearAgo = DateInterval(
         start: Calendar.current.date(byAdding: .year, value: -1, to: Date())!,
         end: Date()
     )
-
-    let start, end: Date
-
-    var range: ClosedRange<Date> { start ... end }
+    
+    var timeIntervalSinceStartToEnd: TimeInterval {
+        end.timeIntervalSince1970 - start.timeIntervalSince1970
+    }
 }
 
 extension Calendar {

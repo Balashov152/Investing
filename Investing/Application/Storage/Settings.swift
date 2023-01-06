@@ -19,7 +19,7 @@ struct Settings {
     @UserDefault(key: .currency, defaultValue: nil)
     var currency: Currency?
 
-    @UserDefault(key: .dateInterval, defaultValue: .lastYear)
+    @UserDefault(key: .dateInterval, defaultValue: .from2020ToNow)
     var dateInterval: DateInterval
 
     @UserDefault(key: .adjustedAverage, defaultValue: true)

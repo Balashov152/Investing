@@ -61,12 +61,16 @@ struct PorfolioView: View {
     
     var content: some View {
         List {
+            if let progress = viewModel.progress {
+                Text(progress.title).font(.callout)
+            }
+            
             VStack(alignment: .leading, spacing: Constants.Paddings.s) {
                 ForEach(viewModel.totals, id: \.currency) { moneyAmount in
                     MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
                 }
             }
-
+            
             ForEach(viewModel.dataSource) { item in
                 RowDisclosureGroup(element: item, expanded: expanded, content: {
                     ForEach(item.positions) { operation in
@@ -81,7 +85,7 @@ struct PorfolioView: View {
                         Text(item.account.name)
                             .bold()
                             .font(.title2)
-
+                        
                         ForEach(item.results, id: \.currency) { moneyAmount in
                             MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
                         }
@@ -89,10 +93,12 @@ struct PorfolioView: View {
                 }
             }
         }
+        .animation(.easeInOut, value: viewModel.progress == nil)
         .listStyle(PlainListStyle())
         .refreshable {
             await viewModel.refresh()
         }
+        
     }
 
     var sortView: some View {

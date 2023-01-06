@@ -6,9 +6,10 @@
 //
 
 import Combine
+import Foundation
 
 protocol DataBaseManaging {
-    func updateDataBase() -> AnyPublisher<Void, Error>
+    func updateDataBase(progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) -> AnyPublisher<Void, Error>
 }
 
 extension DataBaseManager {
@@ -37,27 +38,43 @@ struct DataBaseManager {
 }
 
 extension DataBaseManager: DataBaseManaging {
-    func updateDataBase() -> AnyPublisher<Void, Error> {
-        instrumentsManager.updateInstruments()
-            .tryMap { _ -> AnyPublisher<Void, Error> in
-                operationsManager.updateOperations()
+    func updateDataBase(progress: @escaping (UpdatingProgress) -> ()) -> AnyPublisher<Void, Error> {
+        instrumentsManager.updateInstruments { progress(.instruments(progress: $0)) }
+            .flatMap { _ -> AnyPublisher<Void, Error> in
+                operationsManager.updateOperations { progress(.operations(progress: $0)) }
             }
-            .switchToLatest()
-            .tryMap { _ -> AnyPublisher<Void, Error> in
+            .flatMap { _ -> AnyPublisher<Void, Error> in
                 // Load portfolios for every account
-                realmStorage
-                    .selectedAccounts()
+                let publishers = realmStorage.selectedAccounts()
                     .map { account in
-                        self.portfolioManager
-                            .getPortfolio(for: account.id)
-                            .eraseToAnyPublisher()
-                            .mapToVoid()
+                        progress(.portfolio(account: account))
+                        return self.portfolioManager.getPortfolio(for: account.id)
                     }
-                    .combineLatest
+                
+                return Publishers.Sequence(sequence: publishers)
+                    .flatMap(maxPublishers: .max(1), { $0.delay(for: Constants.requestDelay, scheduler: DispatchQueue.global()) })
+                    .mapVoid()
                     .eraseToAnyPublisher()
-                    .mapToVoid()
             }
-            .switchToLatest()
             .eraseToAnyPublisher()
+    }
+}
+
+extension DataBaseManager {
+    enum UpdatingProgress {
+        case instruments(progress: InstrumentsManager.UpdatingProgress)
+        case operations(progress: OperationsManager.UpdatingProgress)
+        case portfolio(account: BrokerAccount)
+        
+        var title: String {
+            switch self {
+            case let .instruments(progress):
+                return "Instrument: \(progress.rawValue.capitalized)"
+            case let .operations(progress):
+                return "Operations for: \(progress.account.name) (\(progress.progress.current)/\(progress.progress.all))"
+            case let .portfolio(account):
+                return "Portfolio for: \(account.name)"
+            }
+        }
     }
 }

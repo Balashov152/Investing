@@ -8,6 +8,8 @@
 import CoreGraphics
 
 enum Constants {
+    static let requestDelay: DispatchQueue.SchedulerTimeType.Stride = 0.5
+    
     enum FIGI: String {
         var value: RawValue { rawValue }
 

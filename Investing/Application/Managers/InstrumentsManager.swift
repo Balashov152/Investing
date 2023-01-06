@@ -9,10 +9,10 @@ import Combine
 import Foundation
 
 protocol InstrumentsManaging {
-    func updateInstruments() -> AnyPublisher<Void, Error>
+    func updateInstruments(progress: @escaping (InstrumentsManager.UpdatingProgress) -> ()) -> AnyPublisher<Void, Error>
 }
 
-class InstrumentsManager {
+struct InstrumentsManager {
     private let shareService: ShareServing
     private let realmStorage: RealmStoraging
 
@@ -26,24 +26,55 @@ class InstrumentsManager {
 }
 
 extension InstrumentsManager: InstrumentsManaging {
-    func updateInstruments() -> AnyPublisher<Void, Error> {
-        Publishers.CombineLatest4(
-            shareService.loadShares(),
-            shareService.loadEtfs(),
-            shareService.loadBonds(),
-            shareService.loadCurrencies()
-        )
-        .retry(3)
-        .receive(queue: .global())
-        .map { [weak self] shares, efts, bonds, currencies in
-            self?.realmStorage.saveShares(shares: shares)
-            self?.realmStorage.saveShares(shares: efts)
-            self?.realmStorage.saveShares(shares: bonds)
-            self?.realmStorage.saveShares(shares: currencies)
+    func updateInstruments(progress: @escaping (UpdatingProgress) -> ()) -> AnyPublisher<Void, Error> {
+        let publishers = [
+            shareService.loadShares().handleEvents(receiveSubscription: { _ in progress(.shares) }).eraseToAnyPublisher(),
+            shareService.loadEtfs().handleEvents(receiveSubscription: { _ in progress(.etfs) }).eraseToAnyPublisher(),
+            shareService.loadBonds().handleEvents(receiveSubscription: { _ in progress(.bonds) }).eraseToAnyPublisher(),
+            shareService.loadCurrencies().handleEvents(receiveSubscription: { _ in progress(.currencies) }).eraseToAnyPublisher(),
+        ]
+        
+        return Publishers.Sequence(sequence: publishers)
+            .flatMap(maxPublishers: .max(1), { $0.delay(for: 0.5, scheduler: DispatchQueue.global()) })
+            .map { realmStorage.saveShares(shares: $0) }
+            .collect(publishers.count)
+            .mapVoid()
+            .eraseToAnyPublisher()
+//
+//        progress(.shares)
+//        return shareService.loadShares().delay(for: 0.5, scheduler: DispatchQueue.global())
+//            .receive(queue: .global())
+//            .map { realmStorage.saveShares(shares: $0) }
+//            .flatMap {
+//                progress(.etfs)
+//                return shareService.loadEtfs()
+//            }
+//            .map { realmStorage.saveShares(shares: $0) }
+//            .flatMap {
+//                progress(.bonds)
+//                return shareService.loadBonds()
+//            }
+//            .map { realmStorage.saveShares(shares: $0) }
+//            .flatMap {
+//                progress(.bonds)
+//                return shareService.loadCurrencies()
+//            }
+//            .map { realmStorage.saveShares(shares: $0) }
+//            .retry(3)
+//            .eraseToAnyPublisher()
+//
 
-            return ()
-        }
-        .eraseToAnyPublisher()
+        
+//        .receive(queue: .global())
+//        .map { [weak self] shares, efts, bonds, currencies in
+//            self?.realmStorage.saveShares(shares: shares)
+//            self?.realmStorage.saveShares(shares: efts)
+//            self?.realmStorage.saveShares(shares: bonds)
+//            self?.realmStorage.saveShares(shares: currencies)
+//
+//            return ()
+//        }
+//        .eraseToAnyPublisher()
 
 //            .receive(on: DispatchQueue.global())
 //            .tryMap { [weak self] shares -> AnyPublisher<[CandleV2], Error> in
@@ -140,6 +171,15 @@ private extension InstrumentsManager {
             dateInterval: interval,
             interval: .CANDLE_INTERVAL_DAY
         )
+    }
+}
+
+extension InstrumentsManager {
+    enum UpdatingProgress: String {
+        case shares
+        case etfs
+        case bonds
+        case currencies
     }
 }
 

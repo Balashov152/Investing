@@ -16,6 +16,7 @@ class AccountsListViewModel: CancebleObject, ObservableObject {
     @Published var selectionAccounts: [BrokerAccount] = []
 
     @Published var state: ContentState = .loading
+    @Published var progress: DataBaseManager.UpdatingProgress?
 
     private weak var output: AccountsListOutput?
     private let portfolioManager: PortfolioManaging
@@ -39,9 +40,11 @@ class AccountsListViewModel: CancebleObject, ObservableObject {
 
         state = .loading
 
-        dataBaseManager.updateDataBase()
-            .sink(receiveCompletion: { completion in
-                print("updateDataBase ERROR", completion.error)
+        dataBaseManager.updateDataBase { [unowned self] in progress = $0 }
+            .sink(receiveCompletion: { [unowned self] completion in
+                if let error = completion.error {
+                    state = .failure(error: .simpleError(string: error.localizedDescription))
+                }
             }, receiveValue: { [unowned self] in
                 output?.accountsDidSelectAccounts()
             })

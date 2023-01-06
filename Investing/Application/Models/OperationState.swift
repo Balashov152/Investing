@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum OperationState: String, Encodable {
+enum OperationState: String, Encodable, Hashable {
     case unspecified = "OPERATION_STATE_UNSPECIFIED"
     case executed = "OPERATION_STATE_EXECUTED"
     case canceled = "OPERATION_STATE_CANCELED"

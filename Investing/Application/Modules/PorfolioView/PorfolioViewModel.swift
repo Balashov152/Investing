@@ -10,11 +10,12 @@ import InvestModels
 import SwiftUI
 
 protocol PorfolioViewOutput: AnyObject {
-    func didRequestRefresh(completion: @escaping () -> Void)
+    func didRequestRefresh(completion: @escaping () -> Void, progress: @escaping (DataBaseManager.UpdatingProgress) -> ())
 }
 
 class PorfolioViewModel: CancebleObject, ObservableObject {
     @Published var contentState: ContentState = .loading
+    @Published var progress: DataBaseManager.UpdatingProgress?
     @Published var totals: [MoneyAmount] = []
     @Published var dataSource: [PorfolioSectionViewModel] = []
     @Published var sortType: SortType = .inProfile
@@ -50,10 +51,15 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
 
     public func refresh() async {
         await withCheckedContinuation { configuration in
-            output?.didRequestRefresh() { [weak self] in
+            output?.didRequestRefresh {
                 configuration.resume()
-                DispatchQueue.main.async { [weak self] in
-                    self?.refreshSubject.send()
+                DispatchQueue.main.async {
+                    self.refreshSubject.send()
+                    self.progress = nil
+                }
+            } progress: { progress in
+                DispatchQueue.main.async {
+                    self.progress = progress
                 }
             }
         }

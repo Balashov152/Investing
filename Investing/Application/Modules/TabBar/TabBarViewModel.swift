@@ -74,12 +74,13 @@ private extension TabBarViewModel {
         isAuthorized = !Storage.newToken.isEmpty
     }
 
-    func updateOperations(completion: @escaping () -> Void = {}) {
-        dataBaseManager.updateDataBase()
+    func updateOperations(completion: @escaping () -> Void = {}, progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) {
+        dataBaseManager.updateDataBase(progress: progress)
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { completion in
-                print("updateDataBase ERROR", completion.error)
-//                assert(completion.error == nil)
+            .sink(receiveCompletion: { [unowned self] completion in
+                if let error = completion.error {
+                    loadingState = .failure(error: .simpleError(string: error.localizedDescription))
+                }
             }) { [unowned self] _ in
                 if self.loadingState != .content {
                     self.loadingState = .content
@@ -91,7 +92,7 @@ private extension TabBarViewModel {
 }
 
 extension TabBarViewModel: PorfolioViewOutput {
-    func didRequestRefresh(completion: @escaping () -> Void) {
-        updateOperations(completion: completion)
+    func didRequestRefresh(completion: @escaping () -> Void, progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) {
+        updateOperations(completion: completion, progress: progress)
     }
 }
