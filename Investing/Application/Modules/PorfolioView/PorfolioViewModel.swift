@@ -156,7 +156,7 @@ extension PorfolioViewModel {
 
     func map(account: BrokerAccount, figi: String) -> PorfolioPositionViewModel? {
         guard let instrument = realmStorage.share(figi: figi),
-              let (result, average) = calculatorManager.calculateResult(on: figi, in: account)
+              let (result, investResult) = calculatorManager.calculateResult(on: figi, in: account)
         else {
             return nil
         }
@@ -164,7 +164,7 @@ extension PorfolioViewModel {
         var inPortfolio: PorfolioPositionViewModel.InPortfolio?
         let instrumentInProfile = account.portfolio?.positions.first(where: { $0.figi == figi })
 
-        if let average = average,
+        if let average = investResult,
            let quantity = instrumentInProfile?.quantity,
            let currentCurrencyPrice = instrumentInProfile?.currentCurrencyPrice
         {
@@ -183,8 +183,7 @@ extension PorfolioViewModel {
             uiCurrency: UICurrency(currency: instrument.currency) ?? .usd,
             instrumentType: .Stock,
             result: result,
-            inPortfolio: inPortfolio,
-            average: average
+            inPortfolio: inPortfolio
         )
     }
 

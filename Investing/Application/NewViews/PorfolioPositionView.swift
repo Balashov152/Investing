@@ -13,6 +13,38 @@ struct PorfolioPositionViewModel: Hashable, Identifiable, LogoPosition {
     var id: String { figi }
     var deeplinkURL: URL { URL(string: "https://www.tinkoff.ru/invest/stocks/\(ticker)")! }
 
+    var average: MoneyAmount? {
+        guard let average = inPortfolio?.average, average.value > 0 else {
+            return nil
+        }
+
+        return average
+    }
+
+    var quantity: Double? { inPortfolio?.quantity }
+    
+    var currentPrice: MoneyAmount? {
+        guard let inPortfolio else { return nil }
+        return MoneyAmount(
+            currency: inPortfolio.price.currency,
+            value: inPortfolio.price.value
+        )
+    }
+
+    var deltaPercent: Double? {
+        guard let inPortfolio else { return nil }
+        let current = inPortfolio.price.value
+        let average = inPortfolio.average.value
+
+        if current < average { // I'm in minus
+            let percent = current / average
+            return (percent - 1) * 100
+        }
+        
+        let percent = abs(average) / current
+        return abs(percent - 1) * 100
+    }
+    
     let figi: String
     let name: String
     let ticker: String
@@ -24,9 +56,16 @@ struct PorfolioPositionViewModel: Hashable, Identifiable, LogoPosition {
     let result: MoneyAmount
     let inPortfolio: InPortfolio?
 
-    let average: MoneyAmount?
-
-    init(figi: String, name: String, ticker: String, isin: String? = nil, uiCurrency: UICurrency, instrumentType: InstrumentType, result: MoneyAmount, inPortfolio: PorfolioPositionViewModel.InPortfolio?, average: MoneyAmount?) {
+    init(
+        figi: String,
+         name: String,
+         ticker: String,
+         isin: String? = nil,
+         uiCurrency: UICurrency,
+         instrumentType: InstrumentType,
+         result: MoneyAmount,
+         inPortfolio: PorfolioPositionViewModel.InPortfolio?
+    ) {
         self.figi = figi
         self.name = name
         self.ticker = ticker
@@ -35,7 +74,6 @@ struct PorfolioPositionViewModel: Hashable, Identifiable, LogoPosition {
         self.instrumentType = instrumentType
         self.result = result
         self.inPortfolio = inPortfolio
-        self.average = average
     }
 }
 
@@ -56,19 +94,37 @@ struct PorfolioPositionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Constants.Paddings.xs) {
-            HStack(alignment: .center, spacing: Constants.Paddings.xxs) {
+            HStack(alignment: .center, spacing: 0) {
                 instrumentInfo
 
                 Spacer()
 
-                VStack(alignment: .trailing, spacing: Constants.Paddings.xs) {
-                    MoneyText(money: viewModel.result)
-
-                    inTinkoffApp
+                VStack(alignment: .trailing, spacing: Constants.Paddings.xxs) {
+                    VStack(alignment: .trailing, spacing: 0) {
+                        MoneyText(money: viewModel.result)
+                        
+                        if let percent = viewModel.deltaPercent {
+                            Text(percent.percentFormat)
+                                .foregroundColor(.currency(value: percent))
+                                .font(.caption2)
+                        }
+                    }
+                    
+                    if viewModel.inPortfolio == nil {
+                        inTinkoffApp
+                    }
                 }
             }
 
-            inPorfolio
+            HStack(spacing: 0) {
+                inPorfolio
+                
+                if viewModel.inPortfolio != nil {
+                    Spacer()
+                    
+                    inTinkoffApp
+                }
+            }
         }
         .padding(.trailing, Constants.Paddings.m)
     }
@@ -94,21 +150,25 @@ struct PorfolioPositionView: View {
     }
 
     @ViewBuilder private var inPorfolio: some View {
-        if let inPortfolio = viewModel.inPortfolio {
-            HStack(spacing: 4) {
-                Text(inPortfolio.quantity.string(f: ".0")) + Text("pcs").font(.caption2)
-                
-                Text("|")
-                
-                Text(inPortfolio.price.value.formattedCurrency(locale: inPortfolio.price.currency.locale))
-                
-                Text("|")
-                
-                MoneyText(money: inPortfolio.average)
+        HStack(spacing: Constants.Paddings.xxs) {
+            if let quantity = viewModel.quantity {
+                Text(quantity.string(f: ".0")) + Text("pcs").font(.caption2)
             }
-            .font(.footnote).bold()
-            .foregroundColor(.secondary)
+            
+            if let currentPrice = viewModel.currentPrice {
+                Text("|")
+                
+                Text(currentPrice.value.formattedCurrency(locale: currentPrice.currency.locale))
+            }
+            
+            if let average = viewModel.average {
+                Text("|")
+                
+                MoneyText(money: average)
+            }
         }
+        .font(.footnote).bold()
+        .foregroundColor(.secondary)
     }
 
     @ViewBuilder private var inTinkoffApp: some View {
@@ -136,8 +196,11 @@ struct PorfolioPositionViewPreview: PreviewProvider {
         uiCurrency: .usd,
         instrumentType: .Stock,
         result: .init(currency: .usd, value: 7324.34),
-        inPortfolio: .init(quantity: 10, price: MoneyAmount(currency: .usd, value: 300), average: MoneyAmount(currency: .usd, value: 800)),
-        average: nil
+        inPortfolio: .init(
+            quantity: 10,
+            price: MoneyAmount(currency: .usd, value: 300),
+            average: MoneyAmount(currency: .usd, value: 800)
+        )
     )
 
     static var previews: some View {
