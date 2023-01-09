@@ -217,9 +217,9 @@ extension PorfolioViewModel {
 
 extension PorfolioViewModel: AccountsListOutput {
     func accountsDidSelectAccounts() {
-        isPresentAccounts = false
-        DispatchQueue.main.async { [weak self] in
-            self?.refreshSubject.send()
+        DispatchQueue.main.async {
+            self.isPresentAccounts = false
+            self.refreshSubject.send()
         }
     }
 }
