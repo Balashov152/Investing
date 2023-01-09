@@ -10,7 +10,16 @@ import InvestModels
 import SwiftUI
 
 protocol PorfolioViewOutput: AnyObject {
-    func didRequestRefresh(completion: @escaping () -> Void, progress: @escaping (DataBaseManager.UpdatingProgress) -> ())
+    func didRequestRefresh(
+        _ option: PorfolioRefreshOptions,
+        completion: @escaping () -> Void,
+        progress: @escaping (DataBaseManager.UpdatingProgress) -> ()
+    )
+}
+
+enum PorfolioRefreshOptions: Hashable {
+    case all
+    case rates
 }
 
 class PorfolioViewModel: CancebleObject, ObservableObject {
@@ -51,16 +60,8 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
 
     public func refresh() async {
         await withCheckedContinuation { configuration in
-            output?.didRequestRefresh {
+            refresh(option: .all) {
                 configuration.resume()
-                DispatchQueue.main.async {
-                    self.refreshSubject.send()
-                    self.progress = nil
-                }
-            } progress: { progress in
-                DispatchQueue.main.async {
-                    self.progress = progress
-                }
             }
         }
     }
@@ -68,11 +69,26 @@ class PorfolioViewModel: CancebleObject, ObservableObject {
 
 extension PorfolioViewModel: ViewLifeCycleOperator {
     func onAppear() {
+        refresh(option: .rates)
         setupUpdateContent()
     }
 }
 
-extension PorfolioViewModel {
+private extension PorfolioViewModel {
+    func refresh(option: PorfolioRefreshOptions, completion: @escaping () -> Void = {}) {
+        output?.didRequestRefresh(option) {
+            DispatchQueue.main.async {
+                self.refreshSubject.send()
+                self.progress = nil
+                completion()
+            }
+        } progress: { progress in
+            DispatchQueue.main.async {
+                self.progress = progress
+            }
+        }
+    }
+    
     func setupUpdateContent() {
         guard updateViewCancellable == nil else {
             return
@@ -88,7 +104,7 @@ extension PorfolioViewModel {
                 return accounts.map {
                     map(account: $0, sortType: sortType)
                 }
-                .sorted(by: { $0.account.name < $1.account.name })
+//                .sorted(by: { $0.account.name < $1.account.name })
             }
             .receive(queue: DispatchQueue.main)
             .sink(receiveValue: { [unowned self] dataSource in
@@ -137,7 +153,7 @@ extension PorfolioViewModel {
 
         soted(positions: &positions, sortType: sortType)
 
-        let uiCurrencies = Set(positions.map { $0.uiCurrency }).sorted()
+        let uiCurrencies = positions.map { $0.uiCurrency }.unique.sorted()
 
         let results: [MoneyAmount] = uiCurrencies.map { currency in
             let amount = positions
@@ -204,9 +220,9 @@ extension PorfolioViewModel {
             positions = inPortfolio + notPortfolio
 
         case .profit:
-            let availableCurrency = Set(positions.map { $0.uiCurrency }).sorted()
+            let availableCurrency = positions.map { $0.uiCurrency }.unique.sorted(by: >)
 
-            positions = availableCurrency.sorted().reduce([]) { result, uiCurrency in
+            positions = availableCurrency.reduce([]) { result, uiCurrency in
                 result + positions
                     .filter { $0.uiCurrency == uiCurrency }
                     .sorted { $0.result.value > $1.result.value }

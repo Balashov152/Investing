@@ -10,6 +10,7 @@ import Foundation
 
 protocol DataBaseManaging {
     func updateDataBase(progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) -> AnyPublisher<Void, Error>
+    func updatePortfolio(progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) -> AnyPublisher<Void, Error>
 }
 
 extension DataBaseManager {
@@ -45,18 +46,22 @@ extension DataBaseManager: DataBaseManaging {
             }
             .flatMap { _ -> AnyPublisher<Void, Error> in
                 // Load portfolios for every account
-                let publishers = realmStorage.selectedAccounts()
-                    .map { account in
-                        self.portfolioManager.getPortfolio(for: account.id)
-                            .handleEvents(receiveSubscription: { _ in progress(.portfolio(account: account)) })
-                    }
-                
-                return Publishers.Sequence(sequence: publishers)
-                    .flatMap(maxPublishers: .max(1), { $0.delay(for: Constants.requestDelay, scheduler: DispatchQueue.global()) })
-                    .collect(publishers.count)
-                    .mapVoid()
-                    .eraseToAnyPublisher()
+                updatePortfolio(progress: progress)
             }
+            .eraseToAnyPublisher()
+    }
+    
+    func updatePortfolio(progress: @escaping (UpdatingProgress) -> ()) -> AnyPublisher<Void, Error> {
+        let publishers = realmStorage.selectedAccounts()
+            .map { account in
+                self.portfolioManager.getPortfolio(for: account.id)
+                    .handleEvents(receiveSubscription: { _ in progress(.portfolio(account: account)) })
+            }
+        
+        return Publishers.Sequence(sequence: publishers)
+            .flatMap(maxPublishers: .max(1), { $0.delay(for: Constants.requestDelay, scheduler: DispatchQueue.global()) })
+            .collect(publishers.count)
+            .mapVoid()
             .eraseToAnyPublisher()
     }
 }

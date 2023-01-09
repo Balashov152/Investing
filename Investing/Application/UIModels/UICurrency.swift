@@ -7,11 +7,7 @@
 
 import InvestModels
 
-public enum UICurrency: String, Hashable, Equatable, Comparable {
-    public static func < (lhs: UICurrency, rhs: UICurrency) -> Bool {
-        lhs.hashValue < rhs.hashValue
-    }
-
+public enum UICurrency: String, Hashable, Comparable {
     case usd, rub, eur, cad, ils, chf, gbp
 
     init?(currency: Price.Currency) {
@@ -20,5 +16,9 @@ public enum UICurrency: String, Hashable, Equatable, Comparable {
 
     init?(currency: Currency) {
         self.init(rawValue: currency.rawValue.lowercased())
+    }
+    
+    public static func < (lhs: UICurrency, rhs: UICurrency) -> Bool {
+        lhs.rawValue < rhs.rawValue
     }
 }

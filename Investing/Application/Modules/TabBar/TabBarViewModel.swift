@@ -89,10 +89,41 @@ private extension TabBarViewModel {
             }
             .store(in: &cancellables)
     }
+    
+    func updatePortfolio(completion: @escaping () -> Void = {}, progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) {
+        dataBaseManager.updatePortfolio(progress: progress)
+            .receive(on: DispatchQueue.main)
+            .sink(receiveCompletion: { [unowned self] completion in
+                if let error = completion.error {
+                    loadingState = .failure(error: .simpleError(string: error.localizedDescription))
+                }
+            }) { [unowned self] _ in
+                if self.loadingState != .content {
+                    self.loadingState = .content
+                }
+                completion()
+            }
+            .store(in: &cancellables)
+    }
+    
+
 }
 
 extension TabBarViewModel: PorfolioViewOutput {
+    func didRequestRefresh(
+        _ option: PorfolioRefreshOptions,
+        completion: @escaping () -> Void,
+        progress: @escaping (DataBaseManager.UpdatingProgress) -> ()
+    ) {
+        switch option {
+        case .all:
+            updateOperations(completion: completion, progress: progress)
+        case .rates:
+            updatePortfolio(completion: completion, progress: progress)
+        }
+    }
+    
     func didRequestRefresh(completion: @escaping () -> Void, progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) {
-        updateOperations(completion: completion, progress: progress)
+        
     }
 }
