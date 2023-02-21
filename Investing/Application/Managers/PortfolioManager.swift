@@ -7,6 +7,9 @@
 
 import Combine
 import Foundation
+import InvestModels
+import InvestingServices
+import InvestingStorage
 
 protocol PortfolioManaging {
     func userAccounts() -> AnyPublisher<[BrokerAccount], Error>

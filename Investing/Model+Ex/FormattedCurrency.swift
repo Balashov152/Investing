@@ -29,6 +29,6 @@ extension NSNumber {
         if abs(doubleValue).isLess(than: 1) {
             formater.maximumFractionDigits = 4
         }
-        return formater.string(from: self).orEmpty
+        return formater.string(from: self) ?? ""
     }
 }

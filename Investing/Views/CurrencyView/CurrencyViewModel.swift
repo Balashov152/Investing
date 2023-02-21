@@ -9,7 +9,7 @@ import Combine
 import InvestModels
 import SwiftUI
 
-class CurrencyViewModel: EnvironmentCancebleObject, ObservableObject {
+class CurrencyViewModel: EnvironmentCancelableObject, ObservableObject {
     @Published var rows: [Row] = []
 
     override func bindings() {

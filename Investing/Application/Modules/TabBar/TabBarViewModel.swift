@@ -7,8 +7,10 @@
 
 import Combine
 import SwiftUI
+import InvestingFoundation
+import InvestingStorage
 
-class TabBarViewModel: CancebleObject, ObservableObject {
+class TabBarViewModel: CancelableObject, ObservableObject {
     @Published var isAuthorized: Bool = true
     @Published var isPresentAccounts: Bool = false
     @Published var loadingState: ContentState = .content
@@ -18,7 +20,7 @@ class TabBarViewModel: CancebleObject, ObservableObject {
     lazy var porfolioViewModel = moduleFactory.porfolioView(output: self)
     lazy var accountsListViewModel = moduleFactory.accountsList(output: self)
     lazy var loginViewModel = moduleFactory.loginView(output: self)
-    lazy var operationsListModel = moduleFactory.operationsList()
+    lazy var OperationsListViewModel = moduleFactory.operationsList()
 
     private let moduleFactory: ModuleFactoring
     private let dataBaseManager: DataBaseManaging

@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import InvestingFoundation
+import InvestModels
+import InvestingStorage
 
 protocol AccountsListOutput: AnyObject {
     func accountsDidSelectAccounts()
 }
 
-class AccountsListViewModel: CancebleObject, ObservableObject {
+class AccountsListViewModel: CancelableObject, ObservableObject {
     @Published var accounts: [BrokerAccount] = []
     @Published var selectionAccounts: [BrokerAccount] = []
 

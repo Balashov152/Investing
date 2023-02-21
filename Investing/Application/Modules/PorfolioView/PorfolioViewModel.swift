@@ -8,6 +8,8 @@
 import Combine
 import InvestModels
 import SwiftUI
+import InvestingFoundation
+import InvestingStorage
 
 protocol PorfolioViewOutput: AnyObject {
     func didRequestRefresh(
@@ -22,7 +24,7 @@ enum PorfolioRefreshOptions: Hashable {
     case rates
 }
 
-class PorfolioViewModel: CancebleObject, ObservableObject {
+class PorfolioViewModel: CancelableObject, ObservableObject {
     @Published var contentState: ContentState = .loading
     @Published var progress: DataBaseManager.UpdatingProgress?
     @Published var totals: [MoneyAmount] = []
@@ -117,7 +119,7 @@ private extension PorfolioViewModel {
         $dataSource
             .dropFirst()
             .receive(queue: .global())
-            .map { models in
+            .map { models -> [MoneyAmount] in
                 let results = models.reduce([]) { $0 + $1.results }
 
                 let uniqCurrencies = results.map { $0.currency }.unique.sorted()

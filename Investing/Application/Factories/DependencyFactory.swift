@@ -6,8 +6,16 @@
 //
 
 import Foundation
+import InvestingServices
+import InvestingStorage
 
 struct DependencyFactory {
+    private let services: InvestingServicesFactory
+    
+    init(services: InvestingServicesFactory) {
+        self.services = services
+    }
+    
     // MARK: - Managers
 
     var calculatorManager: CalculatorManager {
@@ -49,15 +57,15 @@ struct DependencyFactory {
     // MARK: - Services
 
     var portfolioService: PortfolioServing {
-        PortfolioService()
+        services.portfolioService
     }
 
     var operationsService: OperationsServing {
-        OperationsServiceV2()
+        services.operationsService
     }
 
     var shareService: ShareServing {
-        ShareService()
+        services.shareService
     }
 
     // MARK: - Storages

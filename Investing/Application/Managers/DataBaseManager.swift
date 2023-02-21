@@ -7,6 +7,9 @@
 
 import Combine
 import Foundation
+import InvestingServices
+import InvestingStorage
+import InvestModels
 
 protocol DataBaseManaging {
     func updateDataBase(progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) -> AnyPublisher<Void, Error>
@@ -59,7 +62,7 @@ extension DataBaseManager: DataBaseManaging {
             }
         
         return Publishers.Sequence(sequence: publishers)
-            .flatMap(maxPublishers: .max(1), { $0.delay(for: Constants.requestDelay, scheduler: DispatchQueue.global()) })
+            .flatMap(maxPublishers: .max(1), { $0.delay(for: APIConstants.requestDelay, scheduler: DispatchQueue.global()) })
             .collect(publishers.count)
             .mapVoid()
             .eraseToAnyPublisher()

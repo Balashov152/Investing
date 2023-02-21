@@ -10,6 +10,7 @@ import SwiftUI
 struct ActionButton: View {
     let title: String
     let action: () -> Void
+    
     var body: some View {
         Button(action: action, label: {
             Text(title)

@@ -6,12 +6,14 @@
 //
 
 import Combine
+import InvestingFoundation
+import InvestingStorage
 
 protocol LoginViewOutput: AnyObject {
     func didSuccessLogin()
 }
 
-class LoginViewModel: CancebleObject, ObservableObject {
+class LoginViewModel: CancelableObject, ObservableObject {
     @Published var contentState: ContentState = .content
 
     private let portfolioManager: PortfolioManaging
