@@ -10,7 +10,7 @@ import InvestModels
 
 extension Collection where Element == MoneyAmount {
     var sum: Double {
-        map { $0.value }.sum
+        map { $0.value }.reduce(0, +)
     }
 
     var moneySum: MoneyAmount? {

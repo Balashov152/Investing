@@ -15,7 +15,7 @@ public class RealmPrice: EmbeddedObject {
 }
 
 public extension RealmPrice {
-    public static func realmPrice(from price: Price) -> RealmPrice {
+    static func realmPrice(from price: Price) -> RealmPrice {
         let realmPrice = RealmPrice()
         realmPrice.currency = price.currency.rawValue
         realmPrice.units = price.units

@@ -1,5 +1,5 @@
 //
-//  Progress.swift
+//  LoadingProgress.swift
 //  InvestModels
 //
 //  Created by Sergey Balashov on 21.02.2023.

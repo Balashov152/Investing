@@ -18,7 +18,7 @@ public class RealmPosition: EmbeddedObject {
 }
 
 public extension RealmPosition {
-    public static func realmPosition(from position: PortfolioPosition) -> RealmPosition {
+    static func realmPosition(from position: PortfolioPosition) -> RealmPosition {
         let realmPosition = RealmPosition()
 
         realmPosition.averagePositionPrice = position.averagePositionPrice.map(RealmPrice.realmPrice(from:))

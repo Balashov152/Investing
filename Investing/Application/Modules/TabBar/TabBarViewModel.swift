@@ -20,7 +20,7 @@ class TabBarViewModel: CancelableObject, ObservableObject {
     lazy var porfolioViewModel = moduleFactory.porfolioView(output: self)
     lazy var accountsListViewModel = moduleFactory.accountsList(output: self)
     lazy var loginViewModel = moduleFactory.loginView(output: self)
-    lazy var operationsListModel = moduleFactory.operationsList()
+    lazy var OperationsListViewModel = moduleFactory.operationsList()
 
     private let moduleFactory: ModuleFactoring
     private let dataBaseManager: DataBaseManaging

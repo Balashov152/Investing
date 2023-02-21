@@ -29,18 +29,6 @@ public extension Publisher {
     }
 }
 
-public extension Publisher where Output == Bool {
-    /// Allows only `true` value
-    func filterTrue() -> Publishers.Filter<Self> {
-        filter { $0 }
-    }
-
-    /// Allows only `false` value
-    func filterFalse() -> Publishers.Filter<Self> {
-        filter { !$0 }
-    }
-}
-
 public extension Publisher {
     static func empty() -> AnyPublisher<Output, Failure> {
         Empty().eraseToAnyPublisher()

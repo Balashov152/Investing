@@ -19,8 +19,7 @@ public extension ViewLifeCycleOperator {
 
 public extension View {
     func addLifeCycle(operator: ViewLifeCycleOperator) -> some View {
-        self
-            .onAppear(perform: `operator`.onAppear)
+            onAppear(perform: `operator`.onAppear)
             .onDisappear(perform: `operator`.onDisappear)
     }
 }

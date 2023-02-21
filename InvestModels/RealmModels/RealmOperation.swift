@@ -27,7 +27,7 @@ public class RealmOperation: Object {
 }
 
 public extension RealmOperation {
-    public static func realmOperation(from operation: OperationV2) -> RealmOperation {
+    static func realmOperation(from operation: OperationV2) -> RealmOperation {
         let realmOperation = RealmOperation()
         realmOperation.id = operation.id
         realmOperation.date = operation.date

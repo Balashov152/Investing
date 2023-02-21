@@ -20,7 +20,7 @@ public class RealmPortfolio: EmbeddedObject {
 }
 
 public extension RealmPortfolio {
-    public static func realmPortfolio(from portfolio: Portfolio) -> RealmPortfolio {
+    static func realmPortfolio(from portfolio: Portfolio) -> RealmPortfolio {
         let realmPortfolio = RealmPortfolio()
         realmPortfolio.totalAmountBonds = portfolio.totalAmountBonds.map(RealmPrice.realmPrice(from:))
         realmPortfolio.totalAmountFutures = portfolio.totalAmountFutures.map(RealmPrice.realmPrice(from:))

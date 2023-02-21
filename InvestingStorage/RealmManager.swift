@@ -13,7 +13,7 @@ import RealmSwift
 import InvestingFoundation
 
 class RealmManager {
-    static let version = 22
+    static let version = 23
     
     let specificKey = DispatchSpecificKey<String>()
     let specificValue = "RealmManager.queue"
@@ -34,10 +34,6 @@ class RealmManager {
                 migrationBlock: { migration, oldSchemaVersion in
                     print("migration", migration, "oldSchemaVersion", oldSchemaVersion)
                 }, objectTypes: [
-                    CurrencyPairR.self,
-                    InstrumentR.self,
-                    PinnedInstrumentR.self,
-//                    PayInPlanR.self,
                     RealmBrokerAccount.self,
                     RealmOperation.self,
                     RealmPrice.self,

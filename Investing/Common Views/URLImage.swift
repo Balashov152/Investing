@@ -10,8 +10,6 @@ import InvestModels
 import Kingfisher
 import SwiftUI
 
-//extension Position: LogoPosition {}
-
 struct URLImage: View {
     let position: LogoPosition
 

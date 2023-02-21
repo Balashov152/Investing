@@ -14,6 +14,6 @@ public extension AnyPublisher {
     }
 
     func unwrap<T>() -> AnyPublisher<T, Failure> where Output == T? {
-        filter { $0 != nil }.map { $0! }.eraseToAnyPublisher()
+        compactMap { $0 }.eraseToAnyPublisher()
     }
 }

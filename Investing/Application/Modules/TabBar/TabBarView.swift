@@ -72,7 +72,7 @@ struct TabBarView: View {
     }
 
     @ViewBuilder private var operationsView: some View {
-        OperationsListView(viewModel: viewModel.operationsListModel).tabItem {
+        OperationsListView(viewModel: viewModel.OperationsListViewModel).tabItem {
             VStack {
                 Image(systemName: "list.bullet.rectangle")
                     .resizable()
