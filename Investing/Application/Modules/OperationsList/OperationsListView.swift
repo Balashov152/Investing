@@ -9,6 +9,7 @@ import Combine
 import Foundation
 import InvestModels
 import SwiftUI
+import InvestingStorage
 
 class OperationsListModel: ObservableObject {
     @Published var selectedFigi: String?

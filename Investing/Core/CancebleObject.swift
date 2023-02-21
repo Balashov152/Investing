@@ -1,5 +1,5 @@
 //
-//  CancebleObject.swift
+//  CancelableObject.swift
 //  Investing
 //
 //  Created by Sergey Balashov on 12.02.2021.
@@ -8,7 +8,7 @@
 import Combine
 import Foundation
 
-open class CancebleObject {
+open class CancelableObject {
     public var cancellables: Set<AnyCancellable> = []
 
     public init() {

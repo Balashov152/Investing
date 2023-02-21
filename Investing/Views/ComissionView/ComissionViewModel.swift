@@ -9,7 +9,7 @@ import Combine
 import InvestModels
 import SwiftUI
 
-class ComissionViewModel: EnvironmentCancebleObject, ObservableObject {
+class ComissionViewModel: EnvironmentCancelableObject, ObservableObject {
     @Published var rows: [Row] = []
     @Published var total = MoneyAmount(currency: .RUB, value: 0)
 

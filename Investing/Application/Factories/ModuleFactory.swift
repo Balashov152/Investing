@@ -7,8 +7,6 @@
 
 protocol ModuleFactoring {
     func tabBarModule() -> TabBarViewModel
-    func oldVersionView() -> RootView
-
     func loginView(output: LoginViewOutput) -> LoginViewModel
 
     func accountsList(output: AccountsListOutput) -> AccountsListViewModel
@@ -23,10 +21,6 @@ struct ModuleFactory {
 }
 
 extension ModuleFactory: ModuleFactoring {
-    func oldVersionView() -> RootView {
-        RootView()
-    }
-    
     func tabBarModule() -> TabBarViewModel {
         TabBarViewModel(
             moduleFactory: self,

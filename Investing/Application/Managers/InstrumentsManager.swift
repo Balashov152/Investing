@@ -7,6 +7,8 @@
 
 import Combine
 import Foundation
+import InvestingServices
+import InvestingStorage
 
 protocol InstrumentsManaging {
     func updateInstruments(progress: @escaping (InstrumentsManager.UpdatingProgress) -> ()) -> AnyPublisher<Void, Error>
@@ -28,10 +30,14 @@ struct InstrumentsManager {
 extension InstrumentsManager: InstrumentsManaging {
     func updateInstruments(progress: @escaping (UpdatingProgress) -> ()) -> AnyPublisher<Void, Error> {
         let publishers = [
-            shareService.loadShares().handleEvents(receiveSubscription: { _ in progress(.shares) }).eraseToAnyPublisher(),
-            shareService.loadEtfs().handleEvents(receiveSubscription: { _ in progress(.etfs) }).eraseToAnyPublisher(),
-            shareService.loadBonds().handleEvents(receiveSubscription: { _ in progress(.bonds) }).eraseToAnyPublisher(),
-            shareService.loadCurrencies().handleEvents(receiveSubscription: { _ in progress(.currencies) }).eraseToAnyPublisher(),
+            shareService.loadShares()
+                .handleEvents(receiveSubscription: { _ in progress(.shares) }),
+            shareService.loadEtfs()
+                .handleEvents(receiveSubscription: { _ in progress(.etfs) }),
+            shareService.loadBonds()
+                .handleEvents(receiveSubscription: { _ in progress(.bonds) }),
+            shareService.loadCurrencies()
+                .handleEvents(receiveSubscription: { _ in progress(.currencies) }),
         ]
         
         return Publishers.Sequence(sequence: publishers)
@@ -111,7 +117,7 @@ extension InstrumentsManager: InstrumentsManaging {
 //        .mapToVoid()
     }
 }
-
+/*
 private extension InstrumentsManager {
     func usdCandles() -> AnyPublisher<[CandleV2], Error> {
         let format = "dd-MM-yyyy"
@@ -173,6 +179,7 @@ private extension InstrumentsManager {
         )
     }
 }
+*/
 
 extension InstrumentsManager {
     enum UpdatingProgress: String {

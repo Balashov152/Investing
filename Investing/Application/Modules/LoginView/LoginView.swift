@@ -50,7 +50,7 @@ struct LoginView: View {
             .accentColor(.appBlack)
             .navigationTitle("Autorization".localized)
             .sheet(isPresented: $isInstuctionOpen) {
-                ViewFactory.instructionView
+//                ViewFactory.instructionView
             }
         }
     }

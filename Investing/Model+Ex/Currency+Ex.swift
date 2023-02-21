@@ -8,14 +8,14 @@
 import Foundation
 import InvestModels
 
-extension Currency {
+extension Price.Currency {
     var locale: Locale {
         switch self {
-        case .USD:
+        case .usd:
             return Locale(identifier: "en_US")
-        case .EUR:
+        case .eur:
             return Locale(identifier: "en_EU")
-        case .RUB:
+        case .rub:
             return Locale(identifier: "ru_RU")
         default:
             return .current

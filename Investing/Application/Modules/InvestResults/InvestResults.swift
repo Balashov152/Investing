@@ -8,6 +8,7 @@
 import Foundation
 import InvestModels
 import SwiftUI
+import InvestingStorage
 
 struct InvestResultsHelper {
     func calculateResults(account: BrokerAccount) -> [InvestResult] {

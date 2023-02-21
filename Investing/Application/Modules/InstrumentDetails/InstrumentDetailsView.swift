@@ -7,6 +7,8 @@
 
 import Combine
 import SwiftUI
+import InvestModels
+import InvestingStorage
 
 struct InstrumentDetailsBlockViewModel: Identifiable, Hashable {
     var id: String { accountName }
@@ -15,7 +17,7 @@ struct InstrumentDetailsBlockViewModel: Identifiable, Hashable {
     let operations: [OperationRowModel]
 }
 
-final class InstrumentDetailsViewModel: CancebleObject, ObservableObject {
+final class InstrumentDetailsViewModel: CancelableObject, ObservableObject {
     @Published var operations: [OperationRowModel] = []
     @Published var share: Share?
 

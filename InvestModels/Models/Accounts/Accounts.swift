@@ -12,6 +12,7 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
+
 public struct Account: Codable {
     public let brokerAccountType: String?
     public let brokerAccountId: String?

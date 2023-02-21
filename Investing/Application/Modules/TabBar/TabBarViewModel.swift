@@ -7,8 +7,10 @@
 
 import Combine
 import SwiftUI
+import InvestingFoundation
+import InvestingStorage
 
-class TabBarViewModel: CancebleObject, ObservableObject {
+class TabBarViewModel: CancelableObject, ObservableObject {
     @Published var isAuthorized: Bool = true
     @Published var isPresentAccounts: Bool = false
     @Published var loadingState: ContentState = .content

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import InvestModels
 
 struct AccountsListView: View {
     @ObservedObject private var viewModel: AccountsListViewModel

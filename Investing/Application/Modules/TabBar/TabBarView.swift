@@ -20,10 +20,7 @@ struct TabBarView: View {
         if viewModel.isAuthorized {
             contentView
                 .addLifeCycle(operator: viewModel)
-                .sheet(
-                    isPresented: $viewModel.isPresentAccounts,
-                    onDismiss: {}
-                ) {
+                .sheet(isPresented: $viewModel.isPresentAccounts) {
                     AccountsListView(viewModel: viewModel.accountsListViewModel)
                 }
 
@@ -57,8 +54,6 @@ struct TabBarView: View {
             profileView
                 
             operationsView
-            
-            oldVersionView
         }
         .accentColor(Color.appBlack)
     }
@@ -87,18 +82,5 @@ struct TabBarView: View {
             .font(.system(size: 16, weight: selectedIndex == 3 ? .bold : .regular))
         }
         .tag(3)
-    }
-    
-    @ViewBuilder private var oldVersionView: some View {
-        RootView().tabItem {
-            VStack {
-                Image(systemName: "clock.arrow.circlepath")
-                    .resizable()
-
-                Text("Old version")
-            }
-            .font(.system(size: 16, weight: selectedIndex == 3 ? .bold : .regular))
-        }
-        .tag(4)
     }
 }

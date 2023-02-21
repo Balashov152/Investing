@@ -13,7 +13,6 @@ import InvestModels
 struct DBManager {
     static let version = 22
 
-    let env: Environment
     let realmManager: RealmManager
     var cancellables = Set<AnyCancellable>()
 

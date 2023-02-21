@@ -7,6 +7,7 @@
 
 import Foundation
 import InvestModels
+import InvestingStorage
 
 struct CalculatorManager {
     private let realmStorage: RealmStoraging
@@ -26,7 +27,7 @@ struct CalculatorManager {
         let operationWithOtherCurrency = operations.filter { $0.currency != instrument.currency }
 
         operationWithOtherCurrency.forEach { operation in
-            print("Wrong currenty operation", operation.type)
+            print("Wrong currenty operation", operation.type as Any)
         }
 
         var resultAmount: Double = allOperations.reduce(0) { result, operation in
@@ -49,8 +50,7 @@ struct CalculatorManager {
         resultAmount: inout Double
     ) -> MoneyAmount? {
         guard let quantity = instrumentInProfile?.quantity,
-              let positionPrice = instrumentInProfile?.inPortfolioPrice
-        else {
+              let positionPrice = instrumentInProfile?.inPortfolioPrice else {
             return nil
         }
 

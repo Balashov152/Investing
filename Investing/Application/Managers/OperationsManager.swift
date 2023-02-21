@@ -8,6 +8,9 @@
 import Combine
 import Foundation
 import Moya
+import InvestModels
+import InvestingServices
+import InvestingStorage
 
 protocol OperationsManaging {
     func updateOperations(progress: @escaping (OperationsManager.UpdatingProgress) -> ()) -> AnyPublisher<Void, Error>
@@ -30,11 +33,13 @@ extension OperationsManager: OperationsManaging {
     func updateOperations(progress: @escaping (UpdatingProgress) -> ()) -> AnyPublisher<Void, Error> {
         /// Load portfolios for every account
         let publishers = realmStorage.selectedAccounts().map { account in
-            operationsService.loadOperations(for: account) { progress(UpdatingProgress(account: account, progress: $0)) }
-                .receive(on: DispatchQueue.global())
-                .handleEvents(receiveOutput: { [weak self] operations in
-                    self?.realmStorage.saveOperations(operations: operations, for: account.id)
-                })
+            operationsService.loadOperations(for: account) {
+                progress(UpdatingProgress(account: account, progress: $0))
+            }
+            .receive(on: DispatchQueue.global())
+            .handleEvents(receiveOutput: { [weak self] operations in
+                self?.realmStorage.saveOperations(operations: operations, for: account.id)
+            })
         }
         
         return Publishers.Sequence(sequence: publishers)
@@ -51,12 +56,12 @@ extension OperationsManager {
     }
     
     struct UpdatingProgress {
-        let account: BrokerAccount
-        let progress: Progress
+        public init(account: BrokerAccount, progress: LoadingProgress) {
+            self.account = account
+            self.progress = progress
+        }
+        
+        public let account: BrokerAccount
+        public let progress: LoadingProgress
     }
-}
-
-struct Progress {
-    let current: Int
-    let all: Int
 }

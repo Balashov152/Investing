@@ -8,6 +8,7 @@
 import InvestModels
 import SwiftUI
 import UIKit
+import InvestingServices
 
 public typealias Operation = InvestModels.Operation
 
@@ -19,18 +20,15 @@ struct InvestingApp: App {
     private let tabBarModule: TabBarViewModel
 
     init() {
-        let dependencyFactory = DependencyFactory()
+        let dependencyFactory = DependencyFactory(services: InvestingServicesFactory())
 
         modulesFactory = ModuleFactory(dependencyFactory: dependencyFactory)
         tabBarModule = modulesFactory.tabBarModule()
     }
 
     var body: some Scene {
-        let session = UserSession()
-
         WindowGroup {
             TabBarView(viewModel: tabBarModule)
-                .environmentObject(session)
                 .onAppear(perform: onAppearApp)
         }
     }
