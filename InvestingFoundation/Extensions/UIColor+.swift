@@ -40,6 +40,19 @@ public extension Color {
             }
         })
     }
+    
+    static var appWhite: Color {
+        Color(UIColor { collection -> UIColor in
+            switch collection.userInterfaceStyle {
+            case .light, .unspecified:
+                return .white
+            case .dark:
+                return .black
+            @unknown default:
+                return .black
+            }
+        })
+    }
 
     static var litleGray: Color {
         Color(UIColor { collection -> UIColor in

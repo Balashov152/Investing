@@ -80,9 +80,9 @@ extension DataBaseManager {
             case let .instruments(progress):
                 return "Instrument: \(progress.rawValue.capitalized)"
             case let .operations(progress):
-                return "Operations for: \(progress.account.name) (\(progress.progress.current)/\(progress.progress.all))"
+                return "Operations: \(progress.account.name) (\(progress.progress.current)/\(progress.progress.all))"
             case let .portfolio(account):
-                return "Portfolio for: \(account.name)"
+                return "Portfolio: \(account.name)"
             }
         }
     }

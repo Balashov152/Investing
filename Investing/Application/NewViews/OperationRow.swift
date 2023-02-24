@@ -83,7 +83,7 @@ struct OperationRow: View {
             
             mainView
                 .padding(Constants.Paddings.s)
-                .background(Color.white)
+                .background(Color.appWhite)
                 .cornerRadius(Constants.Paddings.s)
             
             debugInfoView
