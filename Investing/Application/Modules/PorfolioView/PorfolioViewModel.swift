@@ -14,7 +14,7 @@ import InvestingStorage
 protocol PorfolioViewOutput: AnyObject {
     func didRequestRefresh(
         _ option: PorfolioRefreshOptions,
-        completion: @escaping () -> Void,
+        completion: ((Subscribers.Completion<Error>) -> Void)?,
         progress: @escaping (DataBaseManager.UpdatingProgress) -> ()
     )
 }
@@ -26,6 +26,7 @@ enum PorfolioRefreshOptions: Hashable {
 
 class PorfolioViewModel: CancelableObject, ObservableObject {
     @Published var contentState: ContentState = .loading
+    @Published var error: String?
     @Published var progress: DataBaseManager.UpdatingProgress?
     @Published var totals: [MoneyAmount] = []
     @Published var dataSource: [PorfolioSectionViewModel] = []
@@ -67,18 +68,27 @@ class PorfolioViewModel: CancelableObject, ObservableObject {
             }
         }
     }
+    
+    public func refreshRates() {
+        refresh(option: .rates)
+    }
 }
 
 extension PorfolioViewModel: ViewLifeCycleOperator {
     func onAppear() {
-        refresh(option: .rates)
         setupUpdateContent()
     }
 }
 
 private extension PorfolioViewModel {
     func refresh(option: PorfolioRefreshOptions, completion: @escaping () -> Void = {}) {
-        output?.didRequestRefresh(option) {
+        output?.didRequestRefresh(option) { result in
+            switch result {
+            case .finished:
+                break
+            case .failure(let error):
+                self.error = error.localizedDescription
+            }
             DispatchQueue.main.async {
                 self.refreshSubject.send()
                 self.progress = nil
@@ -256,8 +266,9 @@ struct PorfolioSectionViewModel: Hashable, Identifiable {
 }
 
 extension PorfolioViewModel {
-    enum SortType: Int {
+    enum SortType: Int, CaseIterable {
         case inProfile, profit, name
+
         var localize: String {
             switch self {
             case .name:

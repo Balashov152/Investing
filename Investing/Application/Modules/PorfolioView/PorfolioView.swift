@@ -65,6 +65,10 @@ struct PorfolioView: View {
                 Text(progress.title).font(.callout)
             }
             
+            if let error = viewModel.error {
+                Text("Error: \(error)").font(.callout)
+            }
+            
             VStack(alignment: .leading, spacing: Constants.Paddings.s) {
                 ForEach(viewModel.totals, id: \.currency) { moneyAmount in
                     MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
@@ -102,14 +106,28 @@ struct PorfolioView: View {
     }
 
     var sortView: some View {
-        Button(viewModel.sortType.localize) {
-            viewModel.sortType = PorfolioViewModel.SortType(rawValue: viewModel.sortType.rawValue + 1) ?? .inProfile
+        Menu {
+            Picker(selection: $viewModel.sortType, label: EmptyView()) {
+                ForEach(PorfolioViewModel.SortType.allCases, id: \.self) {
+                    Text($0.localize)
+                        .tag($0)
+                }
+            }
+        } label: {
+            Text(viewModel.sortType.localize)
+                .font(.body)
         }
     }
 
     var accountsView: some View {
-        Button("Аккаунты") {
-            viewModel.isPresentAccounts = true
+        HStack {
+            Button(action: { viewModel.isPresentAccounts = true } ) {
+                Image(systemName: "list.number")
+            }
+            
+            Button(action: { viewModel.refreshRates() } ) {
+                Image(systemName: "dollarsign.arrow.circlepath")
+            }
         }
     }
     

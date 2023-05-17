@@ -35,8 +35,8 @@ struct TabBarView: View {
             loadingView
         case .content:
             tabBarView
-        case let .failure(error):
-            Text("error \(error.localizedDescription)")
+        case .failure:
+            EmptyView()
         }
     }
 
@@ -52,7 +52,7 @@ struct TabBarView: View {
     @ViewBuilder private var tabBarView: some View {
         TabView(selection: $selectedIndex) {
             profileView
-                
+            
             operationsView
         }
         .accentColor(Color.appBlack)
@@ -81,6 +81,6 @@ struct TabBarView: View {
             }
             .font(.system(size: 16, weight: selectedIndex == 3 ? .bold : .regular))
         }
-        .tag(3)
+        .tag(1)
     }
 }

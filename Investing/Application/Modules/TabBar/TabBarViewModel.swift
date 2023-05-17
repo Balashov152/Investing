@@ -14,6 +14,7 @@ class TabBarViewModel: CancelableObject, ObservableObject {
     @Published var isAuthorized: Bool = true
     @Published var isPresentAccounts: Bool = false
     @Published var loadingState: ContentState = .content
+    @Published var error: String?
     
     // MARK: - Child View models
 
@@ -76,34 +77,30 @@ private extension TabBarViewModel {
         isAuthorized = !Storage.newToken.isEmpty
     }
 
-    func updateOperations(completion: @escaping () -> Void = {}, progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) {
+    func updateOperations(completion: ((Subscribers.Completion<Error>) -> Void)? = nil,
+                          progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) {
         dataBaseManager.updateDataBase(progress: progress)
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [unowned self] completion in
-                if let error = completion.error {
-                    loadingState = .failure(error: .simpleError(string: error.localizedDescription))
-                }
+            .sink(receiveCompletion: { result in
+                completion?(result)
             }) { [unowned self] _ in
                 if self.loadingState != .content {
                     self.loadingState = .content
                 }
-                completion()
             }
             .store(in: &cancellables)
     }
     
-    func updatePortfolio(completion: @escaping () -> Void = {}, progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) {
+    func updatePortfolio(completion: ((Subscribers.Completion<Error>) -> Void)? = nil,
+                         progress: @escaping (DataBaseManager.UpdatingProgress) -> ()) {
         dataBaseManager.updatePortfolio(progress: progress)
             .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [unowned self] completion in
-                if let error = completion.error {
-                    loadingState = .failure(error: .simpleError(string: error.localizedDescription))
-                }
+            .sink(receiveCompletion: { result in
+                completion?(result)
             }) { [unowned self] _ in
                 if self.loadingState != .content {
                     self.loadingState = .content
                 }
-                completion()
             }
             .store(in: &cancellables)
     }
@@ -114,7 +111,7 @@ private extension TabBarViewModel {
 extension TabBarViewModel: PorfolioViewOutput {
     func didRequestRefresh(
         _ option: PorfolioRefreshOptions,
-        completion: @escaping () -> Void,
+        completion: ((Subscribers.Completion<Error>) -> Void)?,
         progress: @escaping (DataBaseManager.UpdatingProgress) -> ()
     ) {
         switch option {
