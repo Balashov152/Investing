@@ -41,6 +41,7 @@
 		DC249A317DBB9E77B6286845 /* TabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2777E32AD7808B7FCEC7AF2 /* TabBarView.swift */; };
 		E1CFC0BE1C8049B497C0E76E /* RowDisclosureGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982FA94BECD1B0E7C9D94479 /* RowDisclosureGroup.swift */; };
 		EDAEC7C0F9DF048D03686814 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADCB5F22EAAC2DFB20F9C66 /* Assets.xcassets */; };
+		EF0708282A14DC500072AA0E /* GroupedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0708272A14DC500072AA0E /* GroupedScrollView.swift */; };
 		EF50A5AF28882CCD0081C5BB /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF50A5AE28882CCD0081C5BB /* Colors.xcassets */; };
 		EF67D34A29A4D02700173C9B /* MoneyAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C73F87DA733ADE5B6DB1B8E /* MoneyAmount.swift */; };
 		EF67D34B29A4D03F00173C9B /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CE09BA5C6DCC009D578FCD /* Currency.swift */; };
@@ -321,6 +322,7 @@
 		E93A8863F73BBD7A59B915D1 /* OperationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OperationState.swift; sourceTree = "<group>"; };
 		EB07244E467D211E5B36C92B /* RealmStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStorage.swift; sourceTree = "<group>"; };
 		EEAEDA931C62B3F17BA7E4AF /* release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
+		EF0708272A14DC500072AA0E /* GroupedScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupedScrollView.swift; sourceTree = "<group>"; };
 		EF50A5AE28882CCD0081C5BB /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		EF67D35829A4DC0800173C9B /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		EF67D35F29A4DC9A00173C9B /* UserDefault+Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Keys.swift"; sourceTree = "<group>"; };
@@ -750,6 +752,7 @@
 		EF9F902A299BC9B8006F638F /* InvestingUI */ = {
 			isa = PBXGroup;
 			children = (
+				EF0708272A14DC500072AA0E /* GroupedScrollView.swift */,
 				EF9F902B299BC9B8006F638F /* InvestingUI.h */,
 			);
 			path = InvestingUI;
@@ -1013,6 +1016,7 @@
 					};
 					EF9F9028299BC9B8006F638F = {
 						CreatedOnToolsVersion = 14.2;
+						LastSwiftMigration = 1430;
 					};
 					EF9F9038299BC9CB006F638F = {
 						CreatedOnToolsVersion = 14.2;
@@ -1182,6 +1186,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF0708282A14DC500072AA0E /* GroupedScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1521,6 +1526,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1554,6 +1560,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1565,6 +1572,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

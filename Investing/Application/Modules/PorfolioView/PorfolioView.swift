@@ -7,11 +7,11 @@
 
 import Combine
 import InvestModels
+import InvestingUI
 import SwiftUI
 
 struct PorfolioView: View {
     @ObservedObject private var viewModel: PorfolioViewModel
-    @State private var expanded: Set<PorfolioSectionViewModel> = []
 
     init(viewModel: PorfolioViewModel) {
         self.viewModel = viewModel
@@ -19,26 +19,7 @@ struct PorfolioView: View {
 
     var body: some View {
         NavigationView {
-            Group {
-                switch viewModel.contentState {
-                case .loading:
-                    VStack(spacing: 8) {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle())
-                        
-                        Text("Loading...".localized)
-                    }
-                case .content:
-                    content
-                case let .failure(error):
-                    VStack {
-                        Text("Error")
-                            .font(.headline)
-                        
-                        Text(error.errorDescription ?? "")
-                    }
-                }
-            }
+            content
             .navigationTitle("Портфель")
             .addLifeCycle(operator: viewModel)
             .toolbar {
@@ -59,8 +40,30 @@ struct PorfolioView: View {
         }
     }
     
-    var content: some View {
-        List {
+    @ViewBuilder var content: some View {
+        switch viewModel.contentState {
+        case .loading:
+            VStack(spacing: 8) {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle())
+                
+                Text("Loading...".localized)
+            }
+        case .content:
+            list
+        case let .failure(error):
+            VStack {
+                Text("Error")
+                    .font(.headline)
+                
+                Text(error.errorDescription ?? "")
+            }
+        }
+    }
+    
+    
+    var list: some View {
+        GroupedScrollView {
             if let progress = viewModel.progress {
                 Text(progress.title).font(.callout)
             }
@@ -75,29 +78,36 @@ struct PorfolioView: View {
                 }
             }
             
+            Divider()
+                .padding(.vertical, Constants.Paddings.xs)
+            
             ForEach(viewModel.dataSource) { item in
-                RowDisclosureGroup(element: item, expanded: expanded, content: {
+                RowDisclosureGroup {
+                    VStack(alignment: .leading, spacing: Constants.Paddings.s) {
+                        Text(item.account.name).font(.title2).bold()
+                        
+                        ForEach(item.results, id: \.currency) { moneyAmount in
+                            MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
+                        }
+                    }
+                } content: {
                     ForEach(item.positions) { operation in
                         PorfolioPositionView(viewModel: operation)
                             .addNavigationLink {
                                 instrumentDetailsView(accountId: item.account.id,
                                                       figi: operation.figi)
                             }
-                    }
-                }) {
-                    VStack(alignment: .leading, spacing: Constants.Paddings.s) {
-                        Text(item.account.name)
-                            .bold()
-                            .font(.title2)
-                        
-                        ForEach(item.results, id: \.currency) { moneyAmount in
-                            MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
-                        }
+
+                        Divider()
+                            .padding(.vertical, Constants.Paddings.xs)
                     }
                 }
+                
+                Divider()
+                    .padding(.vertical, Constants.Paddings.xs)
             }
         }
-        .animation(.easeInOut, value: viewModel.progress == nil)
+        .animation(.default, value: viewModel.progress == nil)
         .listStyle(PlainListStyle())
         .refreshable {
             await viewModel.refresh()
