@@ -16,6 +16,18 @@ public struct Portfolio: Codable, Equatable {
     public let totalAmountShares: Price?
     public let totalAmountEtf: Price?
 }
+ 
+public extension Portfolio {
+    static let empty: Portfolio = Portfolio(
+        totalAmountBonds: nil,
+        totalAmountFutures: nil,
+        totalAmountCurrencies: nil,
+        expectedYield: nil,
+        positions: [],
+        totalAmountShares: nil,
+        totalAmountEtf: nil
+    )
+}
 
 public extension Portfolio {
     init(portfolio: RealmPortfolio) {

@@ -10,7 +10,7 @@ import InvestModels
 import InvestingStorage
 import Combine
 
-final class InstrumentDetailsViewModel: CancelableObject, ObservableObject {
+final class InstrumentDetailsViewModel: CancelableObject, ObservableObject, Identifiable {
     @Published var operations: [OperationRowModel] = []
     @Published var share: Share?
 

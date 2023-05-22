@@ -14,7 +14,7 @@ protocol AccountsListOutput: AnyObject {
     func accountsDidSelectAccounts()
 }
 
-class AccountsListViewModel: CancelableObject, ObservableObject {
+class AccountsListViewModel: CancelableObject, ObservableObject, Identifiable {
     @Published var accounts: [BrokerAccount] = []
     @Published var selectionAccounts: [BrokerAccount] = []
 

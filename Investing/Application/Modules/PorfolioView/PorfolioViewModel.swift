@@ -24,25 +24,51 @@ enum PorfolioRefreshOptions: Hashable {
     case rates
 }
 
+extension PorfolioViewModel {
+    enum HeaderView: Hashable, Identifiable {
+        var id: Int { hashValue }
+        
+        case progress(String)
+        case error(String)
+        case total(MoneyAmount)
+    }
+}
+
 class PorfolioViewModel: CancelableObject, ObservableObject {
-    @Published var contentState: ContentState = .loading
-    @Published var error: String?
-    @Published var progress: DataBaseManager.UpdatingProgress?
-    @Published var totals: [MoneyAmount] = []
+    
+    // MARK: - ViewState
+    
+    var headerViews: [HeaderView] {
+        var headerViews: [HeaderView] = []
+        
+        if let error {
+            headerViews.append(.error(error))
+        }
+        
+        if let progress {
+            headerViews.append(.progress(progress.title))
+        }
+        
+        totals.forEach { headerViews.append(.total($0)) }
+        
+        return headerViews
+    }
+
     @Published var dataSource: [PorfolioSectionViewModel] = []
     @Published var sortType: SortType = .inProfile
-    @Published var isPresentAccounts: Bool = false
+    @Published var instrumentDetailsViewModel: InstrumentDetailsViewModel?
+    @Published var accountsListViewModel: AccountsListViewModel?
     
-    lazy var accountsListViewModel = moduleFactory.accountsList(output: self)
+    @Published private var error: String?
+    @Published private var progress: DataBaseManager.UpdatingProgress?
+    @Published private var totals: [MoneyAmount] = []
     
     private let refreshSubject = CurrentValueSubject<Void, Never>(())
 
     private weak var output: PorfolioViewOutput?
     private let realmStorage: RealmStoraging
     private let calculatorManager: CalculatorManager
-
     private let moduleFactory: ModuleFactoring
-
     private var updateViewCancellable: AnyCancellable?
 
     init(
@@ -57,10 +83,6 @@ class PorfolioViewModel: CancelableObject, ObservableObject {
         self.moduleFactory = moduleFactory
     }
     
-    public func instrumentDetailsViewModel(accountId: String, figi: String) -> InstrumentDetailsViewModel {
-        moduleFactory.instrumentDetailsView(accountId: accountId, figi: figi)
-    }
-
     public func refresh() async {
         await withCheckedContinuation { configuration in
             refresh(option: .all) {
@@ -71,6 +93,14 @@ class PorfolioViewModel: CancelableObject, ObservableObject {
     
     public func refreshRates() {
         refresh(option: .rates)
+    }
+    
+    public func openAccounts() {
+        accountsListViewModel = moduleFactory.accountsList(output: self)
+    }
+    
+    public func openDetails(accountId: String, figi: String) {
+        instrumentDetailsViewModel = moduleFactory.instrumentDetailsView(accountId: accountId, figi: figi)
     }
 }
 
@@ -106,8 +136,6 @@ private extension PorfolioViewModel {
             return
         }
         
-        contentState = .loading
-
         updateViewCancellable = Publishers.CombineLatest($sortType, refreshSubject)
             .receive(queue: .global())
             .map { [unowned self] sortType, _ -> [PorfolioSectionViewModel] in
@@ -116,13 +144,9 @@ private extension PorfolioViewModel {
                 return accounts.map {
                     map(account: $0, sortType: sortType)
                 }
-//                .sorted(by: { $0.account.name < $1.account.name })
             }
-            .receive(queue: DispatchQueue.main)
+            .receive(queue: .main)
             .sink(receiveValue: { [unowned self] dataSource in
-                if contentState != .content {
-                    contentState = .content
-                }
                 self.dataSource = dataSource
             })
 
@@ -143,12 +167,8 @@ private extension PorfolioViewModel {
 
                 return totals
             }
-            .receive(queue: DispatchQueue.main)
+            .receive(queue: .main)
             .sink(receiveValue: { [unowned self] totals in
-                if contentState != .content {
-                    contentState = .content
-                }
-
                 self.totals = totals
             })
             .store(in: &cancellables)
@@ -246,23 +266,18 @@ private extension PorfolioViewModel {
 extension PorfolioViewModel: AccountsListOutput {
     func accountsDidSelectAccounts() {
         DispatchQueue.main.async {
-            self.isPresentAccounts = false
+            self.accountsListViewModel = nil
             self.refreshSubject.send()
         }
     }
 }
 
-struct PorfolioSectionViewModel: Hashable, Identifiable {
-    var id: Int { hashValue }
+struct PorfolioSectionViewModel: Identifiable {
+    var id: String { account.id }
     
     let account: BrokerAccount
     let positions: [PorfolioPositionViewModel]
     let results: [MoneyAmount]
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(account.id)
-        hasher.combine(results)
-    }
 }
 
 extension PorfolioViewModel {

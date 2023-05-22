@@ -42,7 +42,10 @@
 		E1CFC0BE1C8049B497C0E76E /* RowDisclosureGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982FA94BECD1B0E7C9D94479 /* RowDisclosureGroup.swift */; };
 		EDAEC7C0F9DF048D03686814 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ADCB5F22EAAC2DFB20F9C66 /* Assets.xcassets */; };
 		EF0708282A14DC500072AA0E /* GroupedScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0708272A14DC500072AA0E /* GroupedScrollView.swift */; };
-		EF50A5AF28882CCD0081C5BB /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF50A5AE28882CCD0081C5BB /* Colors.xcassets */; };
+		EF07083B2A1BD5150072AA0E /* GroupedSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF07083A2A1BD5150072AA0E /* GroupedSection.swift */; };
+		EF07083E2A1BD5780072AA0E /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF07083D2A1BD5780072AA0E /* Colors.xcassets */; };
+		EF0708402A1BD5810072AA0E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF07083F2A1BD5810072AA0E /* Colors.swift */; };
+		EF0708422A1BD5AD0072AA0E /* Setupable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0708412A1BD5AD0072AA0E /* Setupable.swift */; };
 		EF67D34A29A4D02700173C9B /* MoneyAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C73F87DA733ADE5B6DB1B8E /* MoneyAmount.swift */; };
 		EF67D34B29A4D03F00173C9B /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CE09BA5C6DCC009D578FCD /* Currency.swift */; };
 		EF67D34D29A4D56700173C9B /* LoadingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1454DBF4547B746343EF9A42 /* LoadingError.swift */; };
@@ -323,7 +326,10 @@
 		EB07244E467D211E5B36C92B /* RealmStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmStorage.swift; sourceTree = "<group>"; };
 		EEAEDA931C62B3F17BA7E4AF /* release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = release.xcconfig; sourceTree = "<group>"; };
 		EF0708272A14DC500072AA0E /* GroupedScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupedScrollView.swift; sourceTree = "<group>"; };
-		EF50A5AE28882CCD0081C5BB /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		EF07083A2A1BD5150072AA0E /* GroupedSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupedSection.swift; sourceTree = "<group>"; };
+		EF07083D2A1BD5780072AA0E /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		EF07083F2A1BD5810072AA0E /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		EF0708412A1BD5AD0072AA0E /* Setupable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Setupable.swift; sourceTree = "<group>"; };
 		EF67D35829A4DC0800173C9B /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		EF67D35F29A4DC9A00173C9B /* UserDefault+Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Keys.swift"; sourceTree = "<group>"; };
 		EF67D36729A4DD3800173C9B /* InvestingStorage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InvestingStorage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -559,7 +565,6 @@
 			isa = PBXGroup;
 			children = (
 				3ADCB5F22EAAC2DFB20F9C66 /* Assets.xcassets */,
-				EF50A5AE28882CCD0081C5BB /* Colors.xcassets */,
 				1B5E18B521E8C0349A5BDC7C /* Localized */,
 			);
 			path = Resource;
@@ -704,6 +709,15 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
+		EF07083C2A1BD5610072AA0E /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EF07083F2A1BD5810072AA0E /* Colors.swift */,
+				EF07083D2A1BD5780072AA0E /* Colors.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		EF67D36829A4DD3800173C9B /* InvestingStorage */ = {
 			isa = PBXGroup;
 			children = (
@@ -753,6 +767,7 @@
 			isa = PBXGroup;
 			children = (
 				EF0708272A14DC500072AA0E /* GroupedScrollView.swift */,
+				EF07083A2A1BD5150072AA0E /* GroupedSection.swift */,
 				EF9F902B299BC9B8006F638F /* InvestingUI.h */,
 			);
 			path = InvestingUI;
@@ -774,6 +789,8 @@
 		EF9F904A299BC9F5006F638F /* InvestingFoundation */ = {
 			isa = PBXGroup;
 			children = (
+				EF0708412A1BD5AD0072AA0E /* Setupable.swift */,
+				EF07083C2A1BD5610072AA0E /* Resources */,
 				E42308D9FC950994F9B91D4F /* Utils */,
 				EF9F9054299BCA07006F638F /* Extensions */,
 				EF9F904B299BC9F5006F638F /* InvestingFoundation.h */,
@@ -1078,6 +1095,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF07083E2A1BD5780072AA0E /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1088,7 +1106,6 @@
 				EDAEC7C0F9DF048D03686814 /* Assets.xcassets in Resources */,
 				969D130A23A6D9C0F1B4C623 /* Localizable.plist in Resources */,
 				9EA3AD40C4453E1624D0E378 /* README.md in Resources */,
-				EF50A5AF28882CCD0081C5BB /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1186,6 +1203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF07083B2A1BD5150072AA0E /* GroupedSection.swift in Sources */,
 				EF0708282A14DC500072AA0E /* GroupedScrollView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1216,10 +1234,12 @@
 				EF9F906F299BCD25006F638F /* Publisher+.swift in Sources */,
 				EF67D35029A4D56700173C9B /* Int+.swift in Sources */,
 				EF9F9064299BCCE7006F638F /* AnyPublisher+Async.swift in Sources */,
+				EF0708422A1BD5AD0072AA0E /* Setupable.swift in Sources */,
 				EF67D34D29A4D56700173C9B /* LoadingError.swift in Sources */,
 				EF9F9062299BCC36006F638F /* Double+.swift in Sources */,
 				EF9F906B299BCCE7006F638F /* Date+Ex.swift in Sources */,
 				EF9F9066299BCCE7006F638F /* AnyPublisher+Ex.swift in Sources */,
+				EF0708402A1BD5810072AA0E /* Colors.swift in Sources */,
 				EF9F9065299BCCE7006F638F /* Decoder+Ex.swift in Sources */,
 				EF67D35229A4D56700173C9B /* ContentState.swift in Sources */,
 				EF9F906C299BCCE7006F638F /* DateFormatter+Ex.swift in Sources */,

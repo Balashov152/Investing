@@ -8,6 +8,7 @@
 import Combine
 import InvestModels
 import InvestingUI
+import InvestingFoundation
 import SwiftUI
 
 struct PorfolioView: View {
@@ -19,100 +20,97 @@ struct PorfolioView: View {
 
     var body: some View {
         NavigationView {
-            content
-            .navigationTitle("Портфель")
-            .addLifeCycle(operator: viewModel)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    accountsView
-                }
-
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    sortView
-                }
-            }
-            .sheet(
-                isPresented: $viewModel.isPresentAccounts,
-                onDismiss: {}
-            ) {
-                AccountsListView(viewModel: viewModel.accountsListViewModel)
-            }
-        }
-    }
-    
-    @ViewBuilder var content: some View {
-        switch viewModel.contentState {
-        case .loading:
-            VStack(spacing: 8) {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle())
-                
-                Text("Loading...".localized)
-            }
-        case .content:
-            list
-        case let .failure(error):
-            VStack {
-                Text("Error")
-                    .font(.headline)
-                
-                Text(error.errorDescription ?? "")
-            }
-        }
-    }
-    
-    
-    var list: some View {
-        GroupedScrollView {
-            if let progress = viewModel.progress {
-                Text(progress.title).font(.callout)
-            }
-            
-            if let error = viewModel.error {
-                Text("Error: \(error)").font(.callout)
-            }
-            
-            VStack(alignment: .leading, spacing: Constants.Paddings.s) {
-                ForEach(viewModel.totals, id: \.currency) { moneyAmount in
-                    MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
-                }
-            }
-            
-            Divider()
-                .padding(.vertical, Constants.Paddings.xs)
-            
-            ForEach(viewModel.dataSource) { item in
-                RowDisclosureGroup {
-                    VStack(alignment: .leading, spacing: Constants.Paddings.s) {
-                        Text(item.account.name).font(.title2).bold()
+            ZStack {
+                content
+                    .navigationTitle("Портфель")
+                    .addLifeCycle(operator: viewModel)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            accountsView
+                        }
                         
-                        ForEach(item.results, id: \.currency) { moneyAmount in
-                            MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            sortView
                         }
                     }
-                } content: {
-                    ForEach(item.positions) { operation in
-                        PorfolioPositionView(viewModel: operation)
-                            .addNavigationLink {
-                                instrumentDetailsView(accountId: item.account.id,
-                                                      figi: operation.figi)
-                            }
-
-                        Divider()
-                            .padding(.vertical, Constants.Paddings.xs)
-                    }
-                }
                 
-                Divider()
-                    .padding(.vertical, Constants.Paddings.xs)
+                Color.clear
+                    .sheet(item: $viewModel.accountsListViewModel) { viewModel in
+                        AccountsListView(viewModel: viewModel)
+                    }
+                
+                Color.clear
+                    .sheet(item: $viewModel.instrumentDetailsViewModel) { viewModel in
+                        InstrumentDetailsView(viewModel: viewModel)
+                    }
             }
         }
-        .animation(.default, value: viewModel.progress == nil)
-        .listStyle(PlainListStyle())
+    }
+
+    var content: some View {
+        GroupedScrollView {
+            headerSection
+
+            ForEach(viewModel.dataSource, id: \.id) { item in
+                section(for: item)
+            }
+        }
+        .background(Colors.Background.secondary)
+        .navigationBarTitleDisplayMode(.inline)
+//        .animation(.default, value: viewModel.headerViews)
         .refreshable {
             await viewModel.refresh()
         }
-        
+    }
+    
+    var headerSection: some View {
+        GroupedSection(viewModel.headerViews) { item in
+            switch item {
+            case let .progress(text):
+                Text(text)
+                    .font(.callout)
+                    .padding(.vertical)
+                
+            case let .error(text):
+                Text("Error: \(text)")
+                    .font(.callout)
+                    .padding(.vertical)
+                
+            case let .total(moneyAmount):
+                MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
+                    .padding(.vertical)
+            }
+        }
+    }
+    
+    func section(for item: PorfolioSectionViewModel) -> some View {
+        GroupedSection(item) { item in
+            RowDisclosureGroup {
+                VStack(alignment: .leading, spacing: Constants.Paddings.s) {
+                    Text(item.account.name).font(.title2).bold()
+                    
+                    ForEach(item.results, id: \.currency) { moneyAmount in
+                        MoneyRow(label: "Итого в \(moneyAmount.currency.symbol)", money: moneyAmount)
+                    }
+                }
+            } content: {
+                LazyVStack {
+                    ForEach(item.positions) { operation in
+                        Divider()
+                            .padding(.vertical, Constants.Paddings.xs)
+                        
+                        Button {
+                            viewModel.openDetails(accountId: item.account.id, figi: operation.figi)
+                        } label: {
+                            PorfolioPositionView(viewModel: operation)
+                                .contentShape(Rectangle())
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+            }
+            .padding(.vertical)
+        }
     }
 
     var sortView: some View {
@@ -131,7 +129,7 @@ struct PorfolioView: View {
 
     var accountsView: some View {
         HStack {
-            Button(action: { viewModel.isPresentAccounts = true } ) {
+            Button(action: { viewModel.openAccounts() } ) {
                 Image(systemName: "list.number")
             }
             
@@ -139,11 +137,5 @@ struct PorfolioView: View {
                 Image(systemName: "dollarsign.arrow.circlepath")
             }
         }
-    }
-    
-    func instrumentDetailsView(accountId: String, figi: String) -> some View {
-        InstrumentDetailsView(
-            viewModel: viewModel.instrumentDetailsViewModel(accountId: accountId, figi: figi)
-        )
     }
 }

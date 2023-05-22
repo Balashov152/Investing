@@ -13,7 +13,7 @@ import InvestingStorage
 
 protocol PortfolioManaging {
     func userAccounts() -> AnyPublisher<[BrokerAccount], Error>
-    func getPortfolio(for accountId: String) -> AnyPublisher<Portfolio, Error>
+    func getPortfolio(for accountId: String) -> AnyPublisher<Portfolio, Never>
     func syncGetFirstSelectedAccount() -> BrokerAccount?
 }
 
@@ -43,7 +43,7 @@ extension PortfolioManager: PortfolioManaging {
             .eraseToAnyPublisher()
     }
 
-    func getPortfolio(for accountId: String) -> AnyPublisher<Portfolio, Error> {
+    func getPortfolio(for accountId: String) -> AnyPublisher<Portfolio, Never> {
         portfolioService.getPortfolio(accountId: accountId)
             .flatMap { [weak self] portfolio -> AnyPublisher<Portfolio, Error> in
                 self?.realmStorage.save(portfolio: portfolio, for: accountId)
@@ -52,6 +52,7 @@ extension PortfolioManager: PortfolioManaging {
                     .Publisher(.success(portfolio))
                     .eraseToAnyPublisher()
             }
+            .replaceError(with: .empty)
             .eraseToAnyPublisher()
     }
 

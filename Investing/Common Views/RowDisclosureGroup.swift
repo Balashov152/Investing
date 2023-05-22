@@ -28,7 +28,9 @@ struct RowDisclosureGroup<Content: View, Label: View>: View {
                 label()
                     .contentShape(Rectangle())
                     .onTapGesture {
-                        isExpanded.toggle()
+                        withAnimation(.default) {
+                            isExpanded.toggle()
+                        }
                     }
                 
                 Image(systemName: "chevron.right")
@@ -40,6 +42,5 @@ struct RowDisclosureGroup<Content: View, Label: View>: View {
                     .padding(.leading, Constants.Paddings.m)
             }
         }
-        .animation(.default, value: isExpanded)
     }
 }
