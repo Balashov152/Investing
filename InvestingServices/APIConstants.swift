@@ -8,7 +8,7 @@
 import Foundation
 
 public enum APIConstants {
-    public static let requestDelay: DispatchQueue.SchedulerTimeType.Stride = 0.5
+    public static let requestDelay: DispatchQueue.SchedulerTimeType.Stride = 0.25
     
     public enum FIGI: String {
         var value: RawValue { rawValue }
