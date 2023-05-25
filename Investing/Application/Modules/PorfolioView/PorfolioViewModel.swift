@@ -112,6 +112,10 @@ extension PorfolioViewModel: ViewLifeCycleOperator {
 
 private extension PorfolioViewModel {
     func refresh(option: PorfolioRefreshOptions, completion: @escaping () -> Void = {}) {
+        DispatchQueue.main.async {
+            self.error = nil
+        }
+
         output?.didRequestRefresh(option) { result in
             switch result {
             case .finished:

@@ -47,6 +47,12 @@ public struct Price: Codable, Equatable {
         currency = try values.decodeIfPresent(forKey: .currency, default: .usd)
         units = try values.decodeIfPresent(forKey: .units, default: "0")
     }
+    
+    public init(nano: Int, currency: Price.Currency, units: String) {
+        self.nano = nano
+        self.currency = currency
+        self.units = units
+    }
 }
 
 public extension Price {
