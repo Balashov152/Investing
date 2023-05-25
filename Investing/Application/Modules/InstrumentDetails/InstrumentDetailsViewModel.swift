@@ -48,6 +48,7 @@ private extension InstrumentDetailsViewModel {
                     .first
                     .map { map(account: $0) } ?? []
             }
+            .map { $0.sorted(by: { $0.date > $1.date }) }
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [unowned self] operations in
                 self.operations = operations

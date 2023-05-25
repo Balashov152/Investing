@@ -74,18 +74,19 @@ extension OperationsManager {
         // "2009576139" Брокерский
         
         let isBuying = accountId == "2009576139"
-        operations.append(contentsOf: dummyOperations(isBuying: isBuying))
+        operations.insert(contentsOf: dummyOperations(isBuying: isBuying), at: 0)
     }
     
     func dummyOperations(isBuying: Bool) -> [OperationV2] {
-        [
+        let title = "\(isBuying ? "Зачисление" : "Списание") акций c ИСС"
+        return [
             OperationV2(id: "\(isBuying ? "In" : "Out") Apple",
                         date: .from(string: "15.05.2023", format: "dd.MM.yyyy")!,
                         instrumentType: .share,
                         quantity: "13",
                         parentOperationId: nil,
                         figi: "BBG000B9XRY4",
-                        type: "\(isBuying ? "Зачисление" : "Списание") акций",
+                        type: title,
                         price: Price(nano: 70000000, currency: .usd, units: "172"),
                         currency: .usd,
                         payment: Price(nano: isBuying ? -910000000 : 910000000,
@@ -100,7 +101,7 @@ extension OperationsManager {
                         quantity: "25",
                         parentOperationId: nil,
                         figi: "BBG000N9MNX3",
-                        type: "\(isBuying ? "Зачисление" : "Списание") акций",
+                        type: title,
                         price: Price(nano: 350000000, currency: .usd, units: "166"),
                         currency: .usd,
                         payment: Price(nano: isBuying ? -750000000 : 750000000,
@@ -115,7 +116,7 @@ extension OperationsManager {
                         quantity: "2",
                         parentOperationId: nil,
                         figi: "BBG000C2PW58",
-                        type: "\(isBuying ? "Зачисление" : "Списание") акций",
+                        type: title,
                         price: Price(nano: 750000000, currency: .usd, units: "644"), // 644.75
                         currency: .usd,
                         payment: Price(nano: isBuying ? -500000000 : 500000000,
@@ -130,7 +131,7 @@ extension OperationsManager {
                         quantity: "15",
                         parentOperationId: nil,
                         figi: "BBG000BCTLF6",
-                        type: "\(isBuying ? "Зачисление" : "Списание") акций",
+                        type: title,
                         price: Price(nano: 65, currency: .usd, units: "27"), // 27.65
                         currency: .usd,
                         payment: Price(nano: isBuying ? -750000000 : 750000000,
