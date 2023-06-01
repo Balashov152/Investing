@@ -59,7 +59,7 @@ struct TabBarView: View {
     }
 
     @ViewBuilder private var profileView: some View {
-        PorfolioView(viewModel: viewModel.porfolioViewModel).tabItem {
+        MainView(viewModel: viewModel.mainViewModel).tabItem {
             VStack {
                 Image(systemName: selectedIndex == 0 ? "dollarsign.circle.fill" : "dollarsign.circle")
 

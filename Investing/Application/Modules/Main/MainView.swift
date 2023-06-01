@@ -1,5 +1,5 @@
 //
-//  PorfolioView.swift
+//  MainView.swift
 //  Investing
 //
 //  Created by Sergey Balashov on 28.02.2022.
@@ -11,10 +11,10 @@ import InvestingUI
 import InvestingFoundation
 import SwiftUI
 
-struct PorfolioView: View {
-    @ObservedObject private var viewModel: PorfolioViewModel
+struct MainView: View {
+    @ObservedObject private var viewModel: MainViewModel
 
-    init(viewModel: PorfolioViewModel) {
+    init(viewModel: MainViewModel) {
         self.viewModel = viewModel
     }
 
@@ -57,7 +57,6 @@ struct PorfolioView: View {
         }
         .background(Colors.Background.secondary)
         .navigationBarTitleDisplayMode(.inline)
-//        .animation(.default, value: viewModel.headerViews)
         .refreshable {
             await viewModel.refresh()
         }
@@ -116,7 +115,7 @@ struct PorfolioView: View {
     var sortView: some View {
         Menu {
             Picker(selection: $viewModel.sortType, label: EmptyView()) {
-                ForEach(PorfolioViewModel.SortType.allCases, id: \.self) {
+                ForEach(MainViewModel.SortType.allCases, id: \.self) {
                     Text($0.localize)
                         .tag($0)
                 }

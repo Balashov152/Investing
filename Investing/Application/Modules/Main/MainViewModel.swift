@@ -1,5 +1,5 @@
 //
-//  PorfolioViewModel.swift
+//  MainViewModel.swift
 //  Investing
 //
 //  Created by Sergey Balashov on 28.02.2022.
@@ -11,7 +11,7 @@ import SwiftUI
 import InvestingFoundation
 import InvestingStorage
 
-protocol PorfolioViewOutput: AnyObject {
+protocol MainViewOutput: AnyObject {
     func didRequestRefresh(
         _ option: PorfolioRefreshOptions,
         completion: ((Subscribers.Completion<Error>) -> Void)?,
@@ -24,7 +24,7 @@ enum PorfolioRefreshOptions: Hashable {
     case rates
 }
 
-extension PorfolioViewModel {
+extension MainViewModel {
     enum HeaderView: Hashable, Identifiable {
         var id: Int { hashValue }
         
@@ -34,7 +34,7 @@ extension PorfolioViewModel {
     }
 }
 
-class PorfolioViewModel: CancelableObject, ObservableObject {
+class MainViewModel: CancelableObject, ObservableObject {
     
     // MARK: - ViewState
     
@@ -65,14 +65,14 @@ class PorfolioViewModel: CancelableObject, ObservableObject {
     
     private let refreshSubject = CurrentValueSubject<Void, Never>(())
 
-    private weak var output: PorfolioViewOutput?
+    private weak var output: MainViewOutput?
     private let realmStorage: RealmStoraging
     private let calculatorManager: CalculatorManager
     private let moduleFactory: ModuleFactoring
     private var updateViewCancellable: AnyCancellable?
 
     init(
-        output: PorfolioViewOutput,
+        output: MainViewOutput,
         realmStorage: RealmStoraging,
         calculatorManager: CalculatorManager,
         moduleFactory: ModuleFactoring
@@ -104,13 +104,13 @@ class PorfolioViewModel: CancelableObject, ObservableObject {
     }
 }
 
-extension PorfolioViewModel: ViewLifeCycleOperator {
+extension MainViewModel: ViewLifeCycleOperator {
     func onAppear() {
         setupUpdateContent()
     }
 }
 
-private extension PorfolioViewModel {
+private extension MainViewModel {
     func refresh(option: PorfolioRefreshOptions, completion: @escaping () -> Void = {}) {
         DispatchQueue.main.async {
             self.error = nil
@@ -267,7 +267,7 @@ private extension PorfolioViewModel {
     }
 }
 
-extension PorfolioViewModel: AccountsListOutput {
+extension MainViewModel: AccountsListOutput {
     func accountsDidSelectAccounts() {
         DispatchQueue.main.async {
             self.accountsListViewModel = nil
@@ -284,7 +284,7 @@ struct PorfolioSectionViewModel: Identifiable {
     let results: [MoneyAmount]
 }
 
-extension PorfolioViewModel {
+extension MainViewModel {
     enum SortType: Int, CaseIterable {
         case inProfile, profit, name
 

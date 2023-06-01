@@ -18,7 +18,7 @@ class TabBarViewModel: CancelableObject, ObservableObject {
     
     // MARK: - Child View models
 
-    lazy var porfolioViewModel = moduleFactory.porfolioView(output: self)
+    lazy var mainViewModel = moduleFactory.mainView(output: self)
     lazy var accountsListViewModel = moduleFactory.accountsList(output: self)
     lazy var loginViewModel = moduleFactory.loginView(output: self)
     lazy var OperationsListViewModel = moduleFactory.operationsList()
@@ -108,7 +108,7 @@ private extension TabBarViewModel {
 
 }
 
-extension TabBarViewModel: PorfolioViewOutput {
+extension TabBarViewModel: MainViewOutput {
     func didRequestRefresh(
         _ option: PorfolioRefreshOptions,
         completion: ((Subscribers.Completion<Error>) -> Void)?,

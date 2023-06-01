@@ -12,7 +12,7 @@ protocol ModuleFactoring {
     func accountsList(output: AccountsListOutput) -> AccountsListViewModel
 //    func investResults() -> InvestResultsViewModel
     func operationsList() -> OperationsListViewModel
-    func porfolioView(output: PorfolioViewOutput) -> PorfolioViewModel
+    func mainView(output: MainViewOutput) -> MainViewModel
     func instrumentDetailsView(accountId: String, figi: String) -> InstrumentDetailsViewModel
 }
 
@@ -56,8 +56,8 @@ extension ModuleFactory: ModuleFactoring {
         )
     }
     
-    func porfolioView(output: PorfolioViewOutput) -> PorfolioViewModel {
-        PorfolioViewModel(
+    func mainView(output: MainViewOutput) -> MainViewModel {
+        MainViewModel(
             output: output,
             realmStorage: dependencyFactory.realmStorage,
             calculatorManager: dependencyFactory.calculatorManager,
