@@ -62,14 +62,17 @@ public extension Price {
         }
         
         case usd, rub, eur, cad, ils, chf, gbp, hkd
+        case cny, kzt, amd, kgs, uzs, tjs, byn, xau, `try`
+        case xag
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(String.self)
             
-            if Currency.allCases.map({ $0.rawValue }).contains(rawValue) {
-                self.init(rawValue: rawValue)!
+            if let currency = Currency(rawValue: rawValue) {
+                self = currency
             } else {
+                print("Currency for rawValue \(rawValue) not implemented")
                 self = .usd
             }
         }

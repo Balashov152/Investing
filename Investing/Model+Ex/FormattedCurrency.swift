@@ -15,20 +15,21 @@ extension Double {
 }
 
 extension NSNumber {
-    func formattedCurrency(locale: Locale = .current,
-                           with style: NumberFormatter.Style = .currency) -> String
-    {
-        let formater = NumberFormatter()
-//        formater.usesGroupingSeparator = true
-        formater.groupingSeparator = " "
-        formater.numberStyle = style
-        formater.locale = locale
+    func formattedCurrency(
+        locale: Locale = .current,
+        with style: NumberFormatter.Style = .currency
+    ) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = style
+        formatter.locale = locale
+        formatter.currencyCode = locale.currency?.identifier
+        
         let isInteger = floor(doubleValue) == doubleValue
-        formater.minimumFractionDigits = isInteger ? 0 : 2
+        formatter.minimumFractionDigits = isInteger ? 0 : 2
 
         if abs(doubleValue).isLess(than: 1) {
-            formater.maximumFractionDigits = 4
+            formatter.maximumFractionDigits = 4
         }
-        return formater.string(from: self) ?? ""
+        return formatter.string(from: self) ?? ""
     }
 }

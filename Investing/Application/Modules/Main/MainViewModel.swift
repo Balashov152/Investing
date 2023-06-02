@@ -183,7 +183,7 @@ private extension MainViewModel {
             .filter { $0.instrumentType != .currency }
             .compactMap { $0.figi })
 
-        var positions = uniqueInstrument.compactMap { figi -> PorfolioPositionViewModel? in
+        var positions = uniqueInstrument.compactMap { figi -> PositionViewModel? in
             self.map(account: account, figi: figi)
         }
 
@@ -206,28 +206,29 @@ private extension MainViewModel {
         )
     }
 
-    func map(account: BrokerAccount, figi: String) -> PorfolioPositionViewModel? {
+    func map(account: BrokerAccount, figi: String) -> PositionViewModel? {
         guard let instrument = realmStorage.share(figi: figi),
               let (result, investResult) = calculatorManager.calculateResult(on: figi, in: account)
         else {
             return nil
         }
 
-        var inPortfolio: PorfolioPositionViewModel.InPortfolio?
+        var inPortfolio: PositionViewModel.InPortfolio?
         let instrumentInProfile = account.portfolio?.positions.first(where: { $0.figi == figi })
 
         if let average = investResult,
            let quantity = instrumentInProfile?.quantity,
-           let currentCurrencyPrice = instrumentInProfile?.currentCurrencyPrice
-        {
-            inPortfolio = PorfolioPositionViewModel.InPortfolio(
+           let currentCurrencyPrice = instrumentInProfile?.currentCurrencyPrice {
+            let price = MoneyAmount(currency: instrument.currency, value: currentCurrencyPrice)
+            
+            inPortfolio = PositionViewModel.InPortfolio(
                 quantity: quantity.price,
-                price: currentCurrencyPrice,
+                price: price,
                 average: average
             )
         }
 
-        return PorfolioPositionViewModel(
+        return PositionViewModel(
             figi: figi,
             name: instrument.name ?? "",
             ticker: instrument.ticker ?? "",
@@ -239,7 +240,7 @@ private extension MainViewModel {
         )
     }
 
-    func soted(positions: inout [PorfolioPositionViewModel], sortType: SortType) {
+    func soted(positions: inout [PositionViewModel], sortType: SortType) {
         switch sortType {
         case .name:
             positions.sort { $0.name < $1.name }
@@ -280,7 +281,7 @@ struct PorfolioSectionViewModel: Identifiable {
     var id: String { account.id }
     
     let account: BrokerAccount
-    let positions: [PorfolioPositionViewModel]
+    let positions: [PositionViewModel]
     let results: [MoneyAmount]
 }
 

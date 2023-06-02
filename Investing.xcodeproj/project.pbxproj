@@ -26,7 +26,7 @@
 		80B5F0B7754E81001CF5570B /* InstrumentDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5F08C48D28C9C592F14865A /* InstrumentDetailsView.swift */; };
 		8AA6D42C32E7CD9411DA6D84 /* PortfolioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4CF7677C6A23CFD7D4E5AB4 /* PortfolioManager.swift */; };
 		969D130A23A6D9C0F1B4C623 /* Localizable.plist in Resources */ = {isa = PBXBuildFile; fileRef = EB6C44A9BC272E4C99DD39D9 /* Localizable.plist */; };
-		9AE8360516103892892FCAAC /* PorfolioPositionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25429B26DE536D318BE3CC /* PorfolioPositionView.swift */; };
+		9AE8360516103892892FCAAC /* PositionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F25429B26DE536D318BE3CC /* PositionView.swift */; };
 		9D4EF4DAC3FED5F4A8C9CABC /* InstrumentsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B5F442FF7C8EF95BCD2557 /* InstrumentsManager.swift */; };
 		9EA3AD40C4453E1624D0E378 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 80EAFC6A6D4F670BE4913B72 /* README.md */; };
 		9F92B591D8EC0B56E833249E /* NavigationLink+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19008BDAEBD7143717E8EE86 /* NavigationLink+.swift */; };
@@ -46,6 +46,7 @@
 		EF07083E2A1BD5780072AA0E /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF07083D2A1BD5780072AA0E /* Colors.xcassets */; };
 		EF0708402A1BD5810072AA0E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF07083F2A1BD5810072AA0E /* Colors.swift */; };
 		EF0708422A1BD5AD0072AA0E /* Setupable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF0708412A1BD5AD0072AA0E /* Setupable.swift */; };
+		EF666C232A28F3D30044986F /* PositionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF666C222A28F3D30044986F /* PositionViewModel.swift */; };
 		EF67D34A29A4D02700173C9B /* MoneyAmount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C73F87DA733ADE5B6DB1B8E /* MoneyAmount.swift */; };
 		EF67D34B29A4D03F00173C9B /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5CE09BA5C6DCC009D578FCD /* Currency.swift */; };
 		EF67D34D29A4D56700173C9B /* LoadingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1454DBF4547B746343EF9A42 /* LoadingError.swift */; };
@@ -277,7 +278,7 @@
 		5CF137721871137D860C4E42 /* PortfolioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioService.swift; sourceTree = "<group>"; };
 		5D985B181BA16C304F21E7A5 /* Application.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		5EC7D7C1BD58EDE4CA9059AD /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
-		5F25429B26DE536D318BE3CC /* PorfolioPositionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PorfolioPositionView.swift; sourceTree = "<group>"; };
+		5F25429B26DE536D318BE3CC /* PositionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionView.swift; sourceTree = "<group>"; };
 		62850248ABDE47766BB78500 /* InstrumentType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrumentType.swift; sourceTree = "<group>"; };
 		675D1A094D9BC00B96751072 /* UICurrency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICurrency.swift; sourceTree = "<group>"; };
 		71F810C776B53AA03D4A2C53 /* MoneyAmount+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MoneyAmount+Ex.swift"; sourceTree = "<group>"; };
@@ -330,6 +331,7 @@
 		EF07083D2A1BD5780072AA0E /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		EF07083F2A1BD5810072AA0E /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		EF0708412A1BD5AD0072AA0E /* Setupable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Setupable.swift; sourceTree = "<group>"; };
+		EF666C222A28F3D30044986F /* PositionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionViewModel.swift; sourceTree = "<group>"; };
 		EF67D35829A4DC0800173C9B /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		EF67D35F29A4DC9A00173C9B /* UserDefault+Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefault+Keys.swift"; sourceTree = "<group>"; };
 		EF67D36729A4DD3800173C9B /* InvestingStorage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = InvestingStorage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -555,8 +557,8 @@
 		70EA69E8ABEF9B30155A7C61 /* NewViews */ = {
 			isa = PBXGroup;
 			children = (
+				EF666C212A28F3C50044986F /* PositionView */,
 				5557D26228B5730500EAE026 /* OperationRow.swift */,
-				5F25429B26DE536D318BE3CC /* PorfolioPositionView.swift */,
 			);
 			path = NewViews;
 			sourceTree = "<group>";
@@ -716,6 +718,15 @@
 				EF07083D2A1BD5780072AA0E /* Colors.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		EF666C212A28F3C50044986F /* PositionView */ = {
+			isa = PBXGroup;
+			children = (
+				5F25429B26DE536D318BE3CC /* PositionView.swift */,
+				EF666C222A28F3D30044986F /* PositionViewModel.swift */,
+			);
+			path = PositionView;
 			sourceTree = "<group>";
 		};
 		EF67D36829A4DD3800173C9B /* InvestingStorage */ = {
@@ -1147,6 +1158,7 @@
 				678AEFF9154324102DC28228 /* AccountsListViewModel.swift in Sources */,
 				CCC10A4F9FF80D5D34F951FE /* ActionButton.swift in Sources */,
 				A04252ECFCE0CDA67D60CD70 /* CalculatorManager.swift in Sources */,
+				EF666C232A28F3D30044986F /* PositionViewModel.swift in Sources */,
 				B1C528DD63A47F4B418F76AE /* Constants.swift in Sources */,
 				02200B3EE3FD4423E2D6B21A /* Currency+Ex.swift in Sources */,
 				EF67D39729A5521C00173C9B /* Navigation+.swift in Sources */,
@@ -1167,7 +1179,7 @@
 				AE9A3ACABC9B821653B882DB /* OperationsListView.swift in Sources */,
 				7D817E6D11535EA1820D3D43 /* OperationsManager.swift in Sources */,
 				EF67D39D29A5534000173C9B /* OperationsListViewModel.swift in Sources */,
-				9AE8360516103892892FCAAC /* PorfolioPositionView.swift in Sources */,
+				9AE8360516103892892FCAAC /* PositionView.swift in Sources */,
 				EF67D39529A550C000173C9B /* AppCoordinatorView.swift in Sources */,
 				6B3F46A926F93C8F67795D82 /* MainView.swift in Sources */,
 				EF67D39929A5527C00173C9B /* InstrumentDetailsViewModel.swift in Sources */,

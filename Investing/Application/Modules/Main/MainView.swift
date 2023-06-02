@@ -101,7 +101,7 @@ struct MainView: View {
                         Button {
                             viewModel.openDetails(accountId: item.account.id, figi: operation.figi)
                         } label: {
-                            PorfolioPositionView(viewModel: operation)
+                            PositionView(viewModel: operation)
                                 .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)

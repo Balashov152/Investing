@@ -1,94 +1,17 @@
 //
-//  PorfolioPositionView.swift
+//  PositionView.swift
 //  Investing
 //
 //  Created by Sergey Balashov on 31.01.2022.
 //
 
 import Foundation
-import InvestModels
 import SwiftUI
 
-struct PorfolioPositionViewModel: Hashable, Identifiable, LogoPosition {
-    var id: String { figi }
-    var deeplinkURL: URL { URL(string: "https://www.tinkoff.ru/invest/stocks/\(ticker)")! }
+struct PositionView: View {
+    private let viewModel: PositionViewModel
 
-    var average: MoneyAmount? {
-        guard let average = inPortfolio?.average, average.value > 0 else {
-            return nil
-        }
-
-        return average
-    }
-
-    var quantity: Double? { inPortfolio?.quantity }
-    
-    var currentPrice: MoneyAmount? {
-        guard let inPortfolio else { return nil }
-        return MoneyAmount(
-            currency: inPortfolio.price.currency,
-            value: inPortfolio.price.value
-        )
-    }
-
-    var deltaPercent: Double? {
-        guard let inPortfolio else { return nil }
-        let current = inPortfolio.price.value
-        let average = inPortfolio.average.value
-
-        if current < average { // I'm in minus
-            let percent = current / average
-            return (percent - 1) * 100
-        }
-        
-        let percent = abs(average) / current
-        return abs(percent - 1) * 100
-    }
-    
-    let figi: String
-    let name: String
-    let ticker: String
-    let isin: String?
-
-    let uiCurrency: UICurrency
-    let instrumentType: InstrumentType
-
-    let result: MoneyAmount
-    let inPortfolio: InPortfolio?
-
-    init(
-        figi: String,
-         name: String,
-         ticker: String,
-         isin: String? = nil,
-         uiCurrency: UICurrency,
-         instrumentType: InstrumentType,
-         result: MoneyAmount,
-         inPortfolio: PorfolioPositionViewModel.InPortfolio?
-    ) {
-        self.figi = figi
-        self.name = name
-        self.ticker = ticker
-        self.isin = isin
-        self.uiCurrency = uiCurrency
-        self.instrumentType = instrumentType
-        self.result = result
-        self.inPortfolio = inPortfolio
-    }
-}
-
-extension PorfolioPositionViewModel {
-    struct InPortfolio: Hashable {
-        let quantity: Double
-        let price: MoneyAmount
-        let average: MoneyAmount
-    }
-}
-
-struct PorfolioPositionView: View {
-    private let viewModel: PorfolioPositionViewModel
-
-    init(viewModel: PorfolioPositionViewModel) {
+    init(viewModel: PositionViewModel) {
         self.viewModel = viewModel
     }
 
@@ -187,8 +110,8 @@ struct PorfolioPositionView: View {
     }
 }
 
-struct PorfolioPositionViewPreview: PreviewProvider {
-    static let viewModel = PorfolioPositionViewModel(
+struct PositionViewPreview: PreviewProvider {
+    static let viewModel = PositionViewModel(
         figi: "FIGI",
         name: "Telsa",
         ticker: "TSLA",
@@ -198,13 +121,13 @@ struct PorfolioPositionViewPreview: PreviewProvider {
         result: .init(currency: .usd, value: 7324.34),
         inPortfolio: .init(
             quantity: 10,
-            price: MoneyAmount(currency: .usd, value: 300),
-            average: MoneyAmount(currency: .usd, value: 800)
+            price: .init(currency: .usd, value: 300),
+            average: .init(currency: .usd, value: 800)
         )
     )
 
     static var previews: some View {
-        PorfolioPositionView(viewModel: viewModel)
+        PositionView(viewModel: viewModel)
 //            .previewLayout(.sizeThatFits)
     }
 }

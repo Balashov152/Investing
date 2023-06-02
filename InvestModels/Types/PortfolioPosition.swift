@@ -16,20 +16,17 @@ public struct PortfolioPosition: Codable, Equatable {
     public let figi: String?
     public let expectedYield: Price?
     
-    public var currentCurrencyPrice: MoneyAmount? {
+    public var currentCurrencyPrice: Double? {
         guard let quantity = quantity,
               let averagePositionPrice = averagePositionPrice,
               let expectedYield = expectedYield else {
             return nil
         }
 
-        return MoneyAmount(
-            currency: quantity.currency,
-            value: averagePositionPrice.price + expectedYield.price / quantity.price
-        )
+        return averagePositionPrice.price + expectedYield.price / quantity.price
     }
 
-    public var inPortfolioPrice: MoneyAmount? {
+    public var inPortfolioPrice: Double? {
         guard let quantity = quantity,
               let averagePositionPrice = averagePositionPrice,
               let expectedYield = expectedYield else {
@@ -38,12 +35,9 @@ public struct PortfolioPosition: Codable, Equatable {
         
         var value: Double = quantity.price * averagePositionPrice.price + expectedYield.price
         
-        if let currentNkd {
-            print("currentNkd", currentNkd)
-            value += currentNkd.price
-        }
+        if let currentNkd { value += currentNkd.price }
 
-        return MoneyAmount(currency: quantity.currency, value: value)
+        return value
     }
 }
 
