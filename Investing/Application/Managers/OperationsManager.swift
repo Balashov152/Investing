@@ -39,7 +39,7 @@ extension OperationsManager: OperationsManaging {
             .receive(on: DispatchQueue.global())
             .handleEvents(receiveOutput: { [weak self] operations in
                 var operations = operations
-                self?.dummyOperations(accountId: account.id, operations: &operations)
+                self?.dummyOperations(accountName: account.name, operations: &operations)
                 self?.realmStorage.saveOperations(operations: operations, for: account.id)
             })
         }
@@ -69,11 +69,12 @@ extension OperationsManager {
 }
 
 extension OperationsManager {
-    func dummyOperations(accountId: String, operations: inout [OperationV2]) {
-        // "2019252754" ИИС
-        // "2009576139" Брокерский
+    func dummyOperations(accountName: String, operations: inout [OperationV2]) {
+        guard accountName == "Брокерский счёт" || accountName == "ИИС" else {
+            return
+        }
         
-        let isBuying = accountId == "2009576139"
+        let isBuying = accountName == "Брокерский счёт"
         operations.insert(contentsOf: dummyOperations(isBuying: isBuying), at: 0)
     }
     

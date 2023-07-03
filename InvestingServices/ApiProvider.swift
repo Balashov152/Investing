@@ -14,19 +14,12 @@ import InvestingStorage
 
 class ApiProvider<Target>: MoyaProvider<Target> where Target: TargetType {
     init() {
-        var plugins: [PluginType] = [NewBearerTokenPlugin()]
-
-        plugins.append(NetworkActivityPlugin(networkActivityClosure: { type, _ in
-            DispatchQueue.main.async {
-                UIApplication.shared.isNetworkActivityIndicatorVisible = type == .began
-            }
-        }))
-
-        #if DEBUG
-            plugins.append(NetworkLoggerPlugin(configuration: .init(formatter: NetworkLoggerPlugin.Configuration.Formatter(),
-                                                                    output: { _, _ in },
-                                                                    logOptions: [.requestMethod, .errorResponseBody])))
-        #endif
+        let plugins: [PluginType] = [
+            NewBearerTokenPlugin(),
+            NetworkLoggerPlugin(configuration: .init(formatter: NetworkLoggerPlugin.Configuration.Formatter(),
+                                                     output: { _, _ in },
+                                                     logOptions: [.requestMethod, .errorResponseBody]))
+        ]
 
         super.init(endpointClosure: MoyaProvider.defaultEndpointMapping,
                    requestClosure: MoyaProvider<Target>.defaultRequestMapping,
