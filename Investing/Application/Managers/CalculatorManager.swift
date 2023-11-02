@@ -27,7 +27,7 @@ struct CalculatorManager {
         let operationWithOtherCurrency = operations.filter { $0.currency != instrument.currency }
 
         operationWithOtherCurrency.forEach { operation in
-            print("Wrong currenty operation", operation.type as Any)
+            print("Wrong currency operation", operation.type as Any)
         }
 
         var resultAmount: Double = allOperations.reduce(0) { result, operation in
